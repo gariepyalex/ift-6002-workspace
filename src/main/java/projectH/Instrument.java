@@ -8,14 +8,17 @@ public class Instrument {
 
 	private Status status;
 	private String serial;
+	private String typecode;
 
-	public Instrument(Status aStatus) {
+	public Instrument(String aTypecode, Status aStatus) {
 		this.status = aStatus;
+		this.typecode = aTypecode;
 		this.serial = "";
 	}
 
-	public Instrument(Status aStatus, String aSerialNumber) {
+	public Instrument(String aTypecode, Status aStatus, String aSerialNumber) {
 		this.status = aStatus;
+		this.typecode = aTypecode;
 		this.serial = aSerialNumber;
 	}
 
@@ -29,5 +32,13 @@ public class Instrument {
 
 	public String getSerial() {
 		return serial;
+	}
+
+	public boolean isAnonymous() {
+		return serial == "";
+	}
+
+	public String getTypecode() {
+		return typecode;
 	}
 }
