@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Drug {
 
-	private String name;
-	private String brand;
-	private String descriptor;
+	private final String name;
+	private final String brand;
+	private final String descriptor;
 
 	public Drug(String name, String brand, String descriptor) {
 		this.name = name;

@@ -62,7 +62,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>ca.ulaval.hardcoders.Main</mainClass> <!-- a changer -->
+					<mainClass>projectH.Main</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
