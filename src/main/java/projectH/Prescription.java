@@ -1,14 +1,13 @@
 package projectH;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Prescription {
 	private int practitioner;
-	private GregorianCalendar date;
+	private Calendar date;
 	private int renewals;
 
-	public Prescription(int practitioner, GregorianCalendar date, int renewals, String medecineName) throws InvalidPrescriptionException {
+	public Prescription(int practitioner, Calendar date, int renewals, String medecineName) throws InvalidPrescriptionException {
 		if(renewals < 0)
 			throw new InvalidPrescriptionException("The number of renewals must be greater or equals than zero");
 		this.practitioner = practitioner;
