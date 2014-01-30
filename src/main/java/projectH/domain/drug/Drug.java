@@ -1,4 +1,4 @@
-package projectH;
+package projectH.domain.drug;
 
 import java.util.Objects;
 

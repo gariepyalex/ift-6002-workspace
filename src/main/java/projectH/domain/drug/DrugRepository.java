@@ -1,9 +1,11 @@
-package projectH;
+package projectH.domain.drug;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+
+import projectH.infrastructure.persistence.ListingRepository;
 
 public class DrugRepository extends ListingRepository<Drug> {
 

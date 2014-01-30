@@ -1,4 +1,4 @@
-package projectH;
+package projectH.domain.drug;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,8 @@ import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import projectH.domain.drug.DrugRepository;
 
 public class DrugRepositoryTest {
 

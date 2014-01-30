@@ -1,4 +1,4 @@
-package projectH;
+package projectH.application.resources;
 
 import java.util.NoSuchElementException;
 
@@ -6,6 +6,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
+import projectH.application.responses.DrugDTO;
+import projectH.domain.drug.Drug;
 
 @Path("/drugs/")
 @Produces("application/json")

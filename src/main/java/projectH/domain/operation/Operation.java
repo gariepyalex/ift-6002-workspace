@@ -1,4 +1,4 @@
-package projectH;
+package projectH.domain.operation;
 
 public class Operation {
 

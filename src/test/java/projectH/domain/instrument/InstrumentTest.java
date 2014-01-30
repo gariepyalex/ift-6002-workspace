@@ -1,6 +1,8 @@
-package projectH;
+package projectH.domain.instrument;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -21,8 +23,7 @@ public class InstrumentTest {
 	}
 
 	public void createInstrument() {
-		instrument = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS,
-				GIVEN_SERIAL_NUMBER);
+		instrument = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS, GIVEN_SERIAL_NUMBER);
 	}
 
 	@Test

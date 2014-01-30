@@ -1,4 +1,4 @@
-package projectH;
+package projectH.domain.instrument;
 
 public class Instrument {
 

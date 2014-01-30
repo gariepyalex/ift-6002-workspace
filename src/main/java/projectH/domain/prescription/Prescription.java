@@ -1,4 +1,4 @@
-package projectH;
+package projectH.domain.prescription;
 
 import java.util.Calendar;
 

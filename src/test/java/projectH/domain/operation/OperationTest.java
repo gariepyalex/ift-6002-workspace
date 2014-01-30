@@ -1,9 +1,11 @@
-package projectH;
+package projectH.domain.operation;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import projectH.domain.operation.Operation;
 
 public class OperationTest {
 

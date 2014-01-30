@@ -1,4 +1,4 @@
-package projectH;
+package projectH.domain.prescription;
 
 public class InvalidPrescriptionException extends RuntimeException {
 

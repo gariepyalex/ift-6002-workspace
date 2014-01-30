@@ -1,4 +1,4 @@
-package projectH;
+package projectH.domain.prescription;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import projectH.domain.prescription.Prescription;
 
 public class PrescriptionTest {
 
