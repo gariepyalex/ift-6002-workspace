@@ -1,4 +1,4 @@
-package projectH.infrastructure.persistence;
+package projectH.infrastructure.persistence.inmemory;
 
 import java.util.Collection;
 import java.util.HashMap;
