@@ -4,14 +4,20 @@ import java.util.Objects;
 
 public class Drug {
 
+	private final String din;
 	private final String name;
 	private final String brand;
 	private final String descriptor;
 
-	public Drug(String name, String brand, String descriptor) {
+	public Drug(String din, String name, String brand, String descriptor) {
+		this.din = din;
 		this.name = name;
 		this.brand = brand;
 		this.descriptor = descriptor;
+	}
+
+	public String getDin() {
+		return din;
 	}
 
 	public String getName() {
@@ -28,7 +34,7 @@ public class Drug {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, brand, descriptor);
+		return Objects.hash(din, name, brand, descriptor);
 	}
 
 	@Override
@@ -43,7 +49,7 @@ public class Drug {
 
 		Drug other = (Drug) obj;
 
-		return Objects.equals(name, other.name) && Objects.equals(brand, other.brand)
+		return Objects.equals(din, other.din) && Objects.equals(name, other.name) && Objects.equals(brand, other.brand)
 				&& Objects.equals(descriptor, other.descriptor);
 	}
 

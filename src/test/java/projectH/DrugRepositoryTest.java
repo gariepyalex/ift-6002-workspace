@@ -11,7 +11,10 @@ public class DrugRepositoryTest {
 
 	private static final String UNEXISTING_DRUG_NAME = "UNEXISTING_DRUG";
 	private static final String EXISTING_DRUG_NAME = "EXISTING_DRUG";
-	private static final Drug EXISTING_DRUG = new Drug(EXISTING_DRUG_NAME, "", "");
+	private static final String EXISTING_DRUG_DIN = "1234567890";
+
+	private static final Drug EXISTING_DRUG = new Drug(EXISTING_DRUG_DIN, EXISTING_DRUG_NAME, "", "");
+
 	private static final String LESS_THAN_THREE_CHARACTERS_DRUG_NAME = "DR";
 
 	private DrugRepository drugRepository;

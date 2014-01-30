@@ -11,8 +11,8 @@ import javax.ws.rs.Produces;
 @Produces("application/json")
 public class DrugResource {
 
-	private final static Drug DRUG_1 = new Drug("Drug1", "Brand", "");
-	private final static Drug DRUG_2 = new Drug("Drug2", "Another brand", "Some description");
+	private final static Drug DRUG_1 = new Drug("Din123", "Drug1", "Brand", "");
+	private final static Drug DRUG_2 = new Drug("DinABC", "Drug2", "Another brand", "Some description");
 
 	private final static DrugDTO DRUG_DTO_1 = new DrugDTO(DRUG_1);
 	private final static DrugDTO DRUG_DTO_2 = new DrugDTO(DRUG_2);

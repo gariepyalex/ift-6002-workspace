@@ -1,8 +1,11 @@
 package projectH;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
-public class DrugRepository {
+public class DrugRepository extends ListingRepository<Drug> {
 
 	private static final int MIN_LENGTH_OF_FIND_BY_NAME = 3;
 
@@ -15,6 +18,17 @@ public class DrugRepository {
 			throw new NoSuchElementException("There is no drug found named: " + drugName);
 		}
 
-		return new Drug("EXISTING_DRUG", "", "");
+		return new Drug("din", "EXISTING_DRUG", "", "");
 	}
+
+	@Override
+	protected Collection<Drug> loadData() {
+		return Collections.emptySet(); // temporary
+	}
+
+	@Override
+	protected int hashKeys(Drug element) {
+		return Objects.hash(element.getDin());
+	}
+
 }
