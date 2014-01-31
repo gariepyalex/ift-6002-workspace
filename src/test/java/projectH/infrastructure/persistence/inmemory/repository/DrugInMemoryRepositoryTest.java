@@ -1,8 +1,6 @@
 package projectH.infrastructure.persistence.inmemory.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,10 +67,22 @@ public class DrugInMemoryRepositoryTest {
 	}
 
 	@Test
+	public void findByBrandNameOrDescriptorWhenExistingBrandNameShouldReturnTheRightDrug() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(EXISTING_BRAND_NAME);
+		assertTrue(drugsFound.contains(TYLENOL));
+	}
+
+	@Test
 	public void findByBrandNameOrDescriptorWhenExistingDescriptorShouldReturnDrugs() {
 		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(EXISTING_DESCRIPTOR_NAME);
 		boolean result = drugsFound.isEmpty();
 		assertFalse(result);
+	}
+
+	@Test
+	public void findByBrandNameOrDescriptorWhenExistingDescriptorShouldReturnTheRightDrug() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(EXISTING_DESCRIPTOR_NAME);
+		assertTrue(drugsFound.contains(TYLENOL));
 	}
 
 	@Test(expected = NoSuchElementException.class)
@@ -93,7 +103,7 @@ public class DrugInMemoryRepositoryTest {
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptionWhenUsingSimpleKeywordShouldContainsAllDrugsWithSameBeginning() {
+	public void findByBrandNameOrDescriptorWhenUsingSimpleKeywordShouldContainsAllDrugsWithSameBeginning() {
 		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(SIMPLE_SEARCH_PATTERN);
 
 		boolean resultContainsTylenol = drugsFound.contains(TYLENOL);
