@@ -20,12 +20,12 @@ import au.com.bytecode.opencsv.CSVReader;
 public class DrugInMemoryRepository extends ListingRepository<Drug> implements DrugRepository {
 
 	private static final String DRUG_FILE = "/drug.txt";
-	private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
+	private static final int MIN_LENGTH_OF_SEARCH_KEYWORD = 3;
 
 	@Override
 	public List<Drug> findByBrandNameOrDescriptor(String keyword) {
-		if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
-			throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
+		if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORD) {
+			throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORD);
 		}
 
 		List<Drug> drugs = new ArrayList<Drug>();
