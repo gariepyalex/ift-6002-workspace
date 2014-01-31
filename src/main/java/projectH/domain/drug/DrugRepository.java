@@ -2,6 +2,6 @@ package projectH.domain.drug;
 
 public interface DrugRepository {
 
-	Drug findByName(String drugName);
+	Drug findByBrandNameOrDescriptor(String drugName);
 
 }

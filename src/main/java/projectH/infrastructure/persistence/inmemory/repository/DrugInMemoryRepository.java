@@ -17,20 +17,19 @@ import au.com.bytecode.opencsv.CSVReader;
 public class DrugInMemoryRepository extends ListingRepository<Drug> implements DrugRepository {
 
 	private static final String DRUG_FILE = "/drug.txt";
-	private static final int MIN_LENGTH_OF_FIND_BY_NAME = 3;
+	private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
 
 	@Override
-	public Drug findByName(String drugName) {
-		loadData();
-		if (drugName.length() < MIN_LENGTH_OF_FIND_BY_NAME) {
-			throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_FIND_BY_NAME);
+	public Drug findByBrandNameOrDescriptor(String keywords) {
+		if (keywords.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
+			throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
 		}
 
-		if (drugName.equals("UNEXISTING_DRUG")) {
-			throw new NoSuchElementException("There is no drug found named: " + drugName);
+		if (keywords.equals("UNEXISTING_DRUG")) {
+			throw new NoSuchElementException("There is no drug found containing: " + keywords);
 		}
 
-		return new Drug("din", drugName, "");
+		return new Drug("din", keywords, "");
 	}
 
 	@Override

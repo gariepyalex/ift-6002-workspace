@@ -34,23 +34,23 @@ public class DrugInMemoryRepositoryTest {
 	}
 
 	@Test
-	public void findByNameExistingDrugShouldReturnADrug() {
+	public void findByBrandNameOrDescriptorExistingDrugShouldReturnADrug() {
 		when(drug.getDin()).thenReturn(DIN);
 		when(drug.getBrandName()).thenReturn(EXISTING_DRUG_NAME);
 
-		Drug drugFound = drugRepository.findByName(drug.getBrandName());
+		Drug drugFound = drugRepository.findByBrandNameOrDescriptor(drug.getBrandName());
 
 		assertEquals(drug.getBrandName(), drugFound.getBrandName());
 	}
 
 	@Test(expected = NoSuchElementException.class)
-	public void findByNameUnexistingDrugShouldReturnException() {
-		drugRepository.findByName(UNEXISTING_DRUG_NAME);
+	public void findByBrandNameOrDescriptorUnexistingDrugShouldReturnException() {
+		drugRepository.findByBrandNameOrDescriptor(UNEXISTING_DRUG_NAME);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void findByNameShouldThrowExceptionWhenLessThanThreeCharacters() {
-		drugRepository.findByName(LESS_THAN_THREE_CHARACTERS_DRUG_NAME);
+	public void findByBrandNameOrDescriptorShouldThrowExceptionWhenLessThanThreeCharacters() {
+		drugRepository.findByBrandNameOrDescriptor(LESS_THAN_THREE_CHARACTERS_DRUG_NAME);
 	}
 
 }
