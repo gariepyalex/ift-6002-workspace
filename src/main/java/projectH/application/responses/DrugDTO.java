@@ -10,19 +10,19 @@ import projectH.domain.drug.Drug;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DrugDTO {
 
-	private String name;
+	private String brandName;
 	private String description;
 
 	protected DrugDTO() {
 	}
 
 	public DrugDTO(Drug drug) {
-		this.name = drug.getName();
+		this.brandName = drug.getBrandName();
 		this.description = drug.getDescriptor();
 	}
 
 	public String getName() {
-		return name;
+		return brandName;
 	}
 
 	public String getDescription() {

@@ -1,7 +1,7 @@
 package projectH.infrastructure.persistence.inmemory.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.NoSuchElementException;
 
@@ -36,11 +36,11 @@ public class DrugInMemoryRepositoryTest {
 	@Test
 	public void findByNameExistingDrugShouldReturnADrug() {
 		when(drug.getDin()).thenReturn(DIN);
-		when(drug.getName()).thenReturn(EXISTING_DRUG_NAME);
+		when(drug.getBrandName()).thenReturn(EXISTING_DRUG_NAME);
 
-		Drug drugFound = drugRepository.findByName(drug.getName());
+		Drug drugFound = drugRepository.findByName(drug.getBrandName());
 
-		assertEquals(drug.getName(), drugFound.getName());
+		assertEquals(drug.getBrandName(), drugFound.getBrandName());
 	}
 
 	@Test(expected = NoSuchElementException.class)

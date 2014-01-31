@@ -1,21 +1,17 @@
 package projectH.domain.drug;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import projectH.domain.drug.Drug;
-
 public class DrugTest {
 
 	private static final String DRUG_DIN = "1234567890";
-	private static final String DRUG_NAME = "A drug name";
 	private static final String DRUG_DESCRIPTOR = "A descriptor";
 	private static final String DRUG_BRAND_NAME = "A brand name";
 
-	private static final Drug EMPTY_DRUG = new Drug("", "", "", "");
+	private static final Drug EMPTY_DRUG = new Drug("", "", "");
 
 	private static final Integer RANDOM_INTEGER = new Integer(5);
 
@@ -23,7 +19,7 @@ public class DrugTest {
 
 	@Before
 	public void setup() {
-		drug = new Drug(DRUG_DIN, DRUG_NAME, DRUG_BRAND_NAME, DRUG_DESCRIPTOR);
+		drug = new Drug(DRUG_DIN, DRUG_BRAND_NAME, DRUG_DESCRIPTOR);
 	}
 
 	@Test
@@ -32,13 +28,8 @@ public class DrugTest {
 	}
 
 	@Test
-	public void canGetName() {
-		assertEquals(DRUG_NAME, drug.getName());
-	}
-
-	@Test
-	public void canGetBrand() {
-		assertEquals(DRUG_BRAND_NAME, drug.getBrand());
+	public void canGetBrandName() {
+		assertEquals(DRUG_BRAND_NAME, drug.getBrandName());
 	}
 
 	@Test
@@ -68,7 +59,7 @@ public class DrugTest {
 
 	@Test
 	public void shouldBeEqualsWhenHaveSameInformation() {
-		Drug otherDrug = new Drug(DRUG_DIN, DRUG_NAME, DRUG_BRAND_NAME, DRUG_DESCRIPTOR);
+		Drug otherDrug = new Drug(DRUG_DIN, DRUG_BRAND_NAME, DRUG_DESCRIPTOR);
 
 		assertEquals(drug, otherDrug);
 	}
