@@ -1,11 +1,12 @@
 package projectH.infrastructure.persistence.inmemory.repository;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -33,33 +34,46 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 	}
 
 	@Override
+	protected int hashKeys(Drug element) {
+		return Objects.hash(element.getDin());
+	}
+
+	@Override
 	protected Collection<Drug> loadData() {
-
 		Collection<Drug> drugs = new ArrayList<>();
-		try {
-			InputStream drugResource = this.getClass().getResourceAsStream(DRUG_FILE);
-			CSVReader reader = new CSVReader(new InputStreamReader(drugResource));
-			String[] nextLine;
+		List<String[]> allLines = readAllLinesFromDataFile();
 
-			while ((nextLine = reader.readNext()) != null) {
-				String din = nextLine[4];
-				String brandName = nextLine[5];
-				String descriptor = nextLine[6];
+		for (String[] line : allLines) {
+			Drug drugBuilt = hydrateDrugFromLine(line);
 
-				drugs.add(new Drug(din, brandName, descriptor));
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			drugs.add(drugBuilt);
 		}
 
 		return drugs;
 	}
 
-	@Override
-	protected int hashKeys(Drug element) {
-		return Objects.hash(element.getDin());
+	private Drug hydrateDrugFromLine(String[] line) {
+		String din = line[4];
+		String brandName = line[5];
+		String descriptor = line[6];
+
+		return new Drug(din, brandName, descriptor);
 	}
+
+	private List<String[]> readAllLinesFromDataFile() {
+		CSVReader reader = openDataFile();
+
+		try {
+			return reader.readAll();
+		} catch (IOException e) {
+			return Collections.emptyList();
+		}
+	}
+
+	private CSVReader openDataFile() {
+		InputStream drugResource = this.getClass().getResourceAsStream(DRUG_FILE);
+
+		return new CSVReader(new InputStreamReader(drugResource));
+	}
+
 }
