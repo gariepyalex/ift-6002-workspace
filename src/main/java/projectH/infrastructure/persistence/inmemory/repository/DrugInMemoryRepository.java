@@ -23,15 +23,15 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 	private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
 
 	@Override
-	public List<Drug> findByBrandNameOrDescriptor(String keywords) {
-		if (keywords.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
+	public List<Drug> findByBrandNameOrDescriptor(String keyword) {
+		if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
 			throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
 		}
 
 		List<Drug> drugs = new ArrayList<Drug>();
 		// Pattern style .*word.*otherword.* (exemple: len ace matches tylenol
 		// acetaminophen
-		Pattern pattern = Pattern.compile(".*" + keywords.replace(" ", ".*") + ".*", Pattern.CASE_INSENSITIVE);
+		Pattern pattern = Pattern.compile(".*" + keyword.replace(" ", ".*") + ".*", Pattern.CASE_INSENSITIVE);
 
 		for (Drug drug : getCollection()) {
 			Matcher matcherBrandName = pattern.matcher(drug.getBrandName());
@@ -43,7 +43,7 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 		}
 
 		if (drugs.isEmpty()) {
-			throw new NoSuchElementException("There is no drug found with keyword: " + keywords);
+			throw new NoSuchElementException("There is no drug found with keyword: " + keyword);
 		}
 
 		return drugs;
