@@ -6,25 +6,32 @@ import java.util.Map;
 
 public abstract class Repository<E> {
 
-	private Map<Integer, E> data = null;
+	private final Map<Integer, E> data = new HashMap<>();
 
-	final protected Map<Integer, E> getData() {
-		if (data == null) {
-			mergeLoadedElementsToData();
-		}
-
-		return data;
+	public Repository() {
+		convertLoadedElementsToData();
 	}
 
-	private void mergeLoadedElementsToData() {
+	private void convertLoadedElementsToData() {
 		Collection<E> loadedElements = loadData();
-		data = new HashMap<>(loadedElements.size());
 
 		for (E element : loadedElements) {
 			int elementId = hashKeys(element);
 
 			data.put(elementId, element);
 		}
+	}
+
+	final public boolean isEmpty() {
+		return getData().isEmpty();
+	}
+
+	final public int size() {
+		return getData().size();
+	}
+
+	final protected Map<Integer, E> getData() {
+		return data;
 	}
 
 	protected abstract Collection<E> loadData();
