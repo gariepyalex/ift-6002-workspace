@@ -1,6 +1,8 @@
 package projectH.infrastructure.persistence.inmemory.repository;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,16 +24,16 @@ public class DrugInMemoryRepositoryTest {
 	private static final String UNEXISTING_BRAND_NAME = "UNEXISTING_BRAND_NAME";
 	private static final String UNEXISTING_DESCRIPTOR = "UNEXISTING_DESCRIPTOR";
 
-	private static final String EXISTING_BRAND_NAME = "TYLENOL";
-	private static final String EXISTING_DESCRIPTOR_NAME = "ACETAMINOPHENE";
+	private static final String TYLENOL_BRAND_NAME = "TYLENOL";
+	private static final String TYLENOL_DESCRIPTOR_NAME = "ACETAMINOPHENE";
 
-	private static final String CAMEL_CASE_EXISTING_BRAND_NAME = "TyLeNoL";
+	private static final String CAMEL_CASE_TYLENOL_BRAND_NAME = "TyLeNoL";
 
 	private static final String SIMPLE_SEARCH_PATTERN = "TYL";
 	private static final String SEARCH_PATTERN_WILDCARD = "TYL PRI";
 	private static final String INVALID_KEYWORD = "123" + SEARCH_PATTERN_WILDCARD + "123";
 
-	private static Drug TYLENOL = new Drug("111111", "TYLENOL", "ACETAMINOPHENE");;
+	private static Drug TYLENOL = new Drug("111111", TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
 	private static Drug TYLANETOL = new Drug("222222", "TYLANETOL PRIME", "IBUPROPHENE");
 
 	private DrugRepository drugRepository;
@@ -60,43 +62,45 @@ public class DrugInMemoryRepositoryTest {
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptorWhenExistingBrandNameShouldReturnDrugs() {
-		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(EXISTING_BRAND_NAME);
+	public void findByBrandNameOrDescriptorWithExistingBrandNameShouldNotBeEmpty() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(TYLENOL_BRAND_NAME);
 		boolean result = drugsFound.isEmpty();
 		assertFalse(result);
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptorWhenExistingBrandNameShouldReturnTheRightDrug() {
-		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(EXISTING_BRAND_NAME);
-		assertTrue(drugsFound.contains(TYLENOL));
+	public void findByBrandNameOrDescriptorWithTylenolBrandNameShouldReturnTylenolDrug() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(TYLENOL_BRAND_NAME);
+		boolean result = drugsFound.contains(TYLENOL);
+		assertTrue(result);
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptorWhenExistingDescriptorShouldReturnDrugs() {
-		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(EXISTING_DESCRIPTOR_NAME);
+	public void findByBrandNameOrDescriptorWithExistingDescriptorShouldNotBeEmpty() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(TYLENOL_DESCRIPTOR_NAME);
 		boolean result = drugsFound.isEmpty();
 		assertFalse(result);
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptorWhenExistingDescriptorShouldReturnTheRightDrug() {
-		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(EXISTING_DESCRIPTOR_NAME);
-		assertTrue(drugsFound.contains(TYLENOL));
+	public void findByBrandNameOrDescriptorWithTylenolDescriptorShouldReturnTylenolDrug() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(TYLENOL_DESCRIPTOR_NAME);
+		boolean result = drugsFound.contains(TYLENOL);
+		assertTrue(result);
 	}
 
 	@Test(expected = NoSuchElementException.class)
-	public void findByBrandNameOrDescriptorWhenUnexistingBrandNameShouldReturnException() {
+	public void findByBrandNameOrDescriptorWithUnexistingBrandNameShouldReturnException() {
 		drugRepository.findByBrandNameOrDescriptor(UNEXISTING_BRAND_NAME);
 	}
 
 	@Test(expected = NoSuchElementException.class)
-	public void findByBrandNameOrDescriptorWhenUnexistingDescriptorShouldReturnException() {
+	public void findByBrandNameOrDescriptorWithUnexistingDescriptorShouldReturnException() {
 		drugRepository.findByBrandNameOrDescriptor(UNEXISTING_DESCRIPTOR);
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptorWhenUsingPatternShouldReturnTwoDrugs() {
+	public void findByBrandNameOrDescriptorWhenUsingValidPatternShouldReturnTwoDrugs() {
 		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(SIMPLE_SEARCH_PATTERN);
 		int result = drugsFound.size();
 		assertEquals(2, result);
@@ -114,7 +118,7 @@ public class DrugInMemoryRepositoryTest {
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptorWhenUsingPatternWithTwoWordShouldReturnDrugs() {
+	public void findByBrandNameOrDescriptorWhenUsingPatternWithTwoWordsShouldReturnDrugs() {
 		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(SEARCH_PATTERN_WILDCARD);
 		boolean result = drugsFound.isEmpty();
 		assertFalse(result);
@@ -133,10 +137,17 @@ public class DrugInMemoryRepositoryTest {
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptorWhenDifferentCaseShouldReturnDrugs() {
-		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(CAMEL_CASE_EXISTING_BRAND_NAME);
+	public void findByBrandNameOrDescriptorWithCamelCaseShouldReturnDrugs() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(CAMEL_CASE_TYLENOL_BRAND_NAME);
 		boolean result = drugsFound.isEmpty();
 		assertFalse(result);
+	}
+
+	@Test
+	public void findByBrandNameOrDescriptorWithTylenolBrandNameCamelCaseShouldReturnTylenolDrug() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(CAMEL_CASE_TYLENOL_BRAND_NAME);
+		boolean result = drugsFound.contains(TYLENOL);
+		assertTrue(result);
 	}
 
 }
