@@ -1,4 +1,4 @@
-package projectH;
+package projectH.domain.operation;
 
 import static org.junit.Assert.*;
 
@@ -12,9 +12,9 @@ public class OperationTest {
 	private static final String EXPECTED_DESCRIPTION = "Description Test";
 	private static final int EXPECTED_SURGEON = 101224;
 	private static final String EXPECTED_DATE = "0000-00-00T24:01:00";
-	private static final String EXPECTED_TYPE = "EYE";
-	private static final String EXPECTED_STATUS = "CANCELED";
-	private static final String DEFAULT_STATUS = "PLANNED";
+	private static final InterventionType EXPECTED_TYPE = InterventionType.EYE;
+	private static final InterventionStatus EXPECTED_STATUS = InterventionStatus.CANCELED;
+	private static final InterventionStatus DEFAULT_STATUS = InterventionStatus.PLANNED;
 
 	@Before
 	public void givenAnOperation() {

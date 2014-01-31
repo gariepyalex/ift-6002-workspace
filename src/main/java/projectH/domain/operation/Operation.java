@@ -1,16 +1,16 @@
-package projectH;
+package projectH.domain.operation;
 
 public class Operation {
 
-	private static final String DEFAULT_STATUS = "PLANNED";
+	private static final InterventionStatus DEFAULT_STATUS = InterventionStatus.PLANNED;
 	private String description;
 	private int surgeon;
 	private String date;
-	private String type;
-	private String status;
+	private InterventionType type;
+	private InterventionStatus status;
 
-	public Operation(String wantedDescription, int wantedSurgeon, String wantedDate, String wantedType,
-			String wantedStatus) {
+	public Operation(String wantedDescription, int wantedSurgeon, String wantedDate, InterventionType wantedType,
+			InterventionStatus wantedStatus) {
 		description = wantedDescription;
 		surgeon = wantedSurgeon;
 		date = wantedDate;
@@ -18,7 +18,7 @@ public class Operation {
 		status = wantedStatus;
 	}
 
-	public Operation(String wantedDescription, int wantedSurgeon, String wantedDate, String wantedType) {
+	public Operation(String wantedDescription, int wantedSurgeon, String wantedDate, InterventionType wantedType) {
 		description = wantedDescription;
 		surgeon = wantedSurgeon;
 		date = wantedDate;
@@ -38,11 +38,11 @@ public class Operation {
 		return date;
 	}
 
-	public String getType() {
+	public InterventionType getType() {
 		return type;
 	}
 
-	public String getStatus() {
+	public InterventionStatus getStatus() {
 		return status;
 	}
 
