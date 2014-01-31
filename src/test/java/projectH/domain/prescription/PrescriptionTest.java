@@ -66,14 +66,20 @@ public class PrescriptionTest {
 	}
 
 	@Test(expected = InvalidPrescriptionException.class)
-	public void whenDinAndMedecineNameIsInteredExceptionIsThrown() {
-		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
-		new Prescription(A_PRACTITIONER_NUMBER, date, A_VALID_RENEWALS, A_VALID_DIN, A_VALID_MEDECINE_NAME);
-	}
-
-	@Test(expected = InvalidPrescriptionException.class)
 	public void whenNoDinOrMedecineNameIsInteredExceptionIsThrown() {
 		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
 		new Prescription(A_PRACTITIONER_NUMBER, date, A_VALID_RENEWALS, "", "");
+	}
+
+	@Test(expected = InvalidPrescriptionException.class)
+	public void whenNoDinAndMedecineNameAreFilledWithWhiteSpaceExceptionIsThrown() {
+		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
+		new Prescription(A_PRACTITIONER_NUMBER, date, A_VALID_RENEWALS, "  ", "  ");
+	}
+
+	@Test(expected = InvalidPrescriptionException.class)
+	public void whenDinAndMedecineNameIsInteredExceptionIsThrown() {
+		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
+		new Prescription(A_PRACTITIONER_NUMBER, date, A_VALID_RENEWALS, A_VALID_DIN, A_VALID_MEDECINE_NAME);
 	}
 }

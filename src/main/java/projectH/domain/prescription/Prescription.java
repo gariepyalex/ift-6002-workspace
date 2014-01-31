@@ -16,10 +16,10 @@ public class Prescription {
 			throws InvalidPrescriptionException {
 		if (renewals < 0)
 			throw new InvalidPrescriptionException("The number of renewals must be greater or equals than zero");
+		if (din.trim().isEmpty() && medecineName.trim().isEmpty())
+			throw new InvalidPrescriptionException("A din or medecine name must be set");
 		if (!din.isEmpty() && !medecineName.isEmpty())
 			throw new InvalidPrescriptionException("You cannot set din and medecine name at the same time");
-		if (din.isEmpty() && medecineName.isEmpty())
-			throw new InvalidPrescriptionException("A din or medecine name must be set");
 
 		this.practitioner = practitioner;
 		this.date = date;
