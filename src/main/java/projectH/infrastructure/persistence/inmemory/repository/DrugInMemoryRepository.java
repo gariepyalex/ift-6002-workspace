@@ -19,19 +19,18 @@ import au.com.bytecode.opencsv.CSVReader;
 
 public class DrugInMemoryRepository extends ListingRepository<Drug> implements DrugRepository {
 
-	private static final String DRUG_FILE = "/drug.txt";
+	private static final String DATA_FILE = "/drug.txt";
 	private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
 
 	@Override
-	public List<Drug> findByBrandNameOrDescriptor(String keyword) {
+	public Collection<Drug> findByBrandNameOrDescriptor(String keyword) {
 		if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
 			throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
 		}
 
-		List<Drug> drugs = new ArrayList<Drug>();
-		// Pattern style .*word.*otherword.* (exemple: len ace matches tylenol
-		// acetaminophen
-		Pattern pattern = Pattern.compile(".*" + keyword.replace(" ", ".*") + ".*", Pattern.CASE_INSENSITIVE);
+		Collection<Drug> drugs = new ArrayList<Drug>();
+		// Pattern style: word.*otherword
+		Pattern pattern = Pattern.compile(keyword.replace(" ", ".*"), Pattern.CASE_INSENSITIVE);
 
 		for (Drug drug : getCollection()) {
 			Matcher matcherBrandName = pattern.matcher(drug.getBrandName());
@@ -87,7 +86,7 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 	}
 
 	private CSVReader openDataFile() {
-		InputStream drugResource = this.getClass().getResourceAsStream(DRUG_FILE);
+		InputStream drugResource = this.getClass().getResourceAsStream(DATA_FILE);
 
 		return new CSVReader(new InputStreamReader(drugResource));
 	}
