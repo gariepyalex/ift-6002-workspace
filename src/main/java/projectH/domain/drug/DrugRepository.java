@@ -1,9 +1,9 @@
 package projectH.domain.drug;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface DrugRepository {
 
-	List<Drug> findByBrandNameOrDescriptor(String keyword);
+	Collection<Drug> findByBrandNameOrDescriptor(String keyword);
 
 }
