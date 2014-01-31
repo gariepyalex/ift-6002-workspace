@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import projectH.domain.drug.Drug;
 import projectH.domain.drug.DrugRepository;
@@ -21,16 +23,30 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 	private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
 
 	@Override
-	public Drug findByBrandNameOrDescriptor(String keywords) {
+	public List<Drug> findByBrandNameOrDescriptor(String keywords) {
 		if (keywords.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
 			throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
 		}
 
-		if (keywords.equals("UNEXISTING_DRUG")) {
-			throw new NoSuchElementException("There is no drug found containing: " + keywords);
+		List<Drug> drugs = new ArrayList<Drug>();
+		// Pattern style .*word.*otherword.* (exemple: len ace matches tylenol
+		// acetaminophen
+		Pattern pattern = Pattern.compile(".*" + keywords.replace(" ", ".*") + ".*", Pattern.CASE_INSENSITIVE);
+
+		for (Drug drug : getCollection()) {
+			Matcher matcherBrandName = pattern.matcher(drug.getBrandName());
+			Matcher matcherDescriptor = pattern.matcher(drug.getDescriptor());
+
+			if (matcherBrandName.find() || matcherDescriptor.find()) {
+				drugs.add(drug);
+			}
 		}
 
-		return new Drug("din", keywords, "");
+		if (drugs.isEmpty()) {
+			throw new NoSuchElementException("There is no drug found with keyword: " + keywords);
+		}
+
+		return drugs;
 	}
 
 	@Override
