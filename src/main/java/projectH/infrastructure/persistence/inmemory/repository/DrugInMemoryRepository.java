@@ -92,4 +92,10 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 		return new CSVReader(new InputStreamReader(drugResource));
 	}
 
+	@Override
+	public boolean isAValidDin(String din) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

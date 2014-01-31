@@ -1,13 +1,19 @@
 package projectH.domain.prescription;
 
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import projectH.domain.drug.Drug;
+import projectH.domain.drug.DrugRepository;
+
 public class PrescriptionTest {
+
 
 	private Prescription aDimPrescription;
 
@@ -24,12 +30,22 @@ public class PrescriptionTest {
 	private final int A_VALID_RENEWALS = 0;
 	private final int AN_INVALID_RENEWALS = -1;
 	private final String A_VALID_DIN = "111111";
+	private final String AN_INVALID_DIN = "-42";
 	private final String A_VALID_MEDECINE_NAME = "Advil";
+	private final Calendar A_VALID_DATE = getAValidDate();
+	private final DrugRepository A_DRUG_REPOSITORY = getDrugRepositoryMock();
+	
+	
+	private Drug aDrug;
 
 	@Before
 	public void givenADimPrescription() {
-		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
-		aDimPrescription = new Prescription(A_PRACTITIONER_NUMBER, date, A_VALID_RENEWALS, A_VALID_DIN, "");
+		aDimPrescription = new Prescription(A_PRACTITIONER_NUMBER, A_VALID_DATE, A_VALID_RENEWALS, A_VALID_DIN, "", A_DRUG_REPOSITORY);
+	}
+	
+	@Before
+	public void givenDrug() {
+		aDrug = new Drug(A_VALID_DIN, "", "");
 	}
 
 	@Test
@@ -53,33 +69,51 @@ public class PrescriptionTest {
 	}
 
 	@Test
-	public void canGetMedecineName() {
+	public void canGetDrugName() {
 		Prescription prescription = new Prescription(A_PRACTITIONER_NUMBER, new GregorianCalendar(), A_VALID_RENEWALS,
-				"", A_VALID_MEDECINE_NAME);
-		assertEquals(A_VALID_MEDECINE_NAME, prescription.getMedecineName());
+				"", A_VALID_MEDECINE_NAME, A_DRUG_REPOSITORY);
+		assertEquals(A_VALID_MEDECINE_NAME, prescription.getDrugName());
+	}
+	
+	@Test
+	public void canGetDrug() {
+		assertEquals(aDrug, aDimPrescription.getDrug());
 	}
 
 	@Test(expected = InvalidPrescriptionException.class)
-	public void whenInvalidRenewalsIsInteredExceptionIsThrown() {
-		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
-		new Prescription(A_PRACTITIONER_NUMBER, date, AN_INVALID_RENEWALS, A_VALID_DIN, "");
+	public void whenInvalidRenewalsIsEnteredExceptionIsThrown() {
+		new Prescription(A_PRACTITIONER_NUMBER, A_VALID_DATE, AN_INVALID_RENEWALS, A_VALID_DIN, "", A_DRUG_REPOSITORY);
 	}
 
 	@Test(expected = InvalidPrescriptionException.class)
-	public void whenNoDinOrMedecineNameIsInteredExceptionIsThrown() {
-		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
-		new Prescription(A_PRACTITIONER_NUMBER, date, A_VALID_RENEWALS, "", "");
+	public void whenNoDinOrDrugNameIsEnteredExceptionIsThrown() {
+		new Prescription(A_PRACTITIONER_NUMBER, A_VALID_DATE, A_VALID_RENEWALS, "", "", A_DRUG_REPOSITORY);
 	}
 
 	@Test(expected = InvalidPrescriptionException.class)
-	public void whenNoDinAndMedecineNameAreFilledWithWhiteSpaceExceptionIsThrown() {
-		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
-		new Prescription(A_PRACTITIONER_NUMBER, date, A_VALID_RENEWALS, "  ", "  ");
+	public void whenNoDinAndDrugNameAreFilledWithWhiteSpaceExceptionIsThrown() {
+		new Prescription(A_PRACTITIONER_NUMBER, A_VALID_DATE, A_VALID_RENEWALS, "  ", "  ", A_DRUG_REPOSITORY);
 	}
 
 	@Test(expected = InvalidPrescriptionException.class)
-	public void whenDinAndMedecineNameIsInteredExceptionIsThrown() {
-		GregorianCalendar date = new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
-		new Prescription(A_PRACTITIONER_NUMBER, date, A_VALID_RENEWALS, A_VALID_DIN, A_VALID_MEDECINE_NAME);
+	public void whenDinAndDrugNameAreEnteredExceptionIsThrown() {
+		new Prescription(A_PRACTITIONER_NUMBER, A_VALID_DATE, A_VALID_RENEWALS, A_VALID_DIN, A_VALID_MEDECINE_NAME, A_DRUG_REPOSITORY);
 	}
+
+	@Test(expected = InvalidPrescriptionException.class)
+	public void whenInvalidDinIsEnteredExceptionIsThrown() {
+		new Prescription(A_PRACTITIONER_NUMBER, A_VALID_DATE, A_VALID_RENEWALS, AN_INVALID_DIN, A_VALID_MEDECINE_NAME, A_DRUG_REPOSITORY);
+	}
+	
+	private DrugRepository getDrugRepositoryMock() {
+		DrugRepository drugRepositoryMock = mock(DrugRepository.class);
+		when(drugRepositoryMock.isAValidDin(A_VALID_DIN)).thenReturn(true);
+		when(drugRepositoryMock.isAValidDin(AN_INVALID_DIN)).thenReturn(false);
+		return drugRepositoryMock;
+	}
+
+	private Calendar getAValidDate() {
+		return new GregorianCalendar(A_YEAR, A_MONTH, A_DAY, A_HOUR, A_MINUTE, A_SECOND);
+	}
+	
 }
