@@ -78,7 +78,7 @@ public class DrugInMemoryRepositoryTest {
 	}
 
 	@Test
-	public void findByBrandNameOrDescriptorWhenAnyCasesShouldNotMatterAndReturnDrug() {
+	public void findByBrandNameOrDescriptorWhenDifferentCaseShouldReturnDrug() {
 		List<Drug> drugFound = drugRepository.findByBrandNameOrDescriptor(EXISTING_CASE_DRUG_NAME);
 
 		for (Drug drug : drugFound) {

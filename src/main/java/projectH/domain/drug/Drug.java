@@ -8,9 +8,9 @@ public class Drug {
 	private final String brandName;
 	private final String descriptor;
 
-	public Drug(String din, String brandName, String descriptor) {
+	public Drug(String din, String brand, String descriptor) {
 		this.din = din;
-		this.brandName = brandName;
+		this.brandName = brand;
 		this.descriptor = descriptor;
 	}
 
