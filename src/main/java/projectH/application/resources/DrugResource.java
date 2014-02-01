@@ -1,6 +1,7 @@
 package projectH.application.resources;
 
-import java.util.NoSuchElementException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,41 +10,35 @@ import javax.ws.rs.Produces;
 
 import projectH.application.responses.DrugDTO;
 import projectH.domain.drug.Drug;
+import projectH.domain.drug.DrugRepository;
+import projectH.infrastructure.persistence.inmemory.repository.DrugInMemoryRepository;
 
 @Path("/drugs/")
 @Produces("application/json")
 public class DrugResource {
 
-	private final static Drug DRUG_1 = new Drug("Din123", "Brand", "");
-	private final static Drug DRUG_2 = new Drug("DinABC", "Another brand", "Some description");
-
-	private final static DrugDTO DRUG_DTO_1 = new DrugDTO(DRUG_1);
-	private final static DrugDTO DRUG_DTO_2 = new DrugDTO(DRUG_2);
-
 	@GET
-	public DrugDTO[] getDrugs() {
-		DrugDTO[] drugs = { DRUG_DTO_1, DRUG_DTO_2 };
+	@Path("/findByBrandNameOrDescriptor/{keyword}")
+	public Collection<DrugDTO> findDrugs(@PathParam("keyword") String keyword) {
+		Collection<DrugDTO> drugsFound = findByBrandNameOrDescriptor(keyword);
 
-		return drugs;
+		return drugsFound;
 	}
 
-	@GET
-	@Path("{drugId}")
-	public DrugDTO getDrug(@PathParam("drugId") int drugId) {
-		DrugDTO drugFound = findDrugById(drugId);
+	private Collection<DrugDTO> findByBrandNameOrDescriptor(String keyword) {
+		// TODO use factory
+		DrugRepository drugRepository = new DrugInMemoryRepository();
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
 
-		return drugFound;
+		return convertDrugsToDTO(drugsFound);
 	}
 
-	private DrugDTO findDrugById(int drugId) {
-		// We will clearly never do this this way
-		// In fact, we would use the DrugRepository!
-		if (drugId == 1) {
-			return DRUG_DTO_1;
-		} else if (drugId == 2) {
-			return DRUG_DTO_2;
+	private Collection<DrugDTO> convertDrugsToDTO(Collection<Drug> drugs) {
+		// TODO use a converter instead
+		Collection<DrugDTO> drugsDTO = new ArrayList<>();
+		for (Drug drug : drugs) {
+			drugsDTO.add(new DrugDTO(drug));
 		}
-
-		throw new NoSuchElementException("Drug id should be 1 or 2");
+		return drugsDTO;
 	}
 }
