@@ -1,18 +1,20 @@
 package projectH.domain.instrument;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import projectH.domain.instrument.Instrument.Status;
+
 public class InstrumentTest {
 
-	private static final Instrument.Status GIVEN_STATUS = Instrument.Status.UNUSED;
-	private static final Instrument.Status NEW_STATUS = Instrument.Status.SOILED;
+	private static final Status GIVEN_STATUS = Instrument.Status.UNUSED;
+	private static final Status DIFFERENT_STATUS = Instrument.Status.SOILED;
 	private static final String GIVEN_SERIAL_NUMBER = "23562543-3635345";
 	private static final String EMPTY_SERIAL_NUMBER = "";
 	private static final String GIVEN_TYPECODE = "IT72353";
+	private static final String DIFFERENT_TYPECODE = "IT12345";
+
 	private Instrument anonymousInstrument;// with typecode, status and no
 											// serial number
 	private Instrument instrument;// with typecode, status and serial
@@ -23,7 +25,8 @@ public class InstrumentTest {
 	}
 
 	public void createInstrument() {
-		instrument = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS, GIVEN_SERIAL_NUMBER);
+		instrument = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS,
+				GIVEN_SERIAL_NUMBER);
 	}
 
 	@Test
@@ -51,10 +54,10 @@ public class InstrumentTest {
 	}
 
 	@Test
-	public void modifyingStatusOfAnonymousInstrumentShouldReturnGivenNewStatus() {
+	public void modifyingStatusOfAnonymousInstrumentShouldReturnGivenDifferentStatus() {
 		createAnonymousInstrument();
-		anonymousInstrument.setStatus(NEW_STATUS);
-		assertEquals(NEW_STATUS, anonymousInstrument.getStatus());
+		anonymousInstrument.setStatus(DIFFERENT_STATUS);
+		assertEquals(DIFFERENT_STATUS, anonymousInstrument.getStatus());
 	}
 
 	@Test
@@ -84,7 +87,17 @@ public class InstrumentTest {
 	@Test
 	public void modifyingStatusOfInstrumentShouldReturnGivenNewStatus() {
 		createInstrument();
-		instrument.setStatus(NEW_STATUS);
-		assertEquals(NEW_STATUS, instrument.getStatus());
+		instrument.setStatus(DIFFERENT_STATUS);
+		assertEquals(DIFFERENT_STATUS, instrument.getStatus());
+	}
+
+	@Test
+	public void twoInstrumentWithSameSerialButDifferentAttributsShouldBeEqual() {
+		Instrument firstInstrument = new Instrument(GIVEN_TYPECODE,
+				GIVEN_STATUS, GIVEN_SERIAL_NUMBER);
+		Instrument secondInstrument = new Instrument(DIFFERENT_TYPECODE,
+				DIFFERENT_STATUS, GIVEN_SERIAL_NUMBER);
+
+		assertEquals(firstInstrument, secondInstrument);
 	}
 }

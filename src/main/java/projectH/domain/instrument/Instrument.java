@@ -1,5 +1,6 @@
 package projectH.domain.instrument;
 
+
 public class Instrument {
 
 	public enum Status {
@@ -38,5 +39,11 @@ public class Instrument {
 
 	public String getTypecode() {
 		return typecode;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Instrument instrument = (Instrument) obj;
+		return !isAnonymous() && this.serial.equals(instrument.serial);
 	}
 }
