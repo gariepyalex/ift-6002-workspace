@@ -10,6 +10,7 @@ import projectH.domain.drug.Drug;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DrugDTO {
 
+	private String din;
 	private String brandName;
 	private String description;
 
@@ -17,8 +18,13 @@ public class DrugDTO {
 	}
 
 	public DrugDTO(Drug drug) {
+		this.din = drug.getDin();
 		this.brandName = drug.getBrandName();
 		this.description = drug.getDescriptor();
+	}
+
+	public String getDin() {
+		return din;
 	}
 
 	public String getName() {

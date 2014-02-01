@@ -2,28 +2,22 @@ package projectH.domain.operation;
 
 public class Operation {
 
-	private static final String DEFAULT_STATUS = "PLANNED";
-	private String description;
-	private int surgeon;
-	private String date;
-	private String type;
-	private String status;
+	private final String description;
+	private final int surgeon;
+	private final String date;
+	private final InterventionType type;
+	private final InterventionStatus status;
 
-	public Operation(String wantedDescription, int wantedSurgeon, String wantedDate, String wantedType,
-			String wantedStatus) {
-		description = wantedDescription;
-		surgeon = wantedSurgeon;
-		date = wantedDate;
-		type = wantedType;
-		status = wantedStatus;
+	public Operation(String description, int surgeon, String date, InterventionType type) {
+		this(description, surgeon, date, type, InterventionStatus.PLANNED);
 	}
 
-	public Operation(String wantedDescription, int wantedSurgeon, String wantedDate, String wantedType) {
-		description = wantedDescription;
-		surgeon = wantedSurgeon;
-		date = wantedDate;
-		type = wantedType;
-		status = DEFAULT_STATUS;
+	public Operation(String description, int surgeon, String date, InterventionType type, InterventionStatus status) {
+		this.description = description;
+		this.surgeon = surgeon;
+		this.date = date;
+		this.type = type;
+		this.status = status;
 	}
 
 	public String getDescription() {
@@ -38,11 +32,11 @@ public class Operation {
 		return date;
 	}
 
-	public String getType() {
+	public InterventionType getType() {
 		return type;
 	}
 
-	public String getStatus() {
+	public InterventionStatus getStatus() {
 		return status;
 	}
 
