@@ -1,9 +1,7 @@
 package projectH.domain.operation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +32,8 @@ public class OperationTest {
 
 	@Before
 	public void givenAnOperation() {
-		operation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_TYPE, EXPECTED_STATUS);
+		operation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON,
+				EXPECTED_DATE, EXPECTED_TYPE, EXPECTED_STATUS);
 	}
 
 	private void addOneInstrument() throws InvalidInstrumentException {
@@ -73,7 +72,8 @@ public class OperationTest {
 
 	@Test
 	public void ifNotGivenStatusIsSetToPlanned() {
-		operation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_TYPE);
+		operation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON,
+				EXPECTED_DATE, EXPECTED_TYPE);
 		assertEquals(DEFAULT_STATUS, operation.getStatus());
 	}
 
@@ -90,26 +90,30 @@ public class OperationTest {
 	}
 
 	@Test
-	public void addingOneInstrumentToOperationShouldHaveOneInstrument() throws InvalidInstrumentException {
+	public void addingOneInstrumentToOperationShouldHaveOneInstrument()
+			throws InvalidInstrumentException {
 		addOneInstrument();
 		assertEquals(1, operation.getNumberOfInstrument());
 	}
 
 	@Test
-	public void addingOneInstrumentToOperationShouldHaveGivenInstrument() throws InvalidInstrumentException {
+	public void addingOneInstrumentToOperationShouldHaveGivenInstrument()
+			throws InvalidInstrumentException {
 		addOneInstrument();
 		boolean hasInstrument = operation.hasInstrument(INSTRUMENT_1);
 		assertTrue(hasInstrument);
 	}
 
 	@Test
-	public void adding2InstrumentToOperationShouldHaveTwoInstruments() throws InvalidInstrumentException {
+	public void addingTwoInstrumentsToOperationShouldHaveTwoInstruments()
+			throws InvalidInstrumentException {
 		addTwoInstrument();
 		assertEquals(2, operation.getNumberOfInstrument());
 	}
 
 	@Test
-	public void adding2InstrumentToOperationShouldHaveGivenInstruments() throws InvalidInstrumentException {
+	public void addingTwoInstrumentsToOperationShouldHaveGivenInstruments()
+			throws InvalidInstrumentException {
 		addTwoInstrument();
 		boolean hasFirstInstrument = operation.hasInstrument(INSTRUMENT_1);
 		boolean hasSecondInstrument = operation.hasInstrument(INSTRUMENT_2);
