@@ -31,6 +31,7 @@ public class DrugInMemoryRepositoryTest {
 
 	private static final String SIMPLE_SEARCH_PATTERN = "TYL";
 	private static final String SEARCH_PATTERN_WILDCARD = "TYL PRI";
+	private static final String PATTERN_WITH_MULTIPLE_WILDCARDS = "TY NE OL PRI ME";
 	private static final String INVALID_KEYWORD = "123" + SEARCH_PATTERN_WILDCARD + "123";
 
 	private static Drug TYLENOL = new Drug("111111", TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
@@ -127,6 +128,13 @@ public class DrugInMemoryRepositoryTest {
 	@Test
 	public void findByBrandNameOrDescriptorWhenUsingPatternWithTwoWordShouldContainsSpecificDrug() {
 		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(SEARCH_PATTERN_WILDCARD);
+		boolean result = drugsFound.contains(TYLANETOL);
+		assertTrue(result);
+	}
+
+	@Test
+	public void findByBrandNameOrDescriptorWhenUsingPatternWithMultipleWildcardsShouldContainsSpecificDrug() {
+		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(PATTERN_WITH_MULTIPLE_WILDCARDS);
 		boolean result = drugsFound.contains(TYLANETOL);
 		assertTrue(result);
 	}
