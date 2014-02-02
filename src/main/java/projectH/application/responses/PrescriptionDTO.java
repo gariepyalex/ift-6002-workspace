@@ -11,9 +11,9 @@ import projectH.domain.prescription.Prescription;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PrescriptionDTO {
 
-	private int practitioner;
+	private Integer practitioner;
 	private String date;
-	private int renewals;
+	private Integer renewals;
 	private String din;
 	private String name;
 

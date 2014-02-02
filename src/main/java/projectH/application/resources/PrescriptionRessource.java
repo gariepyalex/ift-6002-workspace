@@ -1,7 +1,7 @@
 package projectH.application.resources;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -18,6 +18,8 @@ import projectH.infrastructure.persistence.inmemory.repository.DrugInMemoryRepos
 import projectH.infrastructure.persistence.inmemory.repository.PrescriptionInMemoryRepository;
 
 @Path("/patient/")
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces(MediaType.APPLICATION_JSON)
 public class PrescriptionRessource {
 	// TODO use factory
 	private static PrescriptionRepository prescriptionRepository = new PrescriptionInMemoryRepository();
@@ -25,10 +27,8 @@ public class PrescriptionRessource {
 	@Context
 	UriInfo uriInfo;
 
-	@PUT
-	@Path("{patient_id}/prescriptions")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/{patient_id}/prescriptions")
 	public Response createPrescription(PrescriptionDTO dto) {
 		System.out.println("TEST");
 		try {
