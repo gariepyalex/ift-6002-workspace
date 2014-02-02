@@ -1,22 +1,41 @@
 package projectH.domain.prescription;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 
 import projectH.domain.drug.Drug;
 import projectH.domain.drug.DrugRepository;
 
 public class Prescription {
 	private int practitioner;
-	private Calendar date;
+	private Date date;
 	private int renewals;
 	private Drug drug;
 	private DrugRepository drugRepository;
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
-	public Prescription(int practitioner, Calendar date, int renewals, String din, String drugName, DrugRepository drugRepository)
-			throws InvalidPrescriptionException {
+	public Prescription(int practitioner, String dateString, int renewals, String din, String drugName,
+			DrugRepository drugRepository) throws InvalidPrescriptionException {
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+		Date date = null;
+		try {
+			date = formatter.parse(dateString);
+		} catch (ParseException e) {
+			throw new InvalidPrescriptionException("Invalid date format");
+		}
+
+        initializePrescription(practitioner, date, renewals, din, drugName, drugRepository);
+	}
+
+	public Prescription(int practitioner, Date date, int renewals, String din, String drugName,
+			DrugRepository drugRepository) throws InvalidPrescriptionException {
+        initializePrescription(practitioner, date, renewals, din, drugName, drugRepository);
+	}
+	
+	private void initializePrescription(int practitioner, Date date, int renewals, String din, String drugName,
+			DrugRepository drugRepository) throws InvalidPrescriptionException {
 		if (renewals < 0)
 			throw new InvalidPrescriptionException("The number of renewals must be greater or equals than zero");
 		if (din.trim().isEmpty() && drugName.trim().isEmpty())
@@ -38,8 +57,8 @@ public class Prescription {
 	}
 
 	public String getDate() {
-		SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-		return df.format(date.getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+		return formatter.format(date.getTime());
 	}
 
 	public int getRenewals() {
