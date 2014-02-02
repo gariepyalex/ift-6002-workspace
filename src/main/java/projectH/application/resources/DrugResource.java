@@ -11,23 +11,17 @@ import javax.ws.rs.Produces;
 import projectH.application.responses.DrugDTO;
 import projectH.domain.drug.Drug;
 import projectH.domain.drug.DrugRepository;
-import projectH.infrastructure.persistence.inmemory.repository.DrugInMemoryRepository;
+import projectH.infrastructure.persistence.factory.RepositoryFactory;
 
 @Path("/drugs/")
 @Produces("application/json")
 public class DrugResource {
 
+	private final DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
+
 	@GET
 	@Path("/findByBrandNameOrDescriptor/{keyword}")
 	public Collection<DrugDTO> findDrugs(@PathParam("keyword") String keyword) {
-		Collection<DrugDTO> drugsFound = findByBrandNameOrDescriptor(keyword);
-
-		return drugsFound;
-	}
-
-	private Collection<DrugDTO> findByBrandNameOrDescriptor(String keyword) {
-		// TODO use factory
-		DrugRepository drugRepository = new DrugInMemoryRepository();
 		Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
 
 		return convertDrugsToDTO(drugsFound);
@@ -36,9 +30,11 @@ public class DrugResource {
 	private Collection<DrugDTO> convertDrugsToDTO(Collection<Drug> drugs) {
 		// TODO use a converter instead
 		Collection<DrugDTO> drugsDTO = new ArrayList<>();
+
 		for (Drug drug : drugs) {
 			drugsDTO.add(new DrugDTO(drug));
 		}
+
 		return drugsDTO;
 	}
 }
