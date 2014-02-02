@@ -34,7 +34,9 @@ public class PrescriptionTest {
 	private final String A_VALID_MEDECINE_NAME = "Advil";
 	private final Calendar A_VALID_DATE = getAValidDate();
 	private final DrugRepository A_DRUG_REPOSITORY = getDrugRepositoryMock();
-	
+	private final String A_VALID_DATE_STRING = "1970-06-01T12:00:00";
+	private final String A_VALID_RENEWALS_STRING = "0";
+	private final String AN_INVALID_RENEWALS_STRING = "4erv";
 	
 	private Drug aDrug;
 
@@ -104,7 +106,7 @@ public class PrescriptionTest {
 	public void whenInvalidDinIsEnteredExceptionIsThrown() {
 		new Prescription(A_PRACTITIONER_NUMBER, A_VALID_DATE, A_VALID_RENEWALS, AN_INVALID_DIN, A_VALID_MEDECINE_NAME, A_DRUG_REPOSITORY);
 	}
-	
+
 	private DrugRepository getDrugRepositoryMock() {
 		DrugRepository drugRepositoryMock = mock(DrugRepository.class);
 		when(drugRepositoryMock.isAValidDin(A_VALID_DIN)).thenReturn(true);
