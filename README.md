@@ -16,7 +16,7 @@ Membres :
 * Guillaume Lambert 111 040 923
 
 Statut des user stories:
-* Ajouter une prescription : Il reste à persister les prescription (la base de donnée n'est pas crée)
+* Ajouter une prescription : Il reste à persister les prescriptions (la base de données n'est pas créée)
 * Créer une intervention chirurgicale : En cours
 * Marquer l'utilisation d'un instrument : En cours
 * Recherche de médicaments : Terminé
