@@ -12,7 +12,6 @@ public class Prescription {
 	private Date date;
 	private Integer renewals;
 	private Drug drug;
-	private DrugRepository drugRepository;
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
@@ -49,7 +48,6 @@ public class Prescription {
 		this.date = date;
 		this.renewals = renewals;
 		this.drug = new Drug(din, drugName, "");
-		this.drugRepository = drugRepository;
 	}
 
 	public String getPractioner() {
