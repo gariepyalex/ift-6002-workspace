@@ -1,5 +1,6 @@
 package projectH.domain.instrument;
 
+
 public class Instrument {
 
 	public enum Status {
@@ -7,19 +8,17 @@ public class Instrument {
 	};
 
 	private Status status;
-	private String serial;
-	private String typecode;
+	private final String serial;
+	private final String typecode;
 
-	public Instrument(String aTypecode, Status aStatus) {
-		this.status = aStatus;
-		this.typecode = aTypecode;
-		this.serial = "";
+	public Instrument(String typecode, Status status) {
+		this(typecode, status, "");
 	}
 
-	public Instrument(String aTypecode, Status aStatus, String aSerialNumber) {
-		this.status = aStatus;
-		this.typecode = aTypecode;
-		this.serial = aSerialNumber;
+	public Instrument(String typecode, Status status, String serialNumber) {
+		this.status = status;
+		this.typecode = typecode;
+		this.serial = serialNumber;
 	}
 
 	public Status getStatus() {
@@ -35,10 +34,16 @@ public class Instrument {
 	}
 
 	public boolean isAnonymous() {
-		return serial == "";
+		return serial.isEmpty();
 	}
 
 	public String getTypecode() {
 		return typecode;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Instrument instrument = (Instrument) obj;
+		return !isAnonymous() && this.serial.equals(instrument.serial);
 	}
 }
