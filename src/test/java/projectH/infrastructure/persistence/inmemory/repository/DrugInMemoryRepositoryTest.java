@@ -19,6 +19,10 @@ import projectH.domain.drug.DrugRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class DrugInMemoryRepositoryTest {
 
+	private static final String FIRST_DIN_IN_REPOSITORY = "111111";
+	private static final String SECOND_DIN_IN_REPOSITORY = "222222";
+	private static final String DIN_NOT_IN_REPOSITORY = "00000000";
+
 	private static final String LESS_THAN_THREE_CHARACTERS_DRUG_NAME = "TY";
 
 	private static final String UNEXISTING_BRAND_NAME = "UNEXISTING_BRAND_NAME";
@@ -34,8 +38,8 @@ public class DrugInMemoryRepositoryTest {
 	private static final String PATTERN_WITH_MULTIPLE_WILDCARDS = "TY NE OL PRI ME";
 	private static final String INVALID_KEYWORD = "123" + SEARCH_PATTERN_WILDCARD + "123";
 
-	private static Drug TYLENOL = new Drug("111111", TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
-	private static Drug TYLANETOL = new Drug("222222", "TYLANETOL PRIME", "IBUPROPHENE");
+	private static Drug TYLENOL = new Drug(FIRST_DIN_IN_REPOSITORY, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
+	private static Drug TYLANETOL = new Drug(SECOND_DIN_IN_REPOSITORY, "TYLANETOL PRIME", "IBUPROPHENE");
 
 	private DrugRepository drugRepository;
 
@@ -158,4 +162,13 @@ public class DrugInMemoryRepositoryTest {
 		assertTrue(result);
 	}
 
+	@Test
+	public void whenDinIsInRepositoryIsValidDinShouldReturnTrue() {
+		assertTrue(drugRepository.isAValidDin(FIRST_DIN_IN_REPOSITORY));
+	}
+
+	@Test
+	public void whenDinIsNotInRepositoryIsValidDinShouldReturnFalse() {
+		assertFalse(drugRepository.isAValidDin(DIN_NOT_IN_REPOSITORY));
+	}
 }

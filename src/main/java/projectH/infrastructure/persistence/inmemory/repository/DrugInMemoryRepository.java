@@ -49,6 +49,15 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 	}
 
 	@Override
+	public boolean isAValidDin(String din) {
+		for (Drug drug : getCollection()) {
+			if (drug.getDin().equals(din))
+				return true;
+		}
+		return false;
+	}
+
+	@Override
 	protected int hashKeys(Drug element) {
 		return Objects.hash(element.getDin());
 	}
@@ -89,12 +98,6 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 		InputStream drugResource = this.getClass().getResourceAsStream(DATA_FILE);
 
 		return new CSVReader(new InputStreamReader(drugResource));
-	}
-
-	@Override
-	public boolean isAValidDin(String din) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

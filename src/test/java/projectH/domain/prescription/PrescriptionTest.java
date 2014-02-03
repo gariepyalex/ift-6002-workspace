@@ -1,7 +1,8 @@
 package projectH.domain.prescription;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,7 +18,7 @@ public class PrescriptionTest {
 
 	private Prescription aDimPrescription;
 
-	private final int A_PRACTITIONER_NUMBER = 123123;
+	private final String A_PRACTITIONER_NUMBER = "123123";
 
 	private final String A_FORMATTED_DATE = "1970-07-01T12:00:00";
 	private final int A_YEAR = 1970;
@@ -27,8 +28,9 @@ public class PrescriptionTest {
 	private final int A_MINUTE = 0;
 	private final int A_SECOND = 0;
 
-	private final int A_VALID_RENEWALS = 0;
-	private final int AN_INVALID_RENEWALS = -1;
+	private final Integer A_VALID_RENEWALS = 0;
+	private final Integer AN_INVALID_RENEWALS = -1;
+	private final Integer A_NULL_INTEGER = null;
 	private final String A_VALID_DIN = "111111";
 	private final String AN_INVALID_DIN = "-42";
 	private final String A_VALID_DRUG_NAME = "Advil";
@@ -83,7 +85,7 @@ public class PrescriptionTest {
 	}
 
 	@Test
-	public void whenInstanciateWithDateStringDateStaysTheSame() {
+	public void whenInstanciateWithDateStringDateShouldStayTheSame() {
 		Prescription prescription = new Prescription(A_PRACTITIONER_NUMBER, A_VALID_DATE_STRING, A_VALID_RENEWALS, "",
 				A_VALID_DRUG_NAME, A_DRUG_REPOSITORY);
 
@@ -93,6 +95,12 @@ public class PrescriptionTest {
 	@Test(expected = InvalidPrescriptionException.class)
 	public void whenInstanciateWithInvalidDateStringExceptionIsThrown() {
 		new Prescription(A_PRACTITIONER_NUMBER, AN_INVALID_DATE_STRING, A_VALID_RENEWALS, "", A_VALID_DRUG_NAME,
+				A_DRUG_REPOSITORY);
+	}
+
+	@Test(expected = InvalidPrescriptionException.class)
+	public void whenInstanciateWithNullRenwalsExceptionIsThrown() {
+		new Prescription(A_PRACTITIONER_NUMBER, AN_INVALID_DATE_STRING, A_NULL_INTEGER, "", A_VALID_DRUG_NAME,
 				A_DRUG_REPOSITORY);
 	}
 
