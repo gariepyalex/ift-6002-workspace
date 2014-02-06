@@ -37,7 +37,7 @@ public class Drug {
 			return true;
 		}
 
-		if (getClass() != obj.getClass()) {
+		if (!(obj instanceof Drug)) {
 			return false;
 		}
 

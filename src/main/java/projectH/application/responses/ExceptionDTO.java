@@ -11,7 +11,7 @@ public class ExceptionDTO {
 	public String code;
 	public String message;
 
-	public ExceptionDTO() {
+	protected ExceptionDTO() {
 	}
 
 	public ExceptionDTO(String code, String message) {
