@@ -3,6 +3,7 @@ package projectH.infrastructure.persistence.inmemory;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class Repository<E> {
 
@@ -16,7 +17,8 @@ public abstract class Repository<E> {
 		Collection<E> loadedElements = loadData();
 
 		for (E element : loadedElements) {
-			int elementId = hashKeys(element);
+			Object[] keys = getKeys(element);
+			int elementId = hashKeys(keys);
 
 			data.put(elementId, element);
 		}
@@ -34,7 +36,12 @@ public abstract class Repository<E> {
 		return data;
 	}
 
+	final protected int hashKeys(Object[] keys) {
+		return Objects.hash(keys);
+	}
+
+	protected abstract Object[] getKeys(E element);
+
 	protected abstract Collection<E> loadData();
 
-	protected abstract int hashKeys(E element);
 }

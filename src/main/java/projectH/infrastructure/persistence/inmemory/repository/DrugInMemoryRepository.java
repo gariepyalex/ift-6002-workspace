@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,8 +57,10 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 	}
 
 	@Override
-	protected int hashKeys(Drug element) {
-		return Objects.hash(element.getDin());
+	protected Object[] getKeys(Drug element) {
+		Object[] keys = { element.getDin() };
+
+		return keys;
 	}
 
 	@Override
