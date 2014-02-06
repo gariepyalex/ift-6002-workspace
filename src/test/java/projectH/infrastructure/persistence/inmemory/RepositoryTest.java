@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import org.junit.Test;
 public class RepositoryTest {
 
 	private final static String AN_ELEMENT = "1234567890";
-	private final static int AN_ELEMENT_HASHED_KEY = Objects.hash(AN_ELEMENT);
 
 	// Minimal implementation of the abstract class
 	final private class RepositoryImpl extends Repository<String> {
@@ -67,9 +65,9 @@ public class RepositoryTest {
 	}
 
 	@Test
-	public void givenRepositoryWhenGettingDataShouldContainsElementKeysHashed() {
+	public void givenRepositoryWhenGettingDataShouldContainsElement() {
 		Map<Integer, String> data = repository.exposeGetData();
-		boolean result = data.containsKey(AN_ELEMENT_HASHED_KEY);
+		boolean result = data.containsValue(AN_ELEMENT);
 		assertTrue(result);
 	}
 }
