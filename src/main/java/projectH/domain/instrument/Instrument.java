@@ -1,31 +1,28 @@
 package projectH.domain.instrument;
 
-
 public class Instrument {
 
-	public enum Status {
-		USED_PATIENT, SOILED, UNUSED
-	};
-
-	private Status status;
+	private InstrumentStatus status;
 	private final String serial;
 	private final String typecode;
 
-	public Instrument(String typecode, Status status) {
+	public Instrument(String typecode, InstrumentStatus status) {
 		this(typecode, status, "");
 	}
 
-	public Instrument(String typecode, Status status, String serialNumber) {
+	public Instrument(String typecode, InstrumentStatus status, String serialNumber) {
+		if (typecode.equals(""))
+			throw new IllegalArgumentException("Typecode cannot be empty");
 		this.status = status;
 		this.typecode = typecode;
 		this.serial = serialNumber;
 	}
 
-	public Status getStatus() {
+	public InstrumentStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status anotherStatus) {
+	public void setStatus(InstrumentStatus anotherStatus) {
 		status = anotherStatus;
 	}
 

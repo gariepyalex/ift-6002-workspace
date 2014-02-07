@@ -53,6 +53,9 @@ public class Operation {
 			throw new InvalidInstrumentException("Instrument with serial number " + instrument.getSerial() + " has "
 					+ "already been assigned to this operation");
 		}
+		if (instrument.isAnonymous() && type.isCarefulInterventionType())
+			throw new InvalidInstrumentException("Anonymous instrument with type " + instrument.getTypecode()
+					+ " cannot be added to operation with type" + this.getType());
 		instrumentList.add(instrument);
 	}
 
