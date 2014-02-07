@@ -14,7 +14,6 @@ import org.junit.Test;
 public class RepositoryTest {
 
 	private final static String AN_ELEMENT = "1234567890";
-	private final static int AN_ELEMENT_HASHED_KEY = AN_ELEMENT.hashCode();
 
 	// Minimal implementation of the abstract class
 	final private class RepositoryImpl extends Repository<String> {
@@ -27,14 +26,16 @@ public class RepositoryTest {
 		}
 
 		@Override
-		protected int hashKeys(String element) {
-			return element.hashCode();
+		protected Object[] getKeys(String element) {
+			Object[] keys = { element };
+			return keys;
 		}
 
 		// Since getData() is protected, it is a work-around to expose it
 		public Map<Integer, String> exposeGetData() {
 			return super.getData();
 		}
+
 	}
 
 	private RepositoryImpl repository;
@@ -64,9 +65,9 @@ public class RepositoryTest {
 	}
 
 	@Test
-	public void givenRepositoryWhenGettingDataShouldContainsElementKeysHashed() {
+	public void givenRepositoryWhenGettingDataShouldContainsElement() {
 		Map<Integer, String> data = repository.exposeGetData();
-		boolean result = data.containsKey(AN_ELEMENT_HASHED_KEY);
+		boolean result = data.containsValue(AN_ELEMENT);
 		assertTrue(result);
 	}
 }

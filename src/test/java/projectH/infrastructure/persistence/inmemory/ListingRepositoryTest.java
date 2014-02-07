@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import org.junit.Test;
 public class ListingRepositoryTest {
 
 	private final static String FIRST_ELEMENT = "1234567890";
-	private final static int FIRST_ELEMENT_HASHED_KEY = FIRST_ELEMENT.hashCode();
+	private final static int FIRST_ELEMENT_HASHED_KEY = Objects.hash(FIRST_ELEMENT);
 
 	private final static String SECOND_ELEMENT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -34,8 +35,9 @@ public class ListingRepositoryTest {
 		}
 
 		@Override
-		protected int hashKeys(String element) {
-			return element.hashCode();
+		protected Object[] getKeys(String element) {
+			Object[] keys = { element };
+			return keys;
 		}
 
 		// Since getCollection() is protected, it is a work-around to expose it
