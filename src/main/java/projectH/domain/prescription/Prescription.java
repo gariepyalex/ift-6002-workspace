@@ -36,7 +36,7 @@ public class Prescription {
 	private void initializePrescription(String practitioner, Date date, Integer renewals, String din, String drugName,
 			DrugRepository drugRepository) throws InvalidPrescriptionException {
 		if (renewals == null || renewals < 0)
-			throw new InvalidPrescriptionException("The number of renewals must be greater or equals than zero");
+			throw new InvalidPrescriptionException("The number of renewals must be greater than or equals to zero");
 		if (din.trim().isEmpty() && drugName.trim().isEmpty())
 			throw new InvalidPrescriptionException("A din or drug name must be set");
 		if (!din.isEmpty() && !drugName.isEmpty())

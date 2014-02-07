@@ -5,7 +5,7 @@ import projectH.infrastructure.persistence.PersistenceType;
 
 public abstract class RepositoryFactory {
 
-	private static final PersistenceType type = PersistenceType.IN_MEMORY;
+	private static final PersistenceType TYPE = PersistenceType.IN_MEMORY;
 
 	public abstract DrugRepository createDrugRepository();
 
@@ -15,7 +15,7 @@ public abstract class RepositoryFactory {
 
 	private static RepositoryFactory getFactory() {
 		// TODO ask the teacher about how to do polymorphism on this case
-		if (type == PersistenceType.IN_MEMORY) {
+		if (TYPE == PersistenceType.IN_MEMORY) {
 			return new InMemoryRepositoryFactory();
 		}
 
