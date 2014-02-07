@@ -33,6 +33,7 @@ public class PrescriptionResource {
 	@Path("{patientId}/prescriptions")
 	public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
 			PrescriptionDTO dto) {
+		System.out.println("lol");
 		try {
 			Prescription prescription = dto.toPrescription(drugRepository);
 			prescriptionRepository.savePrescription(patientId, prescription);
