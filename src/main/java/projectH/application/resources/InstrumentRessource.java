@@ -16,6 +16,7 @@ import projectH.application.responses.ExceptionDTO;
 import projectH.application.responses.InstrumentDTO;
 import projectH.domain.instrument.Instrument;
 import projectH.domain.instrument.InstrumentRepository;
+import projectH.domain.instrument.InstrumentStatus;
 import projectH.infrastructure.persistence.inmemory.repository.InstrumentInMemoryRepository;
 
 @Path("/interventions/")
@@ -30,23 +31,53 @@ public class InstrumentRessource {
 	private static final String MISSING_SERIAL_ERROR = "INT012";
 	private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 	private static final int BAD_REQUEST = 400;
-	private InstrumentRepository instrumentRepository;
+
+	private final InstrumentRepository instrumentRepository = new InstrumentInMemoryRepository();
 
 	@POST
 	@Path("{noIntervention}/instruments")
-	public Response createIntervention(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
+	public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
 			InstrumentDTO dto) {
 
 		try {
-			instrumentRepository = new InstrumentInMemoryRepository();
-			Instrument instrument = dto.toInstrument();
-			instrumentRepository.saveInstrument(noIntervention, instrument);
-			URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
-			return Response.created(uriLocation).build();
+			Response response;
+			if (instrumentRepository.containSerial(dto.serial))
+				response = Response.status(BAD_REQUEST)
+						.entity(new ExceptionDTO(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE)).build();
+			else {
+				Instrument instrument = dto.toInstrument();
+				instrumentRepository.saveInstrument(noIntervention, instrument);
+				URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
+				response = Response.created(uriLocation).build();
+			}
+			return response;
 		} catch (RuntimeException e) {
 			return Response.status(BAD_REQUEST)
 					.entity(new ExceptionDTO(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE)).build();
 		}
+	}
 
+	@POST
+	@Path("{noIntervention}/instruments/{typecode}/{instrumentId}")
+	public Response modifyInstrument(@PathParam("noIntervention") String noIntervention,
+			@PathParam("typecode") String typecode, @PathParam("instrumentId") String instrumentId, InstrumentDTO dto,
+			@Context UriInfo uri) {
+
+		try {
+			Response response;
+			if (dto.serial.equals(""))
+				response = Response.status(BAD_REQUEST)
+						.entity(new ExceptionDTO(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE)).build();
+			else {
+				Instrument instrument = instrumentRepository.findInstrumentBySerial(dto.serial);
+				InstrumentStatus newStatus = InstrumentStatus.valueOf(dto.status);
+				instrument.setStatus(newStatus);
+				response = Response.ok().build();
+			}
+			return response;
+		} catch (Exception e) {
+			return Response.status(BAD_REQUEST)
+					.entity(new ExceptionDTO(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE)).build();
+		}
 	}
 }

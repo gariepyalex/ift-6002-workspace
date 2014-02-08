@@ -11,8 +11,10 @@ public class Instrument {
 	}
 
 	public Instrument(String typecode, InstrumentStatus status, String serialNumber) {
-		if (typecode.equals(""))
+		if (typecode == null || typecode.equals(""))
 			throw new IllegalArgumentException("Typecode cannot be empty");
+		if (serialNumber == null)
+			throw new IllegalArgumentException("Serial number cannot be 'null'");
 		this.status = status;
 		this.typecode = typecode;
 		this.serial = serialNumber;

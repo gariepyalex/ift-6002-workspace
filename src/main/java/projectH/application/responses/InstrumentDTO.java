@@ -13,7 +13,7 @@ public class InstrumentDTO {
 
 	public String status;
 	public String serial = "";
-	public String typecode = "";
+	public String typecode;
 
 	public InstrumentDTO() {
 	}

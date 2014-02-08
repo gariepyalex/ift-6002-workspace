@@ -10,8 +10,9 @@ public class InstrumentTest {
 	private static final String GIVEN_TYPECODE = "IT72353";
 	private static final String DIFFERENT_TYPECODE = "IT12345";
 	private static final String GIVEN_SERIAL_NUMBER = "23562543-3635345";
-	private static final String DIFFERENT_SERIAL_NUMBER = null;
+	private static final String DIFFERENT_SERIAL_NUMBER = "231313131-1313131";
 	private static final String EMPTY_SERIAL_NUMBER = "";
+	private static final String NULL_SERIAL_NUMBER = null;
 	private static final String EMPTY_TYPECODE = "";
 	private static final InstrumentStatus GIVEN_STATUS = InstrumentStatus.UNUSED;
 	private static final InstrumentStatus DIFFERENT_STATUS = InstrumentStatus.SOILED;
@@ -37,6 +38,11 @@ public class InstrumentTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void creatingInstrumentWithEmptyTypeCodeShouldThrowInvalidArgumentException() {
 		new Instrument(EMPTY_TYPECODE, GIVEN_STATUS, GIVEN_SERIAL_NUMBER);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void creatingInstrumentWithNullSerialNumberShouldThrowInvalidArgumentException() {
+		new Instrument(EMPTY_TYPECODE, GIVEN_STATUS, NULL_SERIAL_NUMBER);
 	}
 
 	@Test
@@ -118,5 +124,4 @@ public class InstrumentTest {
 	public void twoDifferentAnonymousInstrumentsShouldNotBeEqual() {
 		assertNotEquals(anonymousInstrument, secondAnonymousInstrument);
 	}
-
 }
