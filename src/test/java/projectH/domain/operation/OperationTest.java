@@ -22,13 +22,16 @@ public class OperationTest {
 
 	private static final String EXPECTED_DESCRIPTION = "Description Test";
 	private static final int EXPECTED_SURGEON = 101224;
-	private static final String EXPECTED_DATE = "0000-00-00T24:01:00";
-	private static final InterventionType EXPECTED_TYPE = InterventionType.EYE;
-	private static final InterventionType MARROW_TYPE = InterventionType.MARROW;
-	private static final InterventionType HEART_TYPE = InterventionType.HEART;
-	private static final InterventionType ONCOLOGY_TYPE = InterventionType.ONCOLOGY;
-	private static final InterventionStatus EXPECTED_STATUS = InterventionStatus.CANCELED;
-	private static final InterventionStatus DEFAULT_STATUS = InterventionStatus.PLANNED;
+	private static final String EXPECTED_DATE = "2002-12-12T12:01:00";
+	private static final String EXPECTED_ROOM = "salleB";
+	private static final OperationType EXPECTED_TYPE = OperationType.EYE;
+	private static final OperationType MARROW_TYPE = OperationType.MARROW;
+	private static final OperationType HEART_TYPE = OperationType.HEART;
+	private static final OperationType ONCOLOGY_TYPE = OperationType.ONCOLOGY;
+	private static final OperationStatus EXPECTED_STATUS = OperationStatus.CANCELED;
+	private static final OperationStatus DEFAULT_STATUS = OperationStatus.PLANNED;
+	private static final int EXPECTED_PATIENT = 2;
+	private static final String INVALID_DATE = "";
 
 	@Mock
 	private Instrument INSTRUMENT_1;
@@ -38,14 +41,14 @@ public class OperationTest {
 
 	@Before
 	public void givenAnOperation() {
-		eyeOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_TYPE,
-				EXPECTED_STATUS);
-		heartOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, HEART_TYPE,
-				EXPECTED_STATUS);
-		marrowOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, MARROW_TYPE,
-				EXPECTED_STATUS);
-		oncologyOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, ONCOLOGY_TYPE,
-				EXPECTED_STATUS);
+		eyeOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_ROOM,
+				EXPECTED_TYPE, EXPECTED_STATUS, EXPECTED_PATIENT);
+		heartOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_ROOM,
+				HEART_TYPE, EXPECTED_STATUS, EXPECTED_PATIENT);
+		marrowOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_ROOM,
+				MARROW_TYPE, EXPECTED_STATUS, EXPECTED_PATIENT);
+		oncologyOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_ROOM,
+				ONCOLOGY_TYPE, EXPECTED_STATUS, EXPECTED_PATIENT);
 
 	}
 
@@ -84,9 +87,26 @@ public class OperationTest {
 	}
 
 	@Test
+	public void canHaveARoom() {
+		assertEquals(EXPECTED_ROOM, eyeOperation.getRoom());
+	}
+
+	@Test
+	public void canHaveAPatientNumber() {
+		assertEquals(EXPECTED_PATIENT, eyeOperation.getPatientNumber());
+	}
+
+	@Test
 	public void ifNotGivenStatusIsSetToPlanned() {
-		eyeOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_TYPE);
+		eyeOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_ROOM,
+				EXPECTED_TYPE, EXPECTED_PATIENT);
 		assertEquals(DEFAULT_STATUS, eyeOperation.getStatus());
+	}
+
+	@Test(expected = InvalidOperationException.class)
+	public void shouldThrowExceptionIfDateIsInvalid() {
+		eyeOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, INVALID_DATE, EXPECTED_ROOM,
+				EXPECTED_TYPE, EXPECTED_PATIENT);
 	}
 
 	@Test

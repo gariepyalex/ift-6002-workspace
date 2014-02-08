@@ -1,9 +1,9 @@
 package projectH.domain.prescription;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import projectH.domain.date.DateException;
+import projectH.domain.date.DateFormatter;
 import projectH.domain.drug.Drug;
 import projectH.domain.drug.DrugRepository;
 
@@ -12,16 +12,13 @@ public class Prescription {
 	private Date date;
 	private Integer renewals;
 	private Drug drug;
-
-	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+	private DateFormatter dateFormatter = new DateFormatter();
 
 	public Prescription(String practitioner, String dateString, Integer renewals, String din, String drugName,
 			DrugRepository drugRepository) throws InvalidPrescriptionException {
-		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
-		Date date = null;
 		try {
-			date = formatter.parse(dateString);
-		} catch (ParseException e) {
+			date = dateFormatter.createDate(dateString);
+		} catch (DateException e) {
 			throw new InvalidPrescriptionException("Invalid date format");
 		}
 
@@ -55,8 +52,7 @@ public class Prescription {
 	}
 
 	public String getDate() {
-		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
-		return formatter.format(date.getTime());
+		return dateFormatter.getDateString(date);
 	}
 
 	public Integer getRenewals() {
