@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import projectH.domain.drug.Drug;
@@ -32,10 +31,7 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 		Pattern pattern = Pattern.compile(keyword.replace(" ", ".*"), Pattern.CASE_INSENSITIVE);
 
 		for (Drug drug : getCollection()) {
-			Matcher matcherBrandName = pattern.matcher(drug.getBrandName());
-			Matcher matcherDescriptor = pattern.matcher(drug.getDescriptor());
-
-			if (matcherBrandName.find() || matcherDescriptor.find()) {
+			if (drug.matchBrandNameOrDescription(pattern)) {
 				drugs.add(drug);
 			}
 		}
@@ -53,6 +49,7 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 			if (drug.getDin().equals(din))
 				return true;
 		}
+
 		return false;
 	}
 
