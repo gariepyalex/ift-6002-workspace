@@ -2,7 +2,6 @@ package projectH.application.assemblers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
 
 import java.util.Date;
 
@@ -48,7 +47,7 @@ public class PrescriptionDTOAssemblerTest {
 	private PrescriptionDTOAssembler assembler;
 
 	@Test
-	public void givenPrescriptionShouldReturnDTO() {
+	public void givenPrescriptionWhenConvertToDTOShouldReturnGivenPrescriptionDTO() {
 		willReturn(DATE_AS_STRING).given(dateFormatter).dateToString(DATE);
 
 		PrescriptionDTO dtoBuilt = assembler.toDTO(PRESCRIPTION);
@@ -57,8 +56,8 @@ public class PrescriptionDTOAssemblerTest {
 	}
 
 	@Test
-	public void givenPrescriptionDTOShouldReturnPrescription() {
-		willReturn(DRUG).given(drugRepository).get(any(Din.class));
+	public void givenPrescriptionDTOWhenConvertToPrescriptionShouldReturnGivenPrescription() {
+		willReturn(DRUG).given(drugRepository).get(DIN);
 		willReturn(DATE).given(dateFormatter).parse(DATE_AS_STRING);
 
 		Prescription prescriptionBuilt = assembler.fromDTO(PRESCRIPTION_DTO);
