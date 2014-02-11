@@ -6,7 +6,6 @@ import static org.mockito.Matchers.any;
 
 import java.util.Date;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -24,11 +23,9 @@ import projectH.domain.prescription.Prescription;
 @RunWith(MockitoJUnitRunner.class)
 public class PrescriptionDTOAssemblerTest {
 
-	private final static DateFormatter FORMATTER = new DateFormatter();
-
 	private final static Practitioner PRACTITIONER = new Practitioner("A random name");
 	private final static String DATE_AS_STRING = "2014-01-03T12:00:00";
-	private final static Date DATE = FORMATTER.parse(DATE_AS_STRING);
+	private final static Date DATE = new Date();
 	private final static int RENEWALS = 1;
 
 	private final static Din DIN = new Din("A random din");
@@ -44,16 +41,16 @@ public class PrescriptionDTOAssemblerTest {
 	@Mock
 	private DrugRepository drugRepository;
 
+	@Mock
+	private DateFormatter dateFormatter;
+
 	@InjectMocks
 	private PrescriptionDTOAssembler assembler;
 
-	@Before()
-	public void setup() {
-		assembler = new PrescriptionDTOAssembler(drugRepository);
-	}
-
 	@Test
 	public void givenPrescriptionShouldReturnDTO() {
+		willReturn(DATE_AS_STRING).given(dateFormatter).dateToString(DATE);
+
 		PrescriptionDTO dtoBuilt = assembler.toDTO(PRESCRIPTION);
 
 		assertPrescriptionDTOEquals(PRESCRIPTION_DTO, dtoBuilt);
@@ -62,6 +59,7 @@ public class PrescriptionDTOAssemblerTest {
 	@Test
 	public void givenPrescriptionDTOShouldReturnPrescription() {
 		willReturn(DRUG).given(drugRepository).get(any(Din.class));
+		willReturn(DATE).given(dateFormatter).parse(DATE_AS_STRING);
 
 		Prescription prescriptionBuilt = assembler.fromDTO(PRESCRIPTION_DTO);
 
@@ -69,10 +67,10 @@ public class PrescriptionDTOAssemblerTest {
 	}
 
 	private void assertPrescriptionDTOEquals(PrescriptionDTO expected, PrescriptionDTO actual) {
-		assertEquals(expected.intervenant, actual.intervenant);
+		assertEquals(expected.practitioner, actual.practitioner);
 		assertEquals(expected.date, actual.date);
-		assertEquals(expected.renouvellements, actual.renouvellements);
-		assertEquals(expected.nom, actual.nom);
+		assertEquals(expected.renewals, actual.renewals);
+		assertEquals(expected.name, actual.name);
 		assertEquals(expected.din, actual.din);
 	}
 }

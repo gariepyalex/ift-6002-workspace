@@ -12,27 +12,28 @@ import projectH.domain.prescription.Prescription;
 
 public class PrescriptionDTOAssembler {
 
-	private final static DateFormatter FORMATTER = new DateFormatter();
+	private final DateFormatter dateFormatter;
 	private final DrugRepository drugRepository;
 
-	public PrescriptionDTOAssembler(DrugRepository drugRepository) {
+	public PrescriptionDTOAssembler(DateFormatter dateFormatter, DrugRepository drugRepository) {
+		this.dateFormatter = dateFormatter;
 		this.drugRepository = drugRepository;
 	}
 
 	public PrescriptionDTO toDTO(Prescription prescription) {
-		String formattedDate = FORMATTER.dateToString(prescription.getDate());
+		String formattedDate = dateFormatter.dateToString(prescription.getDate());
 
 		return new PrescriptionDTO(prescription.getPractioner().toString(), formattedDate, prescription.getRenewals(),
 				prescription.getDrug().getDin().toString(), prescription.getDrug().getBrandName());
 	}
 
 	public Prescription fromDTO(PrescriptionDTO dto) {
-		Practitioner practitioner = new Practitioner(dto.intervenant);
-		Date parsedDate = FORMATTER.parse(dto.date);
+		Practitioner practitioner = new Practitioner(dto.practitioner);
+		Date parsedDate = dateFormatter.parse(dto.date);
 		Din din = new Din(dto.din);
 
 		Drug drug = drugRepository.get(din);
 
-		return new Prescription(practitioner, parsedDate, dto.renouvellements, drug);
+		return new Prescription(practitioner, parsedDate, dto.renewals, drug);
 	}
 }

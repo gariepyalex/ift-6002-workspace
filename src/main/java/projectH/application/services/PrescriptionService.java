@@ -2,6 +2,7 @@ package projectH.application.services;
 
 import projectH.application.assemblers.PrescriptionDTOAssembler;
 import projectH.application.responses.PrescriptionDTO;
+import projectH.domain.date.DateFormatter;
 import projectH.domain.drug.DrugRepository;
 import projectH.domain.patient.Patient;
 import projectH.domain.prescription.Prescription;
@@ -13,8 +14,11 @@ public class PrescriptionService {
 
 	// TODO use ServiceLocator
 	private final DrugRepository drugRepository = new DrugInMemoryRepository();
+	private final DateFormatter dateFormatter = new DateFormatter();
 
-	private final PrescriptionDTOAssembler prescriptionAssembler = new PrescriptionDTOAssembler(drugRepository);
+	private final PrescriptionDTOAssembler prescriptionAssembler = new PrescriptionDTOAssembler(dateFormatter,
+			drugRepository);
+
 	private final PrescriptionRepository prescriptionRepository = new PrescriptionInMemoryRepository();
 
 	public void savePrescription(String patientId, PrescriptionDTO dto) {
@@ -37,7 +41,7 @@ public class PrescriptionService {
 	}
 
 	private boolean hasEnoughRenewals(PrescriptionDTO dto) {
-		return (dto.renouvellements != null && dto.renouvellements >= 0);
+		return (dto.renewals != null && dto.renewals >= 0);
 	}
 
 	private boolean isDinSet(PrescriptionDTO dto) {
@@ -45,7 +49,7 @@ public class PrescriptionService {
 	}
 
 	private boolean isDrugNameSet(PrescriptionDTO dto) {
-		return (!dto.nom.trim().isEmpty());
+		return (!dto.name.trim().isEmpty());
 	}
 
 	private boolean hasSetDinOrDrugName(PrescriptionDTO dto) {
