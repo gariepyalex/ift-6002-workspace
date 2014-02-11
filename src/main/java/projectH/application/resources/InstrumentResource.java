@@ -22,7 +22,7 @@ import projectH.infrastructure.persistence.inmemory.repository.InstrumentInMemor
 @Path("/interventions/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class InstrumentRessource {
+public class InstrumentResource {
 
 	private static final String INCOMPLETE_DATA_ERROR = "INT010";
 	private static final String INCOMPLETE_DATA_MESSAGE = "Invalid or incomplete data";
