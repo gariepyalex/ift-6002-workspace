@@ -64,4 +64,5 @@ public class Drug {
 	public String toString() {
 		return String.valueOf(din);
 	}
+
 }

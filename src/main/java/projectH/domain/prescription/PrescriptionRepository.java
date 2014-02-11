@@ -1,5 +1,8 @@
 package projectH.domain.prescription;
 
+import projectH.domain.patient.Patient;
+
 public interface PrescriptionRepository {
-	public void savePrescription(String patientId, Prescription prescription);
+
+	void save(Patient patient, Prescription prescription);
 }

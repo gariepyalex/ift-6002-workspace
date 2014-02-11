@@ -22,7 +22,6 @@ public class DrugInMemoryRepositoryTest {
 
 	private static final Din FIRST_DIN_IN_REPOSITORY = new Din("111111");
 	private static final Din SECOND_DIN_IN_REPOSITORY = new Din("222222");
-	private static final Din DIN_NOT_IN_REPOSITORY = new Din("00000000");
 
 	private static final String LESS_THAN_THREE_CHARACTERS_DRUG_NAME = "TY";
 
@@ -163,13 +162,4 @@ public class DrugInMemoryRepositoryTest {
 		assertTrue(result);
 	}
 
-	@Test
-	public void whenDinIsInRepositoryIsValidDinShouldReturnTrue() {
-		assertTrue(drugRepository.isDinValid(FIRST_DIN_IN_REPOSITORY));
-	}
-
-	@Test
-	public void whenDinIsNotInRepositoryIsValidDinShouldReturnFalse() {
-		assertFalse(drugRepository.isDinValid(DIN_NOT_IN_REPOSITORY));
-	}
 }

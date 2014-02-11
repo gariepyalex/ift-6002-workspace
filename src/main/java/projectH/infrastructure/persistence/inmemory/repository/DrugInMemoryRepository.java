@@ -22,6 +22,17 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 	private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
 
 	@Override
+	public Drug get(Din din) {
+		for (Drug drug : getCollection()) {
+			if (drug.hasSameDin(din)) {
+				return drug;
+			}
+		}
+
+		throw new NoSuchElementException("There are no drug with din:" + din);
+	}
+
+	@Override
 	public Collection<Drug> findByBrandNameOrDescriptor(String keyword) {
 		if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
 			throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
@@ -42,16 +53,6 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 		}
 
 		return drugs;
-	}
-
-	@Override
-	public boolean isDinValid(Din din) {
-		for (Drug drug : getCollection()) {
-			if (drug.hasSameDin(din))
-				return true;
-		}
-
-		return false;
 	}
 
 	@Override
