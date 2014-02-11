@@ -2,15 +2,15 @@ package projectH.application.responses;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import projectH.domain.drug.Drug;
 
 @XmlRootElement(name = "drug")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DrugDTO {
 
 	public final String din;
+	@XmlElement(name = "nom")
 	public final String brandName;
 	public final String description;
 
@@ -20,9 +20,9 @@ public class DrugDTO {
 		this.description = "";
 	}
 
-	public DrugDTO(Drug drug) {
-		this.din = drug.getDin().toString();
-		this.brandName = drug.getBrandName();
-		this.description = drug.getDescriptor();
+	public DrugDTO(String din, String brandName, String description) {
+		this.din = din;
+		this.brandName = brandName;
+		this.description = description;
 	}
 }

@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import projectH.application.assemblers.DrugDTOAssembler;
 import projectH.application.responses.DrugDTO;
 import projectH.application.responses.ExceptionDTO;
 import projectH.domain.drug.Drug;
@@ -23,12 +24,14 @@ public class DrugResource {
 
 	private final DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
 
+	private final DrugDTOAssembler drugAssembler = new DrugDTOAssembler();
+
 	@GET
 	@Path("/findByBrandNameOrDescriptor/{keyword}")
 	public Response findDrugs(@PathParam("keyword") String keyword) {
 		try {
 			Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
-			DrugDTO[] dto = convertDrugsToDTO(drugsFound);
+			DrugDTO[] dto = drugAssembler.toDTOs(drugsFound);
 
 			return Response.ok(dto).build();
 		} catch (Exception e) {
@@ -36,16 +39,5 @@ public class DrugResource {
 
 			return Response.status(Status.BAD_REQUEST).entity(dto).build();
 		}
-	}
-
-	private DrugDTO[] convertDrugsToDTO(Collection<Drug> drugs) {
-		DrugDTO[] drugsDTO = new DrugDTO[drugs.size()];
-		int i = 0;
-
-		for (Drug drug : drugs) {
-			drugsDTO[i++] = new DrugDTO(drug);
-		}
-
-		return drugsDTO;
 	}
 }
