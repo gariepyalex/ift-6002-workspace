@@ -1,9 +1,10 @@
 package projectH.domain.instrument;
 
 public interface InstrumentRepository {
-	public void saveInstrument(String noIntervention, Instrument instrument);
 
-	public Instrument findInstrumentBySerial(String serial);
+	public void save(String noIntervention, Instrument instrument);
 
-	public boolean containSerial(String serial);
+	public Instrument findBySerial(String serial);
+
+	public boolean containsSerial(String serial);
 }

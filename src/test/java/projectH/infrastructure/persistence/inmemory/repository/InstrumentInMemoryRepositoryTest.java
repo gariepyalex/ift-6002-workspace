@@ -31,7 +31,7 @@ public class InstrumentInMemoryRepositoryTest {
 
 	@Test
 	public void canSaveInstrument() {
-		instrumentRepository.saveInstrument(INSTRUMENT_NUMBER, instrument);
+		instrumentRepository.save(INSTRUMENT_NUMBER, instrument);
 		assertFalse(instrumentRepository.isEmpty());
 	}
 }
