@@ -18,16 +18,16 @@ public class InstrumentDTOAssemblerTest {
 	private final static Instrument INSTRUMENT = new Instrument(TYPECODE, STATUS, SERIAL);
 	private final static InstrumentDTO INSTRUMENT_DTO = new InstrumentDTO(TYPECODE, STATUS.toString(), SERIAL);
 
-	private InstrumentDTOAssembler assembler;
+	private InstrumentDTOAssembler instrumentAssembler;
 
 	@Before
 	public void setup() {
-		assembler = new InstrumentDTOAssembler();
+		instrumentAssembler = new InstrumentDTOAssembler();
 	}
 
 	@Test
 	public void givenInstrumentDTOWhenConvertToInstrumentShouldReturnGivenInstrument() {
-		Instrument instrumentBuilt = assembler.fromDTO(INSTRUMENT_DTO);
+		Instrument instrumentBuilt = instrumentAssembler.fromDTO(INSTRUMENT_DTO);
 
 		assertEquals(INSTRUMENT, instrumentBuilt);
 	}

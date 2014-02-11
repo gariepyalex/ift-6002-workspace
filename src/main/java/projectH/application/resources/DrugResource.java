@@ -22,6 +22,7 @@ public class DrugResource {
 
 	private final static String INVALID_SEARCH_ERROR_CODE = "DIN001";
 
+	// TODO use ServiceLocator
 	private final DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
 
 	private final DrugDTOAssembler drugAssembler = new DrugDTOAssembler();

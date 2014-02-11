@@ -10,8 +10,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class DrugDTO {
 
 	public final String din;
+
 	@XmlElement(name = "nom")
 	public final String brandName;
+
 	public final String description;
 
 	protected DrugDTO() {
