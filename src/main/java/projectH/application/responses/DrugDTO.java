@@ -9,22 +9,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DrugDTO {
 
-	public final String din;
+    public final String din;
 
-	@XmlElement(name = "nom")
-	public final String brandName;
+    @XmlElement(name = "nom")
+    public final String brandName;
 
-	public final String description;
+    public final String description;
 
-	protected DrugDTO() {
-		this.din = "";
-		this.brandName = "";
-		this.description = "";
-	}
+    protected DrugDTO() {
+        // Protected constructor for jaxb
+        this.din = "";
+        this.brandName = "";
+        this.description = "";
+    }
 
-	public DrugDTO(String din, String brandName, String description) {
-		this.din = din;
-		this.brandName = brandName;
-		this.description = description;
-	}
+    public DrugDTO(String din, String brandName, String description) {
+        this.din = din;
+        this.brandName = brandName;
+        this.description = description;
+    }
 }
