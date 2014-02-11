@@ -34,6 +34,7 @@ public class InstrumentResource {
 	private static final String MISSING_SERIAL_ERROR = "INT012";
 	private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
+	// TODO use ServiceLocator
 	private final InstrumentRepository instrumentRepository = new InstrumentInMemoryRepository();
 
 	private final InstrumentDTOAssembler instrumentAssembler = new InstrumentDTOAssembler();

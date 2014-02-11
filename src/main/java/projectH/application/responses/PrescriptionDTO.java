@@ -31,7 +31,6 @@ public class PrescriptionDTO {
 	}
 
 	protected PrescriptionDTO() {
-		// Protected constructor for jaxb
 		this.practitioner = "";
 		this.date = "";
 		this.renewals = 0;
