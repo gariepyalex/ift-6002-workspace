@@ -5,26 +5,29 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import projectH.domain.instrument.Instrument;
-import projectH.domain.instrument.InstrumentStatus;
-
 @XmlRootElement(name = "instrument")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class InstrumentDTO {
 
 	@XmlElement(name = "statut")
-	public String status;
+	public final String status;
 
 	@XmlElement(name = "noserie")
-	public String serial = "";
+	public final String serial;
 
 	@XmlElement(name = "typecode")
-	public String typecode;
+	public final String typecode;
 
-	public InstrumentDTO() {
+	protected InstrumentDTO() {
+		this.status = "";
+		this.serial = "";
+		this.typecode = "";
 	}
 
-	public Instrument toInstrument() {
-		return new Instrument(typecode, InstrumentStatus.valueOf(status), serial);
+	public InstrumentDTO(String typecode, String status, String serial) {
+		this.status = status;
+		this.serial = serial;
+		this.typecode = typecode;
 	}
+
 }

@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import projectH.application.assemblers.InstrumentDTOAssembler;
 import projectH.application.responses.ExceptionDTO;
 import projectH.application.responses.InstrumentDTO;
 import projectH.domain.instrument.Instrument;
@@ -35,6 +36,8 @@ public class InstrumentResource {
 
 	private final InstrumentRepository instrumentRepository = new InstrumentInMemoryRepository();
 
+	private final InstrumentDTOAssembler instrumentAssembler = new InstrumentDTOAssembler();
+
 	@POST
 	@Path("{noIntervention}/instruments")
 	public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
@@ -48,7 +51,7 @@ public class InstrumentResource {
 		try {
 			URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
 
-			Instrument instrument = dto.toInstrument();
+			Instrument instrument = instrumentAssembler.fromDTO(dto);
 			instrumentRepository.save(noIntervention, instrument);
 
 			return Response.created(uriLocation).build();
