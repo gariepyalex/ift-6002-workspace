@@ -26,7 +26,7 @@ public class DateFormatterTest {
 	@Test
 	public void methodGetStringShouldReturnDateInStringWithRightFormat() {
 		Date date = dateFormatter.parse(VALID_DATE);
-		String dateStringReturned = dateFormatter.getString(date);
+		String dateStringReturned = dateFormatter.dateToString(date);
 		assertEquals(VALID_DATE, dateStringReturned);
 	}
 }

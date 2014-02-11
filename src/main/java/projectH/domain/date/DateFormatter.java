@@ -7,18 +7,18 @@ import java.util.Date;
 public class DateFormatter {
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-	private SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+	private static final SimpleDateFormat FORMATTER = new SimpleDateFormat(DATE_FORMAT);
 
-	public Date parse(String dateString) {
+	public Date parse(String date) {
 		try {
-			return formatter.parse(dateString);
+			return FORMATTER.parse(date);
 		} catch (ParseException e) {
-			throw new DateException("Invalid date format");
+			throw new DateException("Dates should be in this format: " + DATE_FORMAT);
 		}
 	}
 
-	public String getString(Date date) {
-		return formatter.format(date.getTime());
+	public String dateToString(Date date) {
+		return FORMATTER.format(date.getTime());
 	}
 
 }

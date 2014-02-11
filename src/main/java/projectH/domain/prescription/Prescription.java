@@ -52,7 +52,7 @@ public class Prescription {
 	}
 
 	public String getDate() {
-		return dateFormatter.getString(date);
+		return dateFormatter.dateToString(date);
 	}
 
 	public Integer getRenewals() {

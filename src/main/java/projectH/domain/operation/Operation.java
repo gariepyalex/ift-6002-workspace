@@ -54,7 +54,7 @@ public class Operation {
 	}
 
 	public String getDate() {
-		return dateFormatter.getString(date);
+		return dateFormatter.dateToString(date);
 	}
 
 	public String getRoom() {
