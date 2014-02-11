@@ -19,6 +19,8 @@ import projectH.infrastructure.persistence.factory.RepositoryFactory;
 @Produces("application/json")
 public class DrugResource {
 
+	private final static String INVALID_SEARCH_ERROR_CODE = "DIN001";
+
 	private final DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
 
 	@GET
@@ -30,7 +32,7 @@ public class DrugResource {
 
 			return Response.ok(dto).build();
 		} catch (Exception e) {
-			ExceptionDTO dto = new ExceptionDTO("DIN001", e.getMessage());
+			ExceptionDTO dto = new ExceptionDTO(INVALID_SEARCH_ERROR_CODE, e.getMessage());
 
 			return Response.status(Status.BAD_REQUEST).entity(dto).build();
 		}
