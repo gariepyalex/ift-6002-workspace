@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import projectH.application.responses.ExceptionDTO;
@@ -25,9 +26,9 @@ import projectH.infrastructure.persistence.inmemory.repository.PrescriptionInMem
 public class PrescriptionResource {
 
 	private static final String ERROR_CODE = "PRES001";
-	private static final int BAD_REQUEST = 400;
-	private static PrescriptionRepository prescriptionRepository = new PrescriptionInMemoryRepository();
-	private static DrugRepository drugRepository = new DrugInMemoryRepository();
+
+	private final PrescriptionRepository prescriptionRepository = new PrescriptionInMemoryRepository();
+	private final DrugRepository drugRepository = new DrugInMemoryRepository();
 
 	@POST
 	@Path("{patientId}/prescriptions")
@@ -36,9 +37,12 @@ public class PrescriptionResource {
 		try {
 			Prescription prescription = dto.toPrescription(drugRepository);
 			prescriptionRepository.savePrescription(patientId, prescription);
+
 			return Response.created(uri.getRequestUri()).build();
 		} catch (InvalidPrescriptionException e) {
-			return Response.status(BAD_REQUEST).entity(new ExceptionDTO(ERROR_CODE, e.getMessage())).build();
+			ExceptionDTO exception = new ExceptionDTO(ERROR_CODE, e.getMessage());
+
+			return Response.status(Status.BAD_REQUEST).entity(exception).build();
 		}
 	}
 
