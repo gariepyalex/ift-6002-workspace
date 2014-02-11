@@ -13,12 +13,8 @@ import javax.ws.rs.core.UriInfo;
 
 import projectH.application.responses.ExceptionDTO;
 import projectH.application.responses.PrescriptionDTO;
-import projectH.domain.drug.DrugRepository;
+import projectH.application.services.PrescriptionService;
 import projectH.domain.prescription.InvalidPrescriptionException;
-import projectH.domain.prescription.Prescription;
-import projectH.domain.prescription.PrescriptionRepository;
-import projectH.infrastructure.persistence.inmemory.repository.DrugInMemoryRepository;
-import projectH.infrastructure.persistence.inmemory.repository.PrescriptionInMemoryRepository;
 
 @Path("/patient/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,16 +23,14 @@ public class PrescriptionResource {
 
 	private static final String ERROR_CODE = "PRES001";
 
-	private final PrescriptionRepository prescriptionRepository = new PrescriptionInMemoryRepository();
-	private final DrugRepository drugRepository = new DrugInMemoryRepository();
+	private final PrescriptionService prescriptionService = new PrescriptionService();
 
 	@POST
 	@Path("{patientId}/prescriptions")
 	public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
 			PrescriptionDTO dto) {
 		try {
-			Prescription prescription = dto.toPrescription(drugRepository);
-			prescriptionRepository.savePrescription(patientId, prescription);
+			prescriptionService.savePrescription(patientId, dto);
 
 			return Response.created(uri.getRequestUri()).build();
 		} catch (InvalidPrescriptionException e) {

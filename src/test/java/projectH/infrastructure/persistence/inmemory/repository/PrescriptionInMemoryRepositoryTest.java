@@ -1,11 +1,11 @@
 package projectH.infrastructure.persistence.inmemory.repository;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 
+import projectH.domain.patient.Patient;
 import projectH.domain.prescription.Prescription;
 
 public class PrescriptionInMemoryRepositoryTest {
@@ -19,7 +19,7 @@ public class PrescriptionInMemoryRepositoryTest {
 	@Test
 	public void canSavePrescription() {
 		PrescriptionInMemoryRepository repository = new PrescriptionInMemoryRepository();
-		repository.savePrescription("101010", getPrescription());
+		repository.save(new Patient(101010), getPrescription());
 		assertFalse(repository.isEmpty());
 	}
 
