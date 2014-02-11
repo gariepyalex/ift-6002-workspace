@@ -9,17 +9,15 @@ public class DateFormatter {
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 	private SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
-	public Date createDate(String dateString) {
-		Date date = null;
+	public Date parse(String dateString) {
 		try {
-			date = formatter.parse(dateString);
+			return formatter.parse(dateString);
 		} catch (ParseException e) {
 			throw new DateException("Invalid date format");
 		}
-		return date;
 	}
 
-	public String getDateString(Date date) {
+	public String getString(Date date) {
 		return formatter.format(date.getTime());
 	}
 

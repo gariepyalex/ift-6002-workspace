@@ -17,7 +17,7 @@ public class Prescription {
 	public Prescription(String practitioner, String dateString, Integer renewals, String din, String drugName,
 			DrugRepository drugRepository) throws InvalidPrescriptionException {
 		try {
-			date = dateFormatter.createDate(dateString);
+			date = dateFormatter.parse(dateString);
 		} catch (DateException e) {
 			throw new InvalidPrescriptionException("Invalid date format");
 		}
@@ -52,7 +52,7 @@ public class Prescription {
 	}
 
 	public String getDate() {
-		return dateFormatter.getDateString(date);
+		return dateFormatter.getString(date);
 	}
 
 	public Integer getRenewals() {

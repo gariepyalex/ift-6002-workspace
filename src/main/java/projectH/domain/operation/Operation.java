@@ -33,7 +33,7 @@ public class Operation {
 		this.surgeon = surgeon;
 
 		try {
-			this.date = dateFactory.createDate(date);
+			this.date = dateFactory.parse(date);
 		} catch (DateException e) {
 			throw new InvalidOperationException(e.getMessage());
 		}
@@ -54,7 +54,7 @@ public class Operation {
 	}
 
 	public String getDate() {
-		return dateFormatter.getDateString(date);
+		return dateFormatter.getString(date);
 	}
 
 	public String getRoom() {

@@ -20,13 +20,13 @@ public class DateFormatterTest {
 
 	@Test(expected = DateException.class)
 	public void throwsDateExceptionIfDateIsInvalid() {
-		dateFormatter.createDate(INVALID_DATE);
+		dateFormatter.parse(INVALID_DATE);
 	}
 
 	@Test
-	public void methodGetDateStringShouldReturnTheStringDateWasCreatedWith() {
-		Date date = dateFormatter.createDate(VALID_DATE);
-		String dateStringReturned = dateFormatter.getDateString(date);
+	public void methodGetStringShouldReturnDateInStringWithRightFormat() {
+		Date date = dateFormatter.parse(VALID_DATE);
+		String dateStringReturned = dateFormatter.getString(date);
 		assertEquals(VALID_DATE, dateStringReturned);
 	}
 }
