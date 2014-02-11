@@ -8,10 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExceptionDTO {
 
-	public String code;
-	public String message;
+	public final String code;
+	public final String message;
 
 	protected ExceptionDTO() {
+		this.code = "";
+		this.message = "";
 	}
 
 	public ExceptionDTO(String code, String message) {
