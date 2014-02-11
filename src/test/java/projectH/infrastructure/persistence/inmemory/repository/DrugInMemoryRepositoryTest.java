@@ -20,8 +20,9 @@ import projectH.domain.drug.DrugRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class DrugInMemoryRepositoryTest {
 
-	private static final Din FIRST_DIN_IN_REPOSITORY = new Din("111111");
-	private static final Din SECOND_DIN_IN_REPOSITORY = new Din("222222");
+	private static final Din TYLENOL_DIN = new Din("111111");
+	private static final Din TYLANETOL_DIN = new Din("222222");
+	private static final Din UNEXISTING_DIN = new Din("abcde");
 
 	private static final String LESS_THAN_THREE_CHARACTERS_DRUG_NAME = "TY";
 
@@ -31,15 +32,15 @@ public class DrugInMemoryRepositoryTest {
 	private static final String TYLENOL_BRAND_NAME = "TYLENOL";
 	private static final String TYLENOL_DESCRIPTOR_NAME = "ACETAMINOPHENE";
 
+	private static Drug TYLENOL = new Drug(TYLENOL_DIN, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
+	private static Drug TYLANETOL = new Drug(TYLANETOL_DIN, "TYLANETOL PRIME", "IBUPROPHENE");
+
 	private static final String CAMEL_CASE_TYLENOL_BRAND_NAME = "TyLeNoL";
 
 	private static final String SIMPLE_SEARCH_PATTERN = "TYL";
 	private static final String SEARCH_PATTERN_WILDCARD = "TYL PRI";
 	private static final String PATTERN_WITH_MULTIPLE_WILDCARDS = "TY NE OL PRI ME";
 	private static final String INVALID_KEYWORD = "123" + SEARCH_PATTERN_WILDCARD + "123";
-
-	private static Drug TYLENOL = new Drug(FIRST_DIN_IN_REPOSITORY, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
-	private static Drug TYLANETOL = new Drug(SECOND_DIN_IN_REPOSITORY, "TYLANETOL PRIME", "IBUPROPHENE");
 
 	private DrugRepository drugRepository;
 
@@ -59,6 +60,18 @@ public class DrugInMemoryRepositoryTest {
 	@Before
 	public void setup() {
 		drugRepository = new MockedDrugInMemoryRepository();
+	}
+
+	@Test
+	public void givenRepositoryWhenGetByDinWithExistingDinShouldReturnCorrespondingDrug() {
+		Drug drugFound = drugRepository.get(TYLENOL_DIN);
+
+		assertEquals(TYLENOL, drugFound);
+	}
+
+	@Test(expected = NoSuchElementException.class)
+	public void givenRepositoryWhenGetByDinWithUnexistingDinShouldThrowException() {
+		drugRepository.get(UNEXISTING_DIN);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
