@@ -7,14 +7,13 @@ import org.junit.Test;
 
 public class InstrumentTest {
 
-	private static final String GIVEN_TYPECODE = "IT72353";
+	private static final String A_TYPECODE = "IT72353";
 	private static final String DIFFERENT_TYPECODE = "IT12345";
-	private static final String GIVEN_SERIAL_NUMBER = "23562543-3635345";
+	private static final String A_SERIAL_NUMBER = "23562543-3635345";
 	private static final String DIFFERENT_SERIAL_NUMBER = "231313131-1313131";
-	private static final String EMPTY_SERIAL_NUMBER = "";
 	private static final String NULL_SERIAL_NUMBER = null;
 	private static final String EMPTY_TYPECODE = "";
-	private static final InstrumentStatus GIVEN_STATUS = InstrumentStatus.UNUSED;
+	private static final InstrumentStatus A_STATUS = InstrumentStatus.UNUSED;
 	private static final InstrumentStatus DIFFERENT_STATUS = InstrumentStatus.SOILED;
 
 	private Instrument anonymousInstrument;
@@ -24,40 +23,25 @@ public class InstrumentTest {
 
 	@Before
 	public void createdInstruments() {
-		instrument = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS, GIVEN_SERIAL_NUMBER);
-		secondInstrument = new Instrument(DIFFERENT_TYPECODE, DIFFERENT_STATUS, GIVEN_SERIAL_NUMBER);
-		anonymousInstrument = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS);
+		instrument = new Instrument(A_TYPECODE, A_STATUS, A_SERIAL_NUMBER);
+		secondInstrument = new Instrument(DIFFERENT_TYPECODE, DIFFERENT_STATUS, A_SERIAL_NUMBER);
+		anonymousInstrument = new Instrument(A_TYPECODE, A_STATUS);
 		secondAnonymousInstrument = new Instrument(DIFFERENT_TYPECODE, DIFFERENT_STATUS);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void creatingaAnonymousInstrumentWithEmptyTypeCodeShouldThrowInvalidArgumentException() {
-		new Instrument(EMPTY_TYPECODE, GIVEN_STATUS);
+		new Instrument(EMPTY_TYPECODE, A_STATUS);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void creatingInstrumentWithEmptyTypeCodeShouldThrowInvalidArgumentException() {
-		new Instrument(EMPTY_TYPECODE, GIVEN_STATUS, GIVEN_SERIAL_NUMBER);
+		new Instrument(EMPTY_TYPECODE, A_STATUS, A_SERIAL_NUMBER);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void creatingInstrumentWithNullSerialNumberShouldThrowInvalidArgumentException() {
-		new Instrument(EMPTY_TYPECODE, GIVEN_STATUS, NULL_SERIAL_NUMBER);
-	}
-
-	@Test
-	public void createdAnonymousInstrumenTShouldHaveGivenStatus() {
-		assertEquals(GIVEN_STATUS, anonymousInstrument.getStatus());
-	}
-
-	@Test
-	public void createdAnonymousInstrumentShouldHaveGivenTypecode() {
-		assertEquals(GIVEN_TYPECODE, anonymousInstrument.getTypecode());
-	}
-
-	@Test
-	public void createdAnonymousInstrumentShouldHaveEmptySerialNumber() {
-		assertEquals(EMPTY_SERIAL_NUMBER, anonymousInstrument.getSerial());
+		new Instrument(EMPTY_TYPECODE, A_STATUS, NULL_SERIAL_NUMBER);
 	}
 
 	@Test
@@ -66,35 +50,8 @@ public class InstrumentTest {
 	}
 
 	@Test
-	public void modifyingStatusOfAnonymousInstrumentShouldReturnGivenDifferentStatus() {
-		anonymousInstrument.setStatus(DIFFERENT_STATUS);
-		assertEquals(DIFFERENT_STATUS, anonymousInstrument.getStatus());
-	}
-
-	@Test
-	public void createdInstrumentShouldHaveGivenStatus() {
-		assertEquals(GIVEN_STATUS, instrument.getStatus());
-	}
-
-	@Test
-	public void createdInstrumentShouldHaveGivenTypecode() {
-		assertEquals(GIVEN_TYPECODE, instrument.getTypecode());
-	}
-
-	@Test
-	public void createdInstrumentShouldHaveGivenSerialNumber() {
-		assertEquals(GIVEN_SERIAL_NUMBER, instrument.getSerial());
-	}
-
-	@Test
 	public void createdInstrumentShouldNotBeAnonymous() {
 		assertFalse(instrument.isAnonymous());
-	}
-
-	@Test
-	public void modifyingStatusOfInstrumentShouldReturnGivenNewStatus() {
-		instrument.setStatus(DIFFERENT_STATUS);
-		assertEquals(DIFFERENT_STATUS, instrument.getStatus());
 	}
 
 	@Test
@@ -104,19 +61,19 @@ public class InstrumentTest {
 
 	@Test
 	public void twoIdenticalInstrumentsShouldBeEqual() {
-		Instrument sameInstrument = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS, GIVEN_SERIAL_NUMBER);
+		Instrument sameInstrument = new Instrument(A_TYPECODE, A_STATUS, A_SERIAL_NUMBER);
 		assertEquals(sameInstrument, sameInstrument);
 	}
 
 	@Test
 	public void twoInstrumentsWithSameAttributsButDifferentSerialShouldNotBeEqual() {
-		Instrument instrumentWithDifferentSerial = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS, DIFFERENT_SERIAL_NUMBER);
+		Instrument instrumentWithDifferentSerial = new Instrument(A_TYPECODE, A_STATUS, DIFFERENT_SERIAL_NUMBER);
 		assertNotEquals(instrument, instrumentWithDifferentSerial);
 	}
 
 	@Test
 	public void twoIdenticalAnonymousInstrumentsShouldNotBeEqual() {
-		Instrument sameAnonymousInstrument = new Instrument(GIVEN_TYPECODE, GIVEN_STATUS);
+		Instrument sameAnonymousInstrument = new Instrument(A_TYPECODE, A_STATUS);
 		assertNotEquals(sameAnonymousInstrument, anonymousInstrument);
 	}
 

@@ -34,10 +34,10 @@ public class OperationTest {
 	private static final String INVALID_DATE = "";
 
 	@Mock
-	private Instrument INSTRUMENT_1;
+	private Instrument an_instrument;
 
 	@Mock
-	private Instrument INSTRUMENT_2;
+	private Instrument different_instrument;
 
 	@Before
 	public void givenAnOperation() {
@@ -53,12 +53,12 @@ public class OperationTest {
 	}
 
 	private void addOneInstrument() throws InvalidInstrumentException {
-		eyeOperation.addInstrument(INSTRUMENT_1);
+		eyeOperation.addInstrument(an_instrument);
 	}
 
 	private void addTwoInstrument() throws InvalidInstrumentException {
-		eyeOperation.addInstrument(INSTRUMENT_1);
-		eyeOperation.addInstrument(INSTRUMENT_2);
+		eyeOperation.addInstrument(an_instrument);
+		eyeOperation.addInstrument(different_instrument);
 	}
 
 	@Test
@@ -117,8 +117,8 @@ public class OperationTest {
 	@Test
 	public void operationShouldNotHaveMissingInstrument() {
 		Instrument missingInstrument = mock(Instrument.class);
-		boolean result = eyeOperation.hasInstrument(missingInstrument);
-		assertFalse(result);
+		boolean hasMissingInstrument = eyeOperation.hasInstrument(missingInstrument);
+		assertFalse(hasMissingInstrument);
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class OperationTest {
 	@Test
 	public void addingOneInstrumentToOperationShouldHaveGivenInstrument() throws InvalidInstrumentException {
 		addOneInstrument();
-		boolean hasInstrument = eyeOperation.hasInstrument(INSTRUMENT_1);
+		boolean hasInstrument = eyeOperation.hasInstrument(an_instrument);
 		assertTrue(hasInstrument);
 	}
 
@@ -143,8 +143,8 @@ public class OperationTest {
 	@Test
 	public void addingTwoInstrumentsToOperationShouldHaveGivenInstruments() throws InvalidInstrumentException {
 		addTwoInstrument();
-		boolean hasFirstInstrument = eyeOperation.hasInstrument(INSTRUMENT_1);
-		boolean hasSecondInstrument = eyeOperation.hasInstrument(INSTRUMENT_2);
+		boolean hasFirstInstrument = eyeOperation.hasInstrument(an_instrument);
+		boolean hasSecondInstrument = eyeOperation.hasInstrument(different_instrument);
 
 		assertTrue(hasFirstInstrument);
 		assertTrue(hasSecondInstrument);
@@ -154,56 +154,56 @@ public class OperationTest {
 	public void addingInstrumentWithExistingSerialShouldThrowInvalidInstrumentException()
 			throws InvalidInstrumentException {
 
-		eyeOperation.addInstrument(INSTRUMENT_1);
-		eyeOperation.addInstrument(INSTRUMENT_1);
+		eyeOperation.addInstrument(an_instrument);
+		eyeOperation.addInstrument(an_instrument);
 	}
 
 	@Test(expected = InvalidInstrumentException.class)
 	public void addingAnonymousInstrumentToEyeOperationShouldThrowInvalidInstrumentException()
 			throws InvalidInstrumentException {
-		when(INSTRUMENT_1.isAnonymous()).thenReturn(true);
-		eyeOperation.addInstrument(INSTRUMENT_1);
+		when(an_instrument.isAnonymous()).thenReturn(true);
+		eyeOperation.addInstrument(an_instrument);
 	}
 
 	@Test(expected = InvalidInstrumentException.class)
 	public void addingAnonymousInstrumentToHeartOperationShouldThrowInvalidInstrumentException()
 			throws InvalidInstrumentException {
-		when(INSTRUMENT_1.isAnonymous()).thenReturn(true);
-		heartOperation.addInstrument(INSTRUMENT_1);
+		when(an_instrument.isAnonymous()).thenReturn(true);
+		heartOperation.addInstrument(an_instrument);
 	}
 
 	@Test(expected = InvalidInstrumentException.class)
 	public void addingAnonymousInstrumentToMarrowOperationShouldThrowInvalidInstrumentException()
 			throws InvalidInstrumentException {
-		when(INSTRUMENT_1.isAnonymous()).thenReturn(true);
-		marrowOperation.addInstrument(INSTRUMENT_1);
+		when(an_instrument.isAnonymous()).thenReturn(true);
+		marrowOperation.addInstrument(an_instrument);
 	}
 
 	@Test
 	public void addingInstrumentToEyeOperationShouldNotThrowInvalidInstrumentException()
 			throws InvalidInstrumentException {
-		when(INSTRUMENT_1.isAnonymous()).thenReturn(false);
-		eyeOperation.addInstrument(INSTRUMENT_1);
+		when(an_instrument.isAnonymous()).thenReturn(false);
+		eyeOperation.addInstrument(an_instrument);
 	}
 
 	@Test
 	public void addingInstrumentToHeartOperationShouldNotThrowInvalidInstrumentException()
 			throws InvalidInstrumentException {
-		when(INSTRUMENT_1.isAnonymous()).thenReturn(false);
-		heartOperation.addInstrument(INSTRUMENT_1);
+		when(an_instrument.isAnonymous()).thenReturn(false);
+		heartOperation.addInstrument(an_instrument);
 	}
 
 	@Test
 	public void addingInstrumentToMarrowOperationShouldNotThrowInvalidInstrumentException()
 			throws InvalidInstrumentException {
-		when(INSTRUMENT_1.isAnonymous()).thenReturn(false);
-		marrowOperation.addInstrument(INSTRUMENT_1);
+		when(an_instrument.isAnonymous()).thenReturn(false);
+		marrowOperation.addInstrument(an_instrument);
 	}
 
 	@Test
 	public void addingAnonymousInstrumentToOncologyOperationShouldNotThrowInvalidInstrumentException()
 			throws InvalidInstrumentException {
-		when(INSTRUMENT_1.isAnonymous()).thenReturn(true);
-		oncologyOperation.addInstrument(INSTRUMENT_1);
+		when(an_instrument.isAnonymous()).thenReturn(true);
+		oncologyOperation.addInstrument(an_instrument);
 	}
 }
