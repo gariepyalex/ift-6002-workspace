@@ -44,13 +44,13 @@ public class PrescriptionDTOAssemblerTest {
 	private DateFormatter dateFormatter;
 
 	@InjectMocks
-	private PrescriptionDTOAssembler assembler;
+	private PrescriptionDTOAssembler prescriptionAssembler;
 
 	@Test
 	public void givenPrescriptionWhenConvertToDTOShouldReturnGivenPrescriptionDTO() {
 		willReturn(DATE_AS_STRING).given(dateFormatter).dateToString(DATE);
 
-		PrescriptionDTO dtoBuilt = assembler.toDTO(PRESCRIPTION);
+		PrescriptionDTO dtoBuilt = prescriptionAssembler.toDTO(PRESCRIPTION);
 
 		assertPrescriptionDTOEquals(PRESCRIPTION_DTO, dtoBuilt);
 	}
@@ -60,7 +60,7 @@ public class PrescriptionDTOAssemblerTest {
 		willReturn(DRUG).given(drugRepository).get(DIN);
 		willReturn(DATE).given(dateFormatter).parse(DATE_AS_STRING);
 
-		Prescription prescriptionBuilt = assembler.fromDTO(PRESCRIPTION_DTO);
+		Prescription prescriptionBuilt = prescriptionAssembler.fromDTO(PRESCRIPTION_DTO);
 
 		assertEquals(PRESCRIPTION, prescriptionBuilt);
 	}
