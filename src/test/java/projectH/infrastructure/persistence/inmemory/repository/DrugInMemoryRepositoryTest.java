@@ -13,15 +13,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import projectH.domain.drug.Din;
 import projectH.domain.drug.Drug;
 import projectH.domain.drug.DrugRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DrugInMemoryRepositoryTest {
 
-	private static final String FIRST_DIN_IN_REPOSITORY = "111111";
-	private static final String SECOND_DIN_IN_REPOSITORY = "222222";
-	private static final String DIN_NOT_IN_REPOSITORY = "00000000";
+	private static final Din FIRST_DIN_IN_REPOSITORY = new Din("111111");
+	private static final Din SECOND_DIN_IN_REPOSITORY = new Din("222222");
+	private static final Din DIN_NOT_IN_REPOSITORY = new Din("00000000");
 
 	private static final String LESS_THAN_THREE_CHARACTERS_DRUG_NAME = "TY";
 
@@ -164,11 +165,11 @@ public class DrugInMemoryRepositoryTest {
 
 	@Test
 	public void whenDinIsInRepositoryIsValidDinShouldReturnTrue() {
-		assertTrue(drugRepository.isAValidDin(FIRST_DIN_IN_REPOSITORY));
+		assertTrue(drugRepository.isDinValid(FIRST_DIN_IN_REPOSITORY));
 	}
 
 	@Test
 	public void whenDinIsNotInRepositoryIsValidDinShouldReturnFalse() {
-		assertFalse(drugRepository.isAValidDin(DIN_NOT_IN_REPOSITORY));
+		assertFalse(drugRepository.isDinValid(DIN_NOT_IN_REPOSITORY));
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import projectH.domain.date.DateException;
 import projectH.domain.date.DateFormatter;
+import projectH.domain.drug.Din;
 import projectH.domain.drug.Drug;
 import projectH.domain.drug.DrugRepository;
 
@@ -14,7 +15,7 @@ public class Prescription {
 	private Drug drug;
 	private DateFormatter dateFormatter = new DateFormatter();
 
-	public Prescription(String practitioner, String dateString, Integer renewals, String din, String drugName,
+	public Prescription(String practitioner, String dateString, Integer renewals, Din din, String drugName,
 			DrugRepository drugRepository) throws InvalidPrescriptionException {
 		try {
 			date = dateFormatter.parse(dateString);
@@ -25,21 +26,24 @@ public class Prescription {
 		initializePrescription(practitioner, date, renewals, din, drugName, drugRepository);
 	}
 
-	public Prescription(String practitioner, Date date, Integer renewals, String din, String drugName,
+	public Prescription(String practitioner, Date date, Integer renewals, Din din, String drugName,
 			DrugRepository drugRepository) throws InvalidPrescriptionException {
 		initializePrescription(practitioner, date, renewals, din, drugName, drugRepository);
 	}
 
-	private void initializePrescription(String practitioner, Date date, Integer renewals, String din, String drugName,
+	private void initializePrescription(String practitioner, Date date, Integer renewals, Din din, String drugName,
 			DrugRepository drugRepository) throws InvalidPrescriptionException {
-		if (renewals == null || renewals < 0)
-			throw new InvalidPrescriptionException("The number of renewals must be greater than or equals to zero");
-		if (din.trim().isEmpty() && drugName.trim().isEmpty())
-			throw new InvalidPrescriptionException("A din or drug name must be set");
-		if (!din.isEmpty() && !drugName.isEmpty())
-			throw new InvalidPrescriptionException("You cannot set din and drug name at the same time");
-		if (!din.trim().isEmpty() && !drugRepository.isAValidDin(din))
-			throw new InvalidPrescriptionException("The entered dim is invalid");
+		// if (renewals == null || renewals < 0)
+		// throw new
+		// InvalidPrescriptionException("The number of renewals must be greater than or equals to zero");
+		// if (din.trim().isEmpty() && drugName.trim().isEmpty())
+		// throw new
+		// InvalidPrescriptionException("A din or drug name must be set");
+		// if (!din.isEmpty() && !drugName.isEmpty())
+		// throw new
+		// InvalidPrescriptionException("You cannot set din and drug name at the same time");
+		// if (!din.trim().isEmpty() && !drugRepository.isAValidDin(din))
+		// throw new InvalidPrescriptionException("The entered dim is invalid");
 
 		this.practitioner = practitioner;
 		this.date = date;
@@ -59,7 +63,7 @@ public class Prescription {
 		return renewals;
 	}
 
-	public String getDin() {
+	public Din getDin() {
 		return drug.getDin();
 	}
 

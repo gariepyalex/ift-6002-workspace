@@ -6,17 +6,17 @@ import java.util.regex.Pattern;
 
 public class Drug {
 
-	private final String din;
+	private final Din din;
 	private final String brandName;
 	private final String descriptor;
 
-	public Drug(String din, String brand, String descriptor) {
+	public Drug(Din din, String brand, String descriptor) {
 		this.din = din;
 		this.brandName = brand;
 		this.descriptor = descriptor;
 	}
 
-	public String getDin() {
+	public Din getDin() {
 		return din;
 	}
 
@@ -33,6 +33,10 @@ public class Drug {
 		Matcher matcherDescriptor = compiledPattern.matcher(getDescriptor());
 
 		return (matcherBrandName.find() || matcherDescriptor.find());
+	}
+
+	public boolean hasSameDin(Din otherDin) {
+		return getDin().equals(otherDin);
 	}
 
 	@Override

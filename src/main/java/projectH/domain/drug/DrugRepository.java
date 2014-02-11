@@ -5,5 +5,6 @@ import java.util.Collection;
 public interface DrugRepository {
 
 	Collection<Drug> findByBrandNameOrDescriptor(String keyword);
-	boolean isAValidDin(String din);
+
+	boolean isDinValid(Din din);
 }

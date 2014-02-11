@@ -21,7 +21,7 @@ public class DrugDTO {
 	}
 
 	public DrugDTO(Drug drug) {
-		this.din = drug.getDin();
+		this.din = drug.getDin().toString();
 		this.brandName = drug.getBrandName();
 		this.description = drug.getDescriptor();
 	}

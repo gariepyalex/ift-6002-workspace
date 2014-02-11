@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
+import projectH.domain.drug.Din;
 import projectH.domain.drug.Drug;
 import projectH.domain.drug.DrugRepository;
 import projectH.infrastructure.persistence.inmemory.ListingRepository;
@@ -44,9 +45,9 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 	}
 
 	@Override
-	public boolean isAValidDin(String din) {
+	public boolean isDinValid(Din din) {
 		for (Drug drug : getCollection()) {
-			if (drug.getDin().equals(din))
+			if (drug.hasSameDin(din))
 				return true;
 		}
 
@@ -79,7 +80,7 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 		String brandName = line[5];
 		String descriptor = line[6];
 
-		return new Drug(din, brandName, descriptor);
+		return new Drug(new Din(din), brandName, descriptor);
 	}
 
 	private List<String[]> readAllLinesFromDataFile() {
