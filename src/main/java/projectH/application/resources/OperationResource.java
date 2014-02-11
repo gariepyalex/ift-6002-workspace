@@ -6,29 +6,31 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import projectH.application.responses.ExceptionDTO;
 import projectH.application.responses.OperationDTO;
 import projectH.domain.operation.InvalidOperationException;
-import projectH.domain.operation.Operation;
 
 @Produces("application/json")
 @Consumes("application/json")
 @Path("/operation/")
 public class OperationResource {
 
-	private static final int BAD_REQUEST = 400;
 	private static final String MISSING_INFORMATION = "INT001";
 
 	@POST
 	public Response createOperation(@Context UriInfo uri, OperationDTO dto) {
-
 		try {
-			Operation operation = dto.toOperation();
+			// Operation operation = dto.toOperation();
+			// TODO I assume there are some missing calls loll
+
 			return Response.created(uri.getRequestUri()).build();
 		} catch (InvalidOperationException e) {
-			return Response.status(BAD_REQUEST).entity(new ExceptionDTO(MISSING_INFORMATION, e.getMessage())).build();
+			ExceptionDTO exception = new ExceptionDTO(MISSING_INFORMATION, e.getMessage());
+
+			return Response.status(Status.BAD_REQUEST).entity(exception).build();
 		}
 	}
 }
