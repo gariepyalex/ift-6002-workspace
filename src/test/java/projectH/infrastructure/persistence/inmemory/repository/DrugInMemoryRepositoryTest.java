@@ -1,10 +1,10 @@
 package projectH.infrastructure.persistence.inmemory.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -13,8 +13,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import projectH.domain.drug.CSVDrugDataAdapter;
 import projectH.domain.drug.Din;
 import projectH.domain.drug.Drug;
+import projectH.domain.drug.DrugDataAdapter;
 import projectH.domain.drug.DrugRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,9 +43,15 @@ public class DrugInMemoryRepositoryTest {
 	private static Drug TYLENOL = new Drug(FIRST_DIN_IN_REPOSITORY, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
 	private static Drug TYLANETOL = new Drug(SECOND_DIN_IN_REPOSITORY, "TYLANETOL PRIME", "IBUPROPHENE");
 
+	private static final Drug[] DRUGS_ARRAY = { TYLENOL, TYLANETOL };
+
 	private DrugRepository drugRepository;
 
 	final private class MockedDrugInMemoryRepository extends DrugInMemoryRepository {
+
+		public MockedDrugInMemoryRepository(DrugDataAdapter adapter) {
+			super(adapter);
+		}
 
 		@Override
 		protected Collection<Drug> loadData() {
@@ -58,7 +66,11 @@ public class DrugInMemoryRepositoryTest {
 
 	@Before
 	public void setup() {
-		drugRepository = new MockedDrugInMemoryRepository();
+		DrugDataAdapter mockedDrugDataAdapter = mock(CSVDrugDataAdapter.class);
+		Collection<Drug> drugsCollection = Arrays.asList(DRUGS_ARRAY);
+		when(mockedDrugDataAdapter.getDrugsListFromFile()).thenReturn(drugsCollection);
+
+		drugRepository = new MockedDrugInMemoryRepository(mockedDrugDataAdapter);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

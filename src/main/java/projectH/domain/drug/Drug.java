@@ -65,4 +65,9 @@ public class Drug {
 		return String.valueOf(din);
 	}
 
+	public boolean fitPattern(Pattern p) {
+		return false;
+
+	}
+
 }

@@ -1,25 +1,35 @@
 package projectH.infrastructure.persistence.inmemory.repository;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
+import projectH.domain.drug.CSVDrugDataAdapter;
 import projectH.domain.drug.Din;
 import projectH.domain.drug.Drug;
+import projectH.domain.drug.DrugDataAdapter;
 import projectH.domain.drug.DrugRepository;
 import projectH.infrastructure.persistence.inmemory.ListingRepository;
-import au.com.bytecode.opencsv.CSVReader;
+import projectH.infrastructure.persistence.inmemory.Repository;
 
 public class DrugInMemoryRepository extends ListingRepository<Drug> implements DrugRepository {
 
-	private static final String DATA_FILE = "/drug.txt";
 	private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
+	private DrugDataAdapter adapter;
+
+	public DrugInMemoryRepository(DrugDataAdapter adapter) {
+		this.adapter = adapter;
+
+	}
+
+	@Override
+	protected Collection<Drug> loadData() {
+		Collection<Drug> drugs;
+		drugs = adapter.getDrugsListFromFile();
+
+		return drugs;
+	}
 
 	@Override
 	public Drug get(Din din) {
@@ -60,44 +70,6 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 		Object[] keys = { element.getDin() };
 
 		return keys;
-	}
-
-	@Override
-	protected Collection<Drug> loadData() {
-		Collection<Drug> drugs = new ArrayList<>();
-		List<String[]> allLines = readAllLinesFromDataFile();
-
-		for (String[] line : allLines) {
-			Drug drugBuilt = hydrateDrugFromLine(line);
-
-			drugs.add(drugBuilt);
-		}
-
-		return drugs;
-	}
-
-	private Drug hydrateDrugFromLine(String[] line) {
-		String din = line[4];
-		String brandName = line[5];
-		String descriptor = line[6];
-
-		return new Drug(new Din(din), brandName, descriptor);
-	}
-
-	private List<String[]> readAllLinesFromDataFile() {
-		CSVReader reader = openDataFile();
-
-		try {
-			return reader.readAll();
-		} catch (IOException e) {
-			return Collections.emptyList();
-		}
-	}
-
-	private CSVReader openDataFile() {
-		InputStream drugResource = this.getClass().getResourceAsStream(DATA_FILE);
-
-		return new CSVReader(new InputStreamReader(drugResource));
 	}
 
 }
