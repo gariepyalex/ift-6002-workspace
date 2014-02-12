@@ -39,7 +39,7 @@ public class Main {
 
         jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass",
                 "com.sun.jersey.api.core.PackagesResourceConfig");
-        jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.packages", "projectH");
+        jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.packages", "ca.ulaval.ift6002.m2");
 
         return jerseyServletHolder;
     }
