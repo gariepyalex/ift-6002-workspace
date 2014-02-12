@@ -4,7 +4,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import projectH.domain.operation.Operation;
 import projectH.domain.operation.OperationStatus;
 import projectH.domain.operation.OperationType;
 
@@ -22,9 +21,4 @@ public class OperationDTO {
     protected OperationDTO() {
     }
 
-    public Operation toOperation() {
-
-        return new Operation(description, surgeon, date, room, type, status, patientNumber);
-
-    }
 }

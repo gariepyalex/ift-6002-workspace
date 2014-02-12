@@ -3,6 +3,8 @@ package projectH.domain.operation;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +24,7 @@ public class OperationTest {
 
     private static final String EXPECTED_DESCRIPTION = "Description Test";
     private static final int EXPECTED_SURGEON = 101224;
-    private static final String EXPECTED_DATE = "2002-12-12T12:01:00";
+    private static final Date EXPECTED_DATE = new Date(2012, 12, 10, 9, 8);
     private static final String EXPECTED_ROOM = "salleB";
     private static final OperationType EXPECTED_TYPE = OperationType.EYE;
     private static final OperationType MARROW_TYPE = OperationType.MARROW;
@@ -62,51 +64,10 @@ public class OperationTest {
     }
 
     @Test
-    public void canHaveADescription() {
-        assertEquals(EXPECTED_DESCRIPTION, eyeOperation.getDescription());
-    }
-
-    @Test
-    public void canHaveASurgeon() {
-        assertEquals(EXPECTED_SURGEON, eyeOperation.getSurgeon());
-    }
-
-    @Test
-    public void canHaveADate() {
-        assertEquals(EXPECTED_DATE, eyeOperation.getDate());
-    }
-
-    @Test
-    public void canHaveAType() {
-        assertEquals(EXPECTED_TYPE, eyeOperation.getType());
-    }
-
-    @Test
-    public void canHaveAStatus() {
-        assertEquals(EXPECTED_STATUS, eyeOperation.getStatus());
-    }
-
-    @Test
-    public void canHaveARoom() {
-        assertEquals(EXPECTED_ROOM, eyeOperation.getRoom());
-    }
-
-    @Test
-    public void canHaveAPatientNumber() {
-        assertEquals(EXPECTED_PATIENT, eyeOperation.getPatientNumber());
-    }
-
-    @Test
     public void ifNotGivenStatusIsSetToPlanned() {
         eyeOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, EXPECTED_DATE, EXPECTED_ROOM,
                 EXPECTED_TYPE, EXPECTED_PATIENT);
         assertEquals(DEFAULT_STATUS, eyeOperation.getStatus());
-    }
-
-    @Test(expected = InvalidOperationException.class)
-    public void shouldThrowExceptionIfDateIsInvalid() {
-        eyeOperation = new Operation(EXPECTED_DESCRIPTION, EXPECTED_SURGEON, INVALID_DATE, EXPECTED_ROOM,
-                EXPECTED_TYPE, EXPECTED_PATIENT);
     }
 
     @Test
