@@ -9,10 +9,10 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.DrugI
 
 public class InMemoryRepositoryFactoryTest {
 
-	@Test
-	public void givenFactoryWhenCreateDrugRepositoryShouldReturnInMemoryClass() {
-		RepositoryFactory repositoryFactory = new InMemoryRepositoryFactory();
-		DrugRepository drugRepository = repositoryFactory.createDrugRepository();
-		assertEquals(drugRepository.getClass(), DrugInMemoryRepository.class);
-	}
+    @Test
+    public void givenFactoryWhenCreateDrugRepositoryShouldReturnInMemoryClass() {
+        RepositoryFactory repositoryFactory = new InMemoryRepositoryFactory();
+        DrugRepository drugRepository = repositoryFactory.createDrugRepository();
+        assertEquals(drugRepository.getClass(), DrugInMemoryRepository.class);
+    }
 }

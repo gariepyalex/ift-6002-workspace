@@ -14,25 +14,25 @@ import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 @RunWith(MockitoJUnitRunner.class)
 public class InstrumentInMemoryRepositoryTest {
 
-	private static final String INSTRUMENT_NUMBER = "321654";
-	private InstrumentInMemoryRepository instrumentRepository;
+    private static final String INSTRUMENT_NUMBER = "321654";
+    private InstrumentInMemoryRepository instrumentRepository;
 
-	@Mock
-	private Instrument instrument;
+    @Mock
+    private Instrument instrument;
 
-	@Before
-	public void setup() {
-		instrumentRepository = new InstrumentInMemoryRepository();
-	}
+    @Before
+    public void setup() {
+        instrumentRepository = new InstrumentInMemoryRepository();
+    }
 
-	@Test
-	public void canCreateEmptyRepository() {
-		assertTrue(instrumentRepository.isEmpty());
-	}
+    @Test
+    public void canCreateEmptyRepository() {
+        assertTrue(instrumentRepository.isEmpty());
+    }
 
-	@Test
-	public void canSaveInstrument() {
-		instrumentRepository.save(INSTRUMENT_NUMBER, instrument);
-		assertFalse(instrumentRepository.isEmpty());
-	}
+    @Test
+    public void canSaveInstrument() {
+        instrumentRepository.save(INSTRUMENT_NUMBER, instrument);
+        assertFalse(instrumentRepository.isEmpty());
+    }
 }

@@ -9,10 +9,10 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.DrugI
 
 public class RepositoryFactoryTest {
 
-	@Test
-	public void givenPersistenceTypeWhenGetDrugRepositoryShouldReturnSameRepositoryType() {
-		// TODO review this test
-		DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
-		assertEquals(DrugInMemoryRepository.class, drugRepository.getClass());
-	}
+    @Test
+    public void givenPersistenceTypeWhenGetDrugRepositoryShouldReturnSameRepositoryType() {
+        // TODO review this test
+        DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
+        assertEquals(DrugInMemoryRepository.class, drugRepository.getClass());
+    }
 }
