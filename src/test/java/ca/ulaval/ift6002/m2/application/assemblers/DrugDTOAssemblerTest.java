@@ -8,54 +8,53 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.ift6002.m2.application.assemblers.DrugDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.DrugDTO;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
 public class DrugDTOAssemblerTest {
 
-    private final static Din DIN = new Din("A random din");
-    private final static String BRAND_NAME = "A random brand name";
-    private final static String DESCRIPTOR = "A random descriptor";
+	private static final Din DIN = new Din("A random din");
+	private static final String BRAND_NAME = "A random brand name";
+	private static final String DESCRIPTOR = "A random descriptor";
 
-    private final static Drug DRUG = new Drug(DIN, BRAND_NAME, DESCRIPTOR);
-    private final static DrugDTO DRUG_DTO = new DrugDTO(DIN.toString(), BRAND_NAME, DESCRIPTOR);
+	private static final Drug DRUG = new Drug(DIN, BRAND_NAME, DESCRIPTOR);
+	private static final DrugDTO DRUG_DTO = new DrugDTO(DIN.toString(), BRAND_NAME, DESCRIPTOR);
 
-    private final static Collection<Drug> DRUGS = Arrays.asList(DRUG);
-    private final static DrugDTO[] DRUG_DTOS = { DRUG_DTO };
+	private static final Collection<Drug> DRUGS = Arrays.asList(DRUG);
+	private static final DrugDTO[] DRUG_DTOS = { DRUG_DTO };
 
-    private DrugDTOAssembler drugAssembler;
+	private DrugDTOAssembler drugAssembler;
 
-    @Before
-    public void setup() {
-        drugAssembler = new DrugDTOAssembler();
-    }
+	@Before
+	public void setup() {
+		drugAssembler = new DrugDTOAssembler();
+	}
 
-    @Test
-    public void givenDrugWhenConvertToDTOShouldReturnGivenDrugDTO() {
-        DrugDTO dtoBuilt = drugAssembler.toDTO(DRUG);
+	@Test
+	public void givenDrugWhenConvertToDTOShouldReturnGivenDrugDTO() {
+		DrugDTO dtoBuilt = drugAssembler.toDTO(DRUG);
 
-        assertDrugDTOEquals(DRUG_DTO, dtoBuilt);
-    }
+		assertDrugDTOEquals(DRUG_DTO, dtoBuilt);
+	}
 
-    @Test
-    public void givenDrugsWhenConvertToDTOsShouldReturnGivenDrugDTOs() {
-        DrugDTO[] dtosBuilt = drugAssembler.toDTOs(DRUGS);
+	@Test
+	public void givenDrugsWhenConvertToDTOsShouldReturnGivenDrugDTOs() {
+		DrugDTO[] dtosBuilt = drugAssembler.toDTOs(DRUGS);
 
-        assertDrugDTOsEquals(dtosBuilt, DRUG_DTOS);
-    }
+		assertDrugDTOsEquals(dtosBuilt, DRUG_DTOS);
+	}
 
-    private void assertDrugDTOsEquals(DrugDTO[] expected, DrugDTO[] actual) {
-        for (int i = 0; i < expected.length; ++i) {
-            assertDrugDTOEquals(expected[i], actual[i]);
-        }
-    }
+	private void assertDrugDTOsEquals(DrugDTO[] expected, DrugDTO[] actual) {
+		for (int i = 0; i < expected.length; ++i) {
+			assertDrugDTOEquals(expected[i], actual[i]);
+		}
+	}
 
-    private void assertDrugDTOEquals(DrugDTO expected, DrugDTO actual) {
-        assertEquals(expected.din, actual.din);
-        assertEquals(expected.brandName, actual.brandName);
-        assertEquals(expected.description, actual.description);
-    }
+	private void assertDrugDTOEquals(DrugDTO expected, DrugDTO actual) {
+		assertEquals(expected.din, actual.din);
+		assertEquals(expected.brandName, actual.brandName);
+		assertEquals(expected.description, actual.description);
+	}
 
 }
