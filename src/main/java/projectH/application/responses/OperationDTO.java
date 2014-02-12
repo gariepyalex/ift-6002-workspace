@@ -11,20 +11,20 @@ import projectH.domain.operation.OperationType;
 @XmlRootElement(name = "operation")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OperationDTO {
-	private String description;
-	private Integer surgeon;
-	private String date;
-	private String room;
-	private OperationType type;
-	private OperationStatus status;
-	private Integer patientNumber;
+    public String description;
+    public Integer surgeon;
+    public String date;
+    public String room;
+    public OperationType type;
+    public OperationStatus status;
+    public Integer patientNumber;
 
-	protected OperationDTO() {
-	}
+    protected OperationDTO() {
+    }
 
-	public Operation toOperation() {
+    public Operation toOperation() {
 
-		return new Operation(description, surgeon, date, room, type, status, patientNumber);
+        return new Operation(description, surgeon, date, room, type, status, patientNumber);
 
-	}
+    }
 }

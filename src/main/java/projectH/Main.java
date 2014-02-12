@@ -8,40 +8,40 @@ import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 public class Main {
 
-	private static final int HTTP_PORT = 8080; // TODO: Should be in .properties
+    private static final int HTTP_PORT = 8080; // TODO: Should be in .properties
 
-	public static void main(String[] args) {
-		System.out.println("Applicated started!");
+    public static void main(String[] args) {
+        System.out.println("Applicated started!");
 
-		Server server = setupServer();
+        Server server = setupServer();
 
-		try {
-			server.start();
-			server.join();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        try {
+            server.start();
+            server.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	private static Server setupServer() {
-		Server server = new Server(HTTP_PORT);
-		ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
+    private static Server setupServer() {
+        Server server = new Server(HTTP_PORT);
+        ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
 
-		ServletHolder jerseyServlet = setupJerseyServlet();
-		servletContextHandler.addServlet(jerseyServlet, "/*");
+        ServletHolder jerseyServlet = setupJerseyServlet();
+        servletContextHandler.addServlet(jerseyServlet, "/*");
 
-		return server;
-	}
+        return server;
+    }
 
-	private static ServletHolder setupJerseyServlet() {
-		ServletHolder jerseyServletHolder = new ServletHolder(ServletContainer.class);
+    private static ServletHolder setupJerseyServlet() {
+        ServletHolder jerseyServletHolder = new ServletHolder(ServletContainer.class);
 
-		jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass",
-				"com.sun.jersey.api.core.PackagesResourceConfig");
-		jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.packages", "projectH");
+        jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass",
+                "com.sun.jersey.api.core.PackagesResourceConfig");
+        jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.packages", "projectH");
 
-		return jerseyServletHolder;
-	}
+        return jerseyServletHolder;
+    }
 
 }
