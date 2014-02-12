@@ -4,8 +4,8 @@ import java.util.Collection;
 
 public interface DrugRepository {
 
-	Drug get(Din din);
+    Drug get(Din din);
 
-	Collection<Drug> findByBrandNameOrDescriptor(String keyword);
+    Collection<Drug> findByBrandNameOrDescriptor(String keyword);
 
 }

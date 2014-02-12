@@ -11,24 +11,24 @@ import projectH.domain.instrument.InstrumentStatus;
 
 public class InstrumentDTOAssemblerTest {
 
-	private final static String SERIAL = "serial";
-	private final static String TYPECODE = "typecode";
-	private final static InstrumentStatus STATUS = InstrumentStatus.SOILED;
+    private final static String SERIAL = "serial";
+    private final static String TYPECODE = "typecode";
+    private final static InstrumentStatus STATUS = InstrumentStatus.SOILED;
 
-	private final static Instrument INSTRUMENT = new Instrument(TYPECODE, STATUS, SERIAL);
-	private final static InstrumentDTO INSTRUMENT_DTO = new InstrumentDTO(TYPECODE, STATUS.toString(), SERIAL);
+    private final static Instrument INSTRUMENT = new Instrument(TYPECODE, STATUS, SERIAL);
+    private final static InstrumentDTO INSTRUMENT_DTO = new InstrumentDTO(TYPECODE, STATUS.toString(), SERIAL);
 
-	private InstrumentDTOAssembler instrumentAssembler;
+    private InstrumentDTOAssembler instrumentAssembler;
 
-	@Before
-	public void setup() {
-		instrumentAssembler = new InstrumentDTOAssembler();
-	}
+    @Before
+    public void setup() {
+        instrumentAssembler = new InstrumentDTOAssembler();
+    }
 
-	@Test
-	public void givenInstrumentDTOWhenConvertToInstrumentShouldReturnGivenInstrument() {
-		Instrument instrumentBuilt = instrumentAssembler.fromDTO(INSTRUMENT_DTO);
+    @Test
+    public void givenInstrumentDTOWhenConvertToInstrumentShouldReturnGivenInstrument() {
+        Instrument instrumentBuilt = instrumentAssembler.fromDTO(INSTRUMENT_DTO);
 
-		assertEquals(INSTRUMENT, instrumentBuilt);
-	}
+        assertEquals(INSTRUMENT, instrumentBuilt);
+    }
 }

@@ -9,10 +9,10 @@ import projectH.infrastructure.persistence.inmemory.repository.DrugInMemoryRepos
 
 public class InMemoryRepositoryFactoryTest {
 
-	@Test
-	public void givenFactoryWhenCreateDrugRepositoryShouldReturnInMemoryClass() {
-		RepositoryFactory repositoryFactory = new InMemoryRepositoryFactory();
-		DrugRepository drugRepository = repositoryFactory.createDrugRepository();
-		assertEquals(drugRepository.getClass(), DrugInMemoryRepository.class);
-	}
+    @Test
+    public void givenFactoryWhenCreateDrugRepositoryShouldReturnInMemoryClass() {
+        RepositoryFactory repositoryFactory = new InMemoryRepositoryFactory();
+        DrugRepository drugRepository = repositoryFactory.createDrugRepository();
+        assertEquals(drugRepository.getClass(), DrugInMemoryRepository.class);
+    }
 }

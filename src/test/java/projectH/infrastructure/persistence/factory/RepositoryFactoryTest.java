@@ -9,10 +9,10 @@ import projectH.infrastructure.persistence.inmemory.repository.DrugInMemoryRepos
 
 public class RepositoryFactoryTest {
 
-	@Test
-	public void givenPersistenceTypeWhenGetDrugRepositoryShouldReturnSameRepositoryType() {
-		// TODO review this test
-		DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
-		assertEquals(DrugInMemoryRepository.class, drugRepository.getClass());
-	}
+    @Test
+    public void givenPersistenceTypeWhenGetDrugRepositoryShouldReturnSameRepositoryType() {
+        // TODO review this test
+        DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
+        assertEquals(DrugInMemoryRepository.class, drugRepository.getClass());
+    }
 }

@@ -21,23 +21,23 @@ import projectH.domain.prescription.InvalidPrescriptionException;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PrescriptionResource {
 
-	private static final String ERROR_CODE = "PRES001";
+    private static final String ERROR_CODE = "PRES001";
 
-	private final PrescriptionService prescriptionService = new PrescriptionService();
+    private final PrescriptionService prescriptionService = new PrescriptionService();
 
-	@POST
-	@Path("{patientId}/prescriptions")
-	public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
-			PrescriptionDTO dto) {
-		try {
-			prescriptionService.savePrescription(patientId, dto);
+    @POST
+    @Path("{patientId}/prescriptions")
+    public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
+            PrescriptionDTO dto) {
+        try {
+            prescriptionService.savePrescription(patientId, dto);
 
-			return Response.created(uri.getRequestUri()).build();
-		} catch (InvalidPrescriptionException e) {
-			ExceptionDTO exception = new ExceptionDTO(ERROR_CODE, e.getMessage());
+            return Response.created(uri.getRequestUri()).build();
+        } catch (InvalidPrescriptionException e) {
+            ExceptionDTO exception = new ExceptionDTO(ERROR_CODE, e.getMessage());
 
-			return Response.status(Status.BAD_REQUEST).entity(exception).build();
-		}
-	}
+            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+        }
+    }
 
 }

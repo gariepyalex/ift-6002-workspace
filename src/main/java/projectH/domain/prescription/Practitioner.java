@@ -4,34 +4,34 @@ import java.util.Objects;
 
 public class Practitioner {
 
-	private final String name;
+    private final String name;
 
-	public Practitioner(String name) {
-		this.name = name;
-	}
+    public Practitioner(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(name);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-		if (!(obj instanceof Practitioner)) {
-			return false;
-		}
+        if (!(obj instanceof Practitioner)) {
+            return false;
+        }
 
-		Practitioner other = (Practitioner) obj;
+        Practitioner other = (Practitioner) obj;
 
-		return Objects.equals(name, other.name);
-	}
+        return Objects.equals(name, other.name);
+    }
 
-	@Override
-	public String toString() {
-		return String.valueOf(name);
-	}
+    @Override
+    public String toString() {
+        return String.valueOf(name);
+    }
 }

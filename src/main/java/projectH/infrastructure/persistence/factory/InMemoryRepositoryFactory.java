@@ -5,9 +5,9 @@ import projectH.infrastructure.persistence.inmemory.repository.DrugInMemoryRepos
 
 public class InMemoryRepositoryFactory extends RepositoryFactory {
 
-	@Override
-	public DrugRepository createDrugRepository() {
-		return new DrugInMemoryRepository();
-	}
+    @Override
+    public DrugRepository createDrugRepository() {
+        return new DrugInMemoryRepository();
+    }
 
 }

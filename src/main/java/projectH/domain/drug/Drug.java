@@ -6,63 +6,63 @@ import java.util.regex.Pattern;
 
 public class Drug {
 
-	private final Din din;
-	private final String brandName;
-	private final String descriptor;
+    private final Din din;
+    private final String brandName;
+    private final String descriptor;
 
-	public Drug(Din din, String brand, String descriptor) {
-		this.din = din;
-		this.brandName = brand;
-		this.descriptor = descriptor;
-	}
+    public Drug(Din din, String brand, String descriptor) {
+        this.din = din;
+        this.brandName = brand;
+        this.descriptor = descriptor;
+    }
 
-	public Din getDin() {
-		return din;
-	}
+    public Din getDin() {
+        return din;
+    }
 
-	public String getBrandName() {
-		return brandName;
-	}
+    public String getBrandName() {
+        return brandName;
+    }
 
-	public String getDescriptor() {
-		return descriptor;
-	}
+    public String getDescriptor() {
+        return descriptor;
+    }
 
-	public boolean matchBrandNameOrDescription(Pattern compiledPattern) {
-		Matcher matcherBrandName = compiledPattern.matcher(getBrandName());
-		Matcher matcherDescriptor = compiledPattern.matcher(getDescriptor());
+    public boolean matchBrandNameOrDescription(Pattern compiledPattern) {
+        Matcher matcherBrandName = compiledPattern.matcher(getBrandName());
+        Matcher matcherDescriptor = compiledPattern.matcher(getDescriptor());
 
-		return (matcherBrandName.find() || matcherDescriptor.find());
-	}
+        return (matcherBrandName.find() || matcherDescriptor.find());
+    }
 
-	public boolean hasSameDin(Din otherDin) {
-		return getDin().equals(otherDin);
-	}
+    public boolean hasSameDin(Din otherDin) {
+        return getDin().equals(otherDin);
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(din, brandName, descriptor);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(din, brandName, descriptor);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-		if (!(obj instanceof Drug)) {
-			return false;
-		}
+        if (!(obj instanceof Drug)) {
+            return false;
+        }
 
-		Drug other = (Drug) obj;
+        Drug other = (Drug) obj;
 
-		return Objects.equals(din, other.din) && Objects.equals(brandName, other.brandName)
-				&& Objects.equals(descriptor, other.descriptor);
-	}
+        return Objects.equals(din, other.din) && Objects.equals(brandName, other.brandName)
+                && Objects.equals(descriptor, other.descriptor);
+    }
 
-	@Override
-	public String toString() {
-		return String.valueOf(din);
-	}
+    @Override
+    public String toString() {
+        return String.valueOf(din);
+    }
 
 }

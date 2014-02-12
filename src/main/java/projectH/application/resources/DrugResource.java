@@ -20,25 +20,25 @@ import projectH.infrastructure.persistence.factory.RepositoryFactory;
 @Produces("application/json")
 public class DrugResource {
 
-	private final static String INVALID_SEARCH_ERROR_CODE = "DIN001";
+    private final static String INVALID_SEARCH_ERROR_CODE = "DIN001";
 
-	// TODO use ServiceLocator
-	private final DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
+    // TODO use ServiceLocator
+    private final DrugRepository drugRepository = RepositoryFactory.getDrugRepository();
 
-	private final DrugDTOAssembler drugAssembler = new DrugDTOAssembler();
+    private final DrugDTOAssembler drugAssembler = new DrugDTOAssembler();
 
-	@GET
-	@Path("/findByBrandNameOrDescriptor/{keyword}")
-	public Response findDrugs(@PathParam("keyword") String keyword) {
-		try {
-			Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
-			DrugDTO[] dto = drugAssembler.toDTOs(drugsFound);
+    @GET
+    @Path("/findByBrandNameOrDescriptor/{keyword}")
+    public Response findDrugs(@PathParam("keyword") String keyword) {
+        try {
+            Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
+            DrugDTO[] dto = drugAssembler.toDTOs(drugsFound);
 
-			return Response.ok(dto).build();
-		} catch (Exception e) {
-			ExceptionDTO dto = new ExceptionDTO(INVALID_SEARCH_ERROR_CODE, e.getMessage());
+            return Response.ok(dto).build();
+        } catch (Exception e) {
+            ExceptionDTO dto = new ExceptionDTO(INVALID_SEARCH_ERROR_CODE, e.getMessage());
 
-			return Response.status(Status.BAD_REQUEST).entity(dto).build();
-		}
-	}
+            return Response.status(Status.BAD_REQUEST).entity(dto).build();
+        }
+    }
 }

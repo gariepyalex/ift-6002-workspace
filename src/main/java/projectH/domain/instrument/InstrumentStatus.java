@@ -1,5 +1,5 @@
 package projectH.domain.instrument;
 
 public enum InstrumentStatus {
-	USED_PATIENT, SOILED, UNUSED
+    USED_PATIENT, SOILED, UNUSED
 }

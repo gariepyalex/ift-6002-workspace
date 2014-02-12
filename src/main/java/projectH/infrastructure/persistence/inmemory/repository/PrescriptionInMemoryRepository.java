@@ -6,15 +6,15 @@ import projectH.domain.prescription.PrescriptionRepository;
 
 public class PrescriptionInMemoryRepository implements PrescriptionRepository {
 
-	private boolean empty = true;
+    private boolean empty = true;
 
-	@Override
-	public void save(Patient patient, Prescription prescription) {
-		this.empty = false;
-	}
+    @Override
+    public void save(Patient patient, Prescription prescription) {
+        this.empty = false;
+    }
 
-	public boolean isEmpty() {
-		return empty;
-	}
+    public boolean isEmpty() {
+        return empty;
+    }
 
 }
