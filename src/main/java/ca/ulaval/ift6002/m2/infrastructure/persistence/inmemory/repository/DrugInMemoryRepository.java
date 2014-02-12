@@ -41,6 +41,11 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 		throw new NoSuchElementException("There are no drug with din:" + din);
 	}
 
+    @Override
+    public Drug get(String name) {
+        return new Drug(new Din(""), name, "");
+    }
+
 	@Override
 	public Collection<Drug> findByBrandNameOrDescriptor(String keyword) {
 		if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
@@ -75,5 +80,6 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 
 		return keys;
 	}
+
 
 }
