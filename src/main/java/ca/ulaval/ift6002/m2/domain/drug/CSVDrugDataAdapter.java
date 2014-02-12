@@ -1,4 +1,4 @@
-package projectH.domain.drug;
+package ca.ulaval.ift6002.m2.domain.drug;
 
 import java.io.IOException;
 import java.io.InputStream;

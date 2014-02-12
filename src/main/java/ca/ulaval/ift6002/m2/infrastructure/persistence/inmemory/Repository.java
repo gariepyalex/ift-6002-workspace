@@ -7,41 +7,37 @@ import java.util.Objects;
 
 public abstract class Repository<E> {
 
-    private final Map<Integer, E> data = new HashMap<>();
+	private final Map<Integer, E> data = new HashMap<>();
 
-    public Repository() {
-        convertLoadedElementsToData();
-    }
+	protected void convertLoadedElementsToData() {
+		Collection<E> loadedElements = loadData();
 
-    private void convertLoadedElementsToData() {
-        Collection<E> loadedElements = loadData();
+		for (E element : loadedElements) {
+			Object[] keys = getKeys(element);
+			int elementId = hashKeys(keys);
 
-        for (E element : loadedElements) {
-            Object[] keys = getKeys(element);
-            int elementId = hashKeys(keys);
+			data.put(elementId, element);
+		}
+	}
 
-            data.put(elementId, element);
-        }
-    }
+	public final boolean isEmpty() {
+		return getData().isEmpty();
+	}
 
-    public final boolean isEmpty() {
-        return getData().isEmpty();
-    }
+	public final int size() {
+		return getData().size();
+	}
 
-    public final int size() {
-        return getData().size();
-    }
+	protected final Map<Integer, E> getData() {
+		return data;
+	}
 
-    protected final Map<Integer, E> getData() {
-        return data;
-    }
+	protected final int hashKeys(Object[] keys) {
+		return Objects.hash(keys);
+	}
 
-    protected final int hashKeys(Object[] keys) {
-        return Objects.hash(keys);
-    }
+	protected abstract Object[] getKeys(E element);
 
-    protected abstract Object[] getKeys(E element);
-
-    protected abstract Collection<E> loadData();
+	protected abstract Collection<E> loadData();
 
 }

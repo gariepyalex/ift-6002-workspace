@@ -13,61 +13,65 @@ import org.junit.Test;
 
 public class RepositoryTest {
 
-    private static final String AN_ELEMENT = "1234567890";
+	private static final String AN_ELEMENT = "1234567890";
 
-    // Minimal implementation of the abstract class
-    private final class RepositoryImpl extends Repository<String> {
+	// Minimal implementation of the abstract class
+	private final class RepositoryImpl extends Repository<String> {
 
-        @Override
-        protected Collection<String> loadData() {
-            Collection<String> data = new ArrayList<>();
-            data.add(AN_ELEMENT);
-            return data;
-        }
+		public RepositoryImpl() {
+			convertLoadedElementsToData();
+		}
 
-        @Override
-        protected Object[] getKeys(String element) {
-            Object[] keys = { element };
-            return keys;
-        }
+		@Override
+		protected Collection<String> loadData() {
+			Collection<String> data = new ArrayList<>();
+			data.add(AN_ELEMENT);
+			return data;
+		}
 
-        // Since getData() is protected, it is a work-around to expose it
-        public Map<Integer, String> exposeGetData() {
-            return super.getData();
-        }
+		@Override
+		protected Object[] getKeys(String element) {
+			Object[] keys = { element };
+			return keys;
+		}
 
-    }
+		// Since getData() is protected, it is a work-around to expose it
+		public Map<Integer, String> exposeGetData() {
+			return super.getData();
+		}
 
-    private RepositoryImpl repository;
+	}
 
-    @Before
-    public void setup() {
-        repository = new RepositoryImpl();
-    }
+	private RepositoryImpl repository;
 
-    @Test
-    public void givenRepositoryWhenCreatedShouldBeLoadedAndHaveSizeOfOne() {
-        assertEquals(1, repository.size());
-    }
+	@Before
+	public void setup() {
+		repository = new RepositoryImpl();
+	}
 
-    @Test
-    public void givenRepositoryWhenGettingDataShouldNotBeEmpty() {
-        repository.exposeGetData();
+	@Test
+	public void givenRepositoryWhenCreatedShouldBeLoadedAndHaveSizeOfOne() {
+		assertEquals(1, repository.size());
+	}
 
-        assertFalse(repository.isEmpty());
-    }
+	@Test
+	public void givenRepositoryWhenGettingDataShouldNotBeEmpty() {
+		repository.exposeGetData();
 
-    @Test
-    public void givenRepositoryWhenGettingDataMapShouldContainsElement() {
-        Map<Integer, String> data = repository.exposeGetData();
-        boolean result = data.containsValue(AN_ELEMENT);
-        assertTrue(result);
-    }
+		assertFalse(repository.isEmpty());
+	}
 
-    @Test
-    public void givenRepositoryWhenGettingDataShouldContainsElement() {
-        Map<Integer, String> data = repository.exposeGetData();
-        boolean result = data.containsValue(AN_ELEMENT);
-        assertTrue(result);
-    }
+	@Test
+	public void givenRepositoryWhenGettingDataMapShouldContainsElement() {
+		Map<Integer, String> data = repository.exposeGetData();
+		boolean result = data.containsValue(AN_ELEMENT);
+		assertTrue(result);
+	}
+
+	@Test
+	public void givenRepositoryWhenGettingDataShouldContainsElement() {
+		Map<Integer, String> data = repository.exposeGetData();
+		boolean result = data.containsValue(AN_ELEMENT);
+		assertTrue(result);
+	}
 }

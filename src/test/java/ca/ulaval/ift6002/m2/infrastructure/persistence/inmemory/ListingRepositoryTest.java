@@ -14,82 +14,86 @@ import org.junit.Test;
 
 public class ListingRepositoryTest {
 
-    private static final String FIRST_ELEMENT = "1234567890";
-    private static final int FIRST_ELEMENT_HASHED_KEY = Objects.hash(FIRST_ELEMENT);
+	private static final String FIRST_ELEMENT = "1234567890";
+	private static final int FIRST_ELEMENT_HASHED_KEY = Objects.hash(FIRST_ELEMENT);
 
-    private static final String SECOND_ELEMENT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String SECOND_ELEMENT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    private static final int UNEXISTING_ID = -1;
+	private static final int UNEXISTING_ID = -1;
 
-    // Minimal implementation of the abstract class
-    private final class ListingRepositoryImpl extends ListingRepository<String> {
+	// Minimal implementation of the abstract class
+	private final class ListingRepositoryImpl extends ListingRepository<String> {
 
-        @Override
-        protected Collection<String> loadData() {
-            Collection<String> data = new ArrayList<>();
+		public ListingRepositoryImpl() {
+			convertLoadedElementsToData();
+		}
 
-            data.add(FIRST_ELEMENT);
-            data.add(SECOND_ELEMENT);
+		@Override
+		protected Collection<String> loadData() {
+			Collection<String> data = new ArrayList<>();
 
-            return data;
-        }
+			data.add(FIRST_ELEMENT);
+			data.add(SECOND_ELEMENT);
 
-        @Override
-        protected Object[] getKeys(String element) {
-            Object[] keys = { element };
-            return keys;
-        }
+			return data;
+		}
 
-        // Since getCollection() is protected, it is a work-around to expose it
-        public Collection<String> exposeGetCollection() {
-            return super.getCollection();
-        }
+		@Override
+		protected Object[] getKeys(String element) {
+			Object[] keys = { element };
+			return keys;
+		}
 
-        // Since get(int) is protected, it is a work-around to expose it
-        public String exposeGet(int hashedId) {
-            return super.get(hashedId);
-        }
+		// Since getCollection() is protected, it is a work-around to expose it
+		public Collection<String> exposeGetCollection() {
+			return super.getCollection();
+		}
 
-    }
+		// Since get(int) is protected, it is a work-around to expose it
+		public String exposeGet(int hashedId) {
+			return super.get(hashedId);
+		}
 
-    private ListingRepositoryImpl listingRepository;
-    private Collection<String> elementsInCollection;
+	}
 
-    @Before
-    public void setup() {
-        listingRepository = new ListingRepositoryImpl();
+	private ListingRepositoryImpl listingRepository;
+	private Collection<String> elementsInCollection;
 
-        elementsInCollection = listingRepository.exposeGetCollection();
-    }
+	@Before
+	public void setup() {
+		listingRepository = new ListingRepositoryImpl();
 
-    @Test
-    public void givenRepositoryWhenGetCollectionShouldBeLoadedAndNotEmpty() {
-        assertFalse(elementsInCollection.isEmpty());
-    }
+		elementsInCollection = listingRepository.exposeGetCollection();
+	}
 
-    @Test
-    public void givenRepositoryWhenGetCollectionShouldHaveSizeOfTwo() {
-        assertEquals(2, elementsInCollection.size());
-    }
+	@Test
+	public void givenRepositoryWhenGetCollectionShouldBeLoadedAndNotEmpty() {
+		assertFalse(elementsInCollection.isEmpty());
+	}
 
-    @Test
-    public void givenRepositoryWhenGetCollectionShouldContainsFirstAndSecondElement() {
-        boolean resultFirstElement = elementsInCollection.contains(FIRST_ELEMENT);
-        boolean resultSecondElement = elementsInCollection.contains(SECOND_ELEMENT);
+	@Test
+	public void givenRepositoryWhenGetCollectionShouldHaveSizeOfTwo() {
+		assertEquals(2, elementsInCollection.size());
+	}
 
-        assertTrue(resultFirstElement);
-        assertTrue(resultSecondElement);
-    }
+	@Test
+	public void givenRepositoryWhenGetCollectionShouldContainsFirstAndSecondElement() {
+		boolean resultFirstElement = elementsInCollection.contains(FIRST_ELEMENT);
+		boolean resultSecondElement = elementsInCollection.contains(SECOND_ELEMENT);
 
-    @Test
-    public void givenRepositoryWhenGetElementShouldReturnFirstElement() {
-        String elementFound = listingRepository.exposeGet(FIRST_ELEMENT_HASHED_KEY);
+		assertTrue(resultFirstElement);
+		assertTrue(resultSecondElement);
+	}
 
-        assertEquals(FIRST_ELEMENT, elementFound);
-    }
+	@Test
+	public void givenRepositoryWhenGetElementShouldReturnFirstElement() {
+		String elementFound = listingRepository.exposeGet(FIRST_ELEMENT_HASHED_KEY);
 
-    @Test(expected = NoSuchElementException.class)
-    public void givenRepositoryWhenGetUnknownElementShouldThrowException() {
-        listingRepository.exposeGet(UNEXISTING_ID);
-    }
+		assertEquals(FIRST_ELEMENT, elementFound);
+	}
+
+	@Test(expected = NoSuchElementException.class)
+	public void givenRepositoryWhenGetUnknownElementShouldThrowException() {
+		listingRepository.exposeGet(UNEXISTING_ID);
+	}
 }
