@@ -14,7 +14,7 @@ import ca.ulaval.ift6002.m2.application.responses.DrugDTO;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.InMemoryRepositoryFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 @Path("/drugs/")
 @Produces("application/json")
@@ -22,8 +22,7 @@ public class DrugResource {
 
     private static final String INVALID_SEARCH_ERROR_CODE = "DIN001";
 
-    // TODO use ServiceLocator
-    private final DrugRepository drugRepository = new InMemoryRepositoryFactory().createDrugRepository();
+    private final DrugRepository drugRepository = RepositoryLocator.getDrugRepository();
 
     private final DrugDTOAssembler drugAssembler = new DrugDTOAssembler();
 

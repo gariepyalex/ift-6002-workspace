@@ -16,12 +16,10 @@ import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
 import ca.ulaval.ift6002.m2.application.services.PrescriptionService;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
-import ca.ulaval.ift6002.m2.domain.drug.CSVDrugDataAdapter;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.InvalidPrescriptionException;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.DrugInMemoryRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.PrescriptionInMemoryRepository;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 @Path("/patient/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,12 +27,14 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.Presc
 public class PrescriptionResource {
 
     private static final String ERROR_CODE = "PRES001";
-    
-    //TODO will change when using the service locator
+
+    private final PrescriptionRepository prescriptionRepository = RepositoryLocator.getPrescriptionRepository();
+    private final DrugRepository drugRepository = RepositoryLocator.getDrugRepository();
+
     private final DateFormatter dateFormatter = new DateFormatter();
-    private final PrescriptionRepository prescriptionRepository = new PrescriptionInMemoryRepository();
-    private final DrugRepository drugRepository = new DrugInMemoryRepository(new CSVDrugDataAdapter());
+
     private final PrescriptionDTOAssembler assembler = new PrescriptionDTOAssembler(dateFormatter, drugRepository);
+
     private final PrescriptionService prescriptionService = new PrescriptionService(prescriptionRepository, assembler);
 
     @POST
