@@ -4,6 +4,11 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.InMemoryRepositoryFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.RepositoryFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
+
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 public class Main {
@@ -12,6 +17,8 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Applicated started!");
+
+        setupRepositoryLocator();
 
         Server server = setupServer();
 
@@ -22,6 +29,15 @@ public class Main {
             e.printStackTrace();
         }
 
+    }
+
+    private static void setupRepositoryLocator() {
+        RepositoryFactory inMemoryFactory = new InMemoryRepositoryFactory();
+        RepositoryLocator repositoryLocator = new RepositoryLocator();
+
+        repositoryLocator.register(DrugRepository.class, inMemoryFactory.createDrugRepository());
+
+        RepositoryLocator.load(repositoryLocator);
     }
 
     private static Server setupServer() {
