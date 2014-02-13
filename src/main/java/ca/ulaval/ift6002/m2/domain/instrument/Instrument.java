@@ -5,24 +5,24 @@ import java.util.Objects;
 public class Instrument {
 
     private InstrumentStatus status;
-    private final String serial;
-    private final String typecode;
+    private final Serial serial;
+    private final Typecode typecode;
 
-    public Instrument(String typecode, InstrumentStatus status) {
-        this(typecode, status, "");
-    }
-
-    public Instrument(String typecode, InstrumentStatus status, String serialNumber) {
-        if (typecode == null || typecode.isEmpty()) {
-            throw new IllegalArgumentException("Typecode cannot be empty");
-        }
-        if (serialNumber == null) {
-            throw new IllegalArgumentException("Serial number cannot be 'null'");
-        }
+    public Instrument(Typecode typecode, InstrumentStatus status, Serial serialNumber) {
+        /*
+         * if (typecode == null || typecode.isEmpty()) { throw new
+         * IllegalArgumentException("Typecode cannot be empty"); } if
+         * (serialNumber == null) { throw new
+         * IllegalArgumentException("Serial number cannot be 'null'"); }
+         */
 
         this.status = status;
         this.typecode = typecode;
         this.serial = serialNumber;
+    }
+
+    public Instrument(Typecode typecode, InstrumentStatus status) {
+        this(typecode, status, new Serial(""));
     }
 
     public InstrumentStatus getStatus() {
@@ -40,7 +40,7 @@ public class Instrument {
         this.status = status;
     }
 
-    public String getSerial() {
+    public Serial getSerial() {
         return serial;
     }
 
@@ -48,7 +48,7 @@ public class Instrument {
         return serial.isEmpty();
     }
 
-    public String getTypecode() {
+    public Typecode getTypecode() {
         return typecode;
     }
 
