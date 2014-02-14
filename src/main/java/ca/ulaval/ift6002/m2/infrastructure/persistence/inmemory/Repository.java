@@ -7,37 +7,48 @@ import java.util.Objects;
 
 public abstract class Repository<E> {
 
-	private final Map<Integer, E> data = new HashMap<>();
+    private final Map<Integer, E> data = new HashMap<>();
 
-	protected void convertLoadedElementsToData() {
-		Collection<E> loadedElements = loadData();
+    protected DataAdapter<E> adapter;
 
-		for (E element : loadedElements) {
-			Object[] keys = getKeys(element);
-			int elementId = hashKeys(keys);
+    public Repository() {
 
-			data.put(elementId, element);
-		}
-	}
+    }
 
-	public final boolean isEmpty() {
-		return getData().isEmpty();
-	}
+    public Repository(DataAdapter<E> adapter) {
+        this.adapter = adapter;
+        convertLoadedElementsToData();
+    }
 
-	public final int size() {
-		return getData().size();
-	}
+    protected void convertLoadedElementsToData() {
+        Collection<E> loadedElements = loadData();
 
-	protected final Map<Integer, E> getData() {
-		return data;
-	}
+        for (E element : loadedElements) {
+            Object[] keys = getKeys(element);
+            int elementId = hashKeys(keys);
 
-	protected final int hashKeys(Object[] keys) {
-		return Objects.hash(keys);
-	}
+            data.put(elementId, element);
+        }
+    }
 
-	protected abstract Object[] getKeys(E element);
+    public final boolean isEmpty() {
+        return getData().isEmpty();
+    }
 
-	protected abstract Collection<E> loadData();
+    public final int size() {
+        return getData().size();
+    }
+
+    protected final Map<Integer, E> getData() {
+        return data;
+    }
+
+    protected final int hashKeys(Object[] keys) {
+        return Objects.hash(keys);
+    }
+
+    protected abstract Object[] getKeys(E element);
+
+    protected abstract Collection<E> loadData();
 
 }
