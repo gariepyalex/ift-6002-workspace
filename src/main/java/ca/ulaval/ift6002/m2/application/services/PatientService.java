@@ -3,17 +3,17 @@ package ca.ulaval.ift6002.m2.application.services;
 import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.InvalidPrescriptionException;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
-import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionRepository;
 
-public class PrescriptionService {
+public class PatientService {
 
     private final PrescriptionDTOAssembler prescriptionAssembler;
-    private final PrescriptionRepository prescriptionRepository;
+    private final PatientRepository prescriptionRepository;
 
-    public PrescriptionService(PrescriptionRepository prescriptionRepository, PrescriptionDTOAssembler prescriptionAssembler) {
-        this.prescriptionRepository = prescriptionRepository;
+    public PatientService(PatientRepository patientRepository, PrescriptionDTOAssembler prescriptionAssembler) {
+        this.prescriptionRepository = patientRepository;
         this.prescriptionAssembler = prescriptionAssembler;
     }
 
@@ -21,7 +21,7 @@ public class PrescriptionService {
         validateDtoIntegrity(dto);
         Patient patient = new Patient(Integer.valueOf(patientId));
         Prescription prescription = prescriptionAssembler.fromDTO(dto);
-        prescriptionRepository.save(patient, prescription);
+        prescriptionRepository.savePrescription(patient, prescription);
     }
     
     private void validateDtoIntegrity(PrescriptionDTO dto) throws InvalidPrescriptionException {

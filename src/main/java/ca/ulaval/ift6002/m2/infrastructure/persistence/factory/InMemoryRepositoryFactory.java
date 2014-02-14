@@ -4,11 +4,11 @@ import ca.ulaval.ift6002.m2.domain.drug.CSVDrugDataAdapter;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionRepository;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.DrugInMemoryRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.InstrumentInMemoryRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.OperationInMemoryRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.PrescriptionInMemoryRepository;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.PatientInMemoryRepository;
 
 public class InMemoryRepositoryFactory implements RepositoryFactory {
 
@@ -28,8 +28,8 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
     }
 
     @Override
-    public PrescriptionRepository createPrescriptionRepository() {
-        return new PrescriptionInMemoryRepository();
+    public PatientRepository createPatientRepository() {
+        return new PatientInMemoryRepository();
     }
 
 }

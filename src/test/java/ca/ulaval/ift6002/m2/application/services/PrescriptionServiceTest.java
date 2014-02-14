@@ -9,9 +9,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.InvalidPrescriptionException;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
-import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PrescriptionServiceTest {
@@ -27,7 +27,7 @@ public class PrescriptionServiceTest {
     private static final Integer AN_INVALID_RENWALS = -1;
 
     @Mock
-    private PrescriptionRepository repository;
+    private PatientRepository repository;
     @Mock
     private PrescriptionDTOAssembler assembler;
     @Mock
@@ -35,7 +35,7 @@ public class PrescriptionServiceTest {
     @Mock
     private Patient aPatient;
     @InjectMocks
-    private PrescriptionService aPrescriptionService;
+    private PatientService aPrescriptionService;
 
     //TODO The class PrescriptionService should not call new Patient; should use a repository. Not testable by now
 //    @Before

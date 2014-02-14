@@ -6,7 +6,7 @@ import java.util.Map;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionRepository;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 
 public class RepositoryLocator {
 
@@ -26,8 +26,8 @@ public class RepositoryLocator {
         return (DrugRepository) soleInstance.repositories.get(DrugRepository.class);
     }
 
-    public static PrescriptionRepository getPrescriptionRepository() {
-        return (PrescriptionRepository) soleInstance.repositories.get(PrescriptionRepository.class);
+    public static PatientRepository getPatientRepository() {
+        return (PatientRepository) soleInstance.repositories.get(PatientRepository.class);
     }
 
     public static InstrumentRepository getInstrumentRepository() {

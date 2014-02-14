@@ -3,7 +3,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.factory;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionRepository;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 
 public interface RepositoryFactory {
 
@@ -13,5 +13,5 @@ public interface RepositoryFactory {
 
     OperationRepository createOperationRepository();
 
-    PrescriptionRepository createPrescriptionRepository();
+    PatientRepository createPatientRepository();
 }

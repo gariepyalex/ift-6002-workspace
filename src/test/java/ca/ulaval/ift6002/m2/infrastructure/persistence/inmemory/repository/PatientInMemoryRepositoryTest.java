@@ -9,18 +9,18 @@ import org.junit.Test;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
-public class PrescriptionInMemoryRepositoryTest {
+public class PatientInMemoryRepositoryTest {
 
     @Test
     public void canCreateEmptyRepository() {
-        PrescriptionInMemoryRepository repository = new PrescriptionInMemoryRepository();
+        PatientInMemoryRepository repository = new PatientInMemoryRepository();
         assertTrue(repository.isEmpty());
     }
 
     @Test
     public void canSavePrescription() {
-        PrescriptionInMemoryRepository repository = new PrescriptionInMemoryRepository();
-        repository.save(new Patient(101010), getPrescription());
+        PatientInMemoryRepository repository = new PatientInMemoryRepository();
+        repository.savePrescription(new Patient(101010), getPrescription());
         assertFalse(repository.isEmpty());
     }
 
