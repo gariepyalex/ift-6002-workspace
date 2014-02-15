@@ -1,5 +1,10 @@
 package ca.ulaval.ift6002.m2.application.services;
 
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.any;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,7 +19,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.InvalidPrescriptionException;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PrescriptionServiceTest {
+public class PatientServiceTest {
 
     private static final String AN_EMPTY_DIN = "";
     private static final String AN_EMPTY_NAME = "";
@@ -27,51 +32,55 @@ public class PrescriptionServiceTest {
     private static final Integer AN_INVALID_RENWALS = -1;
 
     @Mock
-    private PatientRepository repository;
+    PatientRepository repository;
     @Mock
-    private PrescriptionDTOAssembler assembler;
+    PrescriptionDTOAssembler assembler;
     @Mock
-    private Prescription aPrescription;
+    Prescription aPrescription;
     @Mock
-    private Patient aPatient;
+    Patient aPatient;
     @InjectMocks
-    private PatientService aPrescriptionService;
+    PatientService aPatientService;
 
-    //TODO The class PrescriptionService should not call new Patient; should use a repository. Not testable by now
-//    @Before
-//    public void givenAPrescriptionService() {
-//        when(assembler.fromDTO(any(PrescriptionDTO.class))).thenReturn(aPrescription);
-//    }
-//
-//    @Test
-//    public void givenAPrescriptionServiceWhenSavingADtoShouldCallRepository() {
-//       PrescriptionDTO dto = new PrescriptionDTO(A_PRACTITIONER, A_DATE, 10, AN_EMPTY_DIN, A_VALID_NAME);
-//       aPrescriptionService.savePrescription(A_PATIENT_ID, dto);
-//       verify(repository).save();
-//    }
+    @Before
+    public void givenRepositoryReturns() {
+        willReturn(aPatient).given(repository).getPatientById(Integer.valueOf(A_PATIENT_ID));
+    }
+    
+    @Before
+    public void givenAssemblerReturns() {
+        willReturn(aPrescription).given(assembler).fromDTO(any(PrescriptionDTO.class));
+    }
+    
+    @Test
+    public void givenAPatientServiceWhenSavingADtoShouldSaveInRepository() {
+       PrescriptionDTO dto = new PrescriptionDTO(A_PRACTITIONER, A_DATE, 10, AN_EMPTY_DIN, A_VALID_NAME);
+       aPatientService.savePrescription(A_PATIENT_ID, dto);
+       verify(repository).savePrescription(aPatient, aPrescription);
+    }
 
     @Test(expected = InvalidPrescriptionException.class)
-    public void givenAPrescriptionServiceWhenSavingPrescriptionWithoutDinOrNameShouldThrow() {
+    public void givenAPatientServiceWhenSavingPrescriptionWithoutDinOrNameShouldThrow() {
         PrescriptionDTO dto = new PrescriptionDTO(A_PRACTITIONER, A_DATE, 0, AN_EMPTY_DIN, AN_EMPTY_NAME);
-        aPrescriptionService.savePrescription(A_PATIENT_ID, dto);
+        aPatientService.savePrescription(A_PATIENT_ID, dto);
     }
     
     @Test(expected = InvalidPrescriptionException.class)
-    public void givenAPrescriptionServiceWhenSavingPrescriptionWithBothNameAndDinShouldThrow() {
+    public void givenAPatientServiceWhenSavingPrescriptionWithBothNameAndDinShouldThrow() {
         PrescriptionDTO dto = new PrescriptionDTO(A_PRACTITIONER, A_DATE, 12, A_VALID_DIN, A_VALID_NAME);
-        aPrescriptionService.savePrescription(A_PATIENT_ID, dto);
+        aPatientService.savePrescription(A_PATIENT_ID, dto);
     }
 
     @Test(expected = InvalidPrescriptionException.class)
-    public void givenAPrescriptionServiceWhenSavingPrescriptionWithNullRenwalsShouldThrow() {
+    public void givenAPatientServiceWhenSavingPrescriptionWithNullRenwalsShouldThrow() {
         PrescriptionDTO dto = new PrescriptionDTO(A_PRACTITIONER, A_DATE, A_NULL_RENEWALS, AN_EMPTY_DIN, A_VALID_NAME);
-        aPrescriptionService.savePrescription(A_PATIENT_ID, dto);
+        aPatientService.savePrescription(A_PATIENT_ID, dto);
     }
 
     @Test(expected = InvalidPrescriptionException.class)
-    public void givenAPrescriptionServiceWhenSavingPrescriptionWithInvalidRenwalsShouldThrow() {
+    public void givenAPatientServiceWhenSavingPrescriptionWithInvalidRenwalsShouldThrow() {
         PrescriptionDTO dto = new PrescriptionDTO(A_PRACTITIONER, A_DATE, AN_INVALID_RENWALS, AN_EMPTY_DIN,
                 A_VALID_NAME);
-        aPrescriptionService.savePrescription(A_PATIENT_ID, dto);
+        aPatientService.savePrescription(A_PATIENT_ID, dto);
     }
 }

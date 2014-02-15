@@ -10,18 +10,18 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 public class PatientService {
 
     private final PrescriptionDTOAssembler prescriptionAssembler;
-    private final PatientRepository prescriptionRepository;
+    private final PatientRepository patientRepository;
 
     public PatientService(PatientRepository patientRepository, PrescriptionDTOAssembler prescriptionAssembler) {
-        this.prescriptionRepository = patientRepository;
+        this.patientRepository = patientRepository;
         this.prescriptionAssembler = prescriptionAssembler;
     }
 
     public void savePrescription(String patientId, PrescriptionDTO dto) {
         validateDtoIntegrity(dto);
-        Patient patient = new Patient(Integer.valueOf(patientId));
+        Patient patient = patientRepository.getPatientById(Integer.valueOf(patientId));
         Prescription prescription = prescriptionAssembler.fromDTO(dto);
-        prescriptionRepository.savePrescription(patient, prescription);
+        patientRepository.savePrescription(patient, prescription);
     }
     
     private void validateDtoIntegrity(PrescriptionDTO dto) throws InvalidPrescriptionException {
