@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping package="ca.ulaval.ift6002.m2.domain.drug">
+
+    <class name="Drug" table="DRUGS">
+        <id name="id" column="DRUG_ID">
+            <generator class="native"/>
+        </id>
+        <property name="din" type="text" column="DIN"/>
+    </class>
+
+</hibernate-mapping>
