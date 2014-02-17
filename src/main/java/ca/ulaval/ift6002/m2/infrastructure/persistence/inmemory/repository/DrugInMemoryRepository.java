@@ -21,10 +21,7 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 
     @Override
     protected Collection<Drug> loadData() {
-        Collection<Drug> drugs;
-        drugs = adapter.getDataList();
-
-        return drugs;
+        return getDataAdapter().retrieveData();
     }
 
     @Override
@@ -63,11 +60,13 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
         Pattern pattern = Pattern.compile(keyword.replace(" ", ".*"), Pattern.CASE_INSENSITIVE);
 
         Collection<Drug> drugs = new ArrayList<Drug>();
+
         for (Drug drug : getCollection()) {
             if (drug.matchBrandNameOrDescription(pattern)) {
                 drugs.add(drug);
             }
         }
+
         return drugs;
     }
 

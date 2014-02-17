@@ -8,11 +8,10 @@ import java.util.Objects;
 public abstract class Repository<E> {
 
     private final Map<Integer, E> data = new HashMap<>();
-
-    protected DataAdapter<E> adapter;
+    private final DataAdapter<E> adapter;
 
     public Repository() {
-
+        this(null);
     }
 
     public Repository(DataAdapter<E> adapter) {
@@ -41,6 +40,10 @@ public abstract class Repository<E> {
 
     protected final Map<Integer, E> getData() {
         return data;
+    }
+
+    protected final DataAdapter<E> getDataAdapter() {
+        return adapter;
     }
 
     protected final int hashKeys(Object[] keys) {

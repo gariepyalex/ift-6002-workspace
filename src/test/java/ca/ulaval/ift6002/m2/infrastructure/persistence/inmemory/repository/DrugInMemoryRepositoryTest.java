@@ -1,10 +1,14 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.Before;
@@ -33,10 +37,10 @@ public class DrugInMemoryRepositoryTest {
     private static final String TYLENOL_BRAND_NAME = "TYLENOL";
     private static final String TYLENOL_DESCRIPTOR_NAME = "ACETAMINOPHENE";
 
-    private static Drug TYLENOL = new Drug(TYLENOL_DIN, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
-    private static Drug TYLANETOL = new Drug(TYLANETOL_DIN, "TYLANETOL PRIME", "IBUPROPHENE");
+    private static final Drug TYLENOL = new Drug(TYLENOL_DIN, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
+    private static final Drug TYLANETOL = new Drug(TYLANETOL_DIN, "TYLANETOL PRIME", "IBUPROPHENE");
 
-    private static Drug[] DRUGS_ARRAY = { TYLENOL, TYLANETOL };
+    private static final List<Drug> ALL_DRUGS = Arrays.asList(TYLENOL, TYLANETOL);
 
     private static final String CAMEL_CASE_TYLENOL_BRAND_NAME = "TyLeNoL";
 
@@ -47,14 +51,17 @@ public class DrugInMemoryRepositoryTest {
 
     private DrugRepository drugRepository;
 
+    private final DataAdapter<Drug> drugDataAdapter = mock(CSVDrugDataAdapter.class);
+
     @Before
     public void setup() {
-        DataAdapter<Drug> adapter = mock(CSVDrugDataAdapter.class);
-        Collection<Drug> drugsCollection = Arrays.asList(DRUGS_ARRAY);
-        when(adapter.getDataList()).thenReturn(drugsCollection);
-        System.out.println(adapter.getDataList().size());
+        setupDataAdapter();
 
-        drugRepository = new DrugInMemoryRepository(adapter);
+        drugRepository = new DrugInMemoryRepository(drugDataAdapter);
+    }
+
+    private void setupDataAdapter() {
+        willReturn(ALL_DRUGS).given(drugDataAdapter).retrieveData();
     }
 
     @Test

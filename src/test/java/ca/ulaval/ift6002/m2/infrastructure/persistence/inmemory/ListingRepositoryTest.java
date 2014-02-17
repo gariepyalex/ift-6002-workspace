@@ -1,8 +1,12 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -19,6 +23,11 @@ public class ListingRepositoryTest {
 
     private static final int UNEXISTING_ID = -1;
 
+    private static final Collection<String> ALL_ELEMENTS = Arrays.asList(FIRST_ELEMENT, SECOND_ELEMENT);
+
+    @SuppressWarnings("unchecked")
+    private final DataAdapter<String> dataAdapter = mock(DataAdapter.class);
+
     // Minimal implementation of the abstract class
     private final class ListingRepositoryImpl extends ListingRepository<String> {
 
@@ -28,12 +37,7 @@ public class ListingRepositoryTest {
 
         @Override
         protected Collection<String> loadData() {
-            Collection<String> data = new ArrayList<>();
-
-            data.add(FIRST_ELEMENT);
-            data.add(SECOND_ELEMENT);
-
-            return data;
+            return getDataAdapter().retrieveData();
         }
 
         @Override
@@ -41,58 +45,35 @@ public class ListingRepositoryTest {
             Object[] keys = { element };
             return keys;
         }
-
-        // Since getCollection() is protected, it is a work-around to expose it
-        public Collection<String> exposeGetCollection() {
-            return super.getCollection();
-        }
-
-        // Since get(int) is protected, it is a work-around to expose it
-        public String exposeGet(int hashedId) {
-            return super.get(hashedId);
-        }
-
-    }
-
-    public class StringDataAdapter implements DataAdapter<String> {
-
-        Collection<String> data = new ArrayList<String>();
-
-        public StringDataAdapter() {
-            data.add(FIRST_ELEMENT);
-            data.add(SECOND_ELEMENT);
-        }
-
-        @Override
-        public Collection<String> getDataList() {
-            return data;
-        }
-
     }
 
     private ListingRepositoryImpl listingRepository;
-    private Collection<String> elementsInCollection;
 
     @Before
     public void setup() {
-        StringDataAdapter adapter = new StringDataAdapter();
-        listingRepository = new ListingRepositoryImpl(adapter);
+        setupDataAdapter();
 
-        elementsInCollection = listingRepository.exposeGetCollection();
+        listingRepository = new ListingRepositoryImpl(dataAdapter);
+    }
+
+    private void setupDataAdapter() {
+        willReturn(ALL_ELEMENTS).given(dataAdapter).retrieveData();
     }
 
     @Test
     public void givenRepositoryWhenGetCollectionShouldBeLoadedAndNotEmpty() {
-        assertFalse(elementsInCollection.isEmpty());
+        assertFalse(listingRepository.isEmpty());
     }
 
     @Test
     public void givenRepositoryWhenGetCollectionShouldHaveSizeOfTwo() {
-        assertEquals(2, elementsInCollection.size());
+        assertEquals(2, listingRepository.size());
     }
 
     @Test
     public void givenRepositoryWhenGetCollectionShouldContainsFirstAndSecondElement() {
+        Collection<String> elementsInCollection = listingRepository.getCollection();
+
         boolean resultFirstElement = elementsInCollection.contains(FIRST_ELEMENT);
         boolean resultSecondElement = elementsInCollection.contains(SECOND_ELEMENT);
 
@@ -102,13 +83,13 @@ public class ListingRepositoryTest {
 
     @Test
     public void givenRepositoryWhenGetElementShouldReturnFirstElement() {
-        String elementFound = listingRepository.exposeGet(FIRST_ELEMENT_HASHED_KEY);
+        String elementFound = listingRepository.get(FIRST_ELEMENT_HASHED_KEY);
 
         assertEquals(FIRST_ELEMENT, elementFound);
     }
 
     @Test(expected = NoSuchElementException.class)
     public void givenRepositoryWhenGetUnknownElementShouldThrowException() {
-        listingRepository.exposeGet(UNEXISTING_ID);
+        listingRepository.get(UNEXISTING_ID);
     }
 }

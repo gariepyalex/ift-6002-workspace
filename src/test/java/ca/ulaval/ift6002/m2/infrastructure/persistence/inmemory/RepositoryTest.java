@@ -3,8 +3,10 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -13,65 +15,73 @@ import org.junit.Test;
 
 public class RepositoryTest {
 
-	private static final String AN_ELEMENT = "1234567890";
+    private static final String AN_ELEMENT = "1234567890";
 
-	// Minimal implementation of the abstract class
-	private final class RepositoryImpl extends Repository<String> {
+    private static final Collection<String> ALL_ELEMENTS = Arrays.asList(AN_ELEMENT);
 
-		public RepositoryImpl() {
-			convertLoadedElementsToData();
-		}
+    @SuppressWarnings("unchecked")
+    private final DataAdapter<String> dataAdapter = mock(DataAdapter.class);
 
-		@Override
-		protected Collection<String> loadData() {
-			Collection<String> data = new ArrayList<>();
-			data.add(AN_ELEMENT);
-			return data;
-		}
+    // Minimal implementation of the abstract class
+    private final class RepositoryImpl extends Repository<String> {
 
-		@Override
-		protected Object[] getKeys(String element) {
-			Object[] keys = { element };
-			return keys;
-		}
+        public RepositoryImpl(DataAdapter<String> adapter) {
+            super(adapter);
+        }
 
-		// Since getData() is protected, it is a work-around to expose it
-		public Map<Integer, String> exposeGetData() {
-			return super.getData();
-		}
+        @Override
+        protected Collection<String> loadData() {
+            return getDataAdapter().retrieveData();
+        }
 
-	}
+        @Override
+        protected Object[] getKeys(String element) {
+            Object[] keys = { element };
+            return keys;
+        }
 
-	private RepositoryImpl repository;
+        // Since getData() is protected, it is a work-around to expose it
+        public Map<Integer, String> exposeGetData() {
+            return super.getData();
+        }
+    }
 
-	@Before
-	public void setup() {
-		repository = new RepositoryImpl();
-	}
+    private RepositoryImpl repository;
 
-	@Test
-	public void givenRepositoryWhenCreatedShouldBeLoadedAndHaveSizeOfOne() {
-		assertEquals(1, repository.size());
-	}
+    @Before
+    public void setup() {
+        setupDataAdapter();
 
-	@Test
-	public void givenRepositoryWhenGettingDataShouldNotBeEmpty() {
-		repository.exposeGetData();
+        repository = new RepositoryImpl(dataAdapter);
+    }
 
-		assertFalse(repository.isEmpty());
-	}
+    private void setupDataAdapter() {
+        willReturn(ALL_ELEMENTS).given(dataAdapter).retrieveData();
+    }
 
-	@Test
-	public void givenRepositoryWhenGettingDataMapShouldContainsElement() {
-		Map<Integer, String> data = repository.exposeGetData();
-		boolean result = data.containsValue(AN_ELEMENT);
-		assertTrue(result);
-	}
+    @Test
+    public void givenRepositoryWhenCreatedShouldBeLoadedAndHaveSizeOfOne() {
+        assertEquals(1, repository.size());
+    }
 
-	@Test
-	public void givenRepositoryWhenGettingDataShouldContainsElement() {
-		Map<Integer, String> data = repository.exposeGetData();
-		boolean result = data.containsValue(AN_ELEMENT);
-		assertTrue(result);
-	}
+    @Test
+    public void givenRepositoryWhenGettingDataShouldNotBeEmpty() {
+        repository.exposeGetData();
+
+        assertFalse(repository.isEmpty());
+    }
+
+    @Test
+    public void givenRepositoryWhenGettingDataMapShouldContainsElement() {
+        Map<Integer, String> data = repository.exposeGetData();
+        boolean result = data.containsValue(AN_ELEMENT);
+        assertTrue(result);
+    }
+
+    @Test
+    public void givenRepositoryWhenGettingDataShouldContainsElement() {
+        Map<Integer, String> data = repository.exposeGetData();
+        boolean result = data.containsValue(AN_ELEMENT);
+        assertTrue(result);
+    }
 }
