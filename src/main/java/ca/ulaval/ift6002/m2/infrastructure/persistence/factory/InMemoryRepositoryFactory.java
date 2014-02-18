@@ -10,6 +10,7 @@ import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.filler.DrugRepositoryFiller;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.filler.RepositoryFiller;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.DrugInMemoryRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.InstrumentInMemoryRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository.OperationInMemoryRepository;
@@ -21,7 +22,7 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
     public DrugRepository createDrugRepository() {
         FileReader<String[]> fileReader = new CSVFileReader();
         FileParser<Drug> drugParser = new CSVDrugParser(fileReader);
-        DrugRepositoryFiller drugFiller = new DrugRepositoryFiller(drugParser);
+        RepositoryFiller<Drug> drugFiller = new DrugRepositoryFiller(drugParser);
 
         return new DrugInMemoryRepository(drugFiller);
     }
