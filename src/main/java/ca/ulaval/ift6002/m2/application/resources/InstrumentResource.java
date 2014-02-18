@@ -42,7 +42,7 @@ public class InstrumentResource {
     @Path("/instruments")
     public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
             InstrumentDTO dto) {
-        if (instrumentRepository.containsSerial(dto.serial)) {
+        if (instrumentRepository.contains(dto.serial)) {
             ExceptionDTO exception = new ExceptionDTO(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
@@ -52,7 +52,7 @@ public class InstrumentResource {
             URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
 
             Instrument instrument = instrumentAssembler.fromDTO(dto);
-            instrumentRepository.save(noIntervention, instrument);
+            instrumentRepository.store(noIntervention, instrument);
 
             return Response.created(uriLocation).build();
         } catch (RuntimeException e) {
@@ -74,7 +74,7 @@ public class InstrumentResource {
         }
 
         try {
-            Instrument instrument = instrumentRepository.findBySerial(dto.serial);
+            Instrument instrument = instrumentRepository.get(dto.serial);
             instrument.setStatus(dto.status);
 
             return Response.ok(instrument).build();

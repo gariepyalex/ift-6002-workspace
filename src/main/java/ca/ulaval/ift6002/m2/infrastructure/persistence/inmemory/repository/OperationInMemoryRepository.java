@@ -6,7 +6,7 @@ import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 public class OperationInMemoryRepository implements OperationRepository {
 
     @Override
-    public void saveOperation(Operation operation) {
+    public void store(Operation operation) {
 
     }
 

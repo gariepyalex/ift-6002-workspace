@@ -9,7 +9,7 @@ public class InstrumentInMemoryRepository implements InstrumentRepository {
     private boolean isEmpty = true;
 
     @Override
-    public void save(String noIntervention, Instrument instrument) {
+    public void store(String noIntervention, Instrument instrument) {
         isEmpty = false;
     }
 
@@ -18,12 +18,12 @@ public class InstrumentInMemoryRepository implements InstrumentRepository {
     }
 
     @Override
-    public Instrument findBySerial(String serial) {
+    public Instrument get(String serial) {
         return null;
     }
 
     @Override
-    public boolean containsSerial(String serial) {
+    public boolean contains(String serial) {
         return false;
     }
 
