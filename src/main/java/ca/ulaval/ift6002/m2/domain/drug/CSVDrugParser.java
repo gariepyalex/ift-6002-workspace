@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.ift6002.m2.domain.file.FileReader;
-import ca.ulaval.ift6002.m2.domain.file.Parser;
+import ca.ulaval.ift6002.m2.domain.file.FileParser;
 
-public class CSVDrugParser implements Parser<Drug> {
+public class CSVDrugParser implements FileParser<Drug> {
 
     private static final String DATA_FILE = "/drug.txt";
 
