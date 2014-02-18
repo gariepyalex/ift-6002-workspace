@@ -38,10 +38,10 @@ public class PrescriptionDTOAssembler {
 
     private Drug getDrugFromRepository(PrescriptionDTO dto) {
         Drug drug;
-        if(isDinSpecified(dto)) {
+        if (isDinSpecified(dto)) {
             Din din = new Din(dto.din);
             drug = getDrugFromDin(din);
-        }else {
+        } else {
             drug = getDrugFromName(dto.name);
         }
         return drug;
@@ -52,14 +52,14 @@ public class PrescriptionDTOAssembler {
     }
 
     private Drug getDrugFromDin(Din din) {
-        try{
+        try {
             Drug drug = drugRepository.get(din);
             return drug;
-        }catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             throw new InvalidPrescriptionException("The given din is invalid");
         }
     }
-    
+
     private Drug getDrugFromName(String name) {
         return drugRepository.get(name);
     }
