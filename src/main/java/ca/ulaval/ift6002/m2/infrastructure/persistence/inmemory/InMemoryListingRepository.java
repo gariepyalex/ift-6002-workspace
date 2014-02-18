@@ -3,14 +3,12 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
+import ca.ulaval.ift6002.m2.infrastructure.persistence.filler.RepositoryFiller;
+
 public abstract class InMemoryListingRepository<E> extends InMemoryRepository<E> {
 
-    public InMemoryListingRepository() {
-        super();
-    }
-
-    public InMemoryListingRepository(DataAdapter<E> adapter) {
-        super(adapter);
+    public InMemoryListingRepository(RepositoryFiller<E> filler) {
+        super(filler);
     }
 
     protected final Collection<E> getCollection() {
