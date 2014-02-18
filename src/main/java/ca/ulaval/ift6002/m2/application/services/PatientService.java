@@ -18,8 +18,9 @@ public class PatientService {
     }
 
     public void savePrescription(String patientId, PrescriptionDTO dto) {
+        // TODO have a PrescriptionValidator, this class do 2 things
         validateDtoIntegrity(dto);
-        Patient patient = patientRepository.getPatientById(Integer.valueOf(patientId));
+        Patient patient = patientRepository.get(Integer.valueOf(patientId));
         Prescription prescription = prescriptionAssembler.fromDTO(dto);
         patientRepository.savePrescription(patient, prescription);
     }

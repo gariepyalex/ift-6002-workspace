@@ -6,5 +6,5 @@ public interface PatientRepository {
 
     void savePrescription(Patient patient, Prescription prescription);
 
-    Patient getPatientById(Integer id);
+    Patient get(int id);
 }

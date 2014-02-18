@@ -18,7 +18,7 @@ public class PatientInMemoryRepository implements PatientRepository {
     }
 
     @Override
-    public Patient getPatientById(Integer id) {
+    public Patient get(int id) {
         return new Patient(id);
     }
 
