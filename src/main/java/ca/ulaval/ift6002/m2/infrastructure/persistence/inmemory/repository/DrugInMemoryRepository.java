@@ -9,9 +9,9 @@ import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.DataAdapter;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.ListingRepository;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.InMemoryListingRepository;
 
-public class DrugInMemoryRepository extends ListingRepository<Drug> implements DrugRepository {
+public class DrugInMemoryRepository extends InMemoryListingRepository<Drug> implements DrugRepository {
 
     private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
 
@@ -37,11 +37,13 @@ public class DrugInMemoryRepository extends ListingRepository<Drug> implements D
 
     @Override
     public Drug get(String name) {
-        return new Drug(new Din(""), name, "");
+        // TODO Gariepy, see if you want to use static constructor
+        return new Drug(name);
     }
 
     @Override
     public Collection<Drug> findByBrandNameOrDescriptor(String keyword) {
+        // TODO put that in UI
         if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
             throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
         }

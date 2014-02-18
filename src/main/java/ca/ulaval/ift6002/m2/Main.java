@@ -16,8 +16,6 @@ public class Main {
     private static final int HTTP_PORT = 8080; // TODO: Should be in .properties
 
     public static void main(String[] args) {
-        System.out.println("Applicated started!");
-
         setupRepositoryLocator();
 
         Server server = setupServer();

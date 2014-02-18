@@ -13,7 +13,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RepositoryTest {
+public class InMemoryRepositoryTest {
 
     private static final String AN_ELEMENT = "1234567890";
 
@@ -23,7 +23,7 @@ public class RepositoryTest {
     private final DataAdapter<String> dataAdapter = mock(DataAdapter.class);
 
     // Minimal implementation of the abstract class
-    private final class RepositoryImpl extends Repository<String> {
+    private final class RepositoryImpl extends InMemoryRepository<String> {
 
         public RepositoryImpl(DataAdapter<String> adapter) {
             super(adapter);

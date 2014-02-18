@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public abstract class Repository<E> {
+public abstract class InMemoryRepository<E> {
 
     private final Map<Integer, E> data = new HashMap<>();
     private final DataAdapter<E> adapter;
 
-    public Repository() {
+    public InMemoryRepository() {
         this(null);
     }
 
-    public Repository(DataAdapter<E> adapter) {
+    public InMemoryRepository(DataAdapter<E> adapter) {
         this.adapter = adapter;
         convertLoadedElementsToData();
     }

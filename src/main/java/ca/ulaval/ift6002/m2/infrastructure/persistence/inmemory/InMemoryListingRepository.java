@@ -3,13 +3,13 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
-public abstract class ListingRepository<E> extends Repository<E> {
+public abstract class InMemoryListingRepository<E> extends InMemoryRepository<E> {
 
-    public ListingRepository() {
+    public InMemoryListingRepository() {
         super();
     }
 
-    public ListingRepository(DataAdapter<E> adapter) {
+    public InMemoryListingRepository(DataAdapter<E> adapter) {
         super(adapter);
     }
 

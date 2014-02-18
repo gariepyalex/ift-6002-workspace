@@ -14,7 +14,7 @@ import java.util.Objects;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ListingRepositoryTest {
+public class InMemoryListingRepositoryTest {
 
     private static final String FIRST_ELEMENT = "1234567890";
     private static final int FIRST_ELEMENT_HASHED_KEY = Objects.hash(FIRST_ELEMENT);
@@ -29,7 +29,7 @@ public class ListingRepositoryTest {
     private final DataAdapter<String> dataAdapter = mock(DataAdapter.class);
 
     // Minimal implementation of the abstract class
-    private final class ListingRepositoryImpl extends ListingRepository<String> {
+    private final class ListingRepositoryImpl extends InMemoryListingRepository<String> {
 
         public ListingRepositoryImpl(DataAdapter<String> adapter) {
             super(adapter);
