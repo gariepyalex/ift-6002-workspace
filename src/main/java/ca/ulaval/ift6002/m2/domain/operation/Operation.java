@@ -79,7 +79,7 @@ public class Operation {
         instrumentList.add(instrument);
     }
 
-    public int getNumberOfInstrument() {
+    public int countInstruments() {
         return instrumentList.size();
     }
 
