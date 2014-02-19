@@ -1,5 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.instrument;
 
+import ca.ulaval.ift6002.m2.domain.operation.Operation;
+
 public interface InstrumentRepository {
 
     /**
@@ -7,7 +9,7 @@ public interface InstrumentRepository {
      * operation via it noIntervention, then add all your instruments and store
      * it back to OperationRepository
      */
-    void store(String noIntervention, Instrument instrument);
+    void store(Operation operation, Instrument instrument);
 
     Instrument get(String serial);
 

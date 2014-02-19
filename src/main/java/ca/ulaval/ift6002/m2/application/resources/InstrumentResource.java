@@ -16,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 import ca.ulaval.ift6002.m2.application.assemblers.InstrumentDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
+import ca.ulaval.ift6002.m2.application.services.OperationService;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
@@ -35,12 +36,12 @@ public class InstrumentResource {
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
     private final InstrumentRepository instrumentRepository = RepositoryLocator.getInstrumentRepository();
-
-    private final InstrumentDTOAssembler instrumentAssembler = new InstrumentDTOAssembler();
+    private final InstrumentDTOAssembler instrumentDtoAssembler = new InstrumentDTOAssembler();
+    private final OperationService operationService = new OperationService(instrumentRepository, instrumentDtoAssembler);
 
     @POST
     @Path("/instruments")
-    public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
+    public Response createInstrument(@PathParam("noOperation") String noOperation, @Context UriInfo uri,
             InstrumentDTO dto) {
         if (instrumentRepository.contains(dto.serial)) {
             ExceptionDTO exception = new ExceptionDTO(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
@@ -50,9 +51,7 @@ public class InstrumentResource {
 
         try {
             URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
-
-            Instrument instrument = instrumentAssembler.fromDTO(dto);
-            instrumentRepository.store(noIntervention, instrument);
+            operationService.saveInstrument(noOperation, dto);
 
             return Response.created(uriLocation).build();
         } catch (RuntimeException e) {
