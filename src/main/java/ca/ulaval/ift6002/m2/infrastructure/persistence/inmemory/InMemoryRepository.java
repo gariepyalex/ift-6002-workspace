@@ -5,24 +5,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public abstract class Repository<E> {
+import ca.ulaval.ift6002.m2.infrastructure.persistence.filler.RepositoryFiller;
+
+public abstract class InMemoryRepository<E> {
 
     private final Map<Integer, E> data = new HashMap<>();
-    private final DataAdapter<E> adapter;
+    private final RepositoryFiller<E> filler;
 
-    public Repository() {
-        this(null);
+    public InMemoryRepository(RepositoryFiller<E> filler) {
+        this.filler = filler;
+        convertFilledElementsToData();
     }
 
-    public Repository(DataAdapter<E> adapter) {
-        this.adapter = adapter;
-        convertLoadedElementsToData();
-    }
+    private void convertFilledElementsToData() {
+        Collection<E> filledElements = filler.fill();
 
-    protected void convertLoadedElementsToData() {
-        Collection<E> loadedElements = loadData();
-
-        for (E element : loadedElements) {
+        for (E element : filledElements) {
             Object[] keys = getKeys(element);
             int elementId = hashKeys(keys);
 
@@ -42,16 +40,10 @@ public abstract class Repository<E> {
         return data;
     }
 
-    protected final DataAdapter<E> getDataAdapter() {
-        return adapter;
-    }
-
     protected final int hashKeys(Object[] keys) {
         return Objects.hash(keys);
     }
 
     protected abstract Object[] getKeys(E element);
-
-    protected abstract Collection<E> loadData();
 
 }

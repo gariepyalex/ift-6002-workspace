@@ -59,6 +59,14 @@ public class Instrument {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Instrument)) {
+            return false;
+        }
+
         Instrument instrument = (Instrument) obj;
         return !isAnonymous() && this.serial.equals(instrument.serial);
     }

@@ -8,6 +8,8 @@ import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 
+//TODO polymorphism with OperationType (EYE, MARROW)
+//TODO should have Room object, and Patient (Patient has a number)
 public class Operation {
 
     private final String description;
@@ -68,8 +70,7 @@ public class Operation {
 
     public void addInstrument(Instrument instrument) throws InvalidInstrumentException {
         if (instrumentList.contains(instrument)) {
-            throw new InvalidInstrumentException("Instrument with serial number " + instrument.getSerial() + " has "
-                    + "already been assigned to this operation");
+            throw new InvalidInstrumentException("This instrument is invalid: " + instrument);
         }
         if (instrument.isAnonymous() && type.isCarefulOperationType()) {
             throw new InvalidInstrumentException("Anonymous instrument with type " + instrument.getTypecode()

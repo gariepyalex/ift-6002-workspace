@@ -5,12 +5,9 @@
     version="1.0">
     <description>My First JPA XML Application</description>
     <package>ca.ulaval.ift6002.m2.domain.drug</package>
-    <entity class="drug.Drug" name="Drug">
+    <entity class="Drug" name="Drug">
         <table name="DRUG"/>
         <attributes>
-            <id name="id">
-                <generated-value strategy="TABLE"/>
-            </id>
             <basic name="din">
                 <column name="DIN" length="100"/>
             </basic>

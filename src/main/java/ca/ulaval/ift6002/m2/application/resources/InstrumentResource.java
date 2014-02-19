@@ -16,8 +16,11 @@ import javax.ws.rs.core.UriInfo;
 import ca.ulaval.ift6002.m2.application.assemblers.InstrumentDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
+import ca.ulaval.ift6002.m2.application.services.OperationService;
+import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
+import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 @Path("{noIntervention}/interventions/")
@@ -35,14 +38,16 @@ public class InstrumentResource {
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
     private final InstrumentRepository instrumentRepository = RepositoryLocator.getInstrumentRepository();
-
-    private final InstrumentDTOAssembler instrumentAssembler = new InstrumentDTOAssembler();
+    private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
+    private final InstrumentDTOAssembler instrumentDtoAssembler = new InstrumentDTOAssembler();
+    private final OperationService operationService = new OperationService(operationRepository, instrumentRepository,
+            instrumentDtoAssembler);
 
     @POST
     @Path("/instruments")
-    public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
+    public Response createInstrument(@PathParam("noOperation") String noOperation, @Context UriInfo uri,
             InstrumentDTO dto) {
-        if (instrumentRepository.containsSerial(dto.serial)) {
+        if (instrumentRepository.contains(dto.serial)) {
             ExceptionDTO exception = new ExceptionDTO(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
@@ -50,12 +55,10 @@ public class InstrumentResource {
 
         try {
             URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
-
-            Instrument instrument = instrumentAssembler.fromDTO(dto);
-            instrumentRepository.save(noIntervention, instrument);
+            operationService.saveInstrument(noOperation, dto);
 
             return Response.created(uriLocation).build();
-        } catch (RuntimeException e) {
+        } catch (InvalidDTOException e) {
             ExceptionDTO exception = new ExceptionDTO(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
@@ -74,7 +77,7 @@ public class InstrumentResource {
         }
 
         try {
-            Instrument instrument = instrumentRepository.findBySerial(dto.serial);
+            Instrument instrument = instrumentRepository.get(dto.serial);
             instrument.setStatus(dto.status);
 
             return Response.ok(instrument).build();

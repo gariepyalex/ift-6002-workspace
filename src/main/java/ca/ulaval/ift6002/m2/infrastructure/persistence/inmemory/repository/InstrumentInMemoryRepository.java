@@ -2,6 +2,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
+import ca.ulaval.ift6002.m2.domain.operation.Operation;
 
 // TODO: To be implemented and tested
 public class InstrumentInMemoryRepository implements InstrumentRepository {
@@ -9,7 +10,7 @@ public class InstrumentInMemoryRepository implements InstrumentRepository {
     private boolean isEmpty = true;
 
     @Override
-    public void save(String noIntervention, Instrument instrument) {
+    public void store(Operation operation, Instrument instrument) {
         isEmpty = false;
     }
 
@@ -18,12 +19,12 @@ public class InstrumentInMemoryRepository implements InstrumentRepository {
     }
 
     @Override
-    public Instrument findBySerial(String serial) {
+    public Instrument get(String serial) {
         return null;
     }
 
     @Override
-    public boolean containsSerial(String serial) {
+    public boolean contains(String serial) {
         return false;
     }
 

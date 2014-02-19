@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
+import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
@@ -30,9 +31,8 @@ public class InstrumentDTOAssemblerTest {
     }
 
     @Test
-    public void givenInstrumentDTOWhenConvertToInstrumentShouldReturnGivenInstrument() {
+    public void givenInstrumentDTOWhenConvertToInstrumentShouldReturnGivenInstrument() throws InvalidDTOException {
         Instrument instrumentBuilt = instrumentAssembler.fromDTO(INSTRUMENT_DTO);
-
         assertEquals(INSTRUMENT, instrumentBuilt);
     }
 }

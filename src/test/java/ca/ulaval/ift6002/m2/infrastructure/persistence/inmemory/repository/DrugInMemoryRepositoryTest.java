@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,13 +13,13 @@ import java.util.NoSuchElementException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.domain.drug.CSVDrugDataAdapter;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.DataAdapter;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.filler.RepositoryFiller;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DrugInMemoryRepositoryTest {
@@ -49,19 +48,16 @@ public class DrugInMemoryRepositoryTest {
     private static final String PATTERN_WITH_MULTIPLE_WILDCARDS = "TY NE OL PRI ME";
     private static final String INVALID_KEYWORD = "123" + SEARCH_PATTERN_WILDCARD + "123";
 
-    private DrugRepository drugRepository;
+    @Mock
+    private RepositoryFiller<Drug> drugFiller;
 
-    private final DataAdapter<Drug> drugDataAdapter = mock(CSVDrugDataAdapter.class);
+    private DrugRepository drugRepository;
 
     @Before
     public void setup() {
-        setupDataAdapter();
+        willReturn(ALL_DRUGS).given(drugFiller).fill();
 
-        drugRepository = new DrugInMemoryRepository(drugDataAdapter);
-    }
-
-    private void setupDataAdapter() {
-        willReturn(ALL_DRUGS).given(drugDataAdapter).retrieveData();
+        drugRepository = new DrugInMemoryRepository(drugFiller);
     }
 
     @Test
