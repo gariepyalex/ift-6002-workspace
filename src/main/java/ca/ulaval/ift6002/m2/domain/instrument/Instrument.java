@@ -56,4 +56,9 @@ public class Instrument {
         Instrument instrument = (Instrument) obj;
         return !isAnonymous() && this.serial.equals(instrument.serial);
     }
+
+    public void setStatus(String status) {
+        // TODO Auto-generated method stub
+        return;
+    }
 }
