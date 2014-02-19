@@ -6,15 +6,16 @@ import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class OperationService {
 
     private InstrumentRepository instrumentRepository;
     private InstrumentDTOAssembler instrumentAssembler;
-    private OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
+    private OperationRepository operationRepository;
 
-    public OperationService(InstrumentRepository instrumentRepository, InstrumentDTOAssembler instrumentAssembler) {
+    public OperationService(OperationRepository operationRepository, InstrumentRepository instrumentRepository,
+            InstrumentDTOAssembler instrumentAssembler) {
+        this.operationRepository = operationRepository;
         this.instrumentRepository = instrumentRepository;
         this.instrumentAssembler = instrumentAssembler;
     }
@@ -24,5 +25,4 @@ public class OperationService {
         Operation operation = operationRepository.get(Integer.valueOf(operationId));
         instrumentRepository.store(operation, instrument);
     }
-
 }

@@ -1,7 +1,6 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.repository;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +9,15 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.operation.Operation;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InstrumentInMemoryRepositoryTest {
 
-    private static final String INSTRUMENT_NUMBER = "321654";
     private InstrumentInMemoryRepository instrumentRepository;
+
+    @Mock
+    private Operation operation;
 
     @Mock
     private Instrument instrument;
@@ -32,7 +34,7 @@ public class InstrumentInMemoryRepositoryTest {
 
     @Test
     public void canSaveInstrument() {
-        instrumentRepository.store(INSTRUMENT_NUMBER, instrument);
+        instrumentRepository.store(operation, instrument);
         assertFalse(instrumentRepository.isEmpty());
     }
 }

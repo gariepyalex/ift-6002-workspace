@@ -1,12 +1,11 @@
 package ca.ulaval.ift6002.m2.application.services;
 
 import static org.mockito.BDDMockito.*;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -22,7 +21,7 @@ public class OperationServiceTest {
 
     private static final String OPERATION_ID = "1232";
 
-    // @InjectMocks
+    @InjectMocks
     private OperationService operationService;
 
     @Mock
@@ -35,23 +34,20 @@ public class OperationServiceTest {
     private InstrumentRepository instrumentRepository;
 
     @Mock
+    private OperationRepository operationRepository;
+
+    @Mock
     private Instrument instrument;
 
     @Mock
     private Operation operation;
 
-    private OperationRepository operationRepository;
-
-    @Before
-    public void setup() {
-        operationService = new OperationService(instrumentRepository, instrumentAssembler);
-    }
-
     @Test
     public void savingInstrumentDtoShouldSaveRightInstrumentIntoInstrumentRepository() {
-        operationService.saveInstrument(OPERATION_ID, instrumentDto);
-        willReturn(instrument).given(instrumentAssembler).fromDTO(any(InstrumentDTO.class));
+        willReturn(instrument).given(instrumentAssembler).fromDTO(instrumentDto);
         willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
+
+        operationService.saveInstrument(OPERATION_ID, instrumentDto);
 
         verify(instrumentRepository).store(operation, instrument);
     }

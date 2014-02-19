@@ -10,4 +10,9 @@ public class OperationInMemoryRepository implements OperationRepository {
 
     }
 
+    @Override
+    public Operation get(Integer operationId) {
+        return null;
+    }
+
 }

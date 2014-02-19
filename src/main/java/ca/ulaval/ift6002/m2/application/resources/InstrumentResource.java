@@ -19,6 +19,7 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
 import ca.ulaval.ift6002.m2.application.services.OperationService;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
+import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 @Path("{noIntervention}/interventions/")
@@ -37,7 +38,9 @@ public class InstrumentResource {
 
     private final InstrumentRepository instrumentRepository = RepositoryLocator.getInstrumentRepository();
     private final InstrumentDTOAssembler instrumentDtoAssembler = new InstrumentDTOAssembler();
-    private final OperationService operationService = new OperationService(instrumentRepository, instrumentDtoAssembler);
+    private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
+    private final OperationService operationService = new OperationService(operationRepository, instrumentRepository,
+            instrumentDtoAssembler);
 
     @POST
     @Path("/instruments")
