@@ -5,7 +5,7 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: Config-Quality
+    Checkstyle-Configuration: IFT-6002
     Description: none
 -->
 <module name="Checker">
@@ -80,7 +80,7 @@
   <module name="NewlineAtEndOfFile"/>
   <module name="Translation"/>
   <module name="FileLength">
-    <property name="max" value="600"/>
+    <property name="max" value="16000"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="RegexpSingleline">

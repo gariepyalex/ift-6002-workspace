@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
 
 import java.util.Date;
 import java.util.NoSuchElementException;
