@@ -17,6 +17,7 @@ import ca.ulaval.ift6002.m2.application.assemblers.InstrumentDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
 import ca.ulaval.ift6002.m2.application.services.OperationService;
+import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
@@ -37,8 +38,8 @@ public class InstrumentResource {
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
     private final InstrumentRepository instrumentRepository = RepositoryLocator.getInstrumentRepository();
-    private final InstrumentDTOAssembler instrumentDtoAssembler = new InstrumentDTOAssembler();
     private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
+    private final InstrumentDTOAssembler instrumentDtoAssembler = new InstrumentDTOAssembler();
     private final OperationService operationService = new OperationService(operationRepository, instrumentRepository,
             instrumentDtoAssembler);
 
@@ -57,7 +58,7 @@ public class InstrumentResource {
             operationService.saveInstrument(noOperation, dto);
 
             return Response.created(uriLocation).build();
-        } catch (RuntimeException e) {
+        } catch (InvalidDTOException e) {
             ExceptionDTO exception = new ExceptionDTO(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
