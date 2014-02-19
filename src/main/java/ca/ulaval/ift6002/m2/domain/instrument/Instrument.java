@@ -9,13 +9,6 @@ public class Instrument {
     private final Typecode typecode;
 
     public Instrument(Typecode typecode, InstrumentStatus status, Serial serialNumber) {
-        /*
-         * if (typecode == null || typecode.isEmpty()) { throw new
-         * IllegalArgumentException("Typecode cannot be empty"); } if
-         * (serialNumber == null) { throw new
-         * IllegalArgumentException("Serial number cannot be 'null'"); }
-         */
-
         this.status = status;
         this.typecode = typecode;
         this.serial = serialNumber;
@@ -27,13 +20,6 @@ public class Instrument {
 
     public InstrumentStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        // TODO it might be moved to a "service"
-        InstrumentStatus statusFound = InstrumentStatus.valueOf(status);
-
-        setStatus(statusFound);
     }
 
     public void setStatus(InstrumentStatus status) {
