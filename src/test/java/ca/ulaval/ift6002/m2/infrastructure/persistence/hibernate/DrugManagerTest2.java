@@ -24,7 +24,9 @@ public class DrugManagerTest2 {
         beginTransaction();
 
         DrugPersistentClass drug = getDrugInBD(id);
+        session.close();
         System.out.println(drug.getName() + " with DIN: " + drug.getDin());
+
     }
 
     private void beginTransaction() {
