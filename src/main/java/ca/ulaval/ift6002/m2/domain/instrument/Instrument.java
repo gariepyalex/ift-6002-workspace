@@ -49,4 +49,9 @@ public class Instrument {
     public String toString() {
         return "[" + status + "] Serial:" + serial;
     }
+
+    public void setStatus(String status) {
+        // TODO Auto-generated method stub
+        return;
+    }
 }
