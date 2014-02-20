@@ -18,24 +18,12 @@ public class Instrument {
         this(typecode, status, new Serial(""));
     }
 
-    public InstrumentStatus getStatus() {
-        return status;
-    }
-
     public void setStatus(InstrumentStatus status) {
         this.status = status;
     }
 
-    public Serial getSerial() {
-        return serial;
-    }
-
     public boolean isAnonymous() {
         return serial.isEmpty();
-    }
-
-    public Typecode getTypecode() {
-        return typecode;
     }
 
     @Override
@@ -54,7 +42,12 @@ public class Instrument {
         }
 
         Instrument instrument = (Instrument) obj;
-        return !isAnonymous() && this.serial.equals(instrument.serial);
+        return !isAnonymous() && serial.equals(instrument.serial);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + status + "] Serial:" + serial;
     }
 
     public void setStatus(String status) {

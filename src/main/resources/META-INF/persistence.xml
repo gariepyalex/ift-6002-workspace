@@ -7,9 +7,7 @@
     <description>H2 In Memory DB</description>
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-<!--     <class>ca.ulaval.ift6002.m2.domain.drug.Drug</class> -->
-    
-    <mapping-file>jpa/Drug-orm.xml</mapping-file>
+    <class>ca.ulaval.ift6002.m2.domain.drug.Drug</class>
 
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
