@@ -73,8 +73,8 @@ public class Operation {
             throw new InvalidInstrumentException("This instrument is invalid: " + instrument);
         }
         if (instrument.isAnonymous() && type.isCarefulOperationType()) {
-            throw new InvalidInstrumentException("Anonymous instrument with type " + instrument.getTypecode()
-                    + " cannot be added to operation with type" + getType());
+            throw new InvalidInstrumentException("Anonymous instrument " + instrument
+                    + " cannot be added with operation type " + type);
         }
 
         instrumentList.add(instrument);
