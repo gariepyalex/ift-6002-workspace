@@ -4,13 +4,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-
-@Entity
 public class Drug {
 
-    @EmbeddedId
     private final Din din;
     private final String brandName;
     private final String descriptor;
