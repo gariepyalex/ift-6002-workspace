@@ -2,6 +2,9 @@ package ca.ulaval.ift6002.m2.domain.drug;
 
 import java.util.Objects;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Din {
 
     private final String value;

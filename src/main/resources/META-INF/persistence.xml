@@ -7,6 +7,7 @@
     <description>H2 In Memory DB</description>
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
+	<class>ca.ulaval.ift6002.m2.domain.drug.Din</class>
     <class>ca.ulaval.ift6002.m2.domain.drug.Drug</class>
 
     <properties>
