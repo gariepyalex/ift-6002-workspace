@@ -4,5 +4,5 @@ public interface OperationRepository {
 
     void store(Operation operation);
 
-    Operation get(Integer operationId);
+    Operation get(int operationId);
 }

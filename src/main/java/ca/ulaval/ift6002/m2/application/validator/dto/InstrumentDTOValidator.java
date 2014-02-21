@@ -2,8 +2,9 @@ package ca.ulaval.ift6002.m2.application.validator.dto;
 
 import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
 
-public class InstrumentDTOValidator {
+public class InstrumentDTOValidator implements Validator<InstrumentDTO> {
 
+    @Override
     public void validate(InstrumentDTO dto) throws InvalidDTOException {
         if (!isTypecodeValid(dto) || !isStatusValid(dto)) {
             throw new InvalidDTOException();

@@ -3,6 +3,7 @@ package ca.ulaval.ift6002.m2.domain.instrument;
 import java.util.Objects;
 
 public class Serial {
+
     private final String value;
 
     public Serial(String value) {

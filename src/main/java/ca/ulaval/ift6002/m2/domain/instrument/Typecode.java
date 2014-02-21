@@ -3,6 +3,7 @@ package ca.ulaval.ift6002.m2.domain.instrument;
 import java.util.Objects;
 
 public class Typecode {
+
     private final String value;
 
     public Typecode(String value) {

@@ -11,7 +11,7 @@ public class OperationInMemoryRepository implements OperationRepository {
     }
 
     @Override
-    public Operation get(Integer operationId) {
+    public Operation get(int operationId) {
         return null;
     }
 

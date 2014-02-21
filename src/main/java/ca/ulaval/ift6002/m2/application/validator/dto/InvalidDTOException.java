@@ -8,4 +8,8 @@ public class InvalidDTOException extends Exception {
         super();
     }
 
+    public InvalidDTOException(String message) {
+        super(message);
+    }
+
 }

@@ -1,10 +1,9 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
 
 import java.util.Date;
-import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +17,6 @@ import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.prescription.InvalidPrescriptionException;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
@@ -31,7 +29,6 @@ public class PrescriptionDTOAssemblerTest {
     private static final int A_RENEWALS = 1;
 
     private static final Din A_VALID_DIN = new Din("A valid din");
-    private static final Din AN_INVALID_DIN = new Din("I am invalid");
     private static final Din AN_EMPTY_DIN = new Din("");
     private static final String A_BRAND_NAME = "A random brand name";
     private static final String A_DESCRIPTOR = "A random descriptor";
@@ -87,14 +84,6 @@ public class PrescriptionDTOAssemblerTest {
         Prescription returnedPrescription = prescriptionAssembler.fromDTO(dto);
 
         assertEquals(prescription, returnedPrescription);
-    }
-
-    @Test(expected = InvalidPrescriptionException.class)
-    public void givenAnInvalidDinWhenConvertToPrescriptionShouldThrow() {
-        doThrow(new NoSuchElementException()).when(drugRepository).get(AN_INVALID_DIN);
-        PrescriptionDTO dto = new PrescriptionDTO(A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS,
-                AN_INVALID_DIN.toString(), "");
-        prescriptionAssembler.fromDTO(dto);
     }
 
     private void assertPrescriptionDTOEquals(PrescriptionDTO expected, PrescriptionDTO actual) {
