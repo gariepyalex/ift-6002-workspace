@@ -14,7 +14,7 @@ import javax.ws.rs.core.UriInfo;
 import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
-import ca.ulaval.ift6002.m2.application.services.PatientService;
+import ca.ulaval.ift6002.m2.services.PatientService;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;

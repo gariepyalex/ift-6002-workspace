@@ -16,7 +16,7 @@ import javax.ws.rs.core.UriInfo;
 import ca.ulaval.ift6002.m2.application.assemblers.InstrumentDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
-import ca.ulaval.ift6002.m2.application.services.OperationService;
+import ca.ulaval.ift6002.m2.services.OperationService;
 import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;

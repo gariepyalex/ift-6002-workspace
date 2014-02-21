@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.application.services;
+package ca.ulaval.ift6002.m2.services;
 
 import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
