@@ -6,8 +6,11 @@ public class InstrumentDTOValidator implements Validator<InstrumentDTO> {
 
     @Override
     public void validate(InstrumentDTO dto) throws InvalidDTOException {
-        if (!isTypecodeValid(dto) || !isStatusValid(dto)) {
-            throw new InvalidDTOException();
+        if (!isTypecodeValid(dto)) {
+            throw new InvalidDTOException("Typecode must not be empty");
+        }
+        if (!isStatusValid(dto)) {
+            throw new InvalidDTOException("The status value is not valid");
         }
     }
 
