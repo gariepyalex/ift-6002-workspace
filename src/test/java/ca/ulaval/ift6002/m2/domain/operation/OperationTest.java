@@ -5,8 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,82 +13,63 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationTest {
 
-    private static final String DESCRIPTION = "Description Test";
-    private static final Surgeon SURGEON = new Surgeon(101224);
-    private static final Date DATE = new Date();
-    private static final Room ROOM = new Room("salleB");
-    private static final Patient PATIENT = new Patient(2);
-
-    private static final OperationType OPERATION_TYPE = OperationType.EYE;
-
-    private static final OperationType EYE_TYPE = OperationType.EYE;
-    private static final OperationType MARROW_TYPE = OperationType.MARROW;
-    private static final OperationType HEART_TYPE = OperationType.HEART;
-    private static final OperationType ONCOLOGY_TYPE = OperationType.ONCOLOGY;
-
-    private static final OperationStatus DEFAULT_STATUS = OperationStatus.PLANNED;
-
-    // TODO see if we mock these value objects...
     @Mock
     private Instrument instrument;
 
     @Mock
-    private Instrument otherInstrument;
+    private Instrument anonymousInstrument;
 
     @Mock
-    private Instrument anonymousInstrument;
+    private Operation.Builder builder;
+
+    // Minimal implementation of an eligible operation
+    private final class EligibleOperation extends Operation {
+
+        protected EligibleOperation() {
+            super(builder);
+        }
+
+        @Override
+        protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
+            return true;
+        }
+    }
+
+    // Minimal implementation of an non eligible operation
+    private final class NonEligibleOperation extends Operation {
+
+        protected NonEligibleOperation() {
+            super(builder);
+        }
+
+        @Override
+        protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
+            return false;
+        }
+    }
 
     private Operation operation;
 
-    @Before
-    public void setupAnonymousInstrument() {
-        willReturn(true).given(anonymousInstrument).isAnonymous();
+    private void buildAnOperation() {
+        operation = new EligibleOperation();
+    }
+
+    private void buildEligibleOperation() {
+        operation = new EligibleOperation();
+    }
+
+    private void buildNonEligibileOperation() {
+        operation = new NonEligibleOperation();
     }
 
     @Before
     public void setupInstrument() {
+        willReturn(true).given(anonymousInstrument).isAnonymous();
         willReturn(false).given(instrument).isAnonymous();
-    }
-
-    private void buildAnOperation() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_TYPE, PATIENT);
-    }
-
-    private void buildEyeOperation() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, EYE_TYPE, PATIENT);
-    }
-
-    private void buildHeartOperation() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, HEART_TYPE, PATIENT);
-    }
-
-    private void buildMarrowOperation() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, MARROW_TYPE, PATIENT);
-    }
-
-    private void buildOncologyOperation() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, ONCOLOGY_TYPE, PATIENT);
-    }
-
-    private void addOneInstrument() throws InvalidInstrumentException {
-        operation.addInstrument(instrument);
-    }
-
-    private void addTwoInstrument() throws InvalidInstrumentException {
-        operation.addInstrument(instrument);
-        operation.addInstrument(otherInstrument);
-    }
-
-    @Test
-    public void givenOperationShouldHaveDefaultStatus() {
-        buildAnOperation();
-
-        assertEquals(DEFAULT_STATUS, operation.getStatus());
     }
 
     @Test
@@ -103,129 +82,85 @@ public class OperationTest {
     @Test
     public void givenOperationShouldNotHaveAnyInstrument() {
         buildAnOperation();
-
         boolean hasInstrument = operation.hasInstrument(instrument);
-        boolean hasOtherInstrument = operation.hasInstrument(otherInstrument);
-
         assertFalse(hasInstrument);
-        assertFalse(hasOtherInstrument);
+    }
+
+    @Test(expected = InvalidInstrumentException.class)
+    public void givenOperationWhenAddingSameInstrumentShouldThrowException() {
+        buildAnOperation();
+
+        operation.addInstrument(instrument);
+        operation.addInstrument(instrument);
+    }
+
+    @Test(expected = InvalidInstrumentException.class)
+    public void givenNonElligibleOperationWhenAddInstrumentShouldThrowException() {
+        buildNonEligibileOperation();
+
+        operation.addInstrument(instrument);
     }
 
     @Test
-    public void givenOneInstrumentShouldHaveCountOfOneInstrument() throws InvalidInstrumentException {
-        buildAnOperation();
-        addOneInstrument();
+    public void givenElligibleOperationWhenAddInstrumentShouldHaveCountOfOne() {
+        buildEligibleOperation();
 
+        operation.addInstrument(instrument);
         int instrumentCount = operation.countInstruments();
 
         assertEquals(1, instrumentCount);
     }
 
     @Test
-    public void givenOneInstrumentShouldHaveGivenInstrument() throws InvalidInstrumentException {
-        buildAnOperation();
-        addOneInstrument();
+    public void givenElligibleOperationWhenAddInstrumentShouldContainsInstrument() {
+        buildEligibleOperation();
 
+        operation.addInstrument(instrument);
         boolean hasInstrument = operation.hasInstrument(instrument);
 
         assertTrue(hasInstrument);
     }
 
     @Test
-    public void givenTwoInstrumentsShouldHaveTwoInstruments() throws InvalidInstrumentException {
-        buildAnOperation();
-        addTwoInstrument();
+    public void givenEyeTypeWhenBuildingOperationShouldReturnDangerousOperation() {
+        Operation eyeOperation = new Operation.Builder(OperationType.EYE).build();
 
-        int instrumentCount = operation.countInstruments();
-
-        assertEquals(2, instrumentCount);
+        assertDangerousOperation(eyeOperation);
     }
 
     @Test
-    public void givenTwoInstrumentsShouldHaveGivenInstruments() throws InvalidInstrumentException {
-        buildAnOperation();
-        addTwoInstrument();
+    public void givenHeartTypeWhenBuildingOperationShouldReturnDangerousOperation() {
+        Operation heartOperation = new Operation.Builder(OperationType.HEART).build();
 
-        boolean hasFirstInstrument = operation.hasInstrument(instrument);
-        boolean hasSecondInstrument = operation.hasInstrument(otherInstrument);
-
-        assertTrue(hasFirstInstrument);
-        assertTrue(hasSecondInstrument);
-    }
-
-    @Test(expected = InvalidInstrumentException.class)
-    public void givenOperationWhenAddingInstrumentWithExistingSerialShouldThrowException()
-            throws InvalidInstrumentException {
-        buildAnOperation();
-
-        operation.addInstrument(instrument);
-        operation.addInstrument(instrument);
-    }
-
-    @Test(expected = InvalidInstrumentException.class)
-    public void givenEyeOperationWhenAddingAnonymousInstrumentShouldThrowException() throws InvalidInstrumentException {
-        buildEyeOperation();
-
-        operation.addInstrument(anonymousInstrument);
-    }
-
-    @Test(expected = InvalidInstrumentException.class)
-    public void givenHeartOperationWhenAddingAnonymousInstrumentShouldThrowException()
-            throws InvalidInstrumentException {
-        buildHeartOperation();
-
-        operation.addInstrument(anonymousInstrument);
-    }
-
-    @Test(expected = InvalidInstrumentException.class)
-    public void givenMarrowOperationWhenAddingAnonymousInstrumentShouldThrowException()
-            throws InvalidInstrumentException {
-        buildMarrowOperation();
-
-        operation.addInstrument(anonymousInstrument);
+        assertDangerousOperation(heartOperation);
     }
 
     @Test
-    public void givenEyeOperationWhenAddingInstrumentShouldNotThrowExceptionAndHaveSizeOfOne()
-            throws InvalidInstrumentException {
-        buildEyeOperation();
+    public void givenMarrowTypeWhenBuildingOperationShouldReturnDangerousOperation() {
+        Operation marrowOperation = new Operation.Builder(OperationType.MARROW).build();
 
-        operation.addInstrument(instrument);
-        int instrumentCount = operation.countInstruments();
-
-        assertEquals(1, instrumentCount);
+        assertDangerousOperation(marrowOperation);
     }
 
     @Test
-    public void givenHearthOperationWhenAddingInstrumentShouldNotThrowExceptionAndHaveSizeOfOne()
-            throws InvalidInstrumentException {
-        buildHeartOperation();
+    public void givenOncologyTypeWhenBuildingOperationShouldReturnRegularOperation() {
+        Operation oncologyOperation = new Operation.Builder(OperationType.ONCOLOGY).build();
 
-        operation.addInstrument(instrument);
-        int instrumentCount = operation.countInstruments();
-
-        assertEquals(1, instrumentCount);
+        assertRegularOperation(oncologyOperation);
     }
 
     @Test
-    public void givenMarrowOperationWhenAddingInstrumentShouldNotThrowExceptionAndHaveSizeOfOne()
-            throws InvalidInstrumentException {
-        buildMarrowOperation();
+    public void givenOtherTypeWhenBuildingOperationShouldReturnRegularOperation() {
+        Operation otherOperation = new Operation.Builder(OperationType.OTHER).build();
 
-        operation.addInstrument(instrument);
-        int instrumentCount = operation.countInstruments();
-
-        assertEquals(1, instrumentCount);
+        assertRegularOperation(otherOperation);
     }
 
-    @Test
-    public void givenOncologyOperationWhenAddingAnonymousInstrumentShouldNotThrowExceptionAndHaveSizeOfOne()
-            throws InvalidInstrumentException {
-        buildOncologyOperation();
+    private void assertRegularOperation(Operation operation) {
+        assertEquals(RegularOperation.class, operation.getClass());
+    }
 
-        operation.addInstrument(anonymousInstrument);
-        int instrumentCount = operation.countInstruments();
-
-        assertEquals(1, instrumentCount);
+    private void assertDangerousOperation(Operation operation) {
+        assertEquals(DangerousOperation.class, operation.getClass());
     }
 }
