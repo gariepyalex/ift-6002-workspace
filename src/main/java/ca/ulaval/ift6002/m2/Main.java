@@ -3,18 +3,12 @@ package ca.ulaval.ift6002.m2;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.InMemoryRepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.RepositoryFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.provider.EntityManagerFactoryProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.provider.EntityManagerProvider;
-
-import com.sun.jersey.spi.container.servlet.ServletContainer;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class Main {
 
