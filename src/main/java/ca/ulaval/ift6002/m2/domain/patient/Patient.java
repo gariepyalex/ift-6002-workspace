@@ -1,13 +1,28 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
+
+import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 public class Patient {
 
     private final int number;
+    private final Collection<Prescription> prescriptions;
 
     public Patient(int number) {
         this.number = number;
+        this.prescriptions = new ArrayList<Prescription>();
+    }
+
+    public Patient(int number, Collection<Prescription> prescriptions) {
+        this.number = number;
+        this.prescriptions = prescriptions;
+    }
+
+    public void addPrescription(Prescription prescription) {
+        prescriptions.add(prescription);
     }
 
     @Override
