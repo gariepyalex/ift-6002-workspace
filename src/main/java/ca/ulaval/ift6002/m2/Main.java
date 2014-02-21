@@ -18,8 +18,6 @@ import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 public class Main {
 
-    private static final int HTTP_PORT = 8080; // TODO: Should be in .properties
-
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -27,11 +25,11 @@ public class Main {
 
         setupRepositoryLocator();
 
-        Server server = setupServer();
+        JettyServer server = new JettyServer();
+        server.init();
 
         try {
             server.start();
-            server.join();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,26 +47,6 @@ public class Main {
         repositoryLocator.register(DrugRepository.class, inMemoryFactory.createDrugRepository());
 
         RepositoryLocator.load(repositoryLocator);
-    }
-
-    private static Server setupServer() {
-        Server server = new Server(HTTP_PORT);
-        ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
-
-        ServletHolder jerseyServlet = setupJerseyServlet();
-        servletContextHandler.addServlet(jerseyServlet, "/*");
-
-        return server;
-    }
-
-    private static ServletHolder setupJerseyServlet() {
-        ServletHolder jerseyServletHolder = new ServletHolder(ServletContainer.class);
-
-        jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass",
-                "com.sun.jersey.api.core.PackagesResourceConfig");
-        jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.packages", "ca.ulaval.ift6002.m2");
-
-        return jerseyServletHolder;
     }
 
 }
