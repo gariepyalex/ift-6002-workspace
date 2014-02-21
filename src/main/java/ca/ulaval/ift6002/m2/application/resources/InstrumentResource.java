@@ -16,12 +16,12 @@ import javax.ws.rs.core.UriInfo;
 import ca.ulaval.ift6002.m2.application.assemblers.InstrumentDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
-import ca.ulaval.ift6002.m2.services.OperationService;
 import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
+import ca.ulaval.ift6002.m2.services.OperationService;
 
 @Path("/interventions/{noOperation}")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,7 +39,9 @@ public class InstrumentResource {
 
     private final InstrumentRepository instrumentRepository = RepositoryLocator.getInstrumentRepository();
     private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
+
     private final InstrumentDTOAssembler instrumentDtoAssembler = new InstrumentDTOAssembler();
+
     private final OperationService operationService = new OperationService(operationRepository, instrumentRepository,
             instrumentDtoAssembler);
 

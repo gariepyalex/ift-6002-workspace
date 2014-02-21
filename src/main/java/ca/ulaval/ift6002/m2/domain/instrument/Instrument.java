@@ -18,6 +18,12 @@ public class Instrument {
         this(typecode, status, new Serial(""));
     }
 
+    public void setStatus(String status) {
+        InstrumentStatus instrumentStatus = InstrumentStatus.valueOf(status);
+
+        setStatus(instrumentStatus);
+    }
+
     public void setStatus(InstrumentStatus status) {
         this.status = status;
     }
@@ -50,8 +56,4 @@ public class Instrument {
         return "[" + status + "] Serial:" + serial;
     }
 
-    public void setStatus(String status) {
-        // TODO Auto-generated method stub
-        return;
-    }
 }

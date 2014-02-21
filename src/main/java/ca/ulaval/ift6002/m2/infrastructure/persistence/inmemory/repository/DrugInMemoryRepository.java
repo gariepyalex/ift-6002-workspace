@@ -36,7 +36,6 @@ public class DrugInMemoryRepository extends InMemoryListingRepository<Drug> impl
 
     @Override
     public Collection<Drug> findByBrandNameOrDescriptor(String keyword) {
-
         Collection<Drug> drugs = getMatchingDrug(keyword);
 
         if (drugs.isEmpty()) {

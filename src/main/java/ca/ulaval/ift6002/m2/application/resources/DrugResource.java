@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -17,8 +18,8 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
-@Path("/drugs/")
-@Produces("application/json")
+@Path("/medicaments/")
+@Produces(MediaType.APPLICATION_JSON)
 public class DrugResource {
 
     private static final String INVALID_SEARCH_ERROR_CODE = "DIN001";
@@ -27,18 +28,18 @@ public class DrugResource {
 
     private final DrugDTOAssembler drugAssembler = new DrugDTOAssembler();
 
+    private final DrugResourceValidator drugValidator = new DrugResourceValidator();
+
     @GET
-    @Path("/findByBrandNameOrDescriptor/{keyword}")
+    @Path("/dins/{keyword}")
     public Response findDrugs(@PathParam("keyword") String keyword) {
         try {
-
-            DrugResourceValidator validator = new DrugResourceValidator();
-            validator.validateKeyword(keyword);
+            drugValidator.validateKeyword(keyword);
 
             Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
-            DrugDTO[] dto = drugAssembler.toDTOs(drugsFound);
+            DrugDTO[] dtos = drugAssembler.toDTOs(drugsFound);
 
-            return Response.ok(dto).build();
+            return Response.ok(dtos).build();
         } catch (Exception e) {
             ExceptionDTO dto = new ExceptionDTO(INVALID_SEARCH_ERROR_CODE, e.getMessage());
 
