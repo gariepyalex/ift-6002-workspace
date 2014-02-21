@@ -26,45 +26,7 @@ public class OperationTest {
     @Mock
     private Operation.Builder builder;
 
-    // Minimal implementation of an eligible operation
-    private final class EligibleOperation extends Operation {
-
-        protected EligibleOperation() {
-            super(builder);
-        }
-
-        @Override
-        protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
-            return true;
-        }
-    }
-
-    // Minimal implementation of an non eligible operation
-    private final class NonEligibleOperation extends Operation {
-
-        protected NonEligibleOperation() {
-            super(builder);
-        }
-
-        @Override
-        protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
-            return false;
-        }
-    }
-
     private Operation operation;
-
-    private void buildAnOperation() {
-        operation = new EligibleOperation();
-    }
-
-    private void buildEligibleOperation() {
-        operation = new EligibleOperation();
-    }
-
-    private void buildNonEligibileOperation() {
-        operation = new NonEligibleOperation();
-    }
 
     @Before
     public void setupInstrument() {
@@ -162,5 +124,46 @@ public class OperationTest {
 
     private void assertDangerousOperation(Operation operation) {
         assertEquals(DangerousOperation.class, operation.getClass());
+    }
+
+    private void buildAnOperation() {
+        // It could be any type of operation
+        operation = createEligibleOperation();
+    }
+
+    private void buildEligibleOperation() {
+        operation = createEligibleOperation();
+    }
+
+    private void buildNonEligibileOperation() {
+        operation = createNonEligibleOperation();
+    }
+
+    private Operation createEligibleOperation() {
+        Operation eligibleOperation;
+
+        eligibleOperation = new Operation(builder) {
+
+            @Override
+            protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
+                return true;
+            }
+        };
+
+        return eligibleOperation;
+    }
+
+    private Operation createNonEligibleOperation() {
+        Operation nonEligibleOperation;
+
+        nonEligibleOperation = new Operation(builder) {
+
+            @Override
+            protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
+                return false;
+            }
+        };
+
+        return nonEligibleOperation;
     }
 }
