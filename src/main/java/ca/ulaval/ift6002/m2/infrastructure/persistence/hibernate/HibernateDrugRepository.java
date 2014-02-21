@@ -7,11 +7,11 @@ import javax.persistence.EntityManager;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.provider.EntityManagerProvider;
 
 public class HibernateDrugRepository implements DrugRepository {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public HibernateDrugRepository() {
         entityManager = new EntityManagerProvider().getEntityManager();
