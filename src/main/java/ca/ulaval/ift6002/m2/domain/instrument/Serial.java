@@ -10,6 +10,10 @@ public class Serial {
         this.value = value;
     }
 
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(value);
@@ -32,10 +36,7 @@ public class Serial {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value;
     }
 
-    public boolean isEmpty() {
-        return value.isEmpty();
-    }
 }

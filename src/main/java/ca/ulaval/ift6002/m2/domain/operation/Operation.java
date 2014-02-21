@@ -7,84 +7,61 @@ import java.util.List;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 //TODO polymorphism with OperationType (EYE, MARROW)
-//TODO should have Room object, and Patient (Patient has a number)
 public class Operation {
 
     private final String description;
-    private final int surgeon;
+    private final Surgeon surgeon;
     private final Date date;
-    private final String room;
+    private final Room room;
     private final OperationType type;
     private final OperationStatus status;
-    private final int patientNumber;
-    private final List<Instrument> instrumentList;
+    private final Patient patient;
+    private final List<Instrument> instruments;
     private final DateFormatter dateFormatter = new DateFormatter();
 
-    public Operation(String description, int surgeon, Date date, String room, OperationType type, int patient) {
+    public Operation(String description, Surgeon surgeon, Date date, Room room, OperationType type, Patient patient) {
         this(description, surgeon, date, room, type, OperationStatus.PLANNED, patient);
     }
 
-    public Operation(String description, int surgeon, Date date2, String room, OperationType type,
-            OperationStatus status, int patient) {
+    public Operation(String description, Surgeon surgeon, Date date, Room room, OperationType type,
+            OperationStatus status, Patient patient) {
 
         this.description = description;
         this.surgeon = surgeon;
-        this.date = date2;
+        this.date = date;
 
         this.room = room;
         this.type = type;
         this.status = status;
-        this.patientNumber = patient;
-        instrumentList = new ArrayList<Instrument>();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getSurgeon() {
-        return surgeon;
-    }
-
-    public String getDate() {
-        return dateFormatter.dateToString(date);
-    }
-
-    public String getRoom() {
-        return room;
-    }
-
-    public OperationType getType() {
-        return type;
+        this.patient = patient;
+        instruments = new ArrayList<Instrument>();
     }
 
     public OperationStatus getStatus() {
         return status;
     }
 
-    public int getPatientNumber() {
-        return patientNumber;
-    }
-
     public void addInstrument(Instrument instrument) throws InvalidInstrumentException {
-        if (instrumentList.contains(instrument)) {
+        if (hasInstrument(instrument)) {
             throw new InvalidInstrumentException("This instrument is invalid: " + instrument);
         }
+
         if (instrument.isAnonymous() && type.isCarefulOperationType()) {
             throw new InvalidInstrumentException("Anonymous instrument " + instrument
                     + " cannot be added with operation type " + type);
         }
 
-        instrumentList.add(instrument);
+        instruments.add(instrument);
     }
 
     public int countInstruments() {
-        return instrumentList.size();
+        return instruments.size();
     }
 
     public boolean hasInstrument(Instrument instrument) {
-        return instrumentList.contains(instrument);
+        return instruments.contains(instrument);
     }
 }

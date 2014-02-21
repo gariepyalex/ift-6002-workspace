@@ -32,6 +32,6 @@ public class Din {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value;
     }
 }

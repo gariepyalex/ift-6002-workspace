@@ -15,15 +15,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationTest {
 
     private static final String DESCRIPTION = "Description Test";
-    private static final int SURGEON = 101224;
+    private static final Surgeon SURGEON = new Surgeon(101224);
     private static final Date DATE = new Date();
-    private static final String ROOM = "salleB";
-    private static final int PATIENT = 2;
+    private static final Room ROOM = new Room("salleB");
+    private static final Patient PATIENT = new Patient(2);
 
     private static final OperationType OPERATION_TYPE = OperationType.EYE;
 

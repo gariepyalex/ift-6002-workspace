@@ -32,6 +32,6 @@ public class Practitioner {
 
     @Override
     public String toString() {
-        return String.valueOf(name);
+        return name;
     }
 }
