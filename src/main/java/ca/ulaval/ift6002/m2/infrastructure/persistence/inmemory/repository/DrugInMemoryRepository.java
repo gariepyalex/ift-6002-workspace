@@ -13,8 +13,6 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.inmemory.InMemoryListingR
 
 public class DrugInMemoryRepository extends InMemoryListingRepository<Drug> implements DrugRepository {
 
-    private static final int MIN_LENGTH_OF_SEARCH_KEYWORDS = 3;
-
     public DrugInMemoryRepository(RepositoryFiller<Drug> drugFiller) {
         super(drugFiller);
     }
