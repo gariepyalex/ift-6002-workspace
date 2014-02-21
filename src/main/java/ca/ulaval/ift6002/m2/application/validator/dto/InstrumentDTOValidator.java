@@ -5,16 +5,17 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
 public class InstrumentDTOValidator {
 
     public void validate(InstrumentDTO dto) throws InvalidDTOException {
-        if (typecodeDtoIsInvalid(dto) || statusDtoIsInvalid(dto)) {
-            throw new InvalidDTOException(null);
+        if (!isTypecodeValid(dto) || !isStatusValid(dto)) {
+            throw new InvalidDTOException();
         }
     }
 
-    private boolean statusDtoIsInvalid(InstrumentDTO dto) {
-        return !(dto.status.equals("SOILED") || dto.status.equals("USED") || dto.status.equals("UNUSED"));
+    private boolean isTypecodeValid(InstrumentDTO dto) {
+        return !dto.typecode.isEmpty();
     }
 
-    private boolean typecodeDtoIsInvalid(InstrumentDTO dto) {
-        return dto.typecode.equals("");
+    private boolean isStatusValid(InstrumentDTO dto) {
+        return (dto.status.equals("SOILED") || dto.status.equals("USED") || dto.status.equals("UNUSED"));
     }
+
 }
