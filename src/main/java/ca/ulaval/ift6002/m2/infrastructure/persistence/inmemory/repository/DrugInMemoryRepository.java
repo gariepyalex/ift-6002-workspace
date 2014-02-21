@@ -38,10 +38,6 @@ public class DrugInMemoryRepository extends InMemoryListingRepository<Drug> impl
 
     @Override
     public Collection<Drug> findByBrandNameOrDescriptor(String keyword) {
-        // TODO put that in UI
-        if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
-            throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
-        }
 
         Collection<Drug> drugs = getMatchingDrug(keyword);
 

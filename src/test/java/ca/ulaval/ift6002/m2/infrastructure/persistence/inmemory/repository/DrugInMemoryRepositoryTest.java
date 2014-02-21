@@ -72,11 +72,6 @@ public class DrugInMemoryRepositoryTest {
         drugRepository.get(UNEXISTING_DIN);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void findByBrandNameOrDescriptorWhenLessThanThreeCharactersShouldThrowException() {
-        drugRepository.findByBrandNameOrDescriptor(LESS_THAN_THREE_CHARACTERS_DRUG_NAME);
-    }
-
     @Test
     public void findByBrandNameOrDescriptorWithExistingBrandNameShouldNotBeEmpty() {
         Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(TYLENOL_BRAND_NAME);

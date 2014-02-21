@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response.Status;
 import ca.ulaval.ift6002.m2.application.assemblers.DrugDTOAssembler;
 import ca.ulaval.ift6002.m2.application.responses.DrugDTO;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
+import ca.ulaval.ift6002.m2.application.uivalidator.DrugResourceValidator;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
@@ -30,6 +31,10 @@ public class DrugResource {
     @Path("/findByBrandNameOrDescriptor/{keyword}")
     public Response findDrugs(@PathParam("keyword") String keyword) {
         try {
+
+            DrugResourceValidator validator = new DrugResourceValidator();
+            validator.validateKeyword(keyword);
+
             Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
             DrugDTO[] dto = drugAssembler.toDTOs(drugsFound);
 
@@ -40,4 +45,5 @@ public class DrugResource {
             return Response.status(Status.BAD_REQUEST).entity(dto).build();
         }
     }
+
 }
