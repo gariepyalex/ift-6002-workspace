@@ -11,7 +11,8 @@ import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
 public class InstrumentDTOAssembler {
 
     public Instrument fromDTO(InstrumentDTO dto) throws InvalidDTOException {
-        InstrumentDTOValidator.validate(dto);
+        InstrumentDTOValidator validator = new InstrumentDTOValidator();
+        validator.validate(dto);
 
         InstrumentStatus status = InstrumentStatus.valueOf(dto.status);
         Typecode typecode = new Typecode(dto.typecode);
