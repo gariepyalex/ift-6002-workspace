@@ -25,7 +25,7 @@ public class PatientService {
         patientRepository.savePrescription(patient, prescription);
     }
 
-    private void validateDtoIntegrity(PrescriptionDTO dto) throws InvalidPrescriptionException {
+    private void validateDtoIntegrity(PrescriptionDTO dto) {
         if (!hasEnoughRenewals(dto)) {
             throw new InvalidPrescriptionException("The number of renewals must be greater than or equals to zero");
         }

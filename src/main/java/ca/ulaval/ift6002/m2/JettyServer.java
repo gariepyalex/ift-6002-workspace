@@ -9,14 +9,9 @@ import com.sun.jersey.spi.container.servlet.ServletContainer;
 public class JettyServer {
 
     private static final int HTTP_PORT = 8080;
-    private Server server;
+    private final Server server;
 
-    public void start() throws Exception {
-        server.start();
-        server.join();
-    }
-
-    public void init() {
+    public JettyServer() {
         server = new Server(HTTP_PORT);
         ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
 
@@ -32,6 +27,15 @@ public class JettyServer {
         jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.packages", "ca.ulaval.ift6002.m2");
 
         return jerseyServletHolder;
+    }
+
+    public void start() {
+        try {
+            server.start();
+            server.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

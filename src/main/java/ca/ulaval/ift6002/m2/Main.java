@@ -20,13 +20,7 @@ public class Main {
         setupRepositoryLocator();
 
         JettyServer server = new JettyServer();
-        server.init();
-
-        try {
-            server.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        server.start();
 
         EntityManagerProvider.clearEntityManager();
         entityManager.close();

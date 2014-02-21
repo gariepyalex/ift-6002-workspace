@@ -28,8 +28,6 @@ public class DrugInMemoryRepositoryTest {
     private static final Din TYLANETOL_DIN = new Din("222222");
     private static final Din UNEXISTING_DIN = new Din("abcde");
 
-    private static final String LESS_THAN_THREE_CHARACTERS_DRUG_NAME = "TY";
-
     private static final String UNEXISTING_BRAND_NAME = "UNEXISTING_BRAND_NAME";
     private static final String UNEXISTING_DESCRIPTOR = "UNEXISTING_DESCRIPTOR";
 
