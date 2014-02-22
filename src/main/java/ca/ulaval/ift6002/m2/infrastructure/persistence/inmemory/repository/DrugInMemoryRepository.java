@@ -30,8 +30,7 @@ public class DrugInMemoryRepository extends InMemoryListingRepository<Drug> impl
 
     @Override
     public Drug get(String name) {
-        // TODO Gariepy, see if you want to use static constructor
-        return new Drug(name);
+        return Drug.fromName(name);
     }
 
     @Override
