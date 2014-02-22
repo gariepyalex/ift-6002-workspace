@@ -36,15 +36,14 @@ public class PatientServiceTest {
     @Mock
     private PrescriptionDTOAssembler prescriptionAssembler;
 
-    // TODO see if we really mock these value objects
+    @InjectMocks
+    private PatientService patientService;
+
     @Mock
     private Prescription prescription;
 
     @Mock
     private Patient patient;
-
-    @InjectMocks
-    private PatientService patientService;
 
     @Before
     public void givenRepositoryReturns() {

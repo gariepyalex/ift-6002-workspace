@@ -10,10 +10,6 @@ public class Drug {
     private final String brandName;
     private final String descriptor;
 
-    public Drug(String brandName) {
-        this(new Din(""), brandName, "");
-    }
-
     public Drug(Din din, String brandName, String descriptor) {
         this.din = din;
         this.brandName = brandName;
@@ -41,6 +37,10 @@ public class Drug {
 
     public boolean hasSameDin(Din otherDin) {
         return getDin().equals(otherDin);
+    }
+
+    public static Drug fromName(String name) {
+        return new Drug(new Din(""), name, "");
     }
 
     @Override
