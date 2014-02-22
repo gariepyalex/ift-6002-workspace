@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -22,9 +23,17 @@ public class Patient {
         this.prescriptions = prescriptions;
     }
 
+    public static Patient addPrescriptionTo(Patient patient, Prescription prescription) {
+        Collection<Prescription> prescriptions = new ArrayList<Prescription>(patient.prescriptions);
+        prescriptions.add(prescription);
+
+        return new Patient(patient.number, prescriptions);
+
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(number);
+        return Objects.hash(number, prescriptions);
     }
 
     @Override
@@ -39,7 +48,7 @@ public class Patient {
 
         Patient other = (Patient) obj;
 
-        return Objects.equals(number, other.number);
+        return Objects.equals(number, other.number) && Objects.equals(prescriptions, other.prescriptions);
     }
 
     @Override
