@@ -16,7 +16,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 public class PatientTest {
     private static final Date DATE = new Date();
     private static final Practitioner PRACTITIONER = new Practitioner("a pratitioner name");
-    private static final Drug DRUG = new Drug("Advil");
+    private static final Drug DRUG = Drug.fromName("Advil");
     private static final int ONE_RENEWALS = 1;
 
     private static final Prescription PRESCRIPTION = new Prescription(PRACTITIONER, DATE, ONE_RENEWALS, DRUG);
