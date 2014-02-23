@@ -17,6 +17,7 @@ import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
@@ -40,7 +41,9 @@ public class OperationResource {
     private static final String MISSING_SERIAL_ERROR = "INT012";
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
+    private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
     private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
+
     private final InstrumentRepository instrumentRepository = RepositoryLocator.getInstrumentRepository();
     private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
 
@@ -66,6 +69,7 @@ public class OperationResource {
         }
 
         try {
+            instrumentValidator.validate(dto);
             operationService.saveInstrument(noIntervention, dto);
 
             URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
