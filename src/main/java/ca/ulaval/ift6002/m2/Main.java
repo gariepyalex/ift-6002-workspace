@@ -13,9 +13,9 @@ import ca.ulaval.ift6002.m2.domain.file.FileReader;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.HibernateRepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.RepositoryFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.provider.EntityManagerFactoryProvider;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.provider.EntityManagerProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 public class Main {
 

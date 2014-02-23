@@ -8,7 +8,7 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembl
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.PatientDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.DrugHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.PatientHibernateRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 public class HibernateRepositoryFactory implements RepositoryFactory {
 
