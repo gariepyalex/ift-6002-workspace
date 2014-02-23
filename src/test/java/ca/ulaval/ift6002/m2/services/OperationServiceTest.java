@@ -9,9 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.assemblers.InstrumentDTOAssembler;
-import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
-import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
+import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
+import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
+import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
@@ -26,10 +26,10 @@ public class OperationServiceTest {
     private OperationService operationService;
 
     @Mock
-    private InstrumentDTO instrumentDto;
+    private InstrumentResponse instrumentDto;
 
     @Mock
-    private InstrumentDTOAssembler instrumentAssembler;
+    private InstrumentResponseAssembler instrumentAssembler;
 
     @Mock
     private InstrumentRepository instrumentRepository;
@@ -44,8 +44,8 @@ public class OperationServiceTest {
     private Operation operation;
 
     @Test
-    public void savingInstrumentDtoShouldSaveRightInstrumentIntoInstrumentRepository() throws InvalidDTOException {
-        willReturn(instrument).given(instrumentAssembler).fromDTO(instrumentDto);
+    public void savingInstrumentDtoShouldSaveRightInstrumentIntoInstrumentRepository() throws InvalidResponseException {
+        willReturn(instrument).given(instrumentAssembler).fromResponse(instrumentDto);
         willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
 
         operationService.saveInstrument(OPERATION_ID, instrumentDto);

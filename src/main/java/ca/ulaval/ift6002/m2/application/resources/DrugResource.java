@@ -10,9 +10,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import ca.ulaval.ift6002.m2.application.assemblers.DrugDTOAssembler;
-import ca.ulaval.ift6002.m2.application.responses.DrugDTO;
-import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
+import ca.ulaval.ift6002.m2.application.assemblers.DrugResponseAssembler;
+import ca.ulaval.ift6002.m2.application.responses.DrugResponse;
+import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
 import ca.ulaval.ift6002.m2.application.uivalidator.DrugResourceValidator;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
@@ -26,7 +26,7 @@ public class DrugResource {
 
     private final DrugRepository drugRepository = RepositoryLocator.getDrugRepository();
 
-    private final DrugDTOAssembler drugAssembler = new DrugDTOAssembler();
+    private final DrugResponseAssembler drugAssembler = new DrugResponseAssembler();
 
     private final DrugResourceValidator drugValidator = new DrugResourceValidator();
 
@@ -37,11 +37,11 @@ public class DrugResource {
             drugValidator.validateKeyword(keyword);
 
             Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
-            DrugDTO[] dtos = drugAssembler.toDTOs(drugsFound);
+            DrugResponse[] dtos = drugAssembler.toResponses(drugsFound);
 
             return Response.ok(dtos).build();
         } catch (Exception e) {
-            ExceptionDTO dto = new ExceptionDTO(INVALID_SEARCH_ERROR_CODE, e.getMessage());
+            ExceptionResponse dto = new ExceptionResponse(INVALID_SEARCH_ERROR_CODE, e.getMessage());
 
             return Response.status(Status.BAD_REQUEST).entity(dto).build();
         }

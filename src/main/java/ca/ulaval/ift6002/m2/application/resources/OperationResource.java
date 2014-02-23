@@ -13,11 +13,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.ift6002.m2.application.assemblers.InstrumentDTOAssembler;
-import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
-import ca.ulaval.ift6002.m2.application.responses.InstrumentDTO;
-import ca.ulaval.ift6002.m2.application.responses.OperationDTO;
-import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
+import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
+import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
+import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
+import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
@@ -40,15 +40,15 @@ public class OperationResource {
     private static final String MISSING_SERIAL_ERROR = "INT012";
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
-    private final InstrumentDTOAssembler instrumentDtoAssembler = new InstrumentDTOAssembler();
+    private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
     private final InstrumentRepository instrumentRepository = RepositoryLocator.getInstrumentRepository();
     private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
 
     private final OperationService operationService = new OperationService(operationRepository, instrumentRepository,
-            instrumentDtoAssembler);
+            instrumentResponseAssembler);
 
     @POST
-    public Response createOperation(@Context UriInfo uri, OperationDTO dto) {
+    public Response createOperation(@Context UriInfo uri, OperationResponse dto) {
         // Operation operation = dto.toOperation();
         // TODO I assume there are some missing calls loll
 
@@ -58,9 +58,9 @@ public class OperationResource {
     @POST
     @Path("/{noIntervention}/instruments")
     public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
-            InstrumentDTO dto) {
+            InstrumentResponse dto) {
         if (instrumentRepository.contains(dto.serial)) {
-            ExceptionDTO exception = new ExceptionDTO(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
+            ExceptionResponse exception = new ExceptionResponse(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
         }
@@ -71,8 +71,8 @@ public class OperationResource {
             URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
 
             return Response.created(uriLocation).build();
-        } catch (InvalidDTOException e) {
-            ExceptionDTO exception = new ExceptionDTO(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+        } catch (InvalidResponseException e) {
+            ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
         }
@@ -81,9 +81,9 @@ public class OperationResource {
     @POST
     @Path("/{noIntervention}/instruments/{typecode}/{serial}")
     public Response modifyInstrument(@PathParam("noIntervention") String noIntervention,
-            @PathParam("typecode") String typecode, @PathParam("serial") String serial, InstrumentDTO dto) {
+            @PathParam("typecode") String typecode, @PathParam("serial") String serial, InstrumentResponse dto) {
         if (dto.serial.isEmpty()) {
-            ExceptionDTO exception = new ExceptionDTO(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
+            ExceptionResponse exception = new ExceptionResponse(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
         }
@@ -94,7 +94,7 @@ public class OperationResource {
 
             return Response.ok(instrument).build();
         } catch (Exception e) {
-            ExceptionDTO exception = new ExceptionDTO(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+            ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
         }

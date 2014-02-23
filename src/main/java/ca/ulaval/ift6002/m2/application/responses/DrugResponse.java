@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "drug")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DrugDTO {
+public class DrugResponse {
 
     public final String din;
 
@@ -16,14 +16,14 @@ public class DrugDTO {
 
     public final String description;
 
-    protected DrugDTO() {
+    protected DrugResponse() {
         // Protected constructor for jaxb
         this.din = "";
         this.brandName = "";
         this.description = "";
     }
 
-    public DrugDTO(String din, String brandName, String description) {
+    public DrugResponse(String din, String brandName, String description) {
         this.din = din;
         this.brandName = brandName;
         this.description = description;

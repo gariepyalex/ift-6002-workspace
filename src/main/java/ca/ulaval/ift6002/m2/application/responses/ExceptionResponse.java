@@ -6,17 +6,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "exception")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ExceptionDTO {
+public class ExceptionResponse {
 
     public final String code;
     public final String message;
 
-    protected ExceptionDTO() {
+    protected ExceptionResponse() {
         this.code = "";
         this.message = "";
     }
 
-    public ExceptionDTO(String code, String message) {
+    public ExceptionResponse(String code, String message) {
         this.code = code;
         this.message = message;
     }

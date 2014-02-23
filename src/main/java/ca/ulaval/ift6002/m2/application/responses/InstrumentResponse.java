@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "instrument")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class InstrumentDTO {
+public class InstrumentResponse {
 
     @XmlElement(name = "statut")
     public final String status;
@@ -18,14 +18,14 @@ public class InstrumentDTO {
     @XmlElement(name = "typecode")
     public final String typecode;
 
-    protected InstrumentDTO() {
+    protected InstrumentResponse() {
         // Protected constructor for jaxb
         this.status = "";
         this.serial = "";
         this.typecode = "";
     }
 
-    public InstrumentDTO(String typecode, String status, String serial) {
+    public InstrumentResponse(String typecode, String status, String serial) {
         this.status = status;
         this.serial = serial;
         this.typecode = typecode;

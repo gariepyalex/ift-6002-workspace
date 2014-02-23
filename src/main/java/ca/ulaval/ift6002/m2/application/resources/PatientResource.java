@@ -13,11 +13,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionDTOAssembler;
-import ca.ulaval.ift6002.m2.application.responses.ExceptionDTO;
-import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
-import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
-import ca.ulaval.ift6002.m2.application.validator.dto.PrescriptionDTOValidator;
+import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionResponseAssembler;
+import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
+import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
+import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
+import ca.ulaval.ift6002.m2.application.validator.response.PrescriptionResponseValidator;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
@@ -36,24 +36,24 @@ public class PatientResource {
 
     private final DateFormatter dateFormatter = new DateFormatter();
 
-    private final PrescriptionDTOAssembler assembler = new PrescriptionDTOAssembler(dateFormatter, drugRepository);
+    private final PrescriptionResponseAssembler prescriptionResponseAssembler = new PrescriptionResponseAssembler(dateFormatter, drugRepository);
 
-    private final PatientService patientService = new PatientService(patientRepository, assembler);
+    private final PatientService patientService = new PatientService(patientRepository, prescriptionResponseAssembler);
 
-    private final PrescriptionDTOValidator prescriptionValidator = new PrescriptionDTOValidator();
+    private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
 
     @POST
     @Path("{patientId}/prescriptions")
     public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
-            PrescriptionDTO dto) {
+            PrescriptionResponse dto) {
         try {
             prescriptionValidator.validate(dto);
 
             patientService.savePrescription(patientId, dto);
 
             return Response.created(uri.getRequestUri()).build();
-        } catch (NoSuchElementException | InvalidDTOException e) {
-            ExceptionDTO exception = new ExceptionDTO(ERROR_CODE, e.getMessage());
+        } catch (NoSuchElementException | InvalidResponseException e) {
+            ExceptionResponse exception = new ExceptionResponse(ERROR_CODE, e.getMessage());
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
         }

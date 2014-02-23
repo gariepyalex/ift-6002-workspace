@@ -14,8 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionDTOAssembler;
-import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
+import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionResponseAssembler;
+import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
@@ -28,13 +28,13 @@ public class PatientServiceTest {
     private static final Collection<Prescription> PRESCRIPTIONS = Collections.emptyList();
 
     @Mock
-    private PrescriptionDTO prescriptionDTO;
+    private PrescriptionResponse prescriptionDTO;
 
     @Mock
     private PatientRepository patientRepository;
 
     @Mock
-    private PrescriptionDTOAssembler prescriptionAssembler;
+    private PrescriptionResponseAssembler prescriptionAssembler;
 
     @InjectMocks
     private PatientService patientService;
@@ -48,7 +48,7 @@ public class PatientServiceTest {
         patient = new Patient(EXISTING_PATIENT_ID_AS_INT, PRESCRIPTIONS);
 
         willReturn(patient).given(patientRepository).get(EXISTING_PATIENT_ID_AS_INT);
-        willReturn(prescription).given(prescriptionAssembler).fromDTO(any(PrescriptionDTO.class));
+        willReturn(prescription).given(prescriptionAssembler).fromResponse(any(PrescriptionResponse.class));
     }
 
     @Test

@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
+import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
@@ -21,7 +21,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PrescriptionDTOAssemblerTest {
+public class PrescriptionResponseAssemblerTest {
 
     private static final Practitioner A_PRACTITIONER = new Practitioner("A random name");
     private static final String A_DATE_AS_STRING = "2014-01-03T12:00:00";
@@ -39,8 +39,8 @@ public class PrescriptionDTOAssemblerTest {
     private static final Prescription PRESCRIPTION = new Prescription(A_PRACTITIONER, A_DATE, A_RENEWALS,
             A_COMPLETE_DRUG);
 
-    private static final PrescriptionDTO PRESCRIPTION_DTO = new PrescriptionDTO(A_PRACTITIONER.toString(),
-            A_DATE_AS_STRING, A_RENEWALS, A_VALID_DIN.toString(), A_BRAND_NAME);
+    private static final PrescriptionResponse PRESCRIPTION_RESPONSE = new PrescriptionResponse(
+            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS, A_VALID_DIN.toString(), A_BRAND_NAME);
 
     @Mock
     private DrugRepository drugRepository;
@@ -49,7 +49,7 @@ public class PrescriptionDTOAssemblerTest {
     private DateFormatter dateFormatter;
 
     @InjectMocks
-    private PrescriptionDTOAssembler prescriptionAssembler;
+    private PrescriptionResponseAssembler prescriptionAssembler;
 
     @Before
     public void givenDrugRepositoryReturns() {
@@ -64,29 +64,29 @@ public class PrescriptionDTOAssemblerTest {
     }
 
     @Test
-    public void givenPrescriptionWhenConvertToDTOShouldReturnGivenPrescriptionDTO() {
-        PrescriptionDTO dtoBuilt = prescriptionAssembler.toDTO(PRESCRIPTION);
-        assertPrescriptionDTOEquals(PRESCRIPTION_DTO, dtoBuilt);
+    public void givenPrescriptionWhenConvertToResponseShouldReturnGivenPrescriptionResponse() {
+        PrescriptionResponse responseBuilt = prescriptionAssembler.toResponse(PRESCRIPTION);
+        assertPrescriptionResponseEquals(PRESCRIPTION_RESPONSE, responseBuilt);
     }
 
     @Test
-    public void givenPrescriptionDTOWhenConvertToPrescriptionShouldReturnGivenPrescription() {
-        Prescription prescriptionBuilt = prescriptionAssembler.fromDTO(PRESCRIPTION_DTO);
+    public void givenPrescriptionResponseWhenConvertToPrescriptionShouldReturnGivenPrescription() {
+        Prescription prescriptionBuilt = prescriptionAssembler.fromResponse(PRESCRIPTION_RESPONSE);
         assertEquals(PRESCRIPTION, prescriptionBuilt);
     }
 
     @Test
-    public void givenPrescriptionDTOContainingNameWhenConvertToPrescriptionShouldReturnGivenPrescription() {
-        PrescriptionDTO dto = new PrescriptionDTO(A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS,
-                AN_EMPTY_DIN.toString(), A_BRAND_NAME);
+    public void givenPrescriptionResponseContainingNameWhenConvertToPrescriptionShouldReturnGivenPrescription() {
+        PrescriptionResponse response = new PrescriptionResponse(A_PRACTITIONER.toString(), A_DATE_AS_STRING,
+                A_RENEWALS, AN_EMPTY_DIN.toString(), A_BRAND_NAME);
 
         Prescription prescription = new Prescription(A_PRACTITIONER, A_DATE, A_RENEWALS, A_DRUG_WITH_ONLY_A_NAME);
-        Prescription returnedPrescription = prescriptionAssembler.fromDTO(dto);
+        Prescription returnedPrescription = prescriptionAssembler.fromResponse(response);
 
         assertEquals(prescription, returnedPrescription);
     }
 
-    private void assertPrescriptionDTOEquals(PrescriptionDTO expected, PrescriptionDTO actual) {
+    private void assertPrescriptionResponseEquals(PrescriptionResponse expected, PrescriptionResponse actual) {
         assertEquals(expected.practitioner, actual.practitioner);
         assertEquals(expected.date, actual.date);
         assertEquals(expected.renewals, actual.renewals);

@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "prescription")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PrescriptionDTO {
+public class PrescriptionResponse {
 
     @XmlElement(name = "intervenant")
     public final String practitioner;
@@ -22,7 +22,7 @@ public class PrescriptionDTO {
     @XmlElement(name = "nom")
     public final String name;
 
-    public PrescriptionDTO(String practitioner, String date, Integer renewals, String din, String name) {
+    public PrescriptionResponse(String practitioner, String date, Integer renewals, String din, String name) {
         this.practitioner = practitioner;
         this.date = date;
         this.renewals = renewals;
@@ -30,7 +30,7 @@ public class PrescriptionDTO {
         this.name = name;
     }
 
-    protected PrescriptionDTO() {
+    protected PrescriptionResponse() {
         // Protected constructor for jaxb
         this.practitioner = "";
         this.date = "";
