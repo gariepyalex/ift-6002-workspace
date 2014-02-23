@@ -8,13 +8,11 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 public class Patient {
 
-    private static final Collection<Prescription> NO_PRESCRIPTIONS = new ArrayList<>();
-
     private final int number;
     private final Collection<Prescription> prescriptions;
 
     public Patient(int number) {
-        this(number, NO_PRESCRIPTIONS);
+        this(number, new ArrayList<Prescription>());
     }
 
     public Patient(int number, Collection<Prescription> prescriptions) {
