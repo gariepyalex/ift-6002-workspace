@@ -48,6 +48,7 @@ public class DrugHibernateRepositoryTest {
         willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
         willReturn(TYLENOL_DTO).given(drugDTOAssembler).toDTO(TYLENOL);
         willReturn(TYLENOL).given(drugDTOAssembler).fromDTO(TYLENOL_DTO);
+        willReturn(null).given(entityManager).find(DrugDTO.class, UNEXISTING_DIN.getValue());
 
         drugRepository = new DrugHibernateRepository(entityManager, drugDTOAssembler);
     }
