@@ -2,7 +2,7 @@ package ca.ulaval.ift6002.m2.application.validator.dto;
 
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionDTO;
 
-public class PrescriptionDTOValidator implements Validator<PrescriptionDTO> {
+public class PrescriptionDTOValidator implements DTOValidator<PrescriptionDTO> {
 
     @Override
     public void validate(PrescriptionDTO dto) throws InvalidDTOException {
