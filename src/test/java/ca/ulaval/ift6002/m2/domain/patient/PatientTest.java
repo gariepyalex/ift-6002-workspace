@@ -38,4 +38,14 @@ public class PatientTest {
         int prescriptionsCount = patient.countPrescriptions();
         assertEquals(1, prescriptionsCount);
     }
+
+    @Test
+    public void givenPatientWhenAddMultiplePrescriptionsShouldHaveCountOfTwo() {
+        patient.addPrescription(prescription);
+        patient.addPrescription(prescription);
+
+        int prescriptionsCount = patient.countPrescriptions();
+
+        assertEquals(2, prescriptionsCount);
+    }
 }
