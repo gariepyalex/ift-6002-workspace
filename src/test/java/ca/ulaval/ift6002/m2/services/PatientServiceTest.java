@@ -4,6 +4,9 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,15 +23,12 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 @RunWith(MockitoJUnitRunner.class)
 public class PatientServiceTest {
 
-    private static final String EMPTY_DIN = "";
+    private static final String EXISTING_PATIENT_ID_AS_STRING = "1212";
+    private static final int EXISTING_PATIENT_ID_AS_INT = 1212;
+    private static final Collection<Prescription> PRESCRIPTIONS = Collections.emptyList();
 
-    private static final String VALID_NAME = "advil";
-
-    private static final Integer VALID_RENEWALS = 15;
-
-    private static final String DATE = "12-12-12T12:12:12";
-    private static final String PRACTITIONER = "102032";
-    private static final String EXISTING_PATIENT_ID = "1212";
+    @Mock
+    private PrescriptionDTO prescriptionDTO;
 
     @Mock
     private PatientRepository patientRepository;
@@ -39,30 +39,24 @@ public class PatientServiceTest {
     @InjectMocks
     private PatientService patientService;
 
-    @Mock
     private Prescription prescription;
 
-    @Mock
     private Patient patient;
 
     @Before
-    public void givenRepositoryReturns() {
-        willReturn(patient).given(patientRepository).get(Integer.valueOf(EXISTING_PATIENT_ID));
-    }
+    public void setup() {
+        patient = new Patient(EXISTING_PATIENT_ID_AS_INT, PRESCRIPTIONS);
 
-    @Before
-    public void givenAssemblerReturns() {
+        willReturn(patient).given(patientRepository).get(EXISTING_PATIENT_ID_AS_INT);
         willReturn(prescription).given(prescriptionAssembler).fromDTO(any(PrescriptionDTO.class));
     }
 
     @Test
     public void givenPatientServiceWhenSavingDTOShouldSaveInRepository() {
-        PrescriptionDTO dto = new PrescriptionDTO(PRACTITIONER, DATE, VALID_RENEWALS, EMPTY_DIN, VALID_NAME);
+        patientService.savePrescription(EXISTING_PATIENT_ID_AS_STRING, prescriptionDTO);
 
-        patientService.savePrescription(EXISTING_PATIENT_ID, dto);
-
-        verify(patientRepository).get(Integer.valueOf(EXISTING_PATIENT_ID));
-        verify(patientRepository).savePrescription(patient, prescription);
+        verify(patientRepository).get(EXISTING_PATIENT_ID_AS_INT);
+        verify(patientRepository).store(any(Patient.class));
     }
 
 }

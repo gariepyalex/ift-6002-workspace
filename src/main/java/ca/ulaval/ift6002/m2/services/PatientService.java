@@ -17,10 +17,10 @@ public class PatientService {
     }
 
     public void savePrescription(String patientId, PrescriptionDTO dto) {
+        Prescription prescription = prescriptionAssembler.fromDTO(dto);
         Patient patient = patientRepository.get(Integer.valueOf(patientId));
 
-        Prescription prescription = prescriptionAssembler.fromDTO(dto);
-
-        patientRepository.savePrescription(patient, prescription);
+        patient = Patient.addPrescriptionTo(patient, prescription);
+        patientRepository.store(patient);
     }
 }
