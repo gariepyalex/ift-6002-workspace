@@ -7,11 +7,11 @@ import javax.persistence.Id;
 public class DrugDTO {
 
     @Id
-    public final String din;
+    public String din;
 
-    public final String brandName;
+    public String brandName;
 
-    public final String descriptor;
+    public String descriptor;
 
     public DrugDTO(String din, String brandName, String descriptor) {
         this.din = din;
