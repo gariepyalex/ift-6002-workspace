@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.application.resources;
+package ca.ulaval.ift6002.m2.application.ui.resources;
 
 import java.util.Collection;
 
@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response.Status;
 import ca.ulaval.ift6002.m2.application.assemblers.DrugResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.DrugResponse;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
-import ca.ulaval.ift6002.m2.application.uivalidator.DrugResourceValidator;
+import ca.ulaval.ift6002.m2.application.ui.validator.DrugResourceValidator;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;

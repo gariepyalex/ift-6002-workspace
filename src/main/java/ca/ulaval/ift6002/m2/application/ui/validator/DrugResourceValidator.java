@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.application.uivalidator;
+package ca.ulaval.ift6002.m2.application.ui.validator;
 
 public class DrugResourceValidator {
 
