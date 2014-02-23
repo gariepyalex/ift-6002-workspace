@@ -24,7 +24,7 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembl
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 
 @RunWith(MockitoJUnitRunner.class)
-public class HibernateDrugRepositoryTest {
+public class DrugHibernateRepositoryTest {
 
     private static final Din TYLENOL_DIN = new Din("111111");
     private static final Din TYLANETOL_DIN = new Din("222222");
@@ -65,7 +65,7 @@ public class HibernateDrugRepositoryTest {
         willReturn(TYLENOL_DTO).given(drugDTOAssembler).toDTO(TYLENOL);
         willReturn(TYLENOL).given(drugDTOAssembler).fromDTO(TYLENOL_DTO);
 
-        drugRepository = new HibernateDrugRepository(entityManager, drugDTOAssembler);
+        drugRepository = new DrugHibernateRepository(entityManager, drugDTOAssembler);
     }
 
     @Test

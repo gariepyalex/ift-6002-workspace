@@ -36,10 +36,10 @@ public class Main {
     }
 
     private static void setupRepositoryLocator() {
-        RepositoryFactory hibernateFactory = new HibernateRepositoryFactory();
+        RepositoryFactory hibernateRepositoryFactory = new HibernateRepositoryFactory();
         RepositoryLocator repositoryLocator = new RepositoryLocator();
 
-        repositoryLocator.register(DrugRepository.class, hibernateFactory.createDrugRepository());
+        repositoryLocator.register(DrugRepository.class, hibernateRepositoryFactory.createDrugRepository());
 
         RepositoryLocator.load(repositoryLocator);
     }
