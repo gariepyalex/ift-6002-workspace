@@ -25,7 +25,7 @@ public abstract class Operation {
         private Date date;
         private Room room;
         private final OperationType operationType;
-        private OperationStatus status;
+        private OperationStatus status = OperationStatus.PLANNED;
         private Patient patient;
 
         // Mandatory parameters
