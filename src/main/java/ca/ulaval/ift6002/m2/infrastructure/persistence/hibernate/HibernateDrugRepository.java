@@ -14,12 +14,11 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 public class HibernateDrugRepository implements DrugRepository {
 
     private final EntityManager entityManager;
+    private final DrugDTOAssembler drugAssembler;
 
-    private final DrugDTOAssembler assembler;
-
-    public HibernateDrugRepository(EntityManager entityManager, DrugDTOAssembler assembler) {
+    public HibernateDrugRepository(EntityManager entityManager, DrugDTOAssembler drugAssembler) {
         this.entityManager = entityManager;
-        this.assembler = assembler;
+        this.drugAssembler = drugAssembler;
     }
 
     @Override
@@ -30,7 +29,7 @@ public class HibernateDrugRepository implements DrugRepository {
             throw new NoSuchElementException("There is no drug with din: " + din.getValue());
         }
 
-        return assembler.fromDTO(dto);
+        return drugAssembler.fromDTO(dto);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class HibernateDrugRepository implements DrugRepository {
 
     @Override
     public void store(Drug drug) {
-        DrugDTO drugDTO = assembler.toDTO(drug);
+        DrugDTO drugDTO = drugAssembler.toDTO(drug);
         entityManager.persist(drugDTO);
     }
 }
