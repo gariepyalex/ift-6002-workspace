@@ -9,4 +9,6 @@ public interface DrugRepository {
     Drug get(String name);
 
     Collection<Drug> findByBrandNameOrDescriptor(String keyword);
+
+    void store(Drug drug);
 }

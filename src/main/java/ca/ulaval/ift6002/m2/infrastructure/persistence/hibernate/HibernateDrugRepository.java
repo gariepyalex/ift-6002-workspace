@@ -7,28 +7,29 @@ import javax.persistence.EntityManager;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembler;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 
 public class HibernateDrugRepository implements DrugRepository {
 
     private final EntityManager entityManager;
 
-    public HibernateDrugRepository() {
-        entityManager = new EntityManagerProvider().getEntityManager();
-    }
+    private final DrugDTOAssembler assembler;
 
-    public HibernateDrugRepository(EntityManager entityManager) {
+    public HibernateDrugRepository(EntityManager entityManager, DrugDTOAssembler assembler) {
         this.entityManager = entityManager;
+        this.assembler = assembler;
     }
 
     @Override
     public Drug get(Din din) {
-        return null;
+        DrugDTO dto = entityManager.find(DrugDTO.class, din.getValue());
+        return assembler.fromDTO(dto);
     }
 
     @Override
     public Drug get(String name) {
-        return null;
+        return new Drug(new Din(""), name, "");
     }
 
     @Override
@@ -37,4 +38,9 @@ public class HibernateDrugRepository implements DrugRepository {
         return null;
     }
 
+    @Override
+    public void store(Drug drug) {
+        DrugDTO drugDTO = assembler.toDTO(drug);
+        entityManager.persist(drugDTO);
+    }
 }

@@ -66,4 +66,10 @@ public class DrugInMemoryRepository extends InMemoryListingRepository<Drug> impl
         return keys;
     }
 
+    @Override
+    public void store(Drug drug) {
+        // TODO Auto-generated method stub
+
+    }
+
 }
