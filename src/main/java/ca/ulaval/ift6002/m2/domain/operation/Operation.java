@@ -28,7 +28,6 @@ public abstract class Operation {
         private OperationStatus status = OperationStatus.PLANNED;
         private Patient patient;
 
-        // Mandatory parameters
         public Builder(OperationType operationType) {
             this.operationType = operationType;
         }
