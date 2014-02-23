@@ -23,6 +23,10 @@ public class Patient {
         this.prescriptions = prescriptions;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     public static Patient addPrescriptionTo(Patient patient, Prescription prescription) {
         Collection<Prescription> prescriptions = new ArrayList<Prescription>(patient.prescriptions);
         prescriptions.add(prescription);
