@@ -1,6 +1,6 @@
 package ca.ulaval.ift6002.m2.application.validator.response;
 
-public interface ResponseValidator<RESPONSE> {
+public interface ResponseValidator<T> {
 
-    void validate(RESPONSE response) throws InvalidResponseException;
+    void validate(T response) throws InvalidResponseException;
 }
