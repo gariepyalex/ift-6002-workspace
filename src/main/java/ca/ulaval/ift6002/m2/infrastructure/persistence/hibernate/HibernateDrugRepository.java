@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
 
@@ -24,6 +25,9 @@ public class HibernateDrugRepository implements DrugRepository {
     @Override
     public Drug get(Din din) {
         DrugDTO dto = entityManager.find(DrugDTO.class, din.getValue());
+        if (dto == null) {
+            throw new NoSuchElementException("There is no drug with din: " + din.getValue());
+        }
         return assembler.fromDTO(dto);
     }
 
