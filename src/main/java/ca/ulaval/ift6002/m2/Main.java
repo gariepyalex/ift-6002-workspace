@@ -10,6 +10,7 @@ import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.file.CSVFileReader;
 import ca.ulaval.ift6002.m2.domain.file.FileParser;
 import ca.ulaval.ift6002.m2.domain.file.FileReader;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.HibernateRepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.RepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.provider.EntityManagerFactoryProvider;
@@ -40,6 +41,7 @@ public class Main {
         RepositoryLocator repositoryLocator = new RepositoryLocator();
 
         repositoryLocator.register(DrugRepository.class, hibernateRepositoryFactory.createDrugRepository());
+        repositoryLocator.register(PatientRepository.class, hibernateRepositoryFactory.createPatientRepository());
 
         RepositoryLocator.load(repositoryLocator);
     }
