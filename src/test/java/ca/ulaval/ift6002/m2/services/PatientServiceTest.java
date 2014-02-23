@@ -4,9 +4,6 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +22,6 @@ public class PatientServiceTest {
 
     private static final String EXISTING_PATIENT_ID_AS_STRING = "1212";
     private static final int EXISTING_PATIENT_ID_AS_INT = 1212;
-    private static final Collection<Prescription> PRESCRIPTIONS = Collections.emptyList();
 
     @Mock
     private PrescriptionResponse prescriptionDTO;
@@ -45,7 +41,7 @@ public class PatientServiceTest {
 
     @Before
     public void setup() {
-        patient = new Patient(EXISTING_PATIENT_ID_AS_INT, PRESCRIPTIONS);
+        patient = new Patient(EXISTING_PATIENT_ID_AS_INT);
 
         willReturn(patient).given(patientRepository).get(EXISTING_PATIENT_ID_AS_INT);
         willReturn(prescription).given(prescriptionAssembler).fromResponse(any(PrescriptionResponse.class));

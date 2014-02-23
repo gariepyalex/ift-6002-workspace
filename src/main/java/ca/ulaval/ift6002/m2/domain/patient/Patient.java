@@ -2,14 +2,13 @@ package ca.ulaval.ift6002.m2.domain.patient;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 public class Patient {
 
-    private static final Collection<Prescription> NO_PRESCRIPTIONS = Collections.emptyList();
+    private static final Collection<Prescription> NO_PRESCRIPTIONS = new ArrayList<>();
 
     private final int number;
     private final Collection<Prescription> prescriptions;
@@ -27,12 +26,8 @@ public class Patient {
         return number;
     }
 
-    public static Patient addPrescriptionTo(Patient patient, Prescription prescription) {
-        Collection<Prescription> prescriptions = new ArrayList<Prescription>(patient.prescriptions);
+    public void addPrescription(Prescription prescription) {
         prescriptions.add(prescription);
-
-        return new Patient(patient.number, prescriptions);
-
     }
 
     @Override
