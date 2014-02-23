@@ -22,9 +22,12 @@ public class PrescriptionResponseAssembler {
 
     public PrescriptionResponse toResponse(Prescription prescription) {
         String formattedDate = dateFormatter.dateToString(prescription.getDate());
+        String practitioner = prescription.getPractioner().toString();
+        Integer renewals = prescription.getRenewals();
+        String din = prescription.getDrug().getDin().toString();
+        String brandName = prescription.getDrug().getBrandName();
 
-        return new PrescriptionResponse(prescription.getPractioner().toString(), formattedDate, prescription.getRenewals(),
-                prescription.getDrug().getDin().toString(), prescription.getDrug().getBrandName());
+        return new PrescriptionResponse(practitioner, formattedDate, renewals, din, brandName);
     }
 
     public Prescription fromResponse(PrescriptionResponse response) {
