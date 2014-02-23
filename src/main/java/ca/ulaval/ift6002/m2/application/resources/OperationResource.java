@@ -20,7 +20,6 @@ import ca.ulaval.ift6002.m2.application.responses.OperationDTO;
 import ca.ulaval.ift6002.m2.application.validator.dto.InvalidDTOException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
-import ca.ulaval.ift6002.m2.domain.operation.InvalidOperationException;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 import ca.ulaval.ift6002.m2.services.OperationService;
@@ -50,16 +49,10 @@ public class OperationResource {
 
     @POST
     public Response createOperation(@Context UriInfo uri, OperationDTO dto) {
-        try {
-            // Operation operation = dto.toOperation();
-            // TODO I assume there are some missing calls loll
+        // Operation operation = dto.toOperation();
+        // TODO I assume there are some missing calls loll
 
-            return Response.created(uri.getRequestUri()).build();
-        } catch (InvalidOperationException e) {
-            ExceptionDTO exception = new ExceptionDTO(MISSING_INFORMATION, e.getMessage());
-
-            return Response.status(Status.BAD_REQUEST).entity(exception).build();
-        }
+        return Response.created(uri.getRequestUri()).build();
     }
 
     @POST

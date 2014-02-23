@@ -64,11 +64,9 @@ public abstract class Operation {
         }
 
         public Operation build() {
-            if (operationType.isCarefulOperationType()) {
-                return new DangerousOperation(this);
-            } else {
-                return new RegularOperation(this);
-            }
+            OperationFactory operationFactory = new OperationFactory();
+
+            return operationFactory.create(operationType, this);
         }
     }
 
