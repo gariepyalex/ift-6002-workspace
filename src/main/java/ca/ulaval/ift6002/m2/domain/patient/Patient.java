@@ -30,6 +30,10 @@ public class Patient {
         prescriptions.add(prescription);
     }
 
+    public int countPrescriptions() {
+        return prescriptions.size();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(number, prescriptions);
