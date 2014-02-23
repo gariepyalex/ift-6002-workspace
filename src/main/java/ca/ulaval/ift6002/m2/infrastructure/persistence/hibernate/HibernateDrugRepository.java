@@ -25,15 +25,17 @@ public class HibernateDrugRepository implements DrugRepository {
     @Override
     public Drug get(Din din) {
         DrugDTO dto = entityManager.find(DrugDTO.class, din.getValue());
+
         if (dto == null) {
             throw new NoSuchElementException("There is no drug with din: " + din.getValue());
         }
+
         return assembler.fromDTO(dto);
     }
 
     @Override
     public Drug get(String name) {
-        return new Drug(new Din(""), name, "");
+        return Drug.fromName(name);
     }
 
     @Override
