@@ -28,8 +28,8 @@ public class CSVDrugParserTest {
     private static final String DESCRIPTOR_1 = "DESCRIPTOR_1";
     private static final String DESCRIPTOR_2 = "DESCRIPTOR_2";
 
-    private static final String[] DRUG_DATA_1 = { "", "", "", "", DIN_1, BRAND_NAME_1, DESCRIPTOR_1 };
-    private static final String[] DRUG_DATA_2 = { "", "", "", "", DIN_2, BRAND_NAME_2, DESCRIPTOR_2 };
+    private static final String[] DRUG_DATA_1 = { "", "", "", DIN_1, BRAND_NAME_1, DESCRIPTOR_1 };
+    private static final String[] DRUG_DATA_2 = { "", "", "", DIN_2, BRAND_NAME_2, DESCRIPTOR_2 };
     private static final List<String[]> ALL_DRUGS_DATA = Arrays.asList(DRUG_DATA_1, DRUG_DATA_2);
 
     private static final Drug DRUG_1 = new Drug(new Din(DIN_1), BRAND_NAME_1, DESCRIPTOR_1);

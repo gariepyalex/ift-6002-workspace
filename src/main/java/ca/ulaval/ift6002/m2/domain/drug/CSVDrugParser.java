@@ -3,16 +3,16 @@ package ca.ulaval.ift6002.m2.domain.drug;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ulaval.ift6002.m2.domain.file.FileReader;
 import ca.ulaval.ift6002.m2.domain.file.FileParser;
+import ca.ulaval.ift6002.m2.domain.file.FileReader;
 
 public class CSVDrugParser implements FileParser<Drug> {
 
     private static final String DATA_FILE = "/drug.txt";
 
-    private static final int DIN_COLUMN = 4;
-    private static final int BRAND_NAME_COLUMN = 5;
-    private static final int DESCRIPTOR_COLUMN = 6;
+    private static final int DIN_COLUMN = 3;
+    private static final int BRAND_NAME_COLUMN = 4;
+    private static final int DESCRIPTOR_COLUMN = 5;
 
     private final FileReader<String[]> fileReader;
 
