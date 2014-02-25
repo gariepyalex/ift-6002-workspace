@@ -15,7 +15,7 @@ public class HibernateRepositoryFactoryTest {
     private RepositoryFactory repositoryFactory;
 
     @Before
-    public void setup() {
+    public void setUp() {
         repositoryFactory = new HibernateRepositoryFactory();
     }
 

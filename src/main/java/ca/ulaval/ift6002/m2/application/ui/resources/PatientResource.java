@@ -36,7 +36,8 @@ public class PatientResource {
 
     private final DateFormatter dateFormatter = new DateFormatter();
 
-    private final PrescriptionResponseAssembler prescriptionResponseAssembler = new PrescriptionResponseAssembler(dateFormatter, drugRepository);
+    private final PrescriptionResponseAssembler prescriptionResponseAssembler = new PrescriptionResponseAssembler(
+            dateFormatter, drugRepository);
 
     private final PatientService patientService = new PatientService(patientRepository, prescriptionResponseAssembler);
 

@@ -43,7 +43,7 @@ public class CSVDrugParserTest {
     private CSVDrugParser drugParser;
 
     @Before
-    public void setup() {
+    public void setUp() {
         willReturn(ALL_DRUGS_DATA).given(fileReader).readAll(anyString());
     }
 

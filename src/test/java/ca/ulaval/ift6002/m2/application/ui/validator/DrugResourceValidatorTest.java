@@ -11,7 +11,7 @@ public class DrugResourceValidatorTest {
     private DrugResourceValidator drugResourceValidator;
 
     @Before
-    public void setup() {
+    public void setUp() {
         drugResourceValidator = new DrugResourceValidator();
     }
 

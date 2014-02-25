@@ -32,7 +32,7 @@ public class Drug {
         Matcher matcherBrandName = compiledPattern.matcher(getBrandName());
         Matcher matcherDescriptor = compiledPattern.matcher(getDescriptor());
 
-        return (matcherBrandName.find() || matcherDescriptor.find());
+        return matcherBrandName.find() || matcherDescriptor.find();
     }
 
     public boolean hasSameDin(Din otherDin) {

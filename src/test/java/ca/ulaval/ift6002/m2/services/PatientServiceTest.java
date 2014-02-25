@@ -40,7 +40,7 @@ public class PatientServiceTest {
     private Patient patient;
 
     @Before
-    public void setup() {
+    public void setUp() {
         patient = new Patient(EXISTING_PATIENT_ID_AS_INT);
 
         willReturn(patient).given(patientRepository).get(EXISTING_PATIENT_ID_AS_INT);

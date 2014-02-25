@@ -20,7 +20,7 @@ public class DrugDTOAssemblerTest {
     private DrugDTOAssembler drugAssembler;
 
     @Before
-    public void setup() {
+    public void setUp() {
         drugAssembler = new DrugDTOAssembler();
     }
 

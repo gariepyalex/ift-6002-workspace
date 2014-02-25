@@ -18,7 +18,7 @@ public class PatientDTOAssemblerTest {
     private PatientDTOAssembler patientAssembler;
 
     @Before
-    public void setup() {
+    public void setUp() {
         patientAssembler = new PatientDTOAssembler();
     }
 

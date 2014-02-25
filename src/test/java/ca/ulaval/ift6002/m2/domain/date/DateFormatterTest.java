@@ -22,7 +22,7 @@ public class DateFormatterTest {
     private DateFormatter dateFormatter;
 
     @Before
-    public void setup() {
+    public void setUp() {
         dateFormatter = new DateFormatter();
     }
 

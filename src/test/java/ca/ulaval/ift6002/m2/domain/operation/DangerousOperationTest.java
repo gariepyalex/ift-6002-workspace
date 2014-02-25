@@ -28,7 +28,7 @@ public class DangerousOperationTest {
     private Instrument anonymousInstrument;
 
     @Before
-    public void setup() {
+    public void setUp() {
         willReturn(false).given(instrument).isAnonymous();
         willReturn(true).given(anonymousInstrument).isAnonymous();
     }

@@ -38,7 +38,7 @@ public class PatientHibernateRepositoryTest {
     private PatientDTOAssembler patientAssembler;
 
     @Before
-    public void setup() {
+    public void setUp() {
         patientRepository = new PatientHibernateRepository(entityManager, patientAssembler);
     }
 

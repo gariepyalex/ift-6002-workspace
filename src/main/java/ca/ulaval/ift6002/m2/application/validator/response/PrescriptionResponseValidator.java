@@ -20,23 +20,23 @@ public class PrescriptionResponseValidator implements ResponseValidator<Prescrip
     }
 
     private boolean hasEnoughRenewals(PrescriptionResponse response) {
-        return (response.renewals != null && response.renewals >= 0);
+        return response.renewals != null && response.renewals >= 0;
     }
 
     private boolean isDinSet(PrescriptionResponse response) {
-        return (!response.din.trim().isEmpty());
+        return !response.din.trim().isEmpty();
     }
 
     private boolean isNameSet(PrescriptionResponse response) {
-        return (!response.name.trim().isEmpty());
+        return !response.name.trim().isEmpty();
     }
 
     private boolean hasSetDinOrName(PrescriptionResponse response) {
-        return (isDinSet(response) || isNameSet(response));
+        return isDinSet(response) || isNameSet(response);
     }
 
     private boolean hasSetBothDinAndName(PrescriptionResponse response) {
-        return (isDinSet(response) && isNameSet(response));
+        return isDinSet(response) && isNameSet(response);
     }
 
 }

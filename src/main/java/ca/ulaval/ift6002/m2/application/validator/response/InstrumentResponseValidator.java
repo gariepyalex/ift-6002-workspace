@@ -19,7 +19,7 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
     }
 
     private boolean isStatusValid(InstrumentResponse response) {
-        return (response.status.equals("SOILED") || response.status.equals("USED") || response.status.equals("UNUSED"));
+        return response.status.equals("SOILED") || response.status.equals("USED") || response.status.equals("UNUSED");
     }
 
 }

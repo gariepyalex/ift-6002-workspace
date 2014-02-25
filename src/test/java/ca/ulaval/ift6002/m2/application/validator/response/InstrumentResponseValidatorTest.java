@@ -22,7 +22,7 @@ public class InstrumentResponseValidatorTest {
     private InstrumentResponseValidator instrumentResponseValidator;
 
     @Before
-    public void setup() {
+    public void setUp() {
         instrumentResponseValidator = new InstrumentResponseValidator();
     }
 

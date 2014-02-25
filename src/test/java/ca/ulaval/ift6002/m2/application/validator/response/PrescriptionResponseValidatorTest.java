@@ -23,7 +23,7 @@ public class PrescriptionResponseValidatorTest {
     private PrescriptionResponseValidator prescriptionValidator;
 
     @Before
-    public void setup() {
+    public void setUp() {
         prescriptionValidator = new PrescriptionResponseValidator();
     }
 

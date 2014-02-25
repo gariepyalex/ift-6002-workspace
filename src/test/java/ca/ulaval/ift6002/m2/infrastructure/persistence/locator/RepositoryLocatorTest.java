@@ -19,7 +19,7 @@ public class RepositoryLocatorTest {
     private static final PatientRepository PATIENT_REPOSITORY_IMPLEMENTATION = mock(PatientRepository.class);
 
     @Before
-    public void setup() {
+    public void setUp() {
         RepositoryLocator locator = new RepositoryLocator();
 
         locator.register(DrugRepository.class, DRUG_REPOSITORY_IMPLEMENTATION);

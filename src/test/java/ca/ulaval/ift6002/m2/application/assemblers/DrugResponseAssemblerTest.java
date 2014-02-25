@@ -27,7 +27,7 @@ public class DrugResponseAssemblerTest {
     private DrugResponseAssembler drugAssembler;
 
     @Before
-    public void setup() {
+    public void setUp() {
         drugAssembler = new DrugResponseAssembler();
     }
 

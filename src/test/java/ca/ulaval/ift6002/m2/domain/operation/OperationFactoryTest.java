@@ -18,7 +18,7 @@ public class OperationFactoryTest {
     private OperationFactory factory;
 
     @Before
-    public void setup() {
+    public void setUp() {
         factory = new OperationFactory();
     }
 

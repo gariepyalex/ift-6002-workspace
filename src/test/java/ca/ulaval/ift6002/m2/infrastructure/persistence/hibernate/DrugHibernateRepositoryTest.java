@@ -44,7 +44,7 @@ public class DrugHibernateRepositoryTest {
     private DrugRepository drugRepository;
 
     @Before
-    public void setup() {
+    public void setUp() {
         willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
         willReturn(TYLENOL_DTO).given(drugDTOAssembler).toDTO(TYLENOL);
         willReturn(TYLENOL).given(drugDTOAssembler).fromDTO(TYLENOL_DTO);

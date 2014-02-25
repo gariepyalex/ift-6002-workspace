@@ -21,7 +21,7 @@ public class PatientTest {
     private Patient patient;
 
     @Before
-    public void setup() {
+    public void setUp() {
         patient = new Patient(PATIENT_NUMBER);
     }
 

@@ -27,7 +27,7 @@ public class InstrumentResponseAssemblerTest {
     private InstrumentResponseAssembler instrumentAssembler;
 
     @Before
-    public void setup() {
+    public void setUp() {
         instrumentAssembler = new InstrumentResponseAssembler();
     }
 
