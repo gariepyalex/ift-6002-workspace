@@ -5,7 +5,7 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: IFT-6002
+    Checkstyle-Configuration: checkstyle_ift6002
     Description: none
 -->
 <module name="Checker">
@@ -54,10 +54,6 @@
     <module name="AvoidInlineConditionals"/>
     <module name="EmptyStatement"/>
     <module name="EqualsHashCode"/>
-    <module name="HiddenField">
-      <property name="ignoreConstructorParameter" value="true"/>
-      <property name="ignoreSetter" value="true"/>
-    </module>
     <module name="IllegalInstantiation"/>
     <module name="InnerAssignment"/>
     <module name="MagicNumber"/>
@@ -76,6 +72,17 @@
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
     <module name="UpperEll"/>
+    <module name="ClassTypeParameterName"/>
+    <module name="MethodTypeParameterName"/>
+    <module name="JUnitTestCase"/>
+    <module name="MultipleVariableDeclarations"/>
+    <module name="ModifiedControlVariable"/>
+    <module name="NestedForDepth"/>
+    <module name="NestedIfDepth"/>
+    <module name="NestedTryDepth"/>
+    <module name="NoFinalizer"/>
+    <module name="UnnecessaryParentheses"/>
+    <module name="OneStatementPerLine"/>
   </module>
   <module name="NewlineAtEndOfFile"/>
   <module name="Translation"/>
