@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -28,12 +27,12 @@ public class DrugHibernateRepositoryTest {
     private static final Din UNEXISTING_DIN = new Din("abcde");
 
     private static final String TYLENOL_BRAND_NAME = "TYLENOL";
-    private static final String TYLENOL_DESCRIPTOR_NAME = "ACETAMINOPHENE";
+    private static final String TYLENOL_DESCRIPTOR = "ACETAMINOPHENE";
 
-    private static final Drug TYLENOL = new Drug(TYLENOL_DIN, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR_NAME);
+    private static final Drug TYLENOL = new Drug(TYLENOL_DIN, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR);
 
     private static final DrugDTO TYLENOL_DTO = new DrugDTO(TYLENOL_DIN.getValue(), TYLENOL_BRAND_NAME,
-            TYLENOL_DESCRIPTOR_NAME);
+            TYLENOL_DESCRIPTOR);
 
     @Mock
     private EntityManager entityManager;
@@ -45,30 +44,45 @@ public class DrugHibernateRepositoryTest {
 
     @Before
     public void setUp() {
-        willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
-        willReturn(TYLENOL_DTO).given(drugDTOAssembler).toDTO(TYLENOL);
-        willReturn(TYLENOL).given(drugDTOAssembler).fromDTO(TYLENOL_DTO);
-        willReturn(null).given(entityManager).find(DrugDTO.class, UNEXISTING_DIN.getValue());
-
         drugRepository = new DrugHibernateRepository(entityManager, drugDTOAssembler);
     }
 
-    @Test
-    public void givenRepositoryWhenGetByDinWithExistingDinShouldReturnCorrespondingDrug() {
-        Drug drugFound = drugRepository.get(TYLENOL_DIN);
-
-        assertEquals(TYLENOL, drugFound);
-    }
-
     @Test(expected = NoSuchElementException.class)
-    public void givenRepositoryWhenGetByDinWithUnexistingDinShouldThrowException() {
+    public void whenGettingUnexistingDinShouldThrowException() {
+        willReturn(null).given(entityManager).find(DrugDTO.class, UNEXISTING_DIN.getValue());
+
         drugRepository.get(UNEXISTING_DIN);
     }
 
     @Test
-    public void givenRepositoryWhenStoreDrugShouldPersistDrug() {
+    public void whenGettingTylenolDinShouldVerifyFindHibernateCall() {
+        setUpEntityManagerWithTylenol();
+        drugRepository.get(TYLENOL_DIN);
+        verify(entityManager, times(1)).find(DrugDTO.class, TYLENOL_DIN.getValue());
+    }
+
+    @Test
+    public void whenGettingTylenolDinShouldVerifyFromDTODrugAssemblerCall() {
+        setUpEntityManagerWithTylenol();
+        drugRepository.get(TYLENOL_DIN);
+        verify(drugDTOAssembler, times(1)).fromDTO(TYLENOL_DTO);
+    }
+
+    @Test
+    public void whenStoreTylenolShouldVerifyToDTODrugAssemblerCall() {
         drugRepository.store(TYLENOL);
 
+        verify(drugDTOAssembler, times(1)).toDTO(TYLENOL);
+    }
+
+    @Test
+    public void whenStoreTylenolShouldVerifyPersistHibernateCall() {
+        willReturn(TYLENOL_DTO).given(drugDTOAssembler).toDTO(TYLENOL);
+        drugRepository.store(TYLENOL);
         verify(entityManager, times(1)).persist(TYLENOL_DTO);
+    }
+
+    private void setUpEntityManagerWithTylenol() {
+        willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
     }
 }

@@ -2,6 +2,9 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +19,9 @@ public class DrugDTOAssemblerTest {
 
     private static final Drug DRUG = new Drug(DIN, BRAND_NAME, DESCRIPTOR);
     private static final DrugDTO DRUG_DTO = new DrugDTO(DIN.toString(), BRAND_NAME, DESCRIPTOR);
+
+    private static final Collection<DrugDTO> DRUG_DTOS = Arrays.asList(DRUG_DTO);
+    private static final Collection<Drug> DRUGS = Arrays.asList(DRUG);
 
     private DrugDTOAssembler drugAssembler;
 
@@ -36,6 +42,13 @@ public class DrugDTOAssemblerTest {
         Drug drug = drugAssembler.fromDTO(DRUG_DTO);
 
         assertEquals(DRUG, drug);
+    }
+
+    @Test
+    public void givenDrugDTOsWhenConvertToDrugsShouldReturnGivenDrugs() {
+        Collection<Drug> drugsBuilt = drugAssembler.fromDTOs(DRUG_DTOS);
+
+        assertEquals(DRUGS, drugsBuilt);
     }
 
     private void assertDrugDTOEquals(DrugDTO expected, DrugDTO actual) {

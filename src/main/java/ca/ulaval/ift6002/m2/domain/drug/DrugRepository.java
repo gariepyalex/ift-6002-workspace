@@ -10,5 +10,7 @@ public interface DrugRepository {
 
     Collection<Drug> findByBrandNameOrDescriptor(String keyword);
 
+    void store(Collection<Drug> drugs);
+
     void store(Drug drug);
 }

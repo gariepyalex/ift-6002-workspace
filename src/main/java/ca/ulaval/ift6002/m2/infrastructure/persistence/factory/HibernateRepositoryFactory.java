@@ -14,9 +14,8 @@ public class HibernateRepositoryFactory implements RepositoryFactory {
 
     @Override
     public DrugRepository createDrugRepository() {
-        EntityManagerProvider entityManager = new EntityManagerProvider();
         DrugDTOAssembler drugAssembler = new DrugDTOAssembler();
-        return new DrugHibernateRepository(entityManager.getEntityManager(), drugAssembler);
+        return new DrugHibernateRepository(new EntityManagerProvider().getEntityManager(), drugAssembler);
     }
 
     @Override
@@ -31,10 +30,9 @@ public class HibernateRepositoryFactory implements RepositoryFactory {
 
     @Override
     public PatientRepository createPatientRepository() {
-        EntityManagerProvider entityManager = new EntityManagerProvider();
         PatientDTOAssembler patientAssembler = new PatientDTOAssembler();
 
-        return new PatientHibernateRepository(entityManager.getEntityManager(), patientAssembler);
+        return new PatientHibernateRepository(new EntityManagerProvider().getEntityManager(), patientAssembler);
     }
 
 }

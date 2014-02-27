@@ -17,12 +17,9 @@ public class DemoDrugRepositoryFiller {
     }
 
     public void fill() {
-
         List<Drug> drugs = drugParser.parse();
 
-        for (Drug drug : drugs) {
-            drugRepository.store(drug);
-        }
+        drugRepository.store(drugs);
     }
 
 }

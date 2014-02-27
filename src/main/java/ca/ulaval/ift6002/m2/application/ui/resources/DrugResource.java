@@ -18,7 +18,7 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
-@Path("/medicaments/")
+@Path("/medicaments")
 @Produces(MediaType.APPLICATION_JSON)
 public class DrugResource {
 
