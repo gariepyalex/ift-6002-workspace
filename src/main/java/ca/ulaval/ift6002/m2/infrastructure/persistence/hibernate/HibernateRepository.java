@@ -13,13 +13,13 @@ public abstract class HibernateRepository<T> {
     private final EntityManagerProvider entityManagerProvider;
     private final Class<T> classType;
 
+    public HibernateRepository(Class<T> classType) {
+        this(new EntityManagerProvider(), classType);
+    }
+
     public HibernateRepository(EntityManagerProvider entityManagerProvider, Class<T> classType) {
         this.entityManagerProvider = entityManagerProvider;
         this.classType = classType;
-    }
-
-    private EntityManager getEntityManagerProvider() {
-        return entityManagerProvider.getEntityManager();
     }
 
     protected T find(Object value) {
@@ -33,24 +33,37 @@ public abstract class HibernateRepository<T> {
     }
 
     protected void merge(Collection<T> elements) {
-        getEntityManagerProvider().getTransaction().begin();
+        beginTransaction();
 
         for (T element : elements) {
             getEntityManagerProvider().merge(element);
         }
 
-        getEntityManagerProvider().getTransaction().commit();
+        commitTransaction();
     }
 
     protected void merge(T element) {
-        getEntityManagerProvider().getTransaction().begin();
+        beginTransaction();
 
         getEntityManagerProvider().merge(element);
 
-        getEntityManagerProvider().getTransaction().commit();
+        commitTransaction();
     }
 
     protected TypedQuery<T> createQuery(String query) {
         return getEntityManagerProvider().createQuery(query, classType);
     }
+
+    private void beginTransaction() {
+        getEntityManagerProvider().getTransaction().begin();
+    }
+
+    private void commitTransaction() {
+        getEntityManagerProvider().getTransaction().commit();
+    }
+
+    private EntityManager getEntityManagerProvider() {
+        return entityManagerProvider.getEntityManager();
+    }
+
 }

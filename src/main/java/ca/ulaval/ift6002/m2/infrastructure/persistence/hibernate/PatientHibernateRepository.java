@@ -10,6 +10,11 @@ public class PatientHibernateRepository extends HibernateRepository<PatientDTO> 
 
     private final PatientDTOAssembler patientAssembler;
 
+    public PatientHibernateRepository(PatientDTOAssembler patientAssembler) {
+        super(PatientDTO.class);
+        this.patientAssembler = patientAssembler;
+    }
+
     public PatientHibernateRepository(EntityManagerProvider entityManagerProvider, PatientDTOAssembler patientAssembler) {
         super(entityManagerProvider, PatientDTO.class);
         this.patientAssembler = patientAssembler;
@@ -25,6 +30,7 @@ public class PatientHibernateRepository extends HibernateRepository<PatientDTO> 
     @Override
     public void store(Patient patient) {
         PatientDTO patientDTO = patientAssembler.toDTO(patient);
+
         merge(patientDTO);
     }
 

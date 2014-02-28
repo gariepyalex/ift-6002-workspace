@@ -8,14 +8,14 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembl
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.PatientDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.DrugHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.PatientHibernateRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 public class HibernateRepositoryFactory implements RepositoryFactory {
 
     @Override
     public DrugRepository createDrugRepository() {
         DrugDTOAssembler drugAssembler = new DrugDTOAssembler();
-        return new DrugHibernateRepository(new EntityManagerProvider(), drugAssembler);
+
+        return new DrugHibernateRepository(drugAssembler);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class HibernateRepositoryFactory implements RepositoryFactory {
     public PatientRepository createPatientRepository() {
         PatientDTOAssembler patientAssembler = new PatientDTOAssembler();
 
-        return new PatientHibernateRepository(new EntityManagerProvider(), patientAssembler);
+        return new PatientHibernateRepository(patientAssembler);
     }
 
 }
