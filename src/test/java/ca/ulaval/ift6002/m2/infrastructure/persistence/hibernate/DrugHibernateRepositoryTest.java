@@ -1,14 +1,17 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyCollectionOf;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -28,8 +31,6 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerPro
 public class DrugHibernateRepositoryTest {
 
     private static final Din TYLENOL_DIN = new Din("111111");
-    private static final Din UNEXISTING_DIN = new Din("abcde");
-
     private static final String TYLENOL_BRAND_NAME = "TYLENOL";
     private static final String TYLENOL_DESCRIPTOR = "ACETAMINOPHENE";
 
@@ -40,7 +41,10 @@ public class DrugHibernateRepositoryTest {
     private static final DrugDTO TYLENOL_DTO = new DrugDTO(TYLENOL_DIN.getValue(), TYLENOL_BRAND_NAME,
             TYLENOL_DESCRIPTOR);
 
-    private static final Collection<DrugDTO> DRUG_DTOS = Arrays.asList(TYLENOL_DTO);
+    private static final String A_NAME = "A name";
+    private static final Drug DRUG_WITH_NAME = Drug.fromName(A_NAME);
+
+    private static final String KEYWORD = "keyword";
 
     @Mock
     private EntityManagerProvider entityManagerProvider;
@@ -59,13 +63,6 @@ public class DrugHibernateRepositoryTest {
         drugRepository = new DrugHibernateRepository(entityManagerProvider, drugDTOAssembler);
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void whenGettingUnexistingDinShouldThrowException() {
-        willReturn(null).given(entityManager).find(DrugDTO.class, UNEXISTING_DIN.getValue());
-
-        drugRepository.get(UNEXISTING_DIN);
-    }
-
     @Test
     public void whenGettingTylenolDinShouldVerifyFindHibernateCall() {
         setUpEntityManagerWithTylenol();
@@ -80,18 +77,37 @@ public class DrugHibernateRepositoryTest {
         verify(drugDTOAssembler, times(1)).fromDTO(TYLENOL_DTO);
     }
 
-    // TODO must pass...
     @Test
-    @Ignore
+    public void whenGettingDrugByNameShouldReturnDrugWithName() {
+        Drug drugBuilt = drugRepository.get(A_NAME);
+
+        assertEquals(DRUG_WITH_NAME, drugBuilt);
+    }
+
+    @Test
     public void whenStoreDrugsShouldVerifyToDTOsDrugAssemblerCall() {
-        willReturn(DRUG_DTOS).given(drugDTOAssembler).toDTOs(DRUGS);
+        setUpEntityManagerWithTransaction();
 
         drugRepository.store(DRUGS);
 
         verify(drugDTOAssembler, times(1)).toDTOs(DRUGS);
     }
 
+    @Test
+    @Ignore
+    // TODO Do something with mock and TypedQuery...
+    public void whenFindByBrandNameOrDescriptionShouldVerifyFromDTOsAssemblerCall() {
+        drugRepository.findByBrandNameOrDescriptor(KEYWORD);
+
+        verify(drugDTOAssembler, times(1)).fromDTOs(anyCollectionOf(DrugDTO.class));
+    }
+
     private void setUpEntityManagerWithTylenol() {
         willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
+    }
+
+    private void setUpEntityManagerWithTransaction() {
+        EntityTransaction transaction = mock(EntityTransaction.class);
+        willReturn(transaction).given(entityManager).getTransaction();
     }
 }

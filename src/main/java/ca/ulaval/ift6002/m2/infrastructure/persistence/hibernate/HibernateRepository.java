@@ -23,7 +23,7 @@ public abstract class HibernateRepository<T> {
     }
 
     protected T find(Object value) {
-        T element = getEntityManagerProvider().find(classType, value);
+        T element = getEntityManager().find(classType, value);
 
         if (element == null) {
             throw new NoSuchElementException("There is no element with value: " + value);
@@ -36,7 +36,7 @@ public abstract class HibernateRepository<T> {
         beginTransaction();
 
         for (T element : elements) {
-            getEntityManagerProvider().merge(element);
+            getEntityManager().merge(element);
         }
 
         commitTransaction();
@@ -45,24 +45,24 @@ public abstract class HibernateRepository<T> {
     protected void merge(T element) {
         beginTransaction();
 
-        getEntityManagerProvider().merge(element);
+        getEntityManager().merge(element);
 
         commitTransaction();
     }
 
     protected TypedQuery<T> createQuery(String query) {
-        return getEntityManagerProvider().createQuery(query, classType);
+        return getEntityManager().createQuery(query, classType);
     }
 
     private void beginTransaction() {
-        getEntityManagerProvider().getTransaction().begin();
+        getEntityManager().getTransaction().begin();
     }
 
     private void commitTransaction() {
-        getEntityManagerProvider().getTransaction().commit();
+        getEntityManager().getTransaction().commit();
     }
 
-    private EntityManager getEntityManagerProvider() {
+    private EntityManager getEntityManager() {
         return entityManagerProvider.getEntityManager();
     }
 
