@@ -7,9 +7,10 @@ import java.util.Objects;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.EntityDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public abstract class HibernateRepository<T, E> {
+public abstract class HibernateRepository<T extends EntityDTO> {
 
     private final EntityManagerProvider entityManagerProvider;
     private final Class<T> classType;
@@ -37,6 +38,7 @@ public abstract class HibernateRepository<T, E> {
         beginTransaction();
 
         for (T element : elements) {
+            putKey(element);
             getEntityManager().merge(element);
         }
 
@@ -46,6 +48,7 @@ public abstract class HibernateRepository<T, E> {
     protected void merge(T element) {
         beginTransaction();
 
+        putKey(element);
         getEntityManager().merge(element);
 
         commitTransaction();
@@ -67,10 +70,14 @@ public abstract class HibernateRepository<T, E> {
         return entityManagerProvider.getEntityManager();
     }
 
+    private void putKey(T element) {
+        element.id = hashKeys(getKeys(element));
+    }
+
     protected final int hashKeys(Object[] keys) {
         return Objects.hash(keys);
     }
 
-    protected abstract Object[] getKeys(E element);
+    protected abstract Object[] getKeys(T element);
 
 }

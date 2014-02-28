@@ -20,7 +20,7 @@ public class PrescriptionDTOAssembler {
         String date = dateFormatter.dateToString(prescription.getDate());
         Integer renewals = prescription.getRenewals();
         DrugDTO drugDTO = drugDTOAssembler.toDTO(prescription.getDrug());
-
-        return new PrescriptionDTO(practitioner, date, renewals, drugDTO);
+        // TODO do something with this
+        return new PrescriptionDTO(practitioner, date, renewals);
     }
 }

@@ -2,6 +2,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.TypedQuery;
 
@@ -12,7 +13,7 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembl
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public class DrugHibernateRepository extends HibernateRepository<DrugDTO, Drug> implements DrugRepository {
+public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implements DrugRepository {
 
     private final DrugDTOAssembler drugDTOAssembler;
 
@@ -28,7 +29,8 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO, Drug> 
 
     @Override
     public Drug get(Din din) {
-        DrugDTO dto = find(din.getValue());
+        // TODO IMPROVE THIS
+        DrugDTO dto = find(Objects.hash(din.getValue()));
 
         return drugDTOAssembler.fromDTO(dto);
     }
@@ -53,13 +55,12 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO, Drug> 
     @Override
     public void store(Collection<Drug> drugs) {
         Collection<DrugDTO> dtos = drugDTOAssembler.toDTOs(drugs);
-
         merge(dtos);
     }
 
     @Override
-    protected Object[] getKeys(Drug element) {
-        Object[] keys = { element.getDin() };
+    protected Object[] getKeys(DrugDTO element) {
+        Object[] keys = { element.din };
         return keys;
     }
 }

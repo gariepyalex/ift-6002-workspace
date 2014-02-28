@@ -22,7 +22,7 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PrescriptionDTOAssemblerTest {
-
+    // TODO Refactor
     private static final String PRACTITIONER_NAME = "practitioner";
     private static final String FORMATTED_DATE = "date";
     private static final Integer RENEWALS = 15;
@@ -34,7 +34,7 @@ public class PrescriptionDTOAssemblerTest {
     private static final DrugDTO DRUG_DTO = new DrugDTO(DIN.toString(), BRAND_NAME, DESCRIPTOR);
 
     private static final PrescriptionDTO PRESCRIPTION_DTO = new PrescriptionDTO(PRACTITIONER_NAME, FORMATTED_DATE,
-            RENEWALS, DRUG_DTO);
+            RENEWALS);
 
     private static final Practitioner PRACTITIONER = new Practitioner(PRACTITIONER_NAME);
     private static final Date DATE = new Date();
@@ -62,12 +62,5 @@ public class PrescriptionDTOAssemblerTest {
         assertEquals(expected.practitioner, actual.practitioner);
         assertEquals(expected.date, actual.date);
         assertEquals(expected.renewals, actual.renewals);
-        assertDrugDTOEquals(expected.drugDTO, actual.drugDTO);
-    }
-
-    private void assertDrugDTOEquals(DrugDTO expected, DrugDTO actual) {
-        assertEquals(expected.din, actual.din);
-        assertEquals(expected.brandName, actual.brandName);
-        assertEquals(expected.descriptor, actual.descriptor);
     }
 }
