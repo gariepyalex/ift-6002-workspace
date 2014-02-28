@@ -2,12 +2,14 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,7 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.PatientDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientHibernateRepositoryTest {
@@ -32,6 +35,9 @@ public class PatientHibernateRepositoryTest {
     private PatientRepository patientRepository;
 
     @Mock
+    private EntityManagerProvider entityManagerProvider;
+
+    @Mock
     private EntityManager entityManager;
 
     @Mock
@@ -39,7 +45,9 @@ public class PatientHibernateRepositoryTest {
 
     @Before
     public void setUp() {
-        patientRepository = new PatientHibernateRepository(entityManager, patientAssembler);
+        willReturn(entityManager).given(entityManagerProvider).getEntityManager();
+        willReturn(mock(EntityTransaction.class)).given(entityManager).getTransaction();
+        patientRepository = new PatientHibernateRepository(entityManagerProvider, patientAssembler);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -63,6 +71,6 @@ public class PatientHibernateRepositoryTest {
     public void givenPatientWhenStoringShouldPersist() {
         willReturn(PATIENT_DTO).given(patientAssembler).toDTO(PATIENT);
         patientRepository.store(PATIENT);
-        verify(entityManager, times(1)).persist(PATIENT_DTO);
+        verify(entityManager, times(1)).merge(PATIENT_DTO);
     }
 }

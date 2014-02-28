@@ -3,7 +3,6 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
@@ -11,13 +10,14 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implements DrugRepository {
 
     private final DrugDTOAssembler drugDTOAssembler;
 
-    public DrugHibernateRepository(EntityManager entityManager, DrugDTOAssembler drugAssembler) {
-        super(entityManager, DrugDTO.class);
+    public DrugHibernateRepository(EntityManagerProvider entityManagerProvider, DrugDTOAssembler drugAssembler) {
+        super(entityManagerProvider, DrugDTO.class);
         this.drugDTOAssembler = drugAssembler;
     }
 

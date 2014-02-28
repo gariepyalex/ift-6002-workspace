@@ -22,6 +22,7 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DrugHibernateRepositoryTest {
@@ -42,16 +43,20 @@ public class DrugHibernateRepositoryTest {
     private static final Collection<DrugDTO> DRUG_DTOS = Arrays.asList(TYLENOL_DTO);
 
     @Mock
-    private EntityManager entityManager;
+    private EntityManagerProvider entityManagerProvider;
 
     @Mock
     private DrugDTOAssembler drugDTOAssembler;
+
+    @Mock
+    private EntityManager entityManager;
 
     private DrugRepository drugRepository;
 
     @Before
     public void setUp() {
-        drugRepository = new DrugHibernateRepository(entityManager, drugDTOAssembler);
+        willReturn(entityManager).given(entityManagerProvider).getEntityManager();
+        drugRepository = new DrugHibernateRepository(entityManagerProvider, drugDTOAssembler);
     }
 
     @Test(expected = NoSuchElementException.class)
