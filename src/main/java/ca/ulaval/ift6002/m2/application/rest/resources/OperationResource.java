@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.application.ui.resources;
+package ca.ulaval.ift6002.m2.application.rest.resources;
 
 import java.net.URI;
 
