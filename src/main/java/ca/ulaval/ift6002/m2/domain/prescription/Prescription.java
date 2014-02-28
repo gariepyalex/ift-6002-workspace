@@ -56,9 +56,4 @@ public class Prescription {
                 && Objects.equals(renewals, other.renewals) && Objects.equals(drug, other.drug);
     }
 
-    @Override
-    public String toString() {
-        return drug.toString() + " used on " + date.toString() + " by " + practitioner.toString();
-    }
-
 }
