@@ -40,10 +40,10 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
 
     @Override
     public Collection<Drug> findByBrandNameOrDescriptor(String keyword) {
-        String query = "FROM DrugDTO WHERE brandName LIKE :keyword OR descriptor LIKE :keyword";
+        String query = "FROM DrugDTO WHERE LOWER(brandName) LIKE :keyword OR LOWER(descriptor) LIKE :keyword";
         TypedQuery<DrugDTO> typedQuery = createQuery(query);
 
-        typedQuery.setParameter("keyword", '%' + keyword + '%');
+        typedQuery.setParameter("keyword", '%' + keyword.toLowerCase() + '%');
 
         List<DrugDTO> dtos = typedQuery.getResultList();
 
