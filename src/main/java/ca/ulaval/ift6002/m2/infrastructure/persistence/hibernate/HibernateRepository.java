@@ -2,13 +2,14 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public abstract class HibernateRepository<T> {
+public abstract class HibernateRepository<T, E> {
 
     private final EntityManagerProvider entityManagerProvider;
     private final Class<T> classType;
@@ -65,5 +66,11 @@ public abstract class HibernateRepository<T> {
     private EntityManager getEntityManager() {
         return entityManagerProvider.getEntityManager();
     }
+
+    protected final int hashKeys(Object[] keys) {
+        return Objects.hash(keys);
+    }
+
+    protected abstract Object[] getKeys(E element);
 
 }

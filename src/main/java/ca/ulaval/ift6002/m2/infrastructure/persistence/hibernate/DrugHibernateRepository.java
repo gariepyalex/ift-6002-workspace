@@ -12,7 +12,7 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembl
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implements DrugRepository {
+public class DrugHibernateRepository extends HibernateRepository<DrugDTO, Drug> implements DrugRepository {
 
     private final DrugDTOAssembler drugDTOAssembler;
 
@@ -55,5 +55,11 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
         Collection<DrugDTO> dtos = drugDTOAssembler.toDTOs(drugs);
 
         merge(dtos);
+    }
+
+    @Override
+    protected Object[] getKeys(Drug element) {
+        Object[] keys = { element.getDin() };
+        return keys;
     }
 }
