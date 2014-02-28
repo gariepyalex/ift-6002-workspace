@@ -51,9 +51,25 @@ public class DrugDTOAssemblerTest {
         assertEquals(DRUGS, drugsBuilt);
     }
 
+    @Test
+    public void givenDrugsWhenConvertToDrugDTOsShouldReturnGivenDrugDTOs() {
+        Collection<DrugDTO> dtosBuilt = drugAssembler.toDTOs(DRUGS);
+
+        assertDrugDTOEquals(DRUG_DTOS, dtosBuilt);
+    }
+
     private void assertDrugDTOEquals(DrugDTO expected, DrugDTO actual) {
         assertEquals(expected.din, actual.din);
         assertEquals(expected.brandName, actual.brandName);
         assertEquals(expected.descriptor, actual.descriptor);
+    }
+
+    private void assertDrugDTOEquals(Collection<DrugDTO> expected, Collection<DrugDTO> actual) {
+        DrugDTO[] expectedArray = expected.toArray(new DrugDTO[expected.size()]);
+        DrugDTO[] actualArray = actual.toArray(new DrugDTO[actual.size()]);
+
+        for (int i = 0; i < expectedArray.length; ++i) {
+            assertDrugDTOEquals(expectedArray[i], actualArray[i]);
+        }
     }
 }

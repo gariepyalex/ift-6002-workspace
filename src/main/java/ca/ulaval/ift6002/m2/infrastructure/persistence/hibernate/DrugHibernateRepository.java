@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -13,24 +12,18 @@ import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 
-public class DrugHibernateRepository implements DrugRepository {
-
-    private final EntityManager entityManager;
+public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implements DrugRepository {
 
     private final DrugDTOAssembler drugDTOAssembler;
 
     public DrugHibernateRepository(EntityManager entityManager, DrugDTOAssembler drugAssembler) {
-        this.entityManager = entityManager;
+        super(entityManager, DrugDTO.class);
         this.drugDTOAssembler = drugAssembler;
     }
 
     @Override
     public Drug get(Din din) {
-        DrugDTO dto = entityManager.find(DrugDTO.class, din.getValue());
-
-        if (dto == null) {
-            throw new NoSuchElementException("There is no drug with din: " + din.getValue());
-        }
+        DrugDTO dto = find(din.getValue());
 
         return drugDTOAssembler.fromDTO(dto);
     }
@@ -42,8 +35,8 @@ public class DrugHibernateRepository implements DrugRepository {
 
     @Override
     public Collection<Drug> findByBrandNameOrDescriptor(String keyword) {
-        final String query = "FROM DrugDTO WHERE brandName LIKE :keyword OR descriptor LIKE :keyword";
-        TypedQuery<DrugDTO> typedQuery = entityManager.createQuery(query, DrugDTO.class);
+        String query = "FROM DrugDTO WHERE brandName LIKE :keyword OR descriptor LIKE :keyword";
+        TypedQuery<DrugDTO> typedQuery = createQuery(query);
 
         typedQuery.setParameter("keyword", '%' + keyword + '%');
 
@@ -54,19 +47,8 @@ public class DrugHibernateRepository implements DrugRepository {
 
     @Override
     public void store(Collection<Drug> drugs) {
-        entityManager.getTransaction().begin();
+        Collection<DrugDTO> dtos = drugDTOAssembler.toDTOs(drugs);
 
-        for (Drug drug : drugs) {
-            store(drug);
-        }
-
-        entityManager.getTransaction().commit();
-    }
-
-    @Override
-    public void store(Drug drug) {
-        DrugDTO drugDTO = drugDTOAssembler.toDTO(drug);
-
-        entityManager.persist(drugDTO);
+        merge(dtos);
     }
 }

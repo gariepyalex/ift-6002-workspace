@@ -19,6 +19,18 @@ public class DrugDTOAssembler {
         return new Drug(din, dto.brandName, dto.descriptor);
     }
 
+    public Collection<DrugDTO> toDTOs(Collection<Drug> drugs) {
+        Collection<DrugDTO> dtos = new ArrayList<>(drugs.size());
+
+        for (Drug drug : drugs) {
+            DrugDTO dto = toDTO(drug);
+
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
     public Collection<Drug> fromDTOs(Collection<DrugDTO> dtos) {
         Collection<Drug> drugs = new ArrayList<>(dtos.size());
 
