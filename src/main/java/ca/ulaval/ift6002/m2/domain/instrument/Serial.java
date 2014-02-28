@@ -34,9 +34,4 @@ public class Serial {
         return Objects.equals(value, other.value);
     }
 
-    @Override
-    public String toString() {
-        return value;
-    }
-
 }
