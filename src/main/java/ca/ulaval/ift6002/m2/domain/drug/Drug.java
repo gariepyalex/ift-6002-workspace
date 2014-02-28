@@ -1,8 +1,6 @@
 package ca.ulaval.ift6002.m2.domain.drug;
 
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Drug {
 
@@ -26,17 +24,6 @@ public class Drug {
 
     public String getDescriptor() {
         return descriptor;
-    }
-
-    public boolean matchBrandNameOrDescription(Pattern compiledPattern) {
-        Matcher matcherBrandName = compiledPattern.matcher(getBrandName());
-        Matcher matcherDescriptor = compiledPattern.matcher(getDescriptor());
-
-        return matcherBrandName.find() || matcherDescriptor.find();
-    }
-
-    public boolean hasSameDin(Din otherDin) {
-        return getDin().equals(otherDin);
     }
 
     public static Drug fromName(String name) {
