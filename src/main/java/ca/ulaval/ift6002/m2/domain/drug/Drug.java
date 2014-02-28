@@ -51,9 +51,4 @@ public class Drug {
                 && Objects.equals(descriptor, other.descriptor);
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(din);
-    }
-
 }
