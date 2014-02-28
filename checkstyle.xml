@@ -5,7 +5,7 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: checkstyle_ift6002
+    Checkstyle-Configuration: ift2
     Description: none
 -->
 <module name="Checker">
@@ -60,7 +60,10 @@
     <module name="SimplifyBooleanExpression"/>
     <module name="SimplifyBooleanReturn"/>
     <module name="FinalClass"/>
-    <module name="HideUtilityClassConstructor"/>
+    <module name="HideUtilityClassConstructor">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="InterfaceIsType"/>
     <module name="ArrayTypeStyle"/>
     <module name="TodoComment">
