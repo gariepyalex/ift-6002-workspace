@@ -24,7 +24,7 @@ public class Patient {
         return number;
     }
 
-    public void addPrescription(Prescription prescription) {
+    public void receivesPrescription(Prescription prescription) {
         prescriptions.add(prescription);
     }
 

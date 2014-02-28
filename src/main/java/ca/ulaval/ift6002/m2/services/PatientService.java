@@ -20,7 +20,7 @@ public class PatientService {
         Prescription prescription = prescriptionAssembler.fromResponse(dto);
         Patient patient = patientRepository.get(Integer.valueOf(patientId));
 
-        patient.addPrescription(prescription);
+        patient.receivesPrescription(prescription);
 
         patientRepository.store(patient);
     }
