@@ -30,8 +30,4 @@ public class Room {
         return Objects.equals(value, other.value);
     }
 
-    @Override
-    public String toString() {
-        return value;
-    }
 }

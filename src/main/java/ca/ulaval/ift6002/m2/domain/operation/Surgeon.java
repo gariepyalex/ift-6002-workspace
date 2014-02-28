@@ -29,9 +29,4 @@ public class Surgeon {
 
         return Objects.equals(license, other.license);
     }
-
-    @Override
-    public String toString() {
-        return String.valueOf(license);
-    }
 }
