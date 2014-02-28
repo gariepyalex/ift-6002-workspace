@@ -18,4 +18,10 @@ public class DrugDTO {
         this.brandName = brandName;
         this.descriptor = descriptor;
     }
+
+    protected DrugDTO() {
+        this.din = "";
+        this.brandName = "";
+        this.descriptor = "";
+    }
 }

@@ -20,20 +20,11 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerPro
 public class Main {
 
     public static void main(String[] args) {
-        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
-
         setupRepositoryLocator();
         fillDrugRepository();
 
         JettyServer server = new JettyServer();
         server.start();
-
-        EntityManagerProvider.clearEntityManager();
-        entityManager.close();
-        entityManagerFactory.close();
-
     }
 
     private static void setupRepositoryLocator() {
@@ -47,9 +38,16 @@ public class Main {
     }
 
     private static void fillDrugRepository() {
+        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManagerProvider.setEntityManager(entityManager);
+
         FileReader<String[]> fileReader = new CSVFileReader();
         FileParser<Drug> drugParser = new CSVDrugParser(fileReader);
         new DemoDrugRepositoryFiller(RepositoryLocator.getDrugRepository(), drugParser).fill();
+
+        EntityManagerProvider.clearEntityManager();
+        entityManager.close();
     }
 
 }
