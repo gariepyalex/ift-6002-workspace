@@ -52,8 +52,4 @@ public class Patient {
         return Objects.equals(number, other.number) && Objects.equals(prescriptions, other.prescriptions);
     }
 
-    @Override
-    public String toString() {
-        return "Patient #" + String.valueOf(number);
-    }
 }
