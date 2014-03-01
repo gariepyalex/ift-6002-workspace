@@ -1,7 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.assertFalse;
-import static org.mockito.BDDMockito.willReturn;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,15 +11,18 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DangerousOperationTest {
+
+    private static final int EXPECTED_INSTRUMENT_COUNT = 1;
 
     @Mock
     private Operation.Builder builder;
 
     @InjectMocks
-    private DangerousOperation operation;
+    private DangerousOperation dangerousOperation;
 
     @Mock
     private Instrument instrument;
@@ -33,17 +36,26 @@ public class DangerousOperationTest {
         willReturn(true).given(anonymousInstrument).isAnonymous();
     }
 
-    @Test
-    public void givenInstrumentWhenTestingElligiblityShouldReturnFalse() {
-        boolean isElligible = operation.isInstrumentElligibleToOperation(instrument);
-
-        assertFalse(isElligible);
+    @Test(expected = InvalidInstrumentException.class)
+    public void whenAddingAnInvalidInstrumentShouldThrowInvalidInstrumentException() {
+        dangerousOperation.add(anonymousInstrument);
     }
 
     @Test
-    public void givenAnonymousInstrumentWhenTestingElligibilityShouldReturnFalse() {
-        boolean isElligible = operation.isInstrumentElligibleToOperation(anonymousInstrument);
+    public void whenAddingAnInstrumentCountShouldIncrease() {
+        addInstrument();
 
-        assertFalse(isElligible);
+        assertEquals(EXPECTED_INSTRUMENT_COUNT, dangerousOperation.countInstruments());
+    }
+
+    @Test
+    public void whenAddingAnInstrumentOperationShouldHaveInstrument() {
+        addInstrument();
+
+        assertTrue(dangerousOperation.has(instrument));
+    }
+
+    private void addInstrument() {
+        dangerousOperation.add(instrument);
     }
 }

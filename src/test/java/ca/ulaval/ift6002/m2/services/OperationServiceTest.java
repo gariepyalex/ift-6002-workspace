@@ -1,7 +1,7 @@
 package ca.ulaval.ift6002.m2.services;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,6 @@ import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 
@@ -32,9 +31,6 @@ public class OperationServiceTest {
     private InstrumentResponseAssembler instrumentAssembler;
 
     @Mock
-    private InstrumentRepository instrumentRepository;
-
-    @Mock
     private OperationRepository operationRepository;
 
     @Mock
@@ -50,6 +46,6 @@ public class OperationServiceTest {
 
         operationService.saveInstrument(OPERATION_ID, instrumentDto);
 
-        verify(instrumentRepository).store(operation, instrument);
+        verify(operationRepository).storeInstrument(operation, instrument);
     }
 }

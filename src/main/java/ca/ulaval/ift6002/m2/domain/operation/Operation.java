@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 public abstract class Operation {
@@ -16,7 +15,7 @@ public abstract class Operation {
     private final Room room;
     private final OperationStatus status;
     private final Patient patient;
-    private final List<Instrument> instruments;
+    protected final List<Instrument> instruments;
 
     // Builder implementation suggested by Joshua Bloch in Effective Java
     public static class Builder {
@@ -79,7 +78,7 @@ public abstract class Operation {
         this.instruments = new ArrayList<>();
     }
 
-    public boolean hasInstrument(Instrument instrument) {
+    public boolean has(Instrument instrument) {
         return instruments.contains(instrument);
     }
 
@@ -87,17 +86,5 @@ public abstract class Operation {
         return instruments.size();
     }
 
-    public void addInstrument(Instrument instrument) {
-        if (hasInstrument(instrument)) {
-            throw new InvalidInstrumentException("This instrument is invalid: " + instrument);
-        }
-
-        if (!isInstrumentElligibleToOperation(instrument)) {
-            throw new InvalidInstrumentException("Instrument " + instrument + " is not elligible.");
-        }
-
-        instruments.add(instrument);
-    }
-
-    protected abstract boolean isInstrumentElligibleToOperation(Instrument instrument);
+    public abstract void add(Instrument instrument);
 }

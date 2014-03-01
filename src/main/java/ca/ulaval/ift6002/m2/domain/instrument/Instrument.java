@@ -42,13 +42,17 @@ public class Instrument {
         if (this == obj) {
             return true;
         }
-
-        if (!(obj instanceof Instrument)) {
+        if (obj == null) {
             return false;
         }
 
-        Instrument instrument = (Instrument) obj;
-        return !isAnonymous() && serial.equals(instrument.serial);
+        if (obj instanceof Instrument) {
+            Instrument instrument = (Instrument) obj;
+            return !isAnonymous() && serial.equals(instrument.serial);
+        } else {
+            return false;
+        }
+
     }
 
     @Override

@@ -6,25 +6,30 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 public class Typecode {
 
-	private final String value;
+    private final String value;
 
-	public Typecode(String value) {
-		this.value = value;
-	}
+    public Typecode(String value) {
+        this.value = value;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(value);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-
-		if ((obj instanceof Typecode)) {
-			Typecode other = (Typecode) obj;
-			return new EqualsBuilder().append(value, other.value).isEquals();
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Typecode) {
+            Typecode other = (Typecode) obj;
+            return new EqualsBuilder().append(value, other.value).isEquals();
+        } else {
+            return false;
+        }
+    }
 }
