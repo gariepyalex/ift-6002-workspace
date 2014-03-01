@@ -5,6 +5,8 @@ import nl.jqno.equalsverifier.Warning;
 
 import org.junit.Test;
 
+import ca.ulaval.ift6002.m2.domain.room.Room;
+
 public class RoomTest {
 
     @Test

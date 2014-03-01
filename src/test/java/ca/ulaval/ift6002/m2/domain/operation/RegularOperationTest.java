@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,14 +34,14 @@ public class RegularOperationTest {
     @Mock
     private Patient patient;
 
-    @InjectMocks
-    private RegularOperation regularOperation;
-
     @Mock
     private Instrument instrument;
 
     @Mock
     private Instrument anonymousInstrument;
+
+    @InjectMocks
+    private RegularOperation regularOperation;
 
     @Before
     public void setUp() {

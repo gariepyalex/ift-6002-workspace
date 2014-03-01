@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 public class OperationFactory {
