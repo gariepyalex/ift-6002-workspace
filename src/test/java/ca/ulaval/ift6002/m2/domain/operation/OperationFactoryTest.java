@@ -1,7 +1,8 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
+import static org.junit.Assert.*;
+
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,13 +10,29 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.room.Room;
+import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
+
 @RunWith(MockitoJUnitRunner.class)
 public class OperationFactoryTest {
 
-    @Mock
-    private Operation.Builder builder;
+    private static final String DESCRIPTION = "Description";
+    private static final OperationStatus STATUS = OperationStatus.PLANNED;
 
     private OperationFactory factory;
+
+    @Mock
+    Surgeon surgeon;
+
+    @Mock
+    Date date;
+
+    @Mock
+    Room room;
+
+    @Mock
+    Patient patient;
 
     @Before
     public void setUp() {
@@ -23,31 +40,33 @@ public class OperationFactoryTest {
     }
 
     @Test
-    public void givenRegularTypeWhenCreatingOperationShouldReturnRegularOperationInstance() {
-        OperationType regularType = createRegularType();
-        willReturn(new RegularOperation(builder)).given(builder).build();
-
-        Operation createdOperation = factory.create(regularType, builder);
-
-        assertEquals(RegularOperation.class, createdOperation.getClass());
+    public void whenTypeIsEyeShouldReturnEyeOperation() {
+        Operation operation = factory.create(OperationType.EYE, DESCRIPTION, surgeon, date, room, STATUS, patient);
+        assertTrue(operation instanceof EyeOperation);
     }
 
     @Test
-    public void givenDangerousTypeWhenCreatingOperationShouldReturnDangerousOperationInstance() {
-        OperationType dangerousType = createDangerousType();
-        willReturn(new DangerousOperation(builder)).given(builder).build();
-
-        Operation createdOperation = factory.create(dangerousType, builder);
-
-        assertEquals(DangerousOperation.class, createdOperation.getClass());
+    public void whenTypeIsHeartShouldReturnHeartOperation() {
+        Operation operation = factory.create(OperationType.HEART, DESCRIPTION, surgeon, date, room, STATUS, patient);
+        assertTrue(operation instanceof HeartOperation);
     }
 
-    // TODO we cant mock enums... what should we do?
-    private OperationType createRegularType() {
-        return OperationType.OTHER;
+    @Test
+    public void whenTypeIsMarrowShouldReturnMarrowOperation() {
+        Operation operation = factory.create(OperationType.MARROW, DESCRIPTION, surgeon, date, room, STATUS, patient);
+        assertTrue(operation instanceof MarrowOperation);
     }
 
-    private OperationType createDangerousType() {
-        return OperationType.EYE;
+    @Test
+    public void whenTypeIsOncolyShouldReturnOncologicalOperation() {
+        Operation operation = factory.create(OperationType.ONCOLOGY, DESCRIPTION, surgeon, date, room, STATUS, patient);
+        assertTrue(operation instanceof OncologicalOperation);
     }
+
+    @Test
+    public void whenTypeIsOtherShouldReturnRegularOperation() {
+        Operation operation = factory.create(OperationType.OTHER, DESCRIPTION, surgeon, date, room, STATUS, patient);
+        assertTrue(operation instanceof RegularOperation);
+    }
+
 }

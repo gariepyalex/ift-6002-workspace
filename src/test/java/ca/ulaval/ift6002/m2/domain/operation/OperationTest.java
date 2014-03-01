@@ -3,6 +3,8 @@ package ca.ulaval.ift6002.m2.domain.operation;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +12,16 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.room.Room;
+import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationTest {
+
+    private static final OperationStatus OPERATION_STATUS = OperationStatus.PLANNED;
+
+    private static final String DESCRIPTION = "description";
 
     @Mock
     private Instrument instrument;
@@ -21,7 +30,16 @@ public class OperationTest {
     private Instrument anonymousInstrument;
 
     @Mock
-    private Operation.Builder builder;
+    private Surgeon surgeon;
+
+    @Mock
+    private Date date;
+
+    @Mock
+    private Room room;
+
+    @Mock
+    private Patient patient;
 
     private Operation operation;
 
@@ -45,41 +63,6 @@ public class OperationTest {
         assertFalse(hasInstrument);
     }
 
-    @Test
-    public void givenEyeTypeWhenBuildingOperationShouldReturnDangerousOperation() {
-        Operation eyeOperation = new Operation.Builder(OperationType.EYE).build();
-
-        assertDangerousOperation(eyeOperation);
-    }
-
-    @Test
-    public void givenHeartTypeWhenBuildingOperationShouldReturnDangerousOperation() {
-        Operation heartOperation = new Operation.Builder(OperationType.HEART).build();
-
-        assertDangerousOperation(heartOperation);
-    }
-
-    @Test
-    public void givenMarrowTypeWhenBuildingOperationShouldReturnDangerousOperation() {
-        Operation marrowOperation = new Operation.Builder(OperationType.MARROW).build();
-
-        assertDangerousOperation(marrowOperation);
-    }
-
-    @Test
-    public void givenOncologyTypeWhenBuildingOperationShouldReturnRegularOperation() {
-        Operation oncologyOperation = new Operation.Builder(OperationType.ONCOLOGY).build();
-
-        assertRegularOperation(oncologyOperation);
-    }
-
-    @Test
-    public void givenOtherTypeWhenBuildingOperationShouldReturnRegularOperation() {
-        Operation otherOperation = new Operation.Builder(OperationType.OTHER).build();
-
-        assertRegularOperation(otherOperation);
-    }
-
     private void assertRegularOperation(Operation operation) {
         assertEquals(RegularOperation.class, operation.getClass());
     }
@@ -96,7 +79,7 @@ public class OperationTest {
     private Operation createEligibleOperation() {
         Operation eligibleOperation;
 
-        eligibleOperation = new Operation(builder) {
+        eligibleOperation = new Operation(DESCRIPTION, surgeon, date, room, OPERATION_STATUS, patient) {
 
             @Override
             public void add(Instrument instrument) {
@@ -106,16 +89,4 @@ public class OperationTest {
         return eligibleOperation;
     }
 
-    private Operation createNonEligibleOperation() {
-        Operation nonEligibleOperation;
-
-        nonEligibleOperation = new Operation(builder) {
-
-            @Override
-            public void add(Instrument instrument) {
-            }
-        };
-
-        return nonEligibleOperation;
-    }
 }
