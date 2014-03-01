@@ -3,26 +3,36 @@ package ca.ulaval.ift6002.m2.domain.operation;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DangerousOperationTest {
 
+    private static final OperationStatus PLANNED = OperationStatus.PLANNED;
+    private static final String DESCRIPTION = "Description";
     private static final int EXPECTED_INSTRUMENT_COUNT = 1;
+    @Mock
+    private Surgeon surgeon;
 
     @Mock
-    private Operation.Builder builder;
+    private Date date;
 
-    @InjectMocks
-    private DangerousOperation dangerousOperation;
+    @Mock
+    private Room room;
+
+    @Mock
+    private Patient patient;
 
     @Mock
     private Instrument instrument;
@@ -30,8 +40,12 @@ public class DangerousOperationTest {
     @Mock
     private Instrument anonymousInstrument;
 
+    private DangerousOperation dangerousOperation;
+
     @Before
     public void setUp() {
+        dangerousOperation = new DangerousOperation(DESCRIPTION, surgeon, date, room, PLANNED, patient) {
+        };
         willReturn(false).given(instrument).isAnonymous();
         willReturn(true).given(anonymousInstrument).isAnonymous();
     }

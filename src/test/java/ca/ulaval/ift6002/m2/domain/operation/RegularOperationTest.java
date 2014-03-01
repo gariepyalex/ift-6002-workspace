@@ -3,6 +3,8 @@ package ca.ulaval.ift6002.m2.domain.operation;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RegularOperationTest {
@@ -18,7 +22,16 @@ public class RegularOperationTest {
     private static final int EXPECTED_INSTRUMENT_COUNT = 1;
 
     @Mock
-    private Operation.Builder builder;
+    private Surgeon surgeon;
+
+    @Mock
+    private Date date;
+
+    @Mock
+    private Room room;
+
+    @Mock
+    private Patient patient;
 
     @InjectMocks
     private RegularOperation regularOperation;

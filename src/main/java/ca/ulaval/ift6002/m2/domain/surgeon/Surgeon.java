@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.domain.operation;
+package ca.ulaval.ift6002.m2.domain.surgeon;
 
 import java.util.Objects;
 
