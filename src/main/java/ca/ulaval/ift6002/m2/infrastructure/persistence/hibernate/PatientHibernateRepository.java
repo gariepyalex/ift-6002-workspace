@@ -1,7 +1,5 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
-import java.util.Objects;
-
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.PatientDTOAssembler;
@@ -23,9 +21,8 @@ public class PatientHibernateRepository extends HibernateRepository<PatientDTO> 
     }
 
     @Override
-    public Patient get(int id) {
-        // TODO IMPROVE THIS
-        PatientDTO dto = find(Objects.hash(id));
+    public Patient get(int number) {
+        PatientDTO dto = find(number);
 
         return patientAssembler.fromDTO(dto);
     }

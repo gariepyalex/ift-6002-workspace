@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.TypedQuery;
 
@@ -29,8 +28,7 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
 
     @Override
     public Drug get(Din din) {
-        // TODO IMPROVE THIS
-        DrugDTO dto = find(Objects.hash(din.getValue()));
+        DrugDTO dto = find(din.getValue());
 
         return drugDTOAssembler.fromDTO(dto);
     }
