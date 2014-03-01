@@ -1,9 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.willReturn;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationTest {
@@ -44,43 +41,8 @@ public class OperationTest {
     @Test
     public void givenOperationShouldNotHaveAnyInstrument() {
         buildAnOperation();
-        boolean hasInstrument = operation.hasInstrument(instrument);
+        boolean hasInstrument = operation.has(instrument);
         assertFalse(hasInstrument);
-    }
-
-    @Test(expected = InvalidInstrumentException.class)
-    public void givenOperationWhenAddingSameInstrumentShouldThrowException() {
-        buildAnOperation();
-
-        operation.addInstrument(instrument);
-        operation.addInstrument(instrument);
-    }
-
-    @Test(expected = InvalidInstrumentException.class)
-    public void givenNonElligibleOperationWhenAddInstrumentShouldThrowException() {
-        buildNonEligibileOperation();
-
-        operation.addInstrument(instrument);
-    }
-
-    @Test
-    public void givenElligibleOperationWhenAddInstrumentShouldHaveCountOfOne() {
-        buildEligibleOperation();
-
-        operation.addInstrument(instrument);
-        int instrumentCount = operation.countInstruments();
-
-        assertEquals(1, instrumentCount);
-    }
-
-    @Test
-    public void givenElligibleOperationWhenAddInstrumentShouldContainsInstrument() {
-        buildEligibleOperation();
-
-        operation.addInstrument(instrument);
-        boolean hasInstrument = operation.hasInstrument(instrument);
-
-        assertTrue(hasInstrument);
     }
 
     @Test
@@ -131,22 +93,13 @@ public class OperationTest {
         operation = createEligibleOperation();
     }
 
-    private void buildEligibleOperation() {
-        operation = createEligibleOperation();
-    }
-
-    private void buildNonEligibileOperation() {
-        operation = createNonEligibleOperation();
-    }
-
     private Operation createEligibleOperation() {
         Operation eligibleOperation;
 
         eligibleOperation = new Operation(builder) {
 
             @Override
-            protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
-                return true;
+            public void add(Instrument instrument) {
             }
         };
 
@@ -159,8 +112,7 @@ public class OperationTest {
         nonEligibleOperation = new Operation(builder) {
 
             @Override
-            protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
-                return false;
+            public void add(Instrument instrument) {
             }
         };
 
