@@ -47,7 +47,7 @@ public class OperationResource {
     private final InstrumentRepository instrumentRepository = RepositoryLocator.getInstrumentRepository();
     private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
 
-    private final OperationService operationService = new OperationService(operationRepository, instrumentRepository,
+    private final OperationService operationService = new OperationService(operationRepository,
             instrumentResponseAssembler);
 
     @POST
