@@ -57,10 +57,4 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
         Collection<DrugDTO> dtos = drugDTOAssembler.toDTOs(drugs);
         merge(dtos);
     }
-
-    @Override
-    protected Object[] getKeys(DrugDTO element) {
-        Object[] keys = { element.din };
-        return keys;
-    }
 }

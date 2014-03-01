@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -38,7 +37,6 @@ public abstract class HibernateRepository<T extends BaseDTO> {
         beginTransaction();
 
         for (T element : elements) {
-            putKey(element);
             getEntityManager().merge(element);
         }
 
@@ -48,7 +46,6 @@ public abstract class HibernateRepository<T extends BaseDTO> {
     protected void merge(T element) {
         beginTransaction();
 
-        putKey(element);
         getEntityManager().merge(element);
 
         commitTransaction();
@@ -69,15 +66,5 @@ public abstract class HibernateRepository<T extends BaseDTO> {
     private EntityManager getEntityManager() {
         return entityManagerProvider.getEntityManager();
     }
-
-    private void putKey(T element) {
-        element.id = hashKeys(getKeys(element));
-    }
-
-    protected final int hashKeys(Object[] keys) {
-        return Objects.hash(keys);
-    }
-
-    protected abstract Object[] getKeys(T element);
 
 }
