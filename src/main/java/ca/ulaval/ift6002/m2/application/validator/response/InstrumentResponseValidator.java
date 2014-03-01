@@ -15,7 +15,25 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
         }
     }
 
+    public void validateNewStatus(InstrumentResponse response) throws InvalidResponseException {
+        if (!isTypecodeValid(response)) {
+            throw new InvalidResponseException("Typecode must not be empty");
+        }
+
+        if (!isSerialValid(response)) {
+            throw new InvalidResponseException("Serial must not be empty");
+        }
+
+        if (!InstrumentStatus.isValid(response.status)) {
+            throw new InvalidResponseException("The status value is not valid");
+        }
+    }
+
     private boolean isTypecodeValid(InstrumentResponse response) {
         return !response.typecode.isEmpty();
+    }
+
+    private boolean isSerialValid(InstrumentResponse response) {
+        return !response.serial.isEmpty();
     }
 }

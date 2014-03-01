@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,7 +20,6 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
-import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
@@ -73,7 +73,6 @@ public class OperationResource {
             operationService.saveInstrument(noIntervention, dto);
 
             URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
-
             return Response.created(uriLocation).build();
         } catch (InvalidResponseException e) {
             ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
@@ -82,21 +81,14 @@ public class OperationResource {
         }
     }
 
-    @POST
+    @PUT
     @Path("/{noIntervention}/instruments/{typecode}/{serial}")
-    public Response modifyInstrument(@PathParam("noIntervention") String noIntervention,
+    public Response modifyInstrumentStatus(@PathParam("noIntervention") String noIntervention,
             @PathParam("typecode") String typecode, @PathParam("serial") String serial, InstrumentResponse dto) {
-        if (dto.serial.isEmpty()) {
-            ExceptionResponse exception = new ExceptionResponse(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
-
-            return Response.status(Status.BAD_REQUEST).entity(exception).build();
-        }
-
         try {
-            Instrument instrument = instrumentRepository.get(dto.serial);
-            instrument.setStatus(dto.status);
-
-            return Response.ok(instrument).build();
+            instrumentValidator.validateNewStatus(dto);
+            operationService.changeInstrumentStatus(noIntervention, dto);
+            return Response.ok().build();
         } catch (Exception e) {
             ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
 
