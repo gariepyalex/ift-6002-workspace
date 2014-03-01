@@ -10,6 +10,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import ca.ulaval.ift6002.m2.domain.operation.dangerous.EyeOperation;
+import ca.ulaval.ift6002.m2.domain.operation.dangerous.HeartOperation;
+import ca.ulaval.ift6002.m2.domain.operation.dangerous.MarrowOperation;
+import ca.ulaval.ift6002.m2.domain.operation.regular.OncologicalOperation;
+import ca.ulaval.ift6002.m2.domain.operation.regular.RegularOperation;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
