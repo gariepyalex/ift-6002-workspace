@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.application.validator.response;
 
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
+import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
 public class InstrumentResponseValidator implements ResponseValidator<InstrumentResponse> {
 
@@ -9,7 +10,7 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
         if (!isTypecodeValid(response)) {
             throw new InvalidResponseException("Typecode must not be empty");
         }
-        if (!isStatusValid(response)) {
+        if (!InstrumentStatus.isValid(response.status)) {
             throw new InvalidResponseException("The status value is not valid");
         }
     }
@@ -17,9 +18,4 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
     private boolean isTypecodeValid(InstrumentResponse response) {
         return !response.typecode.isEmpty();
     }
-
-    private boolean isStatusValid(InstrumentResponse response) {
-        return response.status.equals("SOILED") || response.status.equals("USED") || response.status.equals("UNUSED");
-    }
-
 }
