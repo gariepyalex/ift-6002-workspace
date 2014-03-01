@@ -8,7 +8,7 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 public class InstrumentResponseValidatorTest {
 
     private static final String VALID_STATUS_SOILED = "SOILED";
-    private static final String VALID_STATUS_USED = "USED";
+    private static final String VALID_STATUS_USED = "USED_PATIENT";
     private static final String VALID_STATUS_UNUSED = "UNUSED";
 
     private static final String VALID_SERIAL = "sfsfs3s23";
