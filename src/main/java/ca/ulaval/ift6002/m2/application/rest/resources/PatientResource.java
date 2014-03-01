@@ -46,11 +46,11 @@ public class PatientResource {
     @POST
     @Path("{patientId}/prescriptions")
     public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
-            PrescriptionResponse dto) {
+            PrescriptionResponse response) {
         try {
-            prescriptionValidator.validate(dto);
+            prescriptionValidator.validate(response);
 
-            patientService.savePrescription(patientId, dto);
+            patientService.savePrescription(patientId, response);
 
             return Response.created(uri.getRequestUri()).build();
         } catch (NoSuchElementException | InvalidResponseException e) {
