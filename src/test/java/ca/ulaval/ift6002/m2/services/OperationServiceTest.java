@@ -42,7 +42,7 @@ public class OperationServiceTest {
     @Test
     public void savingInstrumentDtoShouldSaveRightInstrumentIntoInstrumentRepository() throws InvalidResponseException {
         willReturn(instrument).given(instrumentAssembler).fromResponse(instrumentDto);
-        willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
+        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
 
         operationService.saveInstrument(OPERATION_ID, instrumentDto);
 

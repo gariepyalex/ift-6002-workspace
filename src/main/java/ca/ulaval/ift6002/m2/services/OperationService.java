@@ -19,7 +19,12 @@ public class OperationService {
 
     public void saveInstrument(String operationId, InstrumentResponse instrumentDto) throws InvalidResponseException {
         Instrument instrument = instrumentAssembler.fromResponse(instrumentDto);
-        Operation operation = operationRepository.get(Integer.valueOf(operationId));
+        Operation operation = operationRepository.getOperation(Integer.valueOf(operationId));
         operationRepository.storeInstrument(operation, instrument);
+    }
+
+    public void changeInstrumentStatus(String instrumentId, InstrumentResponse response) {
+        Instrument instrument = operationRepository.getInstrument(Integer.valueOf(instrumentId));
+        operationRepository.modifyInstrumentStatus(instrument, response.status);
     }
 }

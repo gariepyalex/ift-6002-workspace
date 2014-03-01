@@ -6,7 +6,11 @@ public interface OperationRepository {
 
     void store(Operation operation);
 
-    Operation get(int operationId);
+    Operation getOperation(int operationId);
 
     void storeInstrument(Operation operation, Instrument instrument);
+
+    void modifyInstrumentStatus(Instrument instrument, String newStatus);
+
+    Instrument getInstrument(Integer valueOf);
 }
