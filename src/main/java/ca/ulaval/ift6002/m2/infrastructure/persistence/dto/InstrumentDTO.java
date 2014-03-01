@@ -15,6 +15,7 @@ public class InstrumentDTO extends BaseDTO {
         this.status = status;
         this.serial = serial;
         this.typecode = typecode;
+        id = this.serial;
     }
 
     protected InstrumentDTO() {
