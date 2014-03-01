@@ -7,8 +7,10 @@ import org.junit.Test;
 
 public class TypecodeTest {
 
-    @Test
-    public void verifyEqualsAndHashCode() {
-        EqualsVerifier.forClass(Typecode.class).suppress(Warning.STRICT_INHERITANCE).allFieldsShouldBeUsed().verify();
-    }
+	@Test
+	public void verifyEqualsAndHashCode() {
+		EqualsVerifier.forClass(Typecode.class)
+				.suppress(Warning.STRICT_INHERITANCE).allFieldsShouldBeUsed()
+				.verify();
+	}
 }
