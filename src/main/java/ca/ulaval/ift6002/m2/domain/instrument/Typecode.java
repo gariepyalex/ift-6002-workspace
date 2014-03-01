@@ -2,6 +2,8 @@ package ca.ulaval.ift6002.m2.domain.instrument;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 public class Typecode {
 
     private final String value;
@@ -17,17 +19,17 @@ public class Typecode {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (obj == this) {
             return true;
         }
-
-        if (!(obj instanceof Typecode)) {
+        if (obj == null) {
             return false;
         }
-
-        Typecode other = (Typecode) obj;
-
-        return Objects.equals(value, other.value);
+        if (obj instanceof Typecode) {
+            Typecode other = (Typecode) obj;
+            return new EqualsBuilder().append(value, other.value).isEquals();
+        } else {
+            return false;
+        }
     }
-
 }

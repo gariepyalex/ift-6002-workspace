@@ -9,8 +9,8 @@ public class RegularOperation extends Operation {
     }
 
     @Override
-    protected boolean isInstrumentElligibleToOperation(Instrument instrument) {
-        return !instrument.isAnonymous();
+    public void add(Instrument instrument) {
+        instruments.add(instrument);
     }
 
 }

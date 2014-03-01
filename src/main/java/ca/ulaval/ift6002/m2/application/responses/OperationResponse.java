@@ -19,6 +19,18 @@ public class OperationResponse {
     public Integer patientNumber;
 
     protected OperationResponse() {
+
+    }
+
+    public OperationResponse(String description, Integer surgeon, String date, String room, OperationType type,
+            OperationStatus status, Integer patientNumber) {
+        this.description = description;
+        this.surgeon = surgeon;
+        this.date = date;
+        this.room = room;
+        this.type = type;
+        this.status = status;
+        this.patientNumber = patientNumber;
     }
 
 }
