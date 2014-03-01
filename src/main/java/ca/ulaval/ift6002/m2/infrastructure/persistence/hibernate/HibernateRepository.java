@@ -7,10 +7,10 @@ import java.util.Objects;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.EntityDTO;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.BaseDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public abstract class HibernateRepository<T extends EntityDTO> {
+public abstract class HibernateRepository<T extends BaseDTO> {
 
     private final EntityManagerProvider entityManagerProvider;
     private final Class<T> classType;
