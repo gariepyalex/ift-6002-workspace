@@ -2,6 +2,8 @@ package ca.ulaval.ift6002.m2.domain.drug;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 public class Drug {
 
     private final Din din;
@@ -40,15 +42,16 @@ public class Drug {
         if (this == obj) {
             return true;
         }
-
-        if (!(obj instanceof Drug)) {
+        if (obj == null) {
             return false;
         }
-
-        Drug other = (Drug) obj;
-
-        return Objects.equals(din, other.din) && Objects.equals(brandName, other.brandName)
-                && Objects.equals(descriptor, other.descriptor);
+        if (obj instanceof Drug) {
+            Drug other = (Drug) obj;
+            return new EqualsBuilder().append(din, other.din).append(brandName, other.brandName)
+                    .append(descriptor, other.descriptor).isEquals();
+        } else {
+            return false;
+        }
     }
 
 }
