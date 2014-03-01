@@ -61,17 +61,6 @@ public class DrugHibernateRepositoryTest {
         drugRepository = new DrugHibernateRepository(entityManagerProvider, drugDTOAssembler);
     }
 
-    /*
-     * @Test public void whenGettingTylenolDinShouldVerifyFindHibernateCall() {
-     * setUpEntityManagerWithTylenol(); drugRepository.get(TYLENOL_DIN);
-     * verify(entityManager, times(1)).find(DrugDTO.class,
-     * TYLENOL_DIN.getValue()); }
-     * 
-     * @Test public void
-     * whenGettingTylenolDinShouldVerifyFromDTODrugAssemblerCall() {
-     * setUpEntityManagerWithTylenol(); drugRepository.get(TYLENOL_DIN);
-     * verify(drugDTOAssembler, times(1)).fromDTO(TYLENOL_DTO); }
-     */
     @Test
     public void whenGettingDrugByNameShouldReturnDrugWithName() {
         Drug drugBuilt = drugRepository.get(A_NAME);

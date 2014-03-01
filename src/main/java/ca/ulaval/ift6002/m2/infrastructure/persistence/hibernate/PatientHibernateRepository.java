@@ -37,10 +37,4 @@ public class PatientHibernateRepository extends HibernateRepository<PatientDTO> 
         merge(patientDTO);
     }
 
-    @Override
-    protected Object[] getKeys(PatientDTO element) {
-        Object[] keys = { element.number };
-        return keys;
-    }
-
 }

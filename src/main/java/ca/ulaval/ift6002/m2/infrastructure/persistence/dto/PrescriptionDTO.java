@@ -3,7 +3,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.dto;
 import javax.persistence.Entity;
 
 @Entity
-public class PrescriptionDTO extends EntityDTO {
+public class PrescriptionDTO extends BaseDTO {
 
     // TODO have a real id also...
 
