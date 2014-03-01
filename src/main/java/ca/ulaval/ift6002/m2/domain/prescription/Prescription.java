@@ -3,6 +3,8 @@ package ca.ulaval.ift6002.m2.domain.prescription;
 import java.util.Date;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
 public class Prescription {
@@ -45,15 +47,15 @@ public class Prescription {
         if (this == obj) {
             return true;
         }
-
-        if (!(obj instanceof Prescription)) {
+        if (obj == null) {
             return false;
         }
-
-        Prescription other = (Prescription) obj;
-
-        return Objects.equals(practitioner, other.practitioner) && Objects.equals(date, other.date)
-                && Objects.equals(renewals, other.renewals) && Objects.equals(drug, other.drug);
+        if (obj instanceof Prescription) {
+            Prescription other = (Prescription) obj;
+            return new EqualsBuilder().append(practitioner, other.practitioner).append(date, other.date)
+                    .append(renewals, other.renewals).append(drug, other.drug).isEquals();
+        } else {
+            return false;
+        }
     }
-
 }
