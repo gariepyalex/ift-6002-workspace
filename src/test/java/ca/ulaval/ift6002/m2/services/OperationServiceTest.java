@@ -52,7 +52,7 @@ public class OperationServiceTest {
     public void modifyingInstrumentStatusShouldCallOperationForModification() throws InvalidResponseException {
         willReturn(instrument).given(operationRepository).getInstrument(Integer.valueOf(INSTRUMENT_ID));
 
-        operationService.changeInstrumentStatus(INSTRUMENT_ID, INSTRUMENT_DTO);
+        operationService.modifyInstrumentStatus(INSTRUMENT_ID, INSTRUMENT_DTO);
 
         verify(operationRepository).modifyInstrumentStatus(instrument, INSTRUMENT_DTO.status);
     }
