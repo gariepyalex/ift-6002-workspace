@@ -3,7 +3,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.dto;
 import javax.persistence.Entity;
 
 @Entity
-public class DrugDTO extends EntityDTO {
+public class DrugDTO extends BaseDTO {
 
     public String din;
 

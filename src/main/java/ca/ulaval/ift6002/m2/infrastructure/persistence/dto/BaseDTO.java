@@ -4,7 +4,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class EntityDTO {
+public abstract class BaseDTO {
 
     @Id
     public int id;
