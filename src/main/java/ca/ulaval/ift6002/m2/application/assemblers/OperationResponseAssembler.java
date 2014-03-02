@@ -4,6 +4,7 @@ import java.util.Date;
 
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
+import ca.ulaval.ift6002.m2.domain.operation.Description;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
@@ -39,8 +40,9 @@ public class OperationResponseAssembler {
 
         Room aRoom = roomRepository.get(response.room);
 
-        return operationFactory.create(response.type, response.description, aSurgeon, aDate, aRoom, response.status,
-                aPatient);
+        Description aDescription = new Description(response.description);
+
+        return operationFactory.create(response.type, aDescription, aSurgeon, aDate, aRoom, response.status, aPatient);
 
     }
 }

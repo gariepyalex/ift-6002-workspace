@@ -11,7 +11,7 @@ import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 public abstract class Operation {
 
-    protected final String description;
+    protected final Description description;
     protected final Surgeon surgeon;
     protected final Date date;
     protected final Room room;
@@ -19,7 +19,7 @@ public abstract class Operation {
     protected final Patient patient;
     protected final List<Instrument> instruments;
 
-    protected Operation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
+    protected Operation(Description description, Surgeon surgeon, Date date, Room room, OperationStatus status,
             Patient patient) {
         this.description = description;
         this.surgeon = surgeon;
