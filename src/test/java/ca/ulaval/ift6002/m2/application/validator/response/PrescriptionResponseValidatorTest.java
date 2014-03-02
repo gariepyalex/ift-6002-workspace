@@ -58,21 +58,4 @@ public class PrescriptionResponseValidatorTest {
 
         prescriptionValidator.validate(response);
     }
-
-    @Test
-    public void givenResponseWithOnlyDinWhenValidatingShouldDoNothing() throws InvalidResponseException {
-        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
-                EMPTY_NAME);
-
-        prescriptionValidator.validate(response);
-    }
-
-    @Test
-    public void givenResponseWithOnlyNameWhenValidatingShouldDoNothing() throws InvalidResponseException {
-        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, EMPTY_DIN,
-                VALID_NAME);
-
-        prescriptionValidator.validate(response);
-    }
-
 }
