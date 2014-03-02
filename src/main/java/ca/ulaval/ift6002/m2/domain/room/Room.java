@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 public class Room {
 
-    private final String value;
+    public final String value;
 
     public Room(String value) {
         this.value = value;
