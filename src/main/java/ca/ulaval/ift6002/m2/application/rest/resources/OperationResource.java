@@ -66,7 +66,7 @@ public class OperationResource {
     public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
         operationService.saveOperation(operationResponse);
 
-        return Response.created(uri.getRequestUri()).build();
+        return Response.created(uri.getRequestUri()).build(); //TODO: should return /interventions/$NO_INTERVENTION$
     }
 
     @POST
