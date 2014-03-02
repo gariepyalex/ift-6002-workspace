@@ -11,12 +11,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
 import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
-import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
@@ -32,7 +30,7 @@ import ca.ulaval.ift6002.m2.services.OperationService;
 @Path("/interventions")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class OperationResource {
+public class OperationResource extends Resource {
 
     private static final String MISSING_INFORMATION = "INT001";
 
@@ -68,9 +66,7 @@ public class OperationResource {
             return Response.created(uri.getRequestUri()).build();
             // TODO: should return '/interventions/$NO_INTERVENTION$'
         } catch (InvalidResponseException e) {
-            ExceptionResponse exception = new ExceptionResponse(MISSING_INFORMATION, e.getMessage());
-
-            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+            return fromException(MISSING_INFORMATION, e.getMessage());
         }
     }
 
@@ -85,13 +81,9 @@ public class OperationResource {
             URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
             return Response.created(uriLocation).build();
         } catch (InvalidResponseException e) {
-            ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
-
-            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+            return fromException(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
         } catch (InvalidInstrumentException e) {
-            ExceptionResponse exception = new ExceptionResponse(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
-
-            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+            return fromException(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
         }
     }
 
@@ -107,9 +99,7 @@ public class OperationResource {
             // TODO .ok() ? Probably want to return something, or the instrument
             return Response.ok().build();
         } catch (InvalidResponseException e) {
-            ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
-
-            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+            return fromException(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
         }
     }
 }

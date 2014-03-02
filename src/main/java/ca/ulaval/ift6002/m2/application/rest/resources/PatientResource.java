@@ -10,11 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionResponseAssembler;
-import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.PrescriptionResponseValidator;
@@ -27,7 +25,7 @@ import ca.ulaval.ift6002.m2.services.PatientService;
 @Path("/patient/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class PatientResource {
+public class PatientResource extends Resource {
 
     private static final String ERROR_CODE = "PRES001";
 
@@ -55,9 +53,7 @@ public class PatientResource {
 
             return Response.created(uri.getRequestUri()).build();
         } catch (NoSuchElementException | InvalidResponseException e) {
-            ExceptionResponse exception = new ExceptionResponse(ERROR_CODE, e.getMessage());
-
-            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+            return fromException(ERROR_CODE, e.getMessage());
         }
     }
 
