@@ -12,24 +12,18 @@ import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.room.Room;
-import ca.ulaval.ift6002.m2.domain.room.RoomRepository;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
-import ca.ulaval.ift6002.m2.domain.surgeon.SurgeonRepository;
 
 public class OperationResponseAssembler {
 
     private final OperationFactory operationFactory;
     private final PatientRepository patientRepository;
-    private final SurgeonRepository surgeonRepository;
-    private final RoomRepository roomRepository;
     private final DateFormatter formatterDate;
 
     public OperationResponseAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
-            SurgeonRepository surgeonRepository, RoomRepository roomRepository, DateFormatter formatterDate) {
+            DateFormatter formatterDate) {
         this.operationFactory = operationfactory;
         this.patientRepository = patientRepository;
-        this.surgeonRepository = surgeonRepository;
-        this.roomRepository = roomRepository;
         this.formatterDate = formatterDate;
     }
 
@@ -37,8 +31,8 @@ public class OperationResponseAssembler {
 
         Patient aPatient = patientRepository.get(response.patientNumber);
         Date aDate = formatterDate.parse(response.date);
-        Surgeon aSurgeon = surgeonRepository.get(response.surgeon);
-        Room aRoom = roomRepository.get(response.room);
+        Surgeon aSurgeon = new Surgeon(response.surgeon);
+        Room aRoom = new Room(response.room);
         String aDescription = response.description;
         OperationType type = convertType(response.type);
         OperationStatus status = convertStatus(response.status);
