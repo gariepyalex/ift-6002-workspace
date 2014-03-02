@@ -18,7 +18,7 @@ public class RegularOperation extends Operation {
 
     @Override
     public void add(Instrument instrument) {
-        instruments.add(instrument);
+        super.add(instrument);
     }
 
 }
