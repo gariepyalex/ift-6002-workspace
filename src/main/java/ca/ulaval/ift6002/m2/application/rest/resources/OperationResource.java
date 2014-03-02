@@ -60,18 +60,18 @@ public class OperationResource {
             operationResponseAssembler, instrumentResponseAssembler);
 
     @POST
+    // TODO have a path...
     public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
         try {
             operationService.saveOperation(operationResponse);
+
+            return Response.created(uri.getRequestUri()).build();
+            // TODO: should return '/interventions/$NO_INTERVENTION$'
         } catch (InvalidResponseException e) {
             ExceptionResponse exception = new ExceptionResponse(MISSING_INFORMATION, e.getMessage());
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
         }
-
-        return Response.created(uri.getRequestUri()).build(); // TODO: should
-                                                              // return
-                                                              // /interventions/$NO_INTERVENTION$
     }
 
     @POST
@@ -81,6 +81,7 @@ public class OperationResource {
         try {
             instrumentValidator.validate(dto);
             operationService.saveInstrument(noIntervention, dto);
+
             URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
             return Response.created(uriLocation).build();
         } catch (InvalidResponseException e) {
@@ -89,6 +90,7 @@ public class OperationResource {
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
         } catch (InvalidInstrumentException e) {
             ExceptionResponse exception = new ExceptionResponse(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
+
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
         }
     }
@@ -101,6 +103,8 @@ public class OperationResource {
         try {
             instrumentValidator.validateNewStatus(instrumentResponse);
             operationService.modifyInstrumentStatus(operationId, instrumentResponse);
+
+            // TODO .ok() ? Probably want to return something, or the instrument
             return Response.ok().build();
         } catch (InvalidResponseException e) {
             ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
