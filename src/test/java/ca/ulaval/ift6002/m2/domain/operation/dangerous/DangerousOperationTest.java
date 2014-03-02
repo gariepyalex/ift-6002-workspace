@@ -13,7 +13,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
-import ca.ulaval.ift6002.m2.domain.operation.Description;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.room.Room;
@@ -23,7 +22,7 @@ import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 public class DangerousOperationTest {
 
     private static final OperationStatus PLANNED = OperationStatus.PLANNED;
-    private static final Description DESCRIPTION = new Description("description");
+    private static final String DESCRIPTION = "description";
     private static final int EXPECTED_INSTRUMENT_COUNT = 1;
     @Mock
     private Surgeon surgeon;
