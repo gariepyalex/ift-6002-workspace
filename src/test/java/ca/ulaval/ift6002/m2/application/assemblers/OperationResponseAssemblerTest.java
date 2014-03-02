@@ -1,8 +1,8 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 import java.sql.Date;
 
@@ -85,8 +85,7 @@ public class OperationResponseAssemblerTest {
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenFromResponseCallIfTypeIsInvalidShouldThrowInvalidResponseException()
-            throws InvalidResponseException {
+    public void whenFromResponseCallWithInvalidTypeShouldThrowException() throws InvalidResponseException {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, ASTRING_DATE, A_ROOM,
                 INVALID_TYPE, STATUS, PATIENT_NUMBER);
 
@@ -94,8 +93,7 @@ public class OperationResponseAssemblerTest {
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenFromResponseCallIfStatusIsInvalidShouldThrowInvalidResponseException()
-            throws InvalidResponseException {
+    public void whenFromResponseCallWithInvalidStatusShouldThrowException() throws InvalidResponseException {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, ASTRING_DATE, A_ROOM,
                 TYPE, INVALID_STATUS, PATIENT_NUMBER);
 

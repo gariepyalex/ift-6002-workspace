@@ -23,14 +23,14 @@ public abstract class DangerousOperation extends Operation {
             throw new InvalidInstrumentException("This instrument is invalid: " + instrument);
         }
 
-        if (!instrumentIsElligible(instrument)) {
+        if (!isInstrumentElligible(instrument)) {
             throw new InvalidInstrumentException("Instrument " + instrument + " is not elligible.");
         }
 
         instruments.add(instrument);
     }
 
-    private boolean instrumentIsElligible(Instrument instrument) {
+    private boolean isInstrumentElligible(Instrument instrument) {
         return !instrument.isAnonymous();
     }
 
