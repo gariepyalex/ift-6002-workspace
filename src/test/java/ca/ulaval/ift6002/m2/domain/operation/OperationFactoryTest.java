@@ -28,16 +28,16 @@ public class OperationFactoryTest {
     private OperationFactory factory;
 
     @Mock
-    Surgeon surgeon;
+    private Surgeon surgeon;
 
     @Mock
-    Date date;
+    private Date date;
 
     @Mock
-    Room room;
+    private Room room;
 
     @Mock
-    Patient patient;
+    private Patient patient;
 
     @Before
     public void setUp() {
