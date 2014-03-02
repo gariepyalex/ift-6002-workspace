@@ -22,9 +22,7 @@ import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.room.Room;
-import ca.ulaval.ift6002.m2.domain.room.RoomRepository;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
-import ca.ulaval.ift6002.m2.domain.surgeon.SurgeonRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationResponseAssemblerTest {
@@ -44,10 +42,6 @@ public class OperationResponseAssemblerTest {
     OperationFactory operationFactory;
     @Mock
     PatientRepository patientRepository;
-    @Mock
-    SurgeonRepository surgeonRepository;
-    @Mock
-    RoomRepository roomRepository;
     @Mock
     DateFormatter formatterDate;
 
@@ -76,21 +70,6 @@ public class OperationResponseAssemblerTest {
         operationAssembler.fromResponse(operationResponse);
 
         verify(formatterDate).parse(ASTRING_DATE);
-
-    }
-
-    @Test
-    public void whenFromResponseCallSurgeonRepositoryGetShouldBeCall() throws InvalidResponseException {
-        operationAssembler.fromResponse(operationResponse);
-
-        verify(surgeonRepository).get(SURGEON_NUMBER);
-    }
-
-    @Test
-    public void whenFromResponseCallRoomRepositoryGetShouldBeCall() throws InvalidResponseException {
-        operationAssembler.fromResponse(operationResponse);
-
-        verify(roomRepository).get(A_ROOM);
 
     }
 

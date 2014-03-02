@@ -25,8 +25,6 @@ import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.domain.room.RoomRepository;
-import ca.ulaval.ift6002.m2.domain.surgeon.SurgeonRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
@@ -48,13 +46,11 @@ public class OperationResource {
 
     private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
     private final PatientRepository patientRepository = RepositoryLocator.getPatientRepository();
-    private final SurgeonRepository surgeonRepository = RepositoryLocator.getSurgeonRepository();
-    private final RoomRepository roomRepository = RepositoryLocator.getRoomRepository();
     private final DateFormatter dateFormatter = new DateFormatter();
     private final OperationFactory operationFactory = new OperationFactory();
 
     private final OperationResponseAssembler operationResponseAssembler = new OperationResponseAssembler(
-            operationFactory, patientRepository, surgeonRepository, roomRepository, dateFormatter);
+            operationFactory, patientRepository, dateFormatter);
 
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
     private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
@@ -63,7 +59,6 @@ public class OperationResource {
             operationResponseAssembler, instrumentResponseAssembler);
 
     @POST
-    // @Path("/interventions")//TODO correct this line or remove it
     public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
         try {
             operationService.saveOperation(operationResponse);
