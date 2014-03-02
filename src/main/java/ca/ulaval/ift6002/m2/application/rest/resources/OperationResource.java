@@ -63,7 +63,7 @@ public class OperationResource {
             operationResponseAssembler, instrumentResponseAssembler);
 
     @POST
-    @Path("/interventions")
+    // @Path("/interventions")
     public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
         try {
             operationService.saveOperation(operationResponse);
