@@ -39,19 +39,18 @@ public class Drug {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (obj == this) {
             return true;
         }
         if (obj == null) {
             return false;
         }
-        if (obj instanceof Drug) {
-            Drug other = (Drug) obj;
-            return new EqualsBuilder().append(din, other.din).append(brandName, other.brandName)
-                    .append(descriptor, other.descriptor).isEquals();
-        } else {
+        if (obj.getClass() != getClass()) {
             return false;
         }
+        Drug other = (Drug) obj;
+        return new EqualsBuilder().append(din, other.din).append(brandName, other.brandName)
+                .append(descriptor, other.descriptor).isEquals();
     }
 
 }

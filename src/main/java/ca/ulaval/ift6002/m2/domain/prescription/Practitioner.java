@@ -25,13 +25,11 @@ public class Practitioner {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof Practitioner) {
-            Practitioner other = (Practitioner) obj;
-            return new EqualsBuilder().append(name, other.name).isEquals();
-        } else {
+        if (obj.getClass() != getClass()) {
             return false;
         }
-
+        Practitioner other = (Practitioner) obj;
+        return new EqualsBuilder().append(name, other.name).isEquals();
     }
 
     @Override

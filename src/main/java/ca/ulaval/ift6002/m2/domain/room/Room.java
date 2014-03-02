@@ -2,6 +2,8 @@ package ca.ulaval.ift6002.m2.domain.room;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 public class Room {
 
     private final String value;
@@ -20,14 +22,14 @@ public class Room {
         if (this == obj) {
             return true;
         }
-
-        if (!(obj instanceof Room)) {
+        if (obj == null) {
             return false;
         }
-
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
         Room other = (Room) obj;
-
-        return Objects.equals(value, other.value);
+        return new EqualsBuilder().append(value, other.value).isEquals();
     }
 
 }

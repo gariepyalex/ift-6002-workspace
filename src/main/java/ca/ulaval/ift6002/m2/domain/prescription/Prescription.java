@@ -50,12 +50,11 @@ public class Prescription {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof Prescription) {
-            Prescription other = (Prescription) obj;
-            return new EqualsBuilder().append(practitioner, other.practitioner).append(date, other.date)
-                    .append(renewals, other.renewals).append(drug, other.drug).isEquals();
-        } else {
+        if (obj.getClass() != getClass()) {
             return false;
         }
+        Prescription other = (Prescription) obj;
+        return new EqualsBuilder().append(practitioner, other.practitioner).append(date, other.date)
+                .append(renewals, other.renewals).append(drug, other.drug).isEquals();
     }
 }

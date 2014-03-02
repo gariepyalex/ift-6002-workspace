@@ -2,6 +2,8 @@ package ca.ulaval.ift6002.m2.domain.instrument;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 public class Instrument {
 
     private InstrumentStatus status;
@@ -39,20 +41,17 @@ public class Instrument {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (obj == this) {
             return true;
         }
         if (obj == null) {
             return false;
         }
-
-        if (obj instanceof Instrument) {
-            Instrument instrument = (Instrument) obj;
-            return !isAnonymous() && serial.equals(instrument.serial);
-        } else {
+        if (obj.getClass() != getClass()) {
             return false;
         }
-
+        Instrument other = (Instrument) obj;
+        return new EqualsBuilder().append(isAnonymous(), false).append(serial, other.serial).isEquals();
     }
 
     @Override

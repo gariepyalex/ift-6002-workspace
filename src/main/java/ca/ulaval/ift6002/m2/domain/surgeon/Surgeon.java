@@ -2,6 +2,8 @@ package ca.ulaval.ift6002.m2.domain.surgeon;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 public class Surgeon {
 
     private final int license;
@@ -20,13 +22,13 @@ public class Surgeon {
         if (this == obj) {
             return true;
         }
-
-        if (!(obj instanceof Surgeon)) {
+        if (obj == null) {
             return false;
         }
-
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
         Surgeon other = (Surgeon) obj;
-
-        return Objects.equals(license, other.license);
+        return new EqualsBuilder().append(license, other.license).isEquals();
     }
 }

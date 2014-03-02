@@ -25,11 +25,10 @@ public class Typecode {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof Typecode) {
-            Typecode other = (Typecode) obj;
-            return new EqualsBuilder().append(value, other.value).isEquals();
-        } else {
+        if (obj.getClass() != getClass()) {
             return false;
         }
+        Typecode other = (Typecode) obj;
+        return new EqualsBuilder().append(value, other.value).isEquals();
     }
 }

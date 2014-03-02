@@ -47,13 +47,11 @@ public class Patient {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof Patient) {
-            Patient other = (Patient) obj;
-            return new EqualsBuilder().append(number, other.number).append(prescriptions, other.prescriptions)
-                    .isEquals();
-        } else {
+        if (obj.getClass() != getClass()) {
             return false;
         }
+        Patient other = (Patient) obj;
+        return new EqualsBuilder().append(number, other.number).append(prescriptions, other.prescriptions).isEquals();
 
     }
 

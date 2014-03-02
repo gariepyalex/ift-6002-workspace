@@ -1,8 +1,6 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
-import static org.junit.Assert.assertEquals;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,10 +47,5 @@ public class PatientTest {
         int prescriptionsCount = patient.countPrescriptions();
 
         assertEquals(2, prescriptionsCount);
-    }
-
-    @Test
-    public void verifyEqualsAndHashCode() {
-        EqualsVerifier.forClass(Patient.class).suppress(Warning.STRICT_INHERITANCE).allFieldsShouldBeUsed().verify();
     }
 }
