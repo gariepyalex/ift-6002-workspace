@@ -34,48 +34,18 @@ public class OperationResponseAssembler {
     }
 
     public Operation fromResponse(OperationResponse response) throws InvalidResponseException {
+        try {
+            Patient patient = patientRepository.get(response.patientNumber);
+            Date date = formatterDate.parse(response.date);
+            Surgeon surgeon = surgeonRepository.get(response.surgeon);
+            Room room = roomRepository.get(response.room);
+            String description = response.description;
+            OperationType type = OperationType.determineFrom(response.type);
+            OperationStatus status = OperationStatus.determineFrom(response.status);
 
-        Patient aPatient = patientRepository.get(response.patientNumber);
-        Date aDate = formatterDate.parse(response.date);
-        Surgeon aSurgeon = surgeonRepository.get(response.surgeon);
-        Room aRoom = roomRepository.get(response.room);
-        String aDescription = response.description;
-        OperationType type = convertType(response.type);
-        OperationStatus status = convertStatus(response.status);
-
-        return operationFactory.create(type, aDescription, aSurgeon, aDate, aRoom, status, aPatient);
-
-    }
-
-    private OperationType convertType(String type) throws InvalidResponseException {
-        if (type.equalsIgnoreCase("OEIL")) {
-            return OperationType.EYE;
-        } else if (type.equalsIgnoreCase("COEUR")) {
-            return OperationType.HEART;
-        } else if (type.equalsIgnoreCase("MOELLE")) {
-            return OperationType.MARROW;
-        } else if (type.equalsIgnoreCase("ONCOLOGIQUE")) {
-            return OperationType.ONCOLOGY;
-        } else if (type.equalsIgnoreCase("AUTRE")) {
-            return OperationType.OTHER;
+            return operationFactory.create(type, description, surgeon, date, room, status, patient);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidResponseException(e.getMessage());
         }
-
-        throw new InvalidResponseException("Operation type is not defined");
-    }
-
-    private OperationStatus convertStatus(String status) throws InvalidResponseException {
-        if (status.equalsIgnoreCase("PLANIFIEE") || status.isEmpty()) {
-            return OperationStatus.PLANNED;
-        } else if (status.equalsIgnoreCase("EN_COURS")) {
-            return OperationStatus.IN_PROGRESS;
-        } else if (status.equalsIgnoreCase("TERMINE")) {
-            return OperationStatus.FINISH;
-        } else if (status.equalsIgnoreCase("ANNULEE")) {
-            return OperationStatus.CANCELLED;
-        } else if (status.equalsIgnoreCase("REPORTEE")) {
-            return OperationStatus.POSTPONED;
-        }
-
-        throw new InvalidResponseException("Operation status is not defined");
     }
 }
