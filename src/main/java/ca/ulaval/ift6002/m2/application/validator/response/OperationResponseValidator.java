@@ -8,6 +8,8 @@ public class OperationResponseValidator implements ResponseValidator<OperationRe
     public void validate(OperationResponse response) throws InvalidResponseException {
         if (response.description.isEmpty()) {
             throw new InvalidResponseException("Description is empty!");
+        } else if (response.room.isEmpty()) {
+            throw new InvalidResponseException("Room is empty!");
         }
     }
 
