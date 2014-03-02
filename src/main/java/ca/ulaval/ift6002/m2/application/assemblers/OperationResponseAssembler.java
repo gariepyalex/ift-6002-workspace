@@ -5,7 +5,6 @@ import java.util.Date;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
-import ca.ulaval.ift6002.m2.domain.operation.Description;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
@@ -40,7 +39,7 @@ public class OperationResponseAssembler {
         Date aDate = formatterDate.parse(response.date);
         Surgeon aSurgeon = surgeonRepository.get(response.surgeon);
         Room aRoom = roomRepository.get(response.room);
-        Description aDescription = new Description(response.description);
+        String aDescription = response.description;
         OperationType type = convertType(response.type);
         OperationStatus status = convertStatus(response.status);
 
