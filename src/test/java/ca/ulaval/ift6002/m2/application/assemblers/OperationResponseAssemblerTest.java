@@ -1,8 +1,8 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import java.sql.Date;
 
@@ -16,7 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
-import ca.ulaval.ift6002.m2.domain.operation.Description;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
@@ -102,7 +101,7 @@ public class OperationResponseAssemblerTest {
 
         operationAssembler.fromResponse(response);
 
-        verify(operationFactory).create(any(OperationType.class), any(Description.class), any(Surgeon.class),
+        verify(operationFactory).create(any(OperationType.class), any(String.class), any(Surgeon.class),
                 any(Date.class), any(Room.class), any(OperationStatus.class), any(Patient.class));
     }
 

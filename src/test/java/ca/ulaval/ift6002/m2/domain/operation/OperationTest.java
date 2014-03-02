@@ -23,7 +23,7 @@ public class OperationTest {
 
     private static final OperationStatus OPERATION_STATUS = OperationStatus.PLANNED;
 
-    private static final Description DESCRIPTION = new Description("description");
+    private static final String DESCRIPTION = "description";
 
     @Mock
     private Instrument instrument;

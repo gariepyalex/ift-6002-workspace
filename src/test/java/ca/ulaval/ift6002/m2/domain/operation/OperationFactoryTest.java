@@ -22,7 +22,7 @@ import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 @RunWith(MockitoJUnitRunner.class)
 public class OperationFactoryTest {
 
-    private static final Description DESCRIPTION = new Description("Description");
+    private static final String DESCRIPTION = "description";
     private static final OperationStatus STATUS = OperationStatus.PLANNED;
 
     private OperationFactory factory;
