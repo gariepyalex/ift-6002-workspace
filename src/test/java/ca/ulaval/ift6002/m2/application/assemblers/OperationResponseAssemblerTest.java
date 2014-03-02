@@ -1,8 +1,8 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 import java.sql.Date;
 
