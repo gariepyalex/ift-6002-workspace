@@ -64,7 +64,7 @@ public class OperationServiceTest {
     }
 
     @Test
-    public void whenModifyingInstrumentStatusShouldStoreUsingRepository() throws InvalidResponseException {
+    public void whenModifyingInstrumentStatusShouldModifyUsingRepository() throws InvalidResponseException {
         willReturn(instrument).given(operationRepository).getInstrument(Integer.valueOf(INSTRUMENT_ID));
 
         operationService.modifyInstrumentStatus(INSTRUMENT_ID, INSTRUMENT_RESPONSE);
