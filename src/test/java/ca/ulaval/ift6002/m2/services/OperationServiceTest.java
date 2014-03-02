@@ -1,7 +1,7 @@
 package ca.ulaval.ift6002.m2.services;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,17 +81,13 @@ public class OperationServiceTest {
 
         verify(operation).updateInstrumentStatus(instrument, INSTRUMENT_RESPONSE.status);
     }
-    /*
-     * @Test public void whenModifyingInstrumentShouldStoreBackUsingRepository()
-     * throws InvalidResponseException {
-     * willReturn(instrument).given(operationRepository
-     * ).getInstrument(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
-     * willReturn(operation
-     * ).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
-     * 
-     * operationService.modifyInstrumentStatus(OPERATION_ID,
-     * INSTRUMENT_RESPONSE);
-     * 
-     * verify(operationRepository).storeInstrument(operation, instrument); }
-     */
+
+    @Test
+    public void whenModifyingInstrumentServiceShouldStoreOperationUsingRepository() throws InvalidResponseException {
+        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
+
+        operationService.modifyInstrumentStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
+
+        verify(operationRepository).store(operation);
+    }
 }
