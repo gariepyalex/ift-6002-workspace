@@ -15,12 +15,17 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
+import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
+import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.room.RoomRepository;
+import ca.ulaval.ift6002.m2.domain.surgeon.SurgeonRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
@@ -40,18 +45,26 @@ public class OperationResource {
     private static final String MISSING_SERIAL_ERROR = "INT012";
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
+    private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
+    private final PatientRepository patientRepository = RepositoryLocator.getPatientRepository();
+    private final SurgeonRepository surgeonRepository = RepositoryLocator.getSurgeonRepository();
+    private final RoomRepository roomRepository = RepositoryLocator.getRoomRepository();
+
+    private OperationFactory operationFactory = new OperationFactory();
+
+    private final OperationResponseAssembler operationResponseAssembler = new OperationResponseAssembler(
+            operationFactory, patientRepository, surgeonRepository, roomRepository);
+
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
     private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
 
-    private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
-
     private final OperationService operationService = new OperationService(operationRepository,
-            instrumentResponseAssembler);
+            operationResponseAssembler, instrumentResponseAssembler);
 
     @POST
-    public Response createOperation(@Context UriInfo uri, OperationResponse dto) {
-        // Operation operation = dto.toOperation();
-        // TODO I assume there are some missing calls loll
+    @Path("/interventions")
+    public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
+        operationService.saveOperation(operationResponse);
 
         return Response.created(uri.getRequestUri()).build();
     }

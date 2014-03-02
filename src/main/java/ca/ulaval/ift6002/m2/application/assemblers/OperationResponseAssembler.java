@@ -22,14 +22,14 @@ public class OperationResponseAssembler {
     private final DateFormatter formatterDate = new DateFormatter();
 
     public OperationResponseAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
-            SurgeonRepository surgeoRepository, RoomRepository roomRepository) {
+            SurgeonRepository surgeonRepository, RoomRepository roomRepository) {
         this.operationFactory = operationfactory;
         this.patientRepository = patientRepository;
-        this.surgeonRepository = surgeoRepository;
+        this.surgeonRepository = surgeonRepository;
         this.roomRepository = roomRepository;
     }
 
-    public Operation toOperation(OperationResponse response) {
+    public Operation fromResponse(OperationResponse response) {
 
         Patient aPatient = patientRepository.get(response.patientNumber);
 
