@@ -27,20 +27,6 @@ public class InstrumentTest {
         secondAnonymousInstrument = new Instrument(ANOTHER_TYPECODE, ANOTHER_STATUS);
     }
 
-    /*
-     * @Test(expected = IllegalArgumentException.class) public void
-     * creatingaAnonymousInstrumentWithEmptyTypeCodeShouldThrowInvalidArgumentException
-     * () { new Instrument(EMPTY_TYPECODE, A_STATUS); }
-     * 
-     * @Test(expected = IllegalArgumentException.class) public void
-     * creatingInstrumentWithEmptyTypeCodeShouldThrowInvalidArgumentException()
-     * { new Instrument(EMPTY_TYPECODE, A_STATUS, A_SERIAL_NUMBER); }
-     * 
-     * @Test(expected = IllegalArgumentException.class) public void
-     * creatingInstrumentWithNullSerialNumberShouldThrowInvalidArgumentException
-     * () { new Instrument(EMPTY_TYPECODE, A_STATUS, NULL_SERIAL_NUMBER); }
-     */
-
     @Test
     public void createdAnonymousInstrumentShouldBeAnonymous() {
         assertTrue(anonymousInstrument.isAnonymous());
