@@ -26,6 +26,10 @@ public class Patient {
         return number;
     }
 
+    public Collection<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
     public void receivesPrescription(Prescription prescription) {
         prescriptions.add(prescription);
     }

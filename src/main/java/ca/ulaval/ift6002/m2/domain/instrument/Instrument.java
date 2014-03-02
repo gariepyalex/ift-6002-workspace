@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Instrument {
 
-    private InstrumentStatus status;
+    private final InstrumentStatus status;
     private final Serial serial;
     private final Typecode typecode;
 
@@ -19,11 +19,14 @@ public class Instrument {
         this(typecode, status, new Serial(""));
     }
 
+<<<<<<< HEAD
     public void setStatus(String status) {
         InstrumentStatus newStatus = InstrumentStatus.valueOf(status);
         this.status = newStatus;
     }
 
+=======
+>>>>>>> f85816b5e378bceda8ea23ce2afacd0cdd5d7ec1
     public boolean isAnonymous() {
         return serial.isEmpty();
     }

@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import ca.ulaval.ift6002.m2.contexts.DemoDrugRepositoryFiller;
+import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
 import ca.ulaval.ift6002.m2.domain.drug.CSVDrugParser;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
@@ -21,10 +22,15 @@ public class Main {
 
     public static void main(String[] args) {
         setupRepositoryLocator();
-        fillDrugRepository();
+
+        EntityManager entityManager = setUpEntityManager();
+        fillDrugRepository(entityManager);
+        fillPatientRepository(entityManager);
 
         JettyServer server = new JettyServer();
         server.start();
+
+        closeEntityManager(entityManager);
     }
 
     private static void setupRepositoryLocator() {
@@ -37,17 +43,28 @@ public class Main {
         RepositoryLocator.load(repositoryLocator);
     }
 
-    private static void fillDrugRepository() {
-        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
+    private static void fillDrugRepository(EntityManager entityManager) {
 
         FileReader<String[]> fileReader = new CSVFileReader();
         FileParser<Drug> drugParser = new CSVDrugParser(fileReader);
         new DemoDrugRepositoryFiller(RepositoryLocator.getDrugRepository(), drugParser).fill();
-
-        EntityManagerProvider.clearEntityManager();
-        entityManager.close();
     }
 
+    private static void fillPatientRepository(EntityManager entityManager) {
+
+        new DemoPatientRepositoryFiller().fill(RepositoryLocator.getPatientRepository());
+    }
+
+    private static void closeEntityManager(EntityManager entityManager) {
+        EntityManagerProvider.clearEntityManager();
+        entityManager.close();
+        EntityManagerFactoryProvider.getFactory().close();
+    }
+
+    private static EntityManager setUpEntityManager() {
+        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManagerProvider.setEntityManager(entityManager);
+        return entityManager;
+    }
 }

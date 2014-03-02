@@ -43,6 +43,7 @@ public class PatientResource {
 
     private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
 
+    // TODO return the created prescription's url.
     @POST
     @Path("{patientId}/prescriptions")
     public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,

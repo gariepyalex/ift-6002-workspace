@@ -1,8 +1,8 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 import java.sql.Date;
 
@@ -16,16 +16,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
-import ca.ulaval.ift6002.m2.domain.operation.Description;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.room.Room;
-import ca.ulaval.ift6002.m2.domain.room.RoomRepository;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
-import ca.ulaval.ift6002.m2.domain.surgeon.SurgeonRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationResponseAssemblerTest {
@@ -39,16 +36,12 @@ public class OperationResponseAssemblerTest {
     private static final String RANDOM_DESCRIPTOR = "random descriptor";
     private static final String TYPE = "oeil";
     private static final String STATUS = "planifiee";
-    private final static Date ADATE = new Date(1220227200L * 1000);
+    private static final Date ADATE = new Date(1220227200L * 1000);
 
     @Mock
     OperationFactory operationFactory;
     @Mock
     PatientRepository patientRepository;
-    @Mock
-    SurgeonRepository surgeonRepository;
-    @Mock
-    RoomRepository roomRepository;
     @Mock
     DateFormatter formatterDate;
 
@@ -81,34 +74,18 @@ public class OperationResponseAssemblerTest {
     }
 
     @Test
-    public void whenFromResponseCallSurgeonRepositoryGetShouldBeCall() throws InvalidResponseException {
-        operationAssembler.fromResponse(operationResponse);
-
-        verify(surgeonRepository).get(SURGEON_NUMBER);
-    }
-
-    @Test
-    public void whenFromResponseCallRoomRepositoryGetShouldBeCall() throws InvalidResponseException {
-        operationAssembler.fromResponse(operationResponse);
-
-        verify(roomRepository).get(A_ROOM);
-
-    }
-
-    @Test
     public void whenFromResponseCallFactoryCreateShouldBeCalled() throws InvalidResponseException {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, ASTRING_DATE, A_ROOM,
                 TYPE, STATUS, PATIENT_NUMBER);
 
         operationAssembler.fromResponse(response);
 
-        verify(operationFactory).create(any(OperationType.class), any(Description.class), any(Surgeon.class),
+        verify(operationFactory).create(any(OperationType.class), any(String.class), any(Surgeon.class),
                 any(Date.class), any(Room.class), any(OperationStatus.class), any(Patient.class));
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenFromResponseCallIfTypeIsInvalidShouldThrowInvalidResponseException()
-            throws InvalidResponseException {
+    public void whenFromResponseCallWithInvalidTypeShouldThrowException() throws InvalidResponseException {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, ASTRING_DATE, A_ROOM,
                 INVALID_TYPE, STATUS, PATIENT_NUMBER);
 
@@ -116,8 +93,7 @@ public class OperationResponseAssemblerTest {
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenFromResponseCallIfStatusIsInvalidShouldThrowInvalidResponseException()
-            throws InvalidResponseException {
+    public void whenFromResponseCallWithInvalidStatusShouldThrowException() throws InvalidResponseException {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, ASTRING_DATE, A_ROOM,
                 TYPE, INVALID_STATUS, PATIENT_NUMBER);
 
