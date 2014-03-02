@@ -14,7 +14,7 @@ import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 public class OperationFactory {
 
-    public Operation create(OperationType type, String description, Surgeon surgeon, Date date, Room room,
+    public Operation create(OperationType type, Description description, Surgeon surgeon, Date date, Room room,
             OperationStatus status, Patient patient) {
         if (type == OperationType.EYE) {
             return new EyeOperation(description, surgeon, date, room, status, patient);
