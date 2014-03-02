@@ -17,8 +17,6 @@ import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseExcept
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
-import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationServiceTest {
@@ -27,7 +25,7 @@ public class OperationServiceTest {
     private static final String OPERATION_ID = "1232";
     private static final InstrumentResponse INSTRUMENT_RESPONSE = new InstrumentResponse("123", "UNUSED", "1312422");
     private static final OperationResponse OPERATION_RESPONSE = new OperationResponse("Cataracte à l'oeil gauche",
-            101224, "0000-00-00T24:01:00", "blocB", OperationType.EYE, OperationStatus.IN_PROGRESS, 1);
+            101224, "0000-00-00T24:01:00", "blocB", "oeil", "en cours", 1);
 
     @InjectMocks
     private OperationService operationService;
@@ -48,7 +46,7 @@ public class OperationServiceTest {
     private Operation operation;
 
     @Test
-    public void whenSavingOperationShouldStoreUsingRepository() {
+    public void whenSavingOperationShouldStoreUsingRepository() throws InvalidResponseException {
         willReturn(operation).given(operationAssembler).fromResponse(OPERATION_RESPONSE);
         operationService.saveOperation(OPERATION_RESPONSE);
 

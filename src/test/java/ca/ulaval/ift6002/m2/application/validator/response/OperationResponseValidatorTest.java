@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
-import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
-import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 
 public class OperationResponseValidatorTest {
 
@@ -15,8 +13,8 @@ public class OperationResponseValidatorTest {
     private static final String DATE = "0000-00-00T24:01:00";
     private static final String VALID_ROOM = "blocB";
     private static final Integer PATIENT_NUMBER = 1234;
-    private static final OperationType TYPE = OperationType.EYE;
-    private static final OperationStatus STATUS = OperationStatus.PLANNED;
+    private static final String TYPE = "eye";
+    private static final String STATUS = "planned";
 
     private OperationResponseValidator operationResponseValidator;
     private OperationResponse operationResponse;

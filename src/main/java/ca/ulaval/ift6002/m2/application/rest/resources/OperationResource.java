@@ -65,7 +65,13 @@ public class OperationResource {
     @POST
     @Path("/interventions")
     public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
-        operationService.saveOperation(operationResponse);
+        try {
+            operationService.saveOperation(operationResponse);
+        } catch (InvalidResponseException e) {
+            ExceptionResponse exception = new ExceptionResponse(MISSING_INFORMATION, e.getMessage());
+
+            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+        }
 
         return Response.created(uri.getRequestUri()).build(); // TODO: should
                                                               // return

@@ -4,6 +4,7 @@ import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
 import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
@@ -21,7 +22,7 @@ public class OperationService {
         this.instrumentAssembler = instrumentAssembler;
     }
 
-    public void saveOperation(OperationResponse operationResponse) {
+    public void saveOperation(OperationResponse operationResponse) throws InvalidResponseException {
         Operation operation = operationAssembler.fromResponse(operationResponse);
         operationRepository.store(operation);
     }
