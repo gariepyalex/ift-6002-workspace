@@ -22,22 +22,22 @@ import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 @RunWith(MockitoJUnitRunner.class)
 public class OperationFactoryTest {
 
-    private static final String DESCRIPTION = "Description";
+    private static final Description DESCRIPTION = new Description("Description");
     private static final OperationStatus STATUS = OperationStatus.PLANNED;
 
     private OperationFactory factory;
 
     @Mock
-    Surgeon surgeon;
+    private Surgeon surgeon;
 
     @Mock
-    Date date;
+    private Date date;
 
     @Mock
-    Room room;
+    private Room room;
 
     @Mock
-    Patient patient;
+    private Patient patient;
 
     @Before
     public void setUp() {

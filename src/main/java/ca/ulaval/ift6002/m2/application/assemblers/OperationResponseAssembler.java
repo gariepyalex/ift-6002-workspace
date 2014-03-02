@@ -3,9 +3,13 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
+import ca.ulaval.ift6002.m2.domain.operation.Description;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
+import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
+import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.room.Room;
@@ -19,28 +23,69 @@ public class OperationResponseAssembler {
     private final PatientRepository patientRepository;
     private final SurgeonRepository surgeonRepository;
     private final RoomRepository roomRepository;
-    private final DateFormatter formatterDate = new DateFormatter();
+    private final DateFormatter formatterDate;
 
     public OperationResponseAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
-            SurgeonRepository surgeoRepository, RoomRepository roomRepository) {
+            SurgeonRepository surgeonRepository, RoomRepository roomRepository, DateFormatter formatterDate) {
         this.operationFactory = operationfactory;
         this.patientRepository = patientRepository;
-        this.surgeonRepository = surgeoRepository;
+        this.surgeonRepository = surgeonRepository;
         this.roomRepository = roomRepository;
+        this.formatterDate = formatterDate;
     }
 
-    public Operation toOperation(OperationResponse response) {
+    public Operation fromResponse(OperationResponse response) throws InvalidResponseException {
 
         Patient aPatient = patientRepository.get(response.patientNumber);
-
         Date aDate = formatterDate.parse(response.date);
-
         Surgeon aSurgeon = surgeonRepository.get(response.surgeon);
-
         Room aRoom = roomRepository.get(response.room);
+        Description aDescription = new Description(response.description);
+        OperationType type = convertType(response.type);
+        OperationStatus status = convertStatus(response.status);
 
-        return operationFactory.create(response.type, response.description, aSurgeon, aDate, aRoom, response.status,
-                aPatient);
+        return operationFactory.create(type, aDescription, aSurgeon, aDate, aRoom, status, aPatient);
 
+    }
+
+    private OperationType convertType(String type) throws InvalidResponseException {
+        type = type.toUpperCase();
+        OperationType resultOperationType;
+        if (type.equals("OEIL")) {
+            resultOperationType = OperationType.EYE;
+        } else if (type.equals("COEUR")) {
+            resultOperationType = OperationType.HEART;
+        } else if (type.equals("MOELLE")) {
+            resultOperationType = OperationType.MARROW;
+        } else if (type.equals("ONCOLOGIQUE")) {
+            resultOperationType = OperationType.ONCOLOGY;
+        } else if (type.equals("AUTRE")) {
+            resultOperationType = OperationType.OTHER;
+        } else {
+            throw new InvalidResponseException("Operation type is not defined");
+        }
+        return resultOperationType;
+
+    }
+
+    private OperationStatus convertStatus(String status) throws InvalidResponseException {
+        status = status.toUpperCase();
+        OperationStatus resultOperationStatus;
+
+        if (status.equals("PLANIFIEE") || status.equals("")) {
+            resultOperationStatus = OperationStatus.PLANNED;
+        } else if (status.equals("EN_COURS")) {
+            resultOperationStatus = OperationStatus.IN_PROGRESS;
+        } else if (status.equals("TERMINE")) {
+            resultOperationStatus = OperationStatus.FINISH;
+        } else if (status.equals("ANNULEE")) {
+            resultOperationStatus = OperationStatus.CANCELLED;
+        } else if (status.equals("REPORTEE")) {
+            resultOperationStatus = OperationStatus.POSTPONED;
+        } else {
+            throw new InvalidResponseException("Operation status is not defined");
+        }
+
+        return resultOperationStatus;
     }
 }
