@@ -39,7 +39,7 @@ public class OperationResponseAssemblerTest {
     private static final String RANDOM_DESCRIPTOR = "random descriptor";
     private static final String TYPE = "oeil";
     private static final String STATUS = "planifiee";
-    private final static Date ADATE = new Date(1220227200L * 1000);
+    private static final Date ADATE = new Date(1220227200L * 1000);
 
     @Mock
     OperationFactory operationFactory;

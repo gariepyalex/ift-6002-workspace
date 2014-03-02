@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 public class Instrument {
 
-    private InstrumentStatus status;
+    private final InstrumentStatus status;
     private final Serial serial;
     private final Typecode typecode;
 
@@ -18,16 +18,6 @@ public class Instrument {
 
     public Instrument(Typecode typecode, InstrumentStatus status) {
         this(typecode, status, new Serial(""));
-    }
-
-    public void setStatus(String status) {
-        InstrumentStatus instrumentStatus = InstrumentStatus.valueOf(status);
-
-        setStatus(instrumentStatus);
-    }
-
-    public void setStatus(InstrumentStatus status) {
-        this.status = status;
     }
 
     public boolean isAnonymous() {
