@@ -28,18 +28,16 @@ public class OperationResponseAssembler {
     }
 
     public Operation fromResponse(OperationResponse response) throws InvalidResponseException {
-
         try {
-
-            Patient aPatient = patientRepository.get(response.patientNumber);
-            Date aDate = formatterDate.parse(response.date);
-            Surgeon aSurgeon = new Surgeon(response.surgeon);
-            Room aRoom = new Room(response.room);
-            String aDescription = response.description;
+            Patient patient = patientRepository.get(response.patientNumber);
+            Date date = formatterDate.parse(response.date);
+            Surgeon surgeon = new Surgeon(response.surgeon);
+            Room room = new Room(response.room);
+            String description = response.description;
             OperationType type = OperationType.determineFrom(response.type);
             OperationStatus status = OperationStatus.determineFrom(response.status);
 
-            return operationFactory.create(type, aDescription, aSurgeon, aDate, aRoom, status, aPatient);
+            return operationFactory.create(type, description, surgeon, date, room, status, patient);
 
         } catch (IllegalArgumentException e) {
             throw new InvalidResponseException(e.getMessage());
