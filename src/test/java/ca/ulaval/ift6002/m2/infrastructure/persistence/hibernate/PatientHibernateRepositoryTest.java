@@ -1,8 +1,9 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.NoSuchElementException;
 
@@ -55,15 +56,17 @@ public class PatientHibernateRepositoryTest {
         patientRepository.get(UNEXISTING_PATIENT_ID);
     }
 
-//    @Test
-//    public void givenPatientWhenGetPatientShouldReturnCorrespondingPatient() {
-//        willReturn(PATIENT_DTO).given(entityManager).find(PatientDTO.class, PATIENT_ID);
-//        willReturn(PATIENT).given(patientAssembler).fromDTO(PATIENT_DTO);
-//
-//        Patient patientFound = patientRepository.get(PATIENT_ID);
-//
-//        assertEquals(PATIENT, patientFound);
-//    }
+    // @Test
+    // public void givenPatientWhenGetPatientShouldReturnCorrespondingPatient()
+    // {
+    // willReturn(PATIENT_DTO).given(entityManager).find(PatientDTO.class,
+    // PATIENT_ID);
+    // willReturn(PATIENT).given(patientAssembler).fromDTO(PATIENT_DTO);
+    //
+    // Patient patientFound = patientRepository.get(PATIENT_ID);
+    //
+    // assertEquals(PATIENT, patientFound);
+    // }
 
     @Test
     public void givenPatientWhenStoringShouldPersist() {

@@ -1,8 +1,8 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 import java.sql.Date;
 
@@ -39,7 +39,7 @@ public class OperationResponseAssemblerTest {
     private static final String RANDOM_DESCRIPTOR = "random descriptor";
     private static final String TYPE = "oeil";
     private static final String STATUS = "planifiee";
-    private final static Date ADATE = new Date(1220227200L * 1000);
+    private static final Date ADATE = new Date(1220227200L * 1000);
 
     @Mock
     OperationFactory operationFactory;
