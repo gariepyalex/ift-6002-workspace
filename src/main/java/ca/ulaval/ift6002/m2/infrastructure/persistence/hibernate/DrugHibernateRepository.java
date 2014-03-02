@@ -55,10 +55,4 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
         Collection<DrugDTO> dtos = drugDTOAssembler.toDTOs(drugs);
         merge(dtos);
     }
-
-    @Override
-    public void store(Drug drug) {
-        DrugDTO drugDTO = drugDTOAssembler.toDTO(drug);
-        merge(drugDTO);
-    }
 }
