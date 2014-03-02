@@ -54,21 +54,44 @@ public class OperationServiceTest {
     }
 
     @Test
-    public void whenSavingInstrumentShouldStoreUsingRepository() throws InvalidResponseException {
+    public void whenSavingInstrumentOperationShouldAddInstrument() throws InvalidResponseException {
         willReturn(instrument).given(instrumentAssembler).fromResponse(INSTRUMENT_RESPONSE);
         willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
 
         operationService.saveInstrument(OPERATION_ID, INSTRUMENT_RESPONSE);
 
-        verify(operationRepository).storeInstrument(operation, instrument);
+        verify(operation).add(instrument);
     }
 
     @Test
-    public void whenModifyingInstrumentStatusShouldModifyUsingRepository() throws InvalidResponseException {
-        willReturn(instrument).given(operationRepository).getInstrument(Integer.valueOf(INSTRUMENT_ID));
+    public void whenSavingInstrumentServiceShouldStoreOperationUsingRepository() throws InvalidResponseException {
+        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
 
-        operationService.modifyInstrumentStatus(INSTRUMENT_ID, INSTRUMENT_RESPONSE);
+        operationService.saveInstrument(OPERATION_ID, INSTRUMENT_RESPONSE);
 
-        verify(operationRepository).modifyInstrumentStatus(instrument, INSTRUMENT_RESPONSE.status);
+        verify(operationRepository).store(operation);
     }
+
+    @Test
+    public void whenModifyingInstrumentOperationShouldUpdateInstrumentStatus() throws InvalidResponseException {
+        willReturn(instrument).given(operationRepository).getInstrument(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
+        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
+
+        operationService.modifyInstrumentStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
+
+        verify(operation).updateInstrumentStatus(instrument, INSTRUMENT_RESPONSE.status);
+    }
+    /*
+     * @Test public void whenModifyingInstrumentShouldStoreBackUsingRepository()
+     * throws InvalidResponseException {
+     * willReturn(instrument).given(operationRepository
+     * ).getInstrument(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
+     * willReturn(operation
+     * ).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
+     * 
+     * operationService.modifyInstrumentStatus(OPERATION_ID,
+     * INSTRUMENT_RESPONSE);
+     * 
+     * verify(operationRepository).storeInstrument(operation, instrument); }
+     */
 }

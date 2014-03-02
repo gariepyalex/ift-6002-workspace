@@ -1,8 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.instrument;
 
-import java.util.Objects;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Instrument {
 
@@ -21,13 +20,8 @@ public class Instrument {
     }
 
     public void setStatus(String status) {
-        InstrumentStatus instrumentStatus = InstrumentStatus.valueOf(status);
-
-        setStatus(instrumentStatus);
-    }
-
-    public void setStatus(InstrumentStatus status) {
-        this.status = status;
+        InstrumentStatus newStatus = InstrumentStatus.valueOf(status);
+        this.status = newStatus;
     }
 
     public boolean isAnonymous() {
@@ -36,7 +30,7 @@ public class Instrument {
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, serial, typecode);
+        return new HashCodeBuilder().append(status).append(serial).append(typecode).toHashCode();
     }
 
     @Override
@@ -58,5 +52,4 @@ public class Instrument {
     public String toString() {
         return "[" + status + "] Serial:" + serial;
     }
-
 }

@@ -22,6 +22,7 @@ import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
+import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
@@ -91,16 +92,20 @@ public class OperationResource {
             ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
 
             return Response.status(Status.BAD_REQUEST).entity(exception).build();
+        } catch (InvalidInstrumentException e) {
+            ExceptionResponse exception = new ExceptionResponse(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
+            return Response.status(Status.BAD_REQUEST).entity(exception).build();
         }
     }
 
     @PUT
     @Path("/{noIntervention}/instruments/{typecode}/{serial}")
-    public Response modifyInstrumentStatus(@PathParam("noIntervention") String noIntervention,
-            @PathParam("typecode") String typecode, @PathParam("serial") String serial, InstrumentResponse dto) {
+    public Response modifyInstrumentStatus(@PathParam("noIntervention") String operationId,
+            @PathParam("typecode") String typecode, @PathParam("serial") String serial,
+            InstrumentResponse instrumentResponse) {
         try {
-            instrumentValidator.validateNewStatus(dto);
-            operationService.modifyInstrumentStatus(noIntervention, dto);
+            instrumentValidator.validateNewStatus(instrumentResponse);
+            operationService.modifyInstrumentStatus(operationId, instrumentResponse);
             return Response.ok().build();
         } catch (InvalidResponseException e) {
             ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);

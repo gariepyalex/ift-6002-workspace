@@ -30,11 +30,18 @@ public class OperationService {
     public void saveInstrument(String operationId, InstrumentResponse instrumentResponse) {
         Instrument instrument = instrumentAssembler.fromResponse(instrumentResponse);
         Operation operation = operationRepository.getOperation(Integer.valueOf(operationId));
-        operationRepository.storeInstrument(operation, instrument);
+
+        operation.add(instrument);
+
+        operationRepository.store(operation);
     }
 
-    public void modifyInstrumentStatus(String instrumentId, InstrumentResponse response) {
-        Instrument instrument = operationRepository.getInstrument(Integer.valueOf(instrumentId));
-        operationRepository.modifyInstrumentStatus(instrument, response.status);
+    public void modifyInstrumentStatus(String operationId, InstrumentResponse instrumentResponse) {
+        Operation operation = operationRepository.getOperation(Integer.valueOf(operationId));
+        Instrument instrument = operationRepository.getInstrument(Integer.valueOf(instrumentResponse.serial));
+
+        operation.updateInstrumentStatus(instrument, instrumentResponse.status);
+
+        operationRepository.store(operation);
     }
 }
