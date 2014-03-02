@@ -21,6 +21,7 @@ Pour la remise 1, voir le tag *remise1* sur la branche *master*.
 * Créer une intervention chirurgicale
 * Marquer l'utilisation d'un instrument
 * Recherche de médicaments
+
 ####Non commencé
 * Détection des interactions
 * Consommer les prescriptions
