@@ -81,17 +81,14 @@ public class OperationServiceTest {
 
         verify(operation).updateInstrumentStatus(instrument, INSTRUMENT_RESPONSE.status);
     }
-    /*
-     * @Test public void whenModifyingInstrumentShouldStoreBackUsingRepository()
-     * throws InvalidResponseException {
-     * willReturn(instrument).given(operationRepository
-     * ).getInstrument(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
-     * willReturn(operation
-     * ).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
-     * 
-     * operationService.modifyInstrumentStatus(OPERATION_ID,
-     * INSTRUMENT_RESPONSE);
-     * 
-     * verify(operationRepository).storeInstrument(operation, instrument); }
-     */
+
+    @Test
+    public void whenModifyingInstrumentServiceShouldStoreOperationUsingRepository() throws InvalidResponseException {
+        willReturn(instrument).given(operationRepository).getInstrument(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
+        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
+
+        operationService.modifyInstrumentStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
+
+        verify(operation).updateInstrumentStatus(instrument, INSTRUMENT_RESPONSE.status);
+    }
 }
