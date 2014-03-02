@@ -20,14 +20,15 @@ public class OperationResponseAssembler {
     private final PatientRepository patientRepository;
     private final SurgeonRepository surgeonRepository;
     private final RoomRepository roomRepository;
-    private final DateFormatter formatterDate = new DateFormatter();
+    private final DateFormatter formatterDate;
 
     public OperationResponseAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
-            SurgeonRepository surgeonRepository, RoomRepository roomRepository) {
+            SurgeonRepository surgeonRepository, RoomRepository roomRepository, DateFormatter formatterDate) {
         this.operationFactory = operationfactory;
         this.patientRepository = patientRepository;
         this.surgeonRepository = surgeonRepository;
         this.roomRepository = roomRepository;
+        this.formatterDate = formatterDate;
     }
 
     public Operation fromResponse(OperationResponse response) {
