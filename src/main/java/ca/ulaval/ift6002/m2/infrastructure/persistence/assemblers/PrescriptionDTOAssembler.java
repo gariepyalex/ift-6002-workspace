@@ -26,14 +26,18 @@ public class PrescriptionDTOAssembler {
         String date = dateFormatter.dateToString(prescription.getDate());
         Integer renewals = prescription.getRenewals();
         DrugDTO drugDTO = drugDTOAssembler.toDTO(prescription.getDrug());
+
         return new PrescriptionDTO(practitioner, date, renewals, drugDTO);
     }
 
     public Collection<PrescriptionDTO> toDTOs(Collection<Prescription> prescriptions) {
         Collection<PrescriptionDTO> prescriptionsDTO = new ArrayList<PrescriptionDTO>();
+
         for (Prescription prescription : prescriptions) {
-            prescriptionsDTO.add(toDTO(prescription));
+            PrescriptionDTO prescriptionDTO = toDTO(prescription);
+            prescriptionsDTO.add(prescriptionDTO);
         }
+
         return prescriptionsDTO;
     }
 
@@ -42,13 +46,16 @@ public class PrescriptionDTOAssembler {
         Date date = dateFormatter.parse(dto.date);
         Integer renewals = dto.renewals;
         Drug drug = drugDTOAssembler.fromDTO(dto.drugDTO);
+
         return new Prescription(practitioner, date, renewals, drug);
     }
 
     public Collection<Prescription> fromDTOs(Collection<PrescriptionDTO> prescriptionDTOs) {
         Collection<Prescription> prescriptions = new ArrayList<Prescription>();
+
         for (PrescriptionDTO dto : prescriptionDTOs) {
-            prescriptions.add(fromDTO(dto));
+            Prescription prescription = fromDTO(dto);
+            prescriptions.add(prescription);
         }
 
         return prescriptions;
