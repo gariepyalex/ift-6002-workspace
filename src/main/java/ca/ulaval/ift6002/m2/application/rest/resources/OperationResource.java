@@ -21,6 +21,7 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
+import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
@@ -49,11 +50,11 @@ public class OperationResource {
     private final PatientRepository patientRepository = RepositoryLocator.getPatientRepository();
     private final SurgeonRepository surgeonRepository = RepositoryLocator.getSurgeonRepository();
     private final RoomRepository roomRepository = RepositoryLocator.getRoomRepository();
-
-    private OperationFactory operationFactory = new OperationFactory();
+    private final DateFormatter dateFormatter = new DateFormatter();
+    private final OperationFactory operationFactory = new OperationFactory();
 
     private final OperationResponseAssembler operationResponseAssembler = new OperationResponseAssembler(
-            operationFactory, patientRepository, surgeonRepository, roomRepository);
+            operationFactory, patientRepository, surgeonRepository, roomRepository, dateFormatter);
 
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
     private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
@@ -66,7 +67,9 @@ public class OperationResource {
     public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
         operationService.saveOperation(operationResponse);
 
-        return Response.created(uri.getRequestUri()).build(); //TODO: should return /interventions/$NO_INTERVENTION$
+        return Response.created(uri.getRequestUri()).build(); // TODO: should
+                                                              // return
+                                                              // /interventions/$NO_INTERVENTION$
     }
 
     @POST
