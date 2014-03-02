@@ -17,11 +17,13 @@ public class PatientDTOAssembler {
 
     public Patient fromDTO(PatientDTO dto) {
         Collection<Prescription> prescriptions = prescriptionDTOAssembler.fromDTOs(dto.prescriptions);
+
         return new Patient(dto.number, prescriptions);
     }
 
     public PatientDTO toDTO(Patient patient) {
         Collection<PrescriptionDTO> prescriptionsDTO = prescriptionDTOAssembler.toDTOs(patient.getPrescriptions());
+
         return new PatientDTO(patient.getNumber(), prescriptionsDTO);
     }
 }

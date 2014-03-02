@@ -10,7 +10,8 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
         if (response.typecode.isEmpty()) {
             throw new InvalidResponseException("Typecode must not be empty");
         }
-        if (!InstrumentStatus.isValid(response.status)) {
+
+        if (isStatusNotValid(response)) {
             throw new InvalidResponseException("The status value is not valid");
         }
     }
@@ -20,8 +21,12 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
             throw new InvalidResponseException("Serial must not be empty");
         }
 
-        if (!InstrumentStatus.isValid(response.status)) {
+        if (isStatusNotValid(response)) {
             throw new InvalidResponseException("The status value is not valid");
         }
+    }
+
+    private boolean isStatusNotValid(InstrumentResponse response) {
+        return !InstrumentStatus.isValid(response.status);
     }
 }

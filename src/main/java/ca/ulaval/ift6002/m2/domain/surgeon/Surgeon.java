@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 public class Surgeon {
 
-    private final int license;
+    public final int license;
 
     public Surgeon(int license) {
         this.license = license;

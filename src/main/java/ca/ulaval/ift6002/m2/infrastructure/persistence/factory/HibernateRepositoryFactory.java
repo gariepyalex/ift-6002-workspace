@@ -35,6 +35,7 @@ public class HibernateRepositoryFactory implements RepositoryFactory {
         PrescriptionDTOAssembler prescriptionDTOAssembler = new PrescriptionDTOAssembler(new DateFormatter(),
                 new DrugDTOAssembler());
         PatientDTOAssembler patientAssembler = new PatientDTOAssembler(prescriptionDTOAssembler);
+
         return new PatientHibernateRepository(patientAssembler);
     }
 }
