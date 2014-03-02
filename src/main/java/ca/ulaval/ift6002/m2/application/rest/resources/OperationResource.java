@@ -29,61 +29,61 @@ import ca.ulaval.ift6002.m2.services.OperationService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class OperationResource {
 
-	private static final String MISSING_INFORMATION = "INT001";
+    private static final String MISSING_INFORMATION = "INT001";
 
-	private static final String INCOMPLETE_DATA_ERROR = "INT010";
-	private static final String INCOMPLETE_DATA_MESSAGE = "Invalid or incomplete data";
+    private static final String INCOMPLETE_DATA_ERROR = "INT010";
+    private static final String INCOMPLETE_DATA_MESSAGE = "Invalid or incomplete data";
 
-	private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
-	private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
+    private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
+    private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
 
-	private static final String MISSING_SERIAL_ERROR = "INT012";
-	private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
+    private static final String MISSING_SERIAL_ERROR = "INT012";
+    private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
-	private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
-	private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
+    private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
+    private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
 
-	private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
+    private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
 
-	private final OperationService operationService = new OperationService(operationRepository,
-			instrumentResponseAssembler);
+    private final OperationService operationService = new OperationService(operationRepository,
+            instrumentResponseAssembler);
 
-	@POST
-	public Response createOperation(@Context UriInfo uri, OperationResponse dto) {
-		// Operation operation = dto.toOperation();
-		// TODO I assume there are some missing calls loll
+    @POST
+    public Response createOperation(@Context UriInfo uri, OperationResponse dto) {
+        // Operation operation = dto.toOperation();
+        // TODO I assume there are some missing calls loll
 
-		return Response.created(uri.getRequestUri()).build();
-	}
+        return Response.created(uri.getRequestUri()).build();
+    }
 
-	@POST
-	@Path("/{noIntervention}/instruments")
-	public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
-			InstrumentResponse dto) {
-		try {
-			instrumentValidator.validate(dto);
-			operationService.saveInstrument(noIntervention, dto);
-			URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
-			return Response.created(uriLocation).build();
-		} catch (InvalidResponseException e) {
-			ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+    @POST
+    @Path("/{noIntervention}/instruments")
+    public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
+            InstrumentResponse dto) {
+        try {
+            instrumentValidator.validate(dto);
+            operationService.saveInstrument(noIntervention, dto);
+            URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
+            return Response.created(uriLocation).build();
+        } catch (InvalidResponseException e) {
+            ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
 
-			return Response.status(Status.BAD_REQUEST).entity(exception).build();
-		}
-	}
+            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+        }
+    }
 
-	@PUT
-	@Path("/{noIntervention}/instruments/{typecode}/{serial}")
-	public Response modifyInstrumentStatus(@PathParam("noIntervention") String noIntervention,
-			@PathParam("typecode") String typecode, @PathParam("serial") String serial, InstrumentResponse dto) {
-		try {
-			instrumentValidator.validateNewStatus(dto);
-			operationService.modifyInstrumentStatus(noIntervention, dto);
-			return Response.ok().build();
-		} catch (InvalidResponseException e) {
-			ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+    @PUT
+    @Path("/{noIntervention}/instruments/{typecode}/{serial}")
+    public Response modifyInstrumentStatus(@PathParam("noIntervention") String noIntervention,
+            @PathParam("typecode") String typecode, @PathParam("serial") String serial, InstrumentResponse dto) {
+        try {
+            instrumentValidator.validateNewStatus(dto);
+            operationService.modifyInstrumentStatus(noIntervention, dto);
+            return Response.ok().build();
+        } catch (InvalidResponseException e) {
+            ExceptionResponse exception = new ExceptionResponse(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
 
-			return Response.status(Status.BAD_REQUEST).entity(exception).build();
-		}
-	}
+            return Response.status(Status.BAD_REQUEST).entity(exception).build();
+        }
+    }
 }
