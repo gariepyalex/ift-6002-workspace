@@ -13,8 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
-import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
@@ -38,12 +36,9 @@ public class OperationResource extends Resource {
     private static final String MISSING_SERIAL_ERROR = "INT012";
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
-    private final OperationResponseAssembler operationResponseAssembler = new OperationResponseAssembler();
-    private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
 
-    private final OperationService operationService = new OperationService(operationResponseAssembler,
-            instrumentResponseAssembler);
+    private final OperationService operationService = new OperationService();
 
     @POST
     @Path("/interventions")

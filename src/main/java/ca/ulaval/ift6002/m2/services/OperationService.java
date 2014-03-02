@@ -23,11 +23,10 @@ public class OperationService {
         this.instrumentAssembler = instrumentAssembler;
     }
 
-    public OperationService(OperationResponseAssembler operationAssembler,
-            InstrumentResponseAssembler instrumentAssembler) {
+    public OperationService() {
         this.operationRepository = RepositoryLocator.getOperationRepository();
-        this.operationAssembler = operationAssembler;
-        this.instrumentAssembler = instrumentAssembler;
+        this.operationAssembler = new OperationResponseAssembler();
+        this.instrumentAssembler = new InstrumentResponseAssembler();
     }
 
     public void saveOperation(OperationResponse operationResponse) throws InvalidResponseException {
