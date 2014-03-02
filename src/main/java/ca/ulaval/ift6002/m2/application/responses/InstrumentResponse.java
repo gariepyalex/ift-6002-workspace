@@ -9,26 +9,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class InstrumentResponse {
 
-    @XmlElement(name = "statut")
-    public final String status;
+	@XmlElement(name = "statut")
+	public final String status;
 
-    @XmlElement(name = "noserie")
-    public final String serial;
+	@XmlElement(name = "noserie")
+	public final String serial;
 
-    @XmlElement(name = "typecode")
-    public final String typecode;
+	@XmlElement(name = "typecode")
+	public final String typecode;
 
-    protected InstrumentResponse() {
-        // Protected constructor for jaxb
-        this.status = "";
-        this.serial = "";
-        this.typecode = "";
-    }
+	protected InstrumentResponse() {
+		// Protected constructor for jaxb
+		this.status = "";
+		this.serial = "";
+		this.typecode = "";
+	}
 
-    public InstrumentResponse(String typecode, String status, String serial) {
-        this.status = status;
-        this.serial = serial;
-        this.typecode = typecode;
-    }
-
+	public InstrumentResponse(String typecode, String status, String serial) {
+		this.status = status;
+		this.serial = serial;
+		this.typecode = typecode;
+	}
 }

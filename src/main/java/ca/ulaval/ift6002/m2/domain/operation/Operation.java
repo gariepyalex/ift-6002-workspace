@@ -39,4 +39,10 @@ public abstract class Operation {
     }
 
     public abstract void add(Instrument instrument);
+
+    public void updateInstrumentStatus(Instrument instrument, String newStatus) {
+        instruments.remove(instrument);
+        instrument.setStatus(newStatus);
+        instruments.add(instrument);
+    }
 }

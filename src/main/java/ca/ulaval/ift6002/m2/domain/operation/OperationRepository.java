@@ -4,13 +4,11 @@ import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 
 public interface OperationRepository {
 
-    void store(Operation operation);
+	void store(Operation operation);
 
-    Operation getOperation(int operationId);
+	Operation getOperation(int operationId);
 
-    void storeInstrument(Operation operation, Instrument instrument);
+	void storeInstrument(Operation operation, Instrument instrument);
 
-    void modifyInstrumentStatus(Instrument instrument, String newStatus);
-
-    Instrument getInstrument(Integer valueOf);
+	Instrument getInstrument(Integer valueOf);
 }
