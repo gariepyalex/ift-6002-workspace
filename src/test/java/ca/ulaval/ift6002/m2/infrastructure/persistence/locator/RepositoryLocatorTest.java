@@ -1,20 +1,18 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.locator;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 
 public class RepositoryLocatorTest {
 
     private static final DrugRepository DRUG_REPOSITORY_IMPLEMENTATION = mock(DrugRepository.class);
-    private static final InstrumentRepository INSTRUMENT_REPOSITORY_IMPLEMENTATION = mock(InstrumentRepository.class);
     private static final OperationRepository OPERATION_REPOSITORY_IMPLEMENTATION = mock(OperationRepository.class);
     private static final PatientRepository PATIENT_REPOSITORY_IMPLEMENTATION = mock(PatientRepository.class);
 
@@ -23,7 +21,6 @@ public class RepositoryLocatorTest {
         RepositoryLocator locator = new RepositoryLocator();
 
         locator.register(DrugRepository.class, DRUG_REPOSITORY_IMPLEMENTATION);
-        locator.register(InstrumentRepository.class, INSTRUMENT_REPOSITORY_IMPLEMENTATION);
         locator.register(OperationRepository.class, OPERATION_REPOSITORY_IMPLEMENTATION);
         locator.register(PatientRepository.class, PATIENT_REPOSITORY_IMPLEMENTATION);
 
@@ -35,13 +32,6 @@ public class RepositoryLocatorTest {
         DrugRepository drugRepositoryFound = RepositoryLocator.getDrugRepository();
 
         assertEquals(DRUG_REPOSITORY_IMPLEMENTATION, drugRepositoryFound);
-    }
-
-    @Test
-    public void givenLocatorWhenGettingInstrumentRepositoryShouldReturnAnInstanceOfInstrumentRepository() {
-        InstrumentRepository instrumentRepositoryFound = RepositoryLocator.getInstrumentRepository();
-
-        assertEquals(INSTRUMENT_REPOSITORY_IMPLEMENTATION, instrumentRepositoryFound);
     }
 
     @Test
