@@ -68,48 +68,56 @@ public class PrescriptionDTOAssemblerTest {
     @Test
     public void givenPrescriptionWhenAssemblingToDTOShouldReturnCorrespondingDTO() {
         PrescriptionDTO dtoBuilt = prescriptionAssembler.toDTO(PRESCRIPTION);
+
         assertPrescriptionDTOEquals(PRESCRIPTION_DTO, dtoBuilt);
     }
 
     @Test
     public void givenPrescriptionWhenAssemblingToDTOShouldCallDrugDTOAssembler() {
         prescriptionAssembler.toDTO(PRESCRIPTION);
+
         verify(drugDTOAssembler).toDTO(DRUG);
     }
 
     @Test
     public void givenPrescriptionsWhenAssemblingToDTOsShouldReturnCorrespondingDTOs() {
         Collection<PrescriptionDTO> dtoBuilt = prescriptionAssembler.toDTOs(PRESCRIPTIONS);
+
         assertPrescriptionDTOEquals(PRESCRIPTION_DTOS, dtoBuilt);
     }
 
     @Test
     public void givenPrescriptionsWhenAssemblingToDTOsShouldCallDrugDTOAssemblerOneTime() {
         prescriptionAssembler.toDTOs(PRESCRIPTIONS);
+
         verify(drugDTOAssembler, times(1)).toDTO(DRUG);
     }
 
     @Test
     public void givenPrescriptionDTOWhenFromDTOShouldReturnCorrespondingPrescription() {
         Prescription prescriptionBuilt = prescriptionAssembler.fromDTO(PRESCRIPTION_DTO);
+
         assertEquals(PRESCRIPTION, prescriptionBuilt);
     }
 
     @Test
     public void givenPrescriptionDTOWhenFromDTOShouldCallDrugDTOAssembler() {
         prescriptionAssembler.fromDTO(PRESCRIPTION_DTO);
+
         verify(drugDTOAssembler).fromDTO(DRUG_DTO);
     }
 
     @Test
     public void givenPrescriptionDTOsWhenFromDTOsShouldReturnCorrespondingPrescriptions() {
         Collection<Prescription> prescriptionsBuilt = prescriptionAssembler.fromDTOs(PRESCRIPTION_DTOS);
+
         assertPrescriptionsEquals(PRESCRIPTIONS, prescriptionsBuilt);
     }
 
     @Test
     public void givenPrescriptionDTOsWhenFromDTOsShouldCallDrugDTOAssemblerOneTime() {
         prescriptionAssembler.fromDTOs(PRESCRIPTION_DTOS);
+
         verify(drugDTOAssembler, times(1)).fromDTO(DRUG_DTO);
     }
 
