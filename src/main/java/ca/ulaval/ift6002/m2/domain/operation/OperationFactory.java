@@ -16,18 +16,22 @@ public class OperationFactory {
 
     public Operation create(OperationType type, Description description, Surgeon surgeon, Date date, Room room,
             OperationStatus status, Patient patient) {
+        Operation operation;
+
         if (type == OperationType.EYE) {
-            return new EyeOperation(description, surgeon, date, room, status, patient);
+            operation = new EyeOperation(description, surgeon, date, room, status, patient);
         } else if (type == OperationType.HEART) {
-            return new HeartOperation(description, surgeon, date, room, status, patient);
+            operation = new HeartOperation(description, surgeon, date, room, status, patient);
         } else if (type == OperationType.MARROW) {
-            return new MarrowOperation(description, surgeon, date, room, status, patient);
+            operation = new MarrowOperation(description, surgeon, date, room, status, patient);
         } else if (type == OperationType.ONCOLOGY) {
-            return new OncologicalOperation(description, surgeon, date, room, status, patient);
+            operation = new OncologicalOperation(description, surgeon, date, room, status, patient);
         } else if (type == OperationType.OTHER) {
-            return new RegularOperation(description, surgeon, date, room, status, patient);
+            operation = new RegularOperation(description, surgeon, date, room, status, patient);
         } else {
             throw new InvalidParameterException("operation type is not defined");
         }
+
+        return operation;
     }
 }
