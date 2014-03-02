@@ -11,42 +11,6 @@ import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 public abstract class Operation {
 
-<<<<<<< HEAD
-	protected final Description description;
-	protected final Surgeon surgeon;
-	protected final Date date;
-	protected final Room room;
-	protected final OperationStatus status;
-	protected final Patient patient;
-	protected final List<Instrument> instruments;
-
-	protected Operation(Description description, Surgeon surgeon, Date date, Room room, OperationStatus status,
-			Patient patient) {
-		this.description = description;
-		this.surgeon = surgeon;
-		this.date = date;
-		this.room = room;
-		this.status = status;
-		this.patient = patient;
-		this.instruments = new ArrayList<>();
-	}
-
-	public boolean has(Instrument instrument) {
-		return instruments.contains(instrument);
-	}
-
-	public int countInstruments() {
-		return instruments.size();
-	}
-
-	public abstract void add(Instrument instrument);
-
-	public void updateInstrumentStatus(Instrument instrument, String newStatus) {
-		instruments.remove(instrument);
-		instrument.setStatus(newStatus);
-		instruments.add(instrument);
-	}
-=======
     protected final String description;
     protected final Surgeon surgeon;
     protected final Date date;
@@ -75,5 +39,10 @@ public abstract class Operation {
     }
 
     public abstract void add(Instrument instrument);
->>>>>>> f85816b5e378bceda8ea23ce2afacd0cdd5d7ec1
+
+    public void updateInstrumentStatus(Instrument instrument, String newStatus) {
+        instruments.remove(instrument);
+        instrument.setStatus(newStatus);
+        instruments.add(instrument);
+    }
 }
