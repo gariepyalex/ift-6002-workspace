@@ -10,7 +10,7 @@ public class PrescriptionResponseValidator implements ResponseValidator<Prescrip
             throw new InvalidResponseException("The number of renewals must be greater than or equals to zero");
         }
 
-        if (!hasSetDinOrName(response)) {
+        if (hasNotSetDinOrName(response)) {
             throw new InvalidResponseException("A din or name must be set");
         }
 
@@ -31,8 +31,8 @@ public class PrescriptionResponseValidator implements ResponseValidator<Prescrip
         return !response.name.trim().isEmpty();
     }
 
-    private boolean hasSetDinOrName(PrescriptionResponse response) {
-        return isDinSet(response) || isNameSet(response);
+    private boolean hasNotSetDinOrName(PrescriptionResponse response) {
+        return !isDinSet(response) && !isNameSet(response);
     }
 
     private boolean hasSetBothDinAndName(PrescriptionResponse response) {
