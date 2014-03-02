@@ -1,13 +1,15 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
-public class InstrumentDTO extends BaseDTO {
+public class InstrumentDTO {
+
+    @Id
+    public int serial;
 
     public String status;
-
-    public int serial;
 
     public String typecode;
 
@@ -15,7 +17,6 @@ public class InstrumentDTO extends BaseDTO {
         this.status = status;
         this.serial = serial;
         this.typecode = typecode;
-        id = this.serial;
     }
 
     protected InstrumentDTO() {

@@ -1,10 +1,12 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
-public class DrugDTO extends BaseDTO {
+public class DrugDTO {
 
+    @Id
     public String din;
 
     public String brandName;

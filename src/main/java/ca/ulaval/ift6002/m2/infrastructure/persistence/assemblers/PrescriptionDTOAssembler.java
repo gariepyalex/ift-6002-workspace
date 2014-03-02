@@ -1,6 +1,12 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
+import ca.ulaval.ift6002.m2.domain.drug.Drug;
+import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
@@ -20,7 +26,32 @@ public class PrescriptionDTOAssembler {
         String date = dateFormatter.dateToString(prescription.getDate());
         Integer renewals = prescription.getRenewals();
         DrugDTO drugDTO = drugDTOAssembler.toDTO(prescription.getDrug());
-        // TODO do something with this
-        return new PrescriptionDTO(practitioner, date, renewals);
+        return new PrescriptionDTO(practitioner, date, renewals, drugDTO);
     }
+
+    public Collection<PrescriptionDTO> toDTOs(Collection<Prescription> prescriptions) {
+        Collection<PrescriptionDTO> prescriptionsDTO = new ArrayList<PrescriptionDTO>();
+        for (Prescription prescription : prescriptions) {
+            prescriptionsDTO.add(toDTO(prescription));
+        }
+        return prescriptionsDTO;
+    }
+
+    public Prescription fromDTO(PrescriptionDTO dto) {
+        Practitioner practitioner = new Practitioner(dto.practitioner);
+        Date date = dateFormatter.parse(dto.date);
+        Integer renewals = dto.renewals;
+        Drug drug = drugDTOAssembler.fromDTO(dto.drugDTO);
+        return new Prescription(practitioner, date, renewals, drug);
+    }
+
+    public Collection<Prescription> fromDTOs(Collection<PrescriptionDTO> prescriptionDTOs) {
+        Collection<Prescription> prescriptions = new ArrayList<Prescription>();
+        for (PrescriptionDTO dto : prescriptionDTOs) {
+            prescriptions.add(fromDTO(dto));
+        }
+
+        return prescriptions;
+    }
+
 }

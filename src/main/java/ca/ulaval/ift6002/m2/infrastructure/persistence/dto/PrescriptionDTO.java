@@ -1,19 +1,36 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class PrescriptionDTO extends BaseDTO {
+public class PrescriptionDTO {
 
-    // TODO have a real id also...
-
+    @Id
+    @GeneratedValue
+    public Integer id;
     public String practitioner;
     public String date;
     public Integer renewals;
 
-    public PrescriptionDTO(String practitioner, String date, Integer renewals) {
+    @ManyToOne
+    @JoinColumn(name = "drug_id")
+    public DrugDTO drugDTO;
+
+    public PrescriptionDTO(String practitioner, String date, Integer renewals, DrugDTO drugDTO) {
         this.practitioner = practitioner;
         this.date = date;
         this.renewals = renewals;
+        this.drugDTO = drugDTO;
+    }
+
+    protected PrescriptionDTO() {
+        this.practitioner = "";
+        this.date = "";
+        this.renewals = 0;
+        this.drugDTO = null;
     }
 }

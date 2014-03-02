@@ -1,9 +1,12 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
@@ -19,15 +22,19 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.PatientDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
+//TODO Refactor ...
 @RunWith(MockitoJUnitRunner.class)
 public class PatientHibernateRepositoryTest {
 
     private static final int UNEXISTING_PATIENT_ID = -1;
     private static final int PATIENT_ID = 12345;
 
-    private static final PatientDTO PATIENT_DTO = new PatientDTO(12345);
+    private static final Collection<PrescriptionDTO> prescriptionDTOs = new ArrayList<PrescriptionDTO>();
+
+    private static final PatientDTO PATIENT_DTO = new PatientDTO(12345, prescriptionDTOs);
     private static final Patient PATIENT = new Patient(PATIENT_ID);
 
     private PatientRepository patientRepository;
@@ -55,15 +62,17 @@ public class PatientHibernateRepositoryTest {
         patientRepository.get(UNEXISTING_PATIENT_ID);
     }
 
-//    @Test
-//    public void givenPatientWhenGetPatientShouldReturnCorrespondingPatient() {
-//        willReturn(PATIENT_DTO).given(entityManager).find(PatientDTO.class, PATIENT_ID);
-//        willReturn(PATIENT).given(patientAssembler).fromDTO(PATIENT_DTO);
-//
-//        Patient patientFound = patientRepository.get(PATIENT_ID);
-//
-//        assertEquals(PATIENT, patientFound);
-//    }
+    // @Test
+    // public void givenPatientWhenGetPatientShouldReturnCorrespondingPatient()
+    // {
+    // willReturn(PATIENT_DTO).given(entityManager).find(PatientDTO.class,
+    // PATIENT_ID);
+    // willReturn(PATIENT).given(patientAssembler).fromDTO(PATIENT_DTO);
+    //
+    // Patient patientFound = patientRepository.get(PATIENT_ID);
+    //
+    // assertEquals(PATIENT, patientFound);
+    // }
 
     @Test
     public void givenPatientWhenStoringShouldPersist() {
