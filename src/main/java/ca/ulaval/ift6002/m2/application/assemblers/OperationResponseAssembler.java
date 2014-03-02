@@ -48,43 +48,34 @@ public class OperationResponseAssembler {
     }
 
     private OperationType convertType(String type) throws InvalidResponseException {
-        type = type.toUpperCase();
-        OperationType resultOperationType;
-        if (type.equals("OEIL")) {
-            resultOperationType = OperationType.EYE;
-        } else if (type.equals("COEUR")) {
-            resultOperationType = OperationType.HEART;
-        } else if (type.equals("MOELLE")) {
-            resultOperationType = OperationType.MARROW;
-        } else if (type.equals("ONCOLOGIQUE")) {
-            resultOperationType = OperationType.ONCOLOGY;
-        } else if (type.equals("AUTRE")) {
-            resultOperationType = OperationType.OTHER;
-        } else {
-            throw new InvalidResponseException("Operation type is not defined");
+        if (type.equalsIgnoreCase("OEIL")) {
+            return OperationType.EYE;
+        } else if (type.equalsIgnoreCase("COEUR")) {
+            return OperationType.HEART;
+        } else if (type.equalsIgnoreCase("MOELLE")) {
+            return OperationType.MARROW;
+        } else if (type.equalsIgnoreCase("ONCOLOGIQUE")) {
+            return OperationType.ONCOLOGY;
+        } else if (type.equalsIgnoreCase("AUTRE")) {
+            return OperationType.OTHER;
         }
-        return resultOperationType;
 
+        throw new InvalidResponseException("Operation type is not defined");
     }
 
     private OperationStatus convertStatus(String status) throws InvalidResponseException {
-        status = status.toUpperCase();
-        OperationStatus resultOperationStatus;
-
-        if (status.equals("PLANIFIEE") || status.equals("")) {
-            resultOperationStatus = OperationStatus.PLANNED;
-        } else if (status.equals("EN_COURS")) {
-            resultOperationStatus = OperationStatus.IN_PROGRESS;
-        } else if (status.equals("TERMINE")) {
-            resultOperationStatus = OperationStatus.FINISH;
-        } else if (status.equals("ANNULEE")) {
-            resultOperationStatus = OperationStatus.CANCELLED;
-        } else if (status.equals("REPORTEE")) {
-            resultOperationStatus = OperationStatus.POSTPONED;
-        } else {
-            throw new InvalidResponseException("Operation status is not defined");
+        if (status.equalsIgnoreCase("PLANIFIEE") || status.isEmpty()) {
+            return OperationStatus.PLANNED;
+        } else if (status.equalsIgnoreCase("EN_COURS")) {
+            return OperationStatus.IN_PROGRESS;
+        } else if (status.equalsIgnoreCase("TERMINE")) {
+            return OperationStatus.FINISH;
+        } else if (status.equalsIgnoreCase("ANNULEE")) {
+            return OperationStatus.CANCELLED;
+        } else if (status.equalsIgnoreCase("REPORTEE")) {
+            return OperationStatus.POSTPONED;
         }
 
-        return resultOperationStatus;
+        throw new InvalidResponseException("Operation status is not defined");
     }
 }
