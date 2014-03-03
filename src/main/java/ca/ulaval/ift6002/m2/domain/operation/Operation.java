@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
@@ -83,11 +81,5 @@ public abstract class Operation {
 
     public OperationStatus getStatus() {
         return status;
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(description).append(surgeon).append(date).append(patient).append(room)
-                .append(status).toHashCode();
     }
 }

@@ -1,8 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.drug;
 
-import java.util.Objects;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Din {
 
@@ -18,22 +17,12 @@ public class Din {
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Din other = (Din) obj;
-        return new EqualsBuilder().append(value, other.value).isEquals();
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override

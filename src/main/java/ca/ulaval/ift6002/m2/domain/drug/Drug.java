@@ -33,23 +33,12 @@ public class Drug {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(din).append(brandName).append(descriptor).toHashCode();
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Drug other = (Drug) obj;
-        return new EqualsBuilder().append(din, other.din).append(brandName, other.brandName)
-                .append(descriptor, other.descriptor).isEquals();
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
 }

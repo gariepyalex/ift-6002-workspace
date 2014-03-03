@@ -1,9 +1,9 @@
 package ca.ulaval.ift6002.m2.domain.prescription;
 
 import java.util.Date;
-import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
@@ -39,22 +39,11 @@ public class Prescription {
 
     @Override
     public int hashCode() {
-        return Objects.hash(practitioner, date, renewals, drug);
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Prescription other = (Prescription) obj;
-        return new EqualsBuilder().append(practitioner, other.practitioner).append(date, other.date)
-                .append(renewals, other.renewals).append(drug, other.drug).isEquals();
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 }

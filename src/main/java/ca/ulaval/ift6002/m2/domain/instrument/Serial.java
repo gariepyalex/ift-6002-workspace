@@ -17,22 +17,12 @@ public class Serial {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(value).toHashCode();
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Serial other = (Serial) obj;
-        return new EqualsBuilder().append(value, other.value).isEquals();
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override

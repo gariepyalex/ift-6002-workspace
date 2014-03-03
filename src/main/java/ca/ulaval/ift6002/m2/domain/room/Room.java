@@ -1,8 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.room;
 
-import java.util.Objects;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Room {
 
@@ -14,22 +13,12 @@ public class Room {
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Room other = (Room) obj;
-        return new EqualsBuilder().append(value, other.value).isEquals();
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
 }
