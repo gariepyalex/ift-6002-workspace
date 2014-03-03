@@ -15,6 +15,7 @@ public class PrescriptionResponseValidatorTest {
 
     private static final String PRACTITIONER = "102032";
     private static final String DATE = "12-12-12T12:12:12";
+    private static final String INVALID_DATE = "invalide";
 
     private static final Integer VALID_RENEWALS = 15;
     private static final Integer INVALID_RENEWALS = -1;
@@ -25,6 +26,13 @@ public class PrescriptionResponseValidatorTest {
     @Before
     public void setUp() {
         prescriptionValidator = new PrescriptionResponseValidator();
+    }
+
+    @Test(expected = InvalidResponseException.class)
+    public void givenResponseWithInvalidDateWhenValidatingShouldThrowException() throws InvalidResponseException {
+        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, INVALID_DATE, VALID_RENEWALS, VALID_DIN,
+                EMPTY_NAME);
+        prescriptionValidator.validate(response);
     }
 
     @Test(expected = InvalidResponseException.class)

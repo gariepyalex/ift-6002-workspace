@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.application.validator.response;
 
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
+import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 
 public class PrescriptionResponseValidator implements ResponseValidator<PrescriptionResponse> {
 
@@ -20,6 +21,14 @@ public class PrescriptionResponseValidator implements ResponseValidator<Prescrip
         if (hasSetBothDinAndName(response)) {
             throw new InvalidResponseException(ERROR_CODE, "You cannot set din and name at the same time");
         }
+
+        if (!hasValidDateFormat(response)) {
+            throw new InvalidResponseException(ERROR_CODE, "The date format is invalid. (yyyy-MM-dd'T'HH:mm:ss)");
+        }
+    }
+
+    private boolean hasValidDateFormat(PrescriptionResponse response) {
+        return DateFormatter.isValid(response.date);
     }
 
     private boolean hasEnoughRenewals(PrescriptionResponse response) {

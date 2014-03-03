@@ -1,6 +1,8 @@
 package ca.ulaval.ift6002.m2.domain.date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -48,5 +50,17 @@ public class DateFormatterTest {
     @Test(expected = DateException.class)
     public void givenFormatterWhenConvertToStringWithInvalidFormatShouldReturnException() {
         dateFormatter.parse(INVALID_DATE_FORMAT);
+    }
+
+    @Test
+    public void givenFormatterWhenIsValidWithValidFormatShouldReturnTrue() {
+        boolean returnValue = DateFormatter.isValid(VALID_DATE_FORMAT);
+        assertTrue(returnValue);
+    }
+
+    @Test
+    public void givenFormatterWhenIsValidWithInvalidFormatShouldReturnFalse() {
+        boolean returnValue = DateFormatter.isValid(INVALID_DATE_FORMAT);
+        assertFalse(returnValue);
     }
 }
