@@ -1,6 +1,6 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
-import ca.ulaval.ift6002.m2.domain.room.Room;
+import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.RoomDTO;
 
 public class RoomDTOAssembler extends DTOAssembler<Room, RoomDTO> {
