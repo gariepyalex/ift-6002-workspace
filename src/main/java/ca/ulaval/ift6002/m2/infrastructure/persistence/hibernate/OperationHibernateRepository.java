@@ -1,5 +1,9 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
+import java.util.Collection;
+
+import javax.persistence.TypedQuery;
+
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.OperationDTOAssembler;
@@ -32,10 +36,16 @@ public class OperationHibernateRepository extends HibernateRepository<OperationD
     public void store(Operation operation) {
         OperationDTO operationDTO = operationAssembler.toDTO(operation);
 
-        merge(operationDTO);
+        operationDTO = merge(operationDTO);
 
-        operation = operationAssembler.fromDTO(operationDTO);
+        operation.updateNumber(operationDTO.number);
+    }
 
+    public Collection<Operation> list() {
+        String query = "FROM OperationDTO";
+        TypedQuery<OperationDTO> typedQuery = createQuery(query);
+
+        return operationAssembler.fromDTOs(typedQuery.getResultList());
     }
 
 }

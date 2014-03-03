@@ -15,7 +15,7 @@ import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 public abstract class Operation {
 
-    private final Integer number;
+    private Integer number;
     private final String description;
     private final Surgeon surgeon;
     private final Date date;
@@ -110,5 +110,9 @@ public abstract class Operation {
 
     public OperationStatus getStatus() {
         return status;
+    }
+
+    public void updateNumber(Integer number) {
+        this.number = number;
     }
 }
