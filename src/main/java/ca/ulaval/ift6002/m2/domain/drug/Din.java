@@ -15,6 +15,10 @@ public class Din {
         return value;
     }
 
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
+
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
