@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.application.rest.resources;
 
 import java.net.URI;
+import java.util.NoSuchElementException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -28,6 +29,9 @@ public class OperationResource extends Resource {
 
     private static final String MISSING_INFORMATION = "INT001";
 
+    private static final String NO_PATIENT_FOUND = "INT002";
+    private static final String NO_PATIENT_FOUND_MESSAGE = "The patient does not exist";
+
     private static final String INCOMPLETE_DATA_ERROR = "INT010";
     private static final String INCOMPLETE_DATA_MESSAGE = "Invalid or incomplete data";
 
@@ -47,12 +51,14 @@ public class OperationResource extends Resource {
         try {
             operationValidator.validate(operationResponse);
 
-            operationService.saveOperation(operationResponse);
+            Integer generatedNumber = operationService.saveOperation(operationResponse);
 
-            return Response.created(uri.getRequestUri()).build();
-            // TODO: should return '/interventions/$NO_INTERVENTION$'
+            URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + generatedNumber);
+            return Response.created(uriLocation).build();
         } catch (InvalidResponseException e) {
-            return fromException(MISSING_INFORMATION, e.getMessage());
+            return fromException(MISSING_INFORMATION, INCOMPLETE_DATA_MESSAGE);
+        } catch (NoSuchElementException e) {
+            return fromException(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
         }
     }
 
