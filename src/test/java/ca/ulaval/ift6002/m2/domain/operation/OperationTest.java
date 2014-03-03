@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
@@ -66,7 +66,7 @@ public class OperationTest {
     }
 
     @Test
-    public void givenInstrumentWhenBookmarkInstrumentShouldCallChangeToNewStatus() throws InstrumentNotFoundException {
+    public void givenInstrumentWhenBookmarkInstrumentShouldCallChangeToNewStatus() {
         buildAnOperation();
         operation.add(instrument);
         willReturn(true).given(instrument).hasSerial(any(Serial.class));
@@ -76,9 +76,8 @@ public class OperationTest {
         verify(instrument).changeTo(AN_INSTRUMENT_STATUS);
     }
 
-    @Test(expected = InstrumentNotFoundException.class)
-    public void givenInstrumentWithNonExistingSerialWhenBookmarkInstrumentShouldThrowException()
-            throws InstrumentNotFoundException {
+    @Test(expected = NoSuchElementException.class)
+    public void givenInstrumentWithNonExistingSerialWhenBookmarkInstrumentShouldThrowException() {
         buildAnOperation();
         operation.add(instrument);
         willReturn(false).given(instrument).hasSerial(any(Serial.class));
