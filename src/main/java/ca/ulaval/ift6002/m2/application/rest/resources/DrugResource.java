@@ -38,7 +38,7 @@ public class DrugResource extends Resource {
             DrugResponse[] dtos = drugAssembler.toResponses(drugsFound);
 
             return Response.ok(dtos).build();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             return error(INVALID_SEARCH_ERROR_CODE, e.getMessage());
         }
     }
