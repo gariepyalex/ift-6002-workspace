@@ -6,8 +6,9 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +44,6 @@ public class OperationTest {
     private Instrument anonymousInstrument;
 
     private Operation operation;
-    private Operation operationWithInstrumentNotElligible;
 
     @Before
     public void setupOperationTest() {
@@ -66,7 +66,7 @@ public class OperationTest {
     }
 
     @Test
-    public void givenNewStatusWhenBookmarkInstrumentShouldCallSetNewStatus() throws InstrumentNotFoundException {
+    public void givenInstrumentWhenBookmarkInstrumentShouldCallChangeToNewStatus() throws InstrumentNotFoundException {
         buildAnOperation();
         operation.add(instrument);
         willReturn(true).given(instrument).hasSerial(any(Serial.class));
@@ -77,7 +77,7 @@ public class OperationTest {
     }
 
     @Test(expected = InstrumentNotFoundException.class)
-    public void givenNewStatusWithNonExistingSerialWhenBookmarkInstrumentShouldThrowException()
+    public void givenInstrumentWithNonExistingSerialWhenBookmarkInstrumentShouldThrowException()
             throws InstrumentNotFoundException {
         buildAnOperation();
         operation.add(instrument);
@@ -94,19 +94,17 @@ public class OperationTest {
     }
 
     @Test(expected = InvalidInstrumentException.class)
-    public void givenOperationWithInstrumentNotElligibleWhenAddInstrumentShouldThrowInvalidInstrumentException() {
-        buildAnOperationWithInstrumentNotElligible();
-        operationWithInstrumentNotElligible.add(instrument);
+    public void givenOperationWithInstrumentNotElligibleWhenAddInstrumentShouldThrowException() {
+        buildAnOperationWhereInstrumentsAreNotElligible();
+
+        operation.add(instrument);
     }
 
     @Test
-    public void givenOperationWhenAddInstrumentCollectionShouldAddAllInstruments() {
-        buildAnOperation();
-        ArrayList<Instrument> instruments = new ArrayList<>();
-        instruments.add(anonymousInstrument);
-        instruments.add(instrument);
-        operation.add(instruments);
-        assertEquals(instruments.size(), operation.countInstruments());
+    public void givenOperationWhenTwoAddInstrumentsShouldCountTwoInstruments() {
+        buildAnOperationAndAddTwoInstruments();
+        int instrumentsCount = operation.countInstruments();
+        assertEquals(2, instrumentsCount);
     }
 
     private void buildAnOperation() {
@@ -125,8 +123,15 @@ public class OperationTest {
         };
     }
 
-    private void buildAnOperationWithInstrumentNotElligible() {
-        operationWithInstrumentNotElligible = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
+    private void buildAnOperationAndAddTwoInstruments() {
+        buildAnOperation();
+        List<Instrument> instruments = Arrays.asList(instrument, anonymousInstrument);
+
+        operation.add(instruments);
+    }
+
+    private void buildAnOperationWhereInstrumentsAreNotElligible() {
+        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
 
             @Override
             protected boolean isInstrumentElligible(Instrument instrument) {
