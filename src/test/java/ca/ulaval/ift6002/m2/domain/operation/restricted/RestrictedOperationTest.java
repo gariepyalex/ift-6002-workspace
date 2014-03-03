@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.domain.operation.restricted;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 
@@ -12,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
@@ -45,16 +45,14 @@ public class RestrictedOperationTest {
         willReturn(true).given(anonymousInstrument).isAnonymous();
     }
 
-    @Test(expected = InvalidInstrumentException.class)
-    public void whenAddingAnInvalidInstrumentShouldThrowException() {
-        restrictedOperation.add(anonymousInstrument);
+    @Test
+    public void whenCheckingForInstrumentElligibilityWithAnonymousInstrumentShouldReturnFalse() {
+        assertFalse(restrictedOperation.isInstrumentElligible(anonymousInstrument));
     }
 
     @Test
-    public void whenAddingAnInstrumentShouldContainsInstrument() {
-        restrictedOperation.add(instrument);
-        boolean hasInstrument = restrictedOperation.has(instrument);
-        assertTrue(hasInstrument);
+    public void whenCheckingForInstrumentElligibilityWithInstrumentShouldReturnTrue() {
+        assertTrue(restrictedOperation.isInstrumentElligible(instrument));
     }
 
     private void createRestrictedOperation() {

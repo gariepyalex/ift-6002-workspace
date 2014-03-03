@@ -20,16 +20,10 @@ public enum OperationType {
     }
 
     public static OperationType determineFrom(String type) {
-        if (type.equalsIgnoreCase(EYE.toString())) {
-            return EYE;
-        } else if (type.equalsIgnoreCase(HEART.toString())) {
-            return HEART;
-        } else if (type.equalsIgnoreCase(MARROW.toString())) {
-            return MARROW;
-        } else if (type.equalsIgnoreCase(ONCOLOGY.toString())) {
-            return ONCOLOGY;
-        } else if (type.equalsIgnoreCase(OTHER.toString())) {
-            return OTHER;
+        for (OperationType currentType : values()) {
+            if (type.equalsIgnoreCase(currentType.toString())) {
+                return currentType;
+            }
         }
 
         throw new IllegalArgumentException("Operation type is not defined");

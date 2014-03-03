@@ -15,16 +15,14 @@ public enum OperationStatus {
     }
 
     public static OperationStatus determineFrom(String status) {
-        if (status.equalsIgnoreCase(PLANNED.toString()) || status.isEmpty()) {
+        if (status.isEmpty()) {
             return PLANNED;
-        } else if (status.equalsIgnoreCase(IN_PROGRESS.toString())) {
-            return IN_PROGRESS;
-        } else if (status.equalsIgnoreCase(FINISH.toString())) {
-            return FINISH;
-        } else if (status.equalsIgnoreCase(CANCELLED.toString())) {
-            return CANCELLED;
-        } else if (status.equalsIgnoreCase(POSTPONED.toString())) {
-            return POSTPONED;
+        }
+
+        for (OperationStatus currentStatus : values()) {
+            if (status.equalsIgnoreCase(currentStatus.toString())) {
+                return currentStatus;
+            }
         }
 
         throw new IllegalArgumentException("Operation status is not defined");
