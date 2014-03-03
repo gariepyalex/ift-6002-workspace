@@ -27,6 +27,9 @@ public class OperationResource extends Resource {
 
     private static final String MISSING_INFORMATION = "INT001";
 
+    private static final String NO_OPERATION_FOUND = "INT020";
+    private static final String NO_OPERATION_FOUND_MESSAGE = "The operation does not exist";
+
     private static final String NO_PATIENT_FOUND = "INT002";
     private static final String NO_PATIENT_FOUND_MESSAGE = "The patient does not exist";
 
@@ -65,7 +68,6 @@ public class OperationResource extends Resource {
             InstrumentResponse instrumentResponse) {
         try {
             instrumentValidator.validate(instrumentResponse);
-
             operationService.saveInstrument(noIntervention, instrumentResponse);
 
             return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
@@ -73,6 +75,8 @@ public class OperationResource extends Resource {
             return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
         } catch (IllegalStateException e) {
             return error(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
+        } catch (NoSuchElementException e) {
+            return error(NO_OPERATION_FOUND, NO_OPERATION_FOUND_MESSAGE);
         }
     }
 

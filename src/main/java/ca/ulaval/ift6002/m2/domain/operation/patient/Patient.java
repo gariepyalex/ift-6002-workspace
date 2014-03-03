@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.domain.patient;
+package ca.ulaval.ift6002.m2.domain.operation.patient;
 
 import java.util.ArrayList;
 import java.util.Collection;

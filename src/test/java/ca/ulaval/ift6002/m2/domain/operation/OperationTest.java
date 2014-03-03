@@ -17,9 +17,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
+import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
+import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationTest {

@@ -9,10 +9,10 @@ import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
+import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.operation.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
+import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class OperationResponseAssembler {
@@ -42,11 +42,18 @@ public class OperationResponseAssembler {
             Room room = new Room(response.room);
             String description = response.description;
             OperationType type = OperationType.determineFrom(response.type);
-            OperationStatus status = OperationStatus.determineFrom(response.status);
+            OperationStatus status = getStatus(response);
 
             return operationFactory.create(type, description, surgeon, date, room, status, patient);
         } catch (IllegalArgumentException e) {
             throw new InvalidResponseException(e.getMessage());
         }
+    }
+
+    private OperationStatus getStatus(OperationResponse response) {
+        if (response.status == null) {
+            response.status = "";
+        }
+        return OperationStatus.determineFrom(response.status);
     }
 }
