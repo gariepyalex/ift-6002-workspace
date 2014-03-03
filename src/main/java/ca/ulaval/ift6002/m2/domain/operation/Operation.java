@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
@@ -43,15 +43,20 @@ public abstract class Operation {
         this.number = number;
     }
 
-    public void bookmarkInstrumentToStatus(Serial serial, InstrumentStatus status) throws InstrumentNotFoundException {
+    public void bookmarkInstrumentToStatus(Serial serial, InstrumentStatus status) {
+        Instrument instrument = findInstrument(serial);
+
+        instrument.changeTo(status);
+    }
+
+    private Instrument findInstrument(Serial serial) {
         for (Instrument instrument : instruments) {
             if (instrument.hasSerial(serial)) {
-                instrument.changeTo(status);
-                return;
+                return instrument;
             }
         }
 
-        throw new InstrumentNotFoundException("Instrument was not found in operation " + number);
+        throw new NoSuchElementException("There are no instrument corresponding to: " + serial);
     }
 
     public boolean has(Instrument instrument) {

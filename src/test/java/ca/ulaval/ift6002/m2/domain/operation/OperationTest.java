@@ -1,10 +1,15 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
-
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +18,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
+import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
@@ -61,7 +66,7 @@ public class OperationTest {
     }
 
     @Test
-    public void givenNewStatusWhenBookmarkInstrumentShouldCallSetNewStatus() throws InstrumentNotFoundException {
+    public void givenInstrumentWhenBookmarkInstrumentShouldCallChangeToNewStatus() {
         buildAnOperation();
         operation.add(instrument);
         willReturn(true).given(instrument).hasSerial(any(Serial.class));
@@ -71,9 +76,8 @@ public class OperationTest {
         verify(instrument).changeTo(AN_INSTRUMENT_STATUS);
     }
 
-    @Test(expected = InstrumentNotFoundException.class)
-    public void givenNewStatusWithNonExistingSerialWhenBookmarkInstrumentShouldThrowException()
-            throws InstrumentNotFoundException {
+    @Test(expected = NoSuchElementException.class)
+    public void givenInstrumentWithNonExistingSerialWhenBookmarkInstrumentShouldThrowException() {
         buildAnOperation();
         operation.add(instrument);
         willReturn(false).given(instrument).hasSerial(any(Serial.class));
@@ -88,12 +92,49 @@ public class OperationTest {
         operation.add(instrument);
     }
 
+    @Test(expected = InvalidInstrumentException.class)
+    public void givenOperationWithInstrumentNotElligibleWhenAddInstrumentShouldThrowException() {
+        buildAnOperationWhereInstrumentsAreNotElligible();
+
+        operation.add(instrument);
+    }
+
+    @Test
+    public void givenOperationWhenTwoAddInstrumentsShouldCountTwoInstruments() {
+        buildAnOperationAndAddTwoInstruments();
+        int instrumentsCount = operation.countInstruments();
+        assertEquals(2, instrumentsCount);
+    }
+
     private void buildAnOperation() {
         operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
 
             @Override
             protected boolean isInstrumentElligible(Instrument instrument) {
                 return true;
+            }
+
+            @Override
+            public OperationType getType() {
+                return OperationType.OTHER;
+            }
+
+        };
+    }
+
+    private void buildAnOperationAndAddTwoInstruments() {
+        buildAnOperation();
+        List<Instrument> instruments = Arrays.asList(instrument, anonymousInstrument);
+
+        operation.add(instruments);
+    }
+
+    private void buildAnOperationWhereInstrumentsAreNotElligible() {
+        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
+
+            @Override
+            protected boolean isInstrumentElligible(Instrument instrument) {
+                return false;
             }
 
             @Override

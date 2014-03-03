@@ -23,6 +23,8 @@ public class InstrumentResponseAssemblerTest {
     private static final String RESPONSE_SERIAL = "serial";
     private static final InstrumentResponse INSTRUMENT_RESPONSE = new InstrumentResponse(RESPONSE_TYPECODE,
             STATUS.toString(), RESPONSE_SERIAL);
+    private static final InstrumentResponse INSTRUMENT_RESPONSE_WITH_UNEXISTING_STATUS = new InstrumentResponse(
+            RESPONSE_TYPECODE, "an unexisting status", RESPONSE_SERIAL);
 
     private InstrumentResponseAssembler instrumentAssembler;
 
@@ -36,5 +38,10 @@ public class InstrumentResponseAssemblerTest {
             throws InvalidResponseException {
         Instrument instrumentBuilt = instrumentAssembler.fromResponse(INSTRUMENT_RESPONSE);
         assertEquals(INSTRUMENT, instrumentBuilt);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void givenInstrumentResponseWithUnexistingStatusWhenConvertToInstrumentShouldThrowIllegalArgurmentException() {
+        instrumentAssembler.fromResponse(INSTRUMENT_RESPONSE_WITH_UNEXISTING_STATUS);
     }
 }
