@@ -8,7 +8,7 @@ public class PrescriptionResponseValidator implements ResponseValidator<Prescrip
     private static final String ERROR_CODE = "PRES001";
 
     @Override
-    public void validate(PrescriptionResponse response) throws InvalidResponseException {
+    public void validate(PrescriptionResponse response) {
         if (!hasEnoughRenewals(response)) {
             throw new InvalidResponseException(ERROR_CODE,
                     "The number of renewals must be greater than or equals to zero");

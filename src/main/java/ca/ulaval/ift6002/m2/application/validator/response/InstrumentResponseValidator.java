@@ -9,7 +9,7 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
     private static final String MISSING_SERIAL_ERROR = "INT012";
 
     @Override
-    public void validate(InstrumentResponse response) throws InvalidResponseException {
+    public void validate(InstrumentResponse response) {
         if (response.typecode.isEmpty()) {
             throw new InvalidResponseException(INCOMPLETE_DATA_ERROR, "Typecode must not be empty");
         }
@@ -19,7 +19,7 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
         }
     }
 
-    public void validateNewStatus(InstrumentResponse response) throws InvalidResponseException {
+    public void validateNewStatus(InstrumentResponse response) {
         if (response.serial.isEmpty()) {
             throw new InvalidResponseException(MISSING_SERIAL_ERROR, "Serial must not be empty");
         }

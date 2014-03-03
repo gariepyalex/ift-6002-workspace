@@ -7,7 +7,7 @@ public class OperationResponseValidator implements ResponseValidator<OperationRe
     private static final String MISSING_INFORMATION = "INT001";
 
     @Override
-    public void validate(OperationResponse response) throws InvalidResponseException {
+    public void validate(OperationResponse response) {
         if (response.description.isEmpty()) {
             throw new InvalidResponseException(MISSING_INFORMATION, "Description is empty");
         } else if (response.surgeon == null) {
