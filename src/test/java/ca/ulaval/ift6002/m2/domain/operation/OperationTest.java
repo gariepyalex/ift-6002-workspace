@@ -49,20 +49,20 @@ public class OperationTest {
 
     @Test
     public void givenOperationShouldHaveZeroInstrument() {
-        buildAnOperationWithNoAddingOfInstrument();
+        buildAnOperation();
 
         assertEquals(0, operation.countInstruments());
     }
 
     @Test
     public void givenOperationShouldNotHaveAnyInstrument() {
-        buildAnOperationWithNoAddingOfInstrument();
+        buildAnOperation();
         boolean hasInstrument = operation.has(instrument);
         assertFalse(hasInstrument);
     }
 
     @Test
-    public void givenNewStatusWhenUpdatingInstrumentShouldCallSetNewStatus() {
+    public void givenNewStatusWhenBookmarkInstrumentShouldCallSetNewStatus() {
         buildAnOperation();
         operation.add(instrument);
         willReturn(true).given(instrument).hasSerial(any(Serial.class));
@@ -70,7 +70,6 @@ public class OperationTest {
         operation.bookmarkInstrumentToStatus(new Serial("abc"), AN_INSTRUMENT_STATUS);
 
         verify(instrument).changeTo(AN_INSTRUMENT_STATUS);
-
     }
 
     @Test(expected = IllegalStateException.class)
@@ -80,28 +79,7 @@ public class OperationTest {
         operation.add(instrument);
     }
 
-    private void buildAnOperationWithNoAddingOfInstrument() {
-        // It could be any type of operation
-        createEligibleOperation();
-    }
-
     private void buildAnOperation() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
-
-            @Override
-            protected boolean isInstrumentElligible(Instrument instrument) {
-                return true;
-            }
-
-            @Override
-            public OperationType getType() {
-                return OperationType.OTHER;
-            }
-
-        };
-    }
-
-    private void createEligibleOperation() {
         operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
 
             @Override
