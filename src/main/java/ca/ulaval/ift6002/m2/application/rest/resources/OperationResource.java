@@ -18,6 +18,7 @@ import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.OperationResponseValidator;
+import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
 @Path("/interventions")
@@ -26,9 +27,6 @@ import ca.ulaval.ift6002.m2.services.OperationService;
 public class OperationResource extends Resource {
 
     private static final String MISSING_INFORMATION = "INT001";
-
-    private static final String NO_OPERATION_FOUND = "INT020";
-    private static final String NO_OPERATION_FOUND_MESSAGE = "The operation does not exist";
 
     private static final String NO_PATIENT_FOUND = "INT002";
     private static final String NO_PATIENT_FOUND_MESSAGE = "The patient does not exist";
@@ -41,6 +39,11 @@ public class OperationResource extends Resource {
 
     private static final String MISSING_SERIAL_ERROR = "INT012";
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
+
+    private static final String NO_OPERATION_FOUND = "INT020";
+    private static final String NO_OPERATION_FOUND_MESSAGE = "The operation does not exist";
+
+    private static final String NO_INSTRUMENT_FOUND = "INT021";
 
     private final OperationResponseValidator operationValidator = new OperationResponseValidator();
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
@@ -92,8 +95,10 @@ public class OperationResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
-            return error(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
+            return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+        } catch (InstrumentNotFoundException e) {
+            return error(NO_INSTRUMENT_FOUND, e.getMessage());
         }
-        // TODO catch invalid data
+        // TODO catch missing serial
     }
 }
