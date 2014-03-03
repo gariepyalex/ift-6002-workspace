@@ -4,7 +4,7 @@ import java.util.List;
 
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.file.FileParser;
+import ca.ulaval.ift6002.m2.file.FileParser;
 
 public class DemoDrugRepositoryFiller {
 
