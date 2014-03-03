@@ -38,6 +38,8 @@ public class PrescriptionResponseAssemblerTest {
 
     private static final Prescription PRESCRIPTION = new Prescription(A_PRACTITIONER, A_DATE, A_RENEWALS,
             A_COMPLETE_DRUG);
+    private static final Prescription PRESCRIPTION_WITH_INCOMPLETE_DRUG = new Prescription(A_PRACTITIONER, A_DATE,
+            A_RENEWALS, A_DRUG_WITH_ONLY_A_NAME);
 
     private static final PrescriptionResponse PRESCRIPTION_RESPONSE = new PrescriptionResponse(
             A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS, A_VALID_DIN.toString(), A_BRAND_NAME);
@@ -64,29 +66,28 @@ public class PrescriptionResponseAssemblerTest {
     }
 
     @Test
-    public void givenPrescriptionWhenConvertToResponseShouldReturnGivenPrescriptionResponse() {
+    public void givenPrescriptionWhenConvertToResponseShouldReturnGivenResponse() {
         PrescriptionResponse responseBuilt = prescriptionAssembler.toResponse(PRESCRIPTION);
-        assertPrescriptionResponseEquals(PRESCRIPTION_RESPONSE, responseBuilt);
+
+        assertResponseEquals(PRESCRIPTION_RESPONSE, responseBuilt);
     }
 
     @Test
-    public void givenPrescriptionResponseWhenConvertToPrescriptionShouldReturnGivenPrescription() {
+    public void givenResponseWhenConvertToPrescriptionShouldReturnGivenPrescription() {
         Prescription prescriptionBuilt = prescriptionAssembler.fromResponse(PRESCRIPTION_RESPONSE);
+
         assertEquals(PRESCRIPTION, prescriptionBuilt);
     }
 
     @Test
-    public void givenPrescriptionResponseContainingNameWhenConvertToPrescriptionShouldReturnGivenPrescription() {
+    public void givenResponseWithNameAndNoDinWhenConvertToPrescriptionShouldReturnGivenPrescription() {
         PrescriptionResponse response = new PrescriptionResponse(A_PRACTITIONER.toString(), A_DATE_AS_STRING,
                 A_RENEWALS, AN_EMPTY_DIN.toString(), A_BRAND_NAME);
-
-        Prescription prescription = new Prescription(A_PRACTITIONER, A_DATE, A_RENEWALS, A_DRUG_WITH_ONLY_A_NAME);
         Prescription returnedPrescription = prescriptionAssembler.fromResponse(response);
-
-        assertEquals(prescription, returnedPrescription);
+        assertEquals(PRESCRIPTION_WITH_INCOMPLETE_DRUG, returnedPrescription);
     }
 
-    private void assertPrescriptionResponseEquals(PrescriptionResponse expected, PrescriptionResponse actual) {
+    private void assertResponseEquals(PrescriptionResponse expected, PrescriptionResponse actual) {
         assertEquals(expected.practitioner, actual.practitioner);
         assertEquals(expected.date, actual.date);
         assertEquals(expected.renewals, actual.renewals);

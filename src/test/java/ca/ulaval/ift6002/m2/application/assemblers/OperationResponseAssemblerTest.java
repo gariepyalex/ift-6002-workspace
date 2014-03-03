@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.sql.Date;
@@ -39,6 +40,9 @@ public class OperationResponseAssemblerTest {
     private static final String STATUS = "planifiee";
     private static final Date DATE = new Date(1220227200L * 1000);
 
+    private final OperationResponse operationResponse = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER,
+            DATE_AS_STRING, ROOM, TYPE, STATUS, PATIENT_NUMBER);
+
     @Mock
     private OperationFactory operationFactory;
 
@@ -49,10 +53,7 @@ public class OperationResponseAssemblerTest {
     private DateFormatter formatterDate;
 
     @InjectMocks
-    OperationResponseAssembler operationAssembler;
-
-    private final OperationResponse operationResponse = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER,
-            DATE_AS_STRING, ROOM, TYPE, STATUS, PATIENT_NUMBER);
+    private OperationResponseAssembler operationAssembler;
 
     @Before
     public void setUp() {
@@ -60,31 +61,30 @@ public class OperationResponseAssemblerTest {
     }
 
     @Test
-    public void whenFromResponseCallPatientRepositoryGetShouldBeCall() {
+    public void whenFromResponseShouldCallGetInPatientRepository() {
         operationAssembler.fromResponse(operationResponse);
 
-        verify(patientRepository).get(PATIENT_NUMBER);
+        verify(patientRepository, times(1)).get(PATIENT_NUMBER);
     }
 
     @Test
-    public void whenFromResponseCallFormatterDateParseShouldBeCall() {
+    public void whenFromResponseShouldCallParseInDateFormatter() {
         operationAssembler.fromResponse(operationResponse);
 
-        verify(formatterDate).parse(DATE_AS_STRING);
-
+        verify(formatterDate, times(1)).parse(DATE_AS_STRING);
     }
 
     @Test
-    public void whenFromResponseCallFactoryCreateShouldBeCalled() {
+    public void whenFromResponseShouldCallCreateInOperationFactory() {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
                 TYPE, STATUS, PATIENT_NUMBER);
         operationAssembler.fromResponse(response);
-        verify(operationFactory).create(any(OperationType.class), anyString(), any(Surgeon.class), any(Date.class),
-                any(Room.class), any(OperationStatus.class), any(Patient.class));
+        verify(operationFactory, times(1)).create(any(OperationType.class), anyString(), any(Surgeon.class),
+                any(Date.class), any(Room.class), any(OperationStatus.class), any(Patient.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void whenFromResponseCallWithInvalidTypeShouldThrowException() {
+    public void givenInvalidTypeWhenFromResponseShouldThrowException() {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
                 INVALID_TYPE, STATUS, PATIENT_NUMBER);
 
@@ -92,7 +92,7 @@ public class OperationResponseAssemblerTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void whenFromResponseCallWithInvalidStatusShouldThrowException() {
+    public void givenInvalidStatusWhenFromResponseShouldThrowException() {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
                 TYPE, INVALID_STATUS, PATIENT_NUMBER);
 
@@ -100,7 +100,7 @@ public class OperationResponseAssemblerTest {
     }
 
     @Test
-    public void whenFromResponseCallWithNullStatusStatusIsSetToEmpty() {
+    public void givenNullStatusWhenFromResponseShouldBeSetToEmpty() {
         OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
                 TYPE, null, PATIENT_NUMBER);
         operationAssembler.fromResponse(response);
