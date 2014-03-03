@@ -17,6 +17,7 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
+import ca.ulaval.ift6002.m2.application.validator.response.OperationResponseValidator;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
@@ -36,14 +37,16 @@ public class OperationResource extends Resource {
     private static final String MISSING_SERIAL_ERROR = "INT012";
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
+    private final OperationResponseValidator operationValidator = new OperationResponseValidator();
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
 
     private final OperationService operationService = new OperationService();
 
     @POST
-    @Path("/interventions")
     public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
         try {
+            operationValidator.validate(operationResponse);
+
             operationService.saveOperation(operationResponse);
 
             return Response.created(uri.getRequestUri()).build();
