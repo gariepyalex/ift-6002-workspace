@@ -1,7 +1,7 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.operation.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.PatientDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;

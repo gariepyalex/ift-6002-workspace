@@ -2,7 +2,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
 import java.util.Collection;
 
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;

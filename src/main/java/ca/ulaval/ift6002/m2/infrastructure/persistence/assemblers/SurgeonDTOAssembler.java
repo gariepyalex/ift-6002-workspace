@@ -1,6 +1,6 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
-import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
+import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.SurgeonDTO;
 
 public class SurgeonDTOAssembler extends DTOAssembler<Surgeon, SurgeonDTO> {

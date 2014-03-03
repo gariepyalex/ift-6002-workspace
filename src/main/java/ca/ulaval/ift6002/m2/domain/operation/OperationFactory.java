@@ -2,13 +2,13 @@ package ca.ulaval.ift6002.m2.domain.operation;
 
 import java.util.Date;
 
+import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.operation.regular.OncologicalOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.EyeOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.HeartOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.MarrowOperation;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
+import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 
 public class OperationFactory {
 
