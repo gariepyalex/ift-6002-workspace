@@ -28,7 +28,6 @@ public class PatientResource extends Resource {
 
     private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
 
-    // TODO return the created prescription's url.
     @POST
     @Path("{patientId}/prescriptions")
     public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
@@ -38,7 +37,7 @@ public class PatientResource extends Resource {
 
             patientService.savePrescription(patientId, response);
 
-            return Response.created(uri.getRequestUri()).build();
+            return success();
         } catch (NoSuchElementException | InvalidResponseException e) {
             return error(ERROR_CODE, e.getMessage());
         }

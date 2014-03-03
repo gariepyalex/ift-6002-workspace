@@ -7,6 +7,7 @@ import ca.ulaval.ift6002.m2.contexts.DemoDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
+import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.file.CSVDrugParser;
 import ca.ulaval.ift6002.m2.file.CSVFileReader;
@@ -39,19 +40,19 @@ public class Main {
 
         repositoryLocator.register(DrugRepository.class, hibernateRepositoryFactory.createDrugRepository());
         repositoryLocator.register(PatientRepository.class, hibernateRepositoryFactory.createPatientRepository());
+        repositoryLocator.register(OperationRepository.class, hibernateRepositoryFactory.createOperationRepository());
 
         RepositoryLocator.load(repositoryLocator);
     }
 
     private static void fillDrugRepository(EntityManager entityManager) {
-
         FileReader<String[]> fileReader = new CSVFileReader();
         FileParser<Drug> drugParser = new CSVDrugParser(fileReader);
+
         new DemoDrugRepositoryFiller(RepositoryLocator.getDrugRepository(), drugParser).fill();
     }
 
     private static void fillPatientRepository(EntityManager entityManager) {
-
         new DemoPatientRepositoryFiller().fill(RepositoryLocator.getPatientRepository());
     }
 
@@ -65,6 +66,7 @@ public class Main {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityManagerProvider.setEntityManager(entityManager);
+
         return entityManager;
     }
 }
