@@ -7,7 +7,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class OperationResponseAssemblerTest {
     private static final String RANDOM_DESCRIPTOR = "random descriptor";
     private static final String TYPE = "oeil";
     private static final String STATUS = "planifiee";
-    private static final Date DATE = new Date(1220227200L * 1000);
+    private static final Date DATE = new Date();
 
     private final OperationResponse operationResponse = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER,
             DATE_AS_STRING, ROOM, TYPE, STATUS, PATIENT_NUMBER);
