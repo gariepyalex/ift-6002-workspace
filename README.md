@@ -1,7 +1,7 @@
 ##Remise 2
 Numéro d'équipe : M2
 
-Pour la remise 1, voir le tag *remise1* sur la branche *master*.
+Pour la remise 2, voir le tag *remise2* sur la branche *master*.
 
 ###Membres :
 
