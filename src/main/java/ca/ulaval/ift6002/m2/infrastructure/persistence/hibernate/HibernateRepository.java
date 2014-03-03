@@ -50,6 +50,16 @@ public abstract class HibernateRepository<T> {
         commitTransaction();
     }
 
+    protected void persist(Collection<T> elements) {
+        beginTransaction();
+
+        for (T element : elements) {
+            getEntityManager().persist(element);
+        }
+
+        commitTransaction();
+    }
+
     protected TypedQuery<T> createQuery(String query) {
         return getEntityManager().createQuery(query, classType);
     }
