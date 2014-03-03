@@ -13,13 +13,10 @@ import org.junit.Test;
 
 public class DateFormatterTest {
 
-    private static final int ANNEE = 2014;
-    private static final int DECEMBER = 12;
     private static final String INVALID_DATE_FORMAT = "2002-12-1";
-    private static final String VALID_DATE_FORMAT = "2014-01-01T12:00:00";
+    private static final String VALID_DATE_FORMAT = "2014-01-01T12:30:30";
 
-    private static final Date VALIDDATE = new GregorianCalendar(ANNEE, Calendar.JANUARY, 01, DECEMBER, 00, 00)
-            .getTime();
+    private static final Date VALID_DATE = new GregorianCalendar(2014, Calendar.JANUARY, 01, 12, 30, 30).getTime();
 
     private DateFormatter dateFormatter;
 
@@ -29,26 +26,26 @@ public class DateFormatterTest {
     }
 
     @Test(expected = DateException.class)
-    public void givenFormatterWhenParsingInvalidDateShouldThrowException() {
+    public void givenInvalidDateWhenParsingShouldThrowException() {
         dateFormatter.parse(INVALID_DATE_FORMAT);
     }
 
     @Test
-    public void givenFormatterWhenParsingValidDateShouldReturnDate() {
+    public void givenValidDateWhenParsingShouldReturnDate() {
         Date parsedDate = dateFormatter.parse(VALID_DATE_FORMAT);
 
-        assertEquals(VALIDDATE, parsedDate);
+        assertEquals(VALID_DATE, parsedDate);
     }
 
     @Test
-    public void givenFormatterWhenConvertToStringShouldReturnDateWithSameFormat() {
-        String dateConverted = dateFormatter.dateToString(VALIDDATE);
+    public void givenValidDateWhenConvertToStringShouldReturnDateWithSameFormat() {
+        String dateConverted = dateFormatter.dateToString(VALID_DATE);
 
         assertEquals(VALID_DATE_FORMAT, dateConverted);
     }
 
     @Test(expected = DateException.class)
-    public void givenFormatterWhenConvertToStringWithInvalidFormatShouldReturnException() {
+    public void givenInvalidFormatWhenConvertToStringShouldReturnException() {
         dateFormatter.parse(INVALID_DATE_FORMAT);
     }
 
