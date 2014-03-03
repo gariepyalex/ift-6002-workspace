@@ -1,8 +1,10 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -15,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
+import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
@@ -39,6 +42,7 @@ public class OperationTest {
     private Instrument anonymousInstrument;
 
     private Operation operation;
+    private Operation operationWithInstrumentNotElligible;
 
     @Before
     public void setupOperationTest() {
@@ -88,12 +92,34 @@ public class OperationTest {
         operation.add(instrument);
     }
 
+    @Test(expected = InvalidInstrumentException.class)
+    public void givenOperationWithInstrumentNotElligibleWhenAddInstrumentShouldThrowInvalidInstrumentException() {
+        buildAnOperationWithInstrumentNotElligible();
+        operationWithInstrumentNotElligible.add(instrument);
+    }
+
     private void buildAnOperation() {
         operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
 
             @Override
             protected boolean isInstrumentElligible(Instrument instrument) {
                 return true;
+            }
+
+            @Override
+            public OperationType getType() {
+                return OperationType.OTHER;
+            }
+
+        };
+    }
+
+    private void buildAnOperationWithInstrumentNotElligible() {
+        operationWithInstrumentNotElligible = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
+
+            @Override
+            protected boolean isInstrumentElligible(Instrument instrument) {
+                return false;
             }
 
             @Override
