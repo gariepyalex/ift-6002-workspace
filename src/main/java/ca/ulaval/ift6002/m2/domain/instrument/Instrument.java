@@ -19,9 +19,12 @@ public class Instrument {
         this(typecode, status, new Serial(""));
     }
 
-    public void setStatus(String status) {
-        InstrumentStatus newStatus = InstrumentStatus.valueOf(status);
-        this.status = newStatus;
+    public boolean hasSerial(Serial serial) {
+        return this.serial.equals(serial);
+    }
+
+    public void changeTo(InstrumentStatus status) {
+        this.status = status;
     }
 
     public boolean isAnonymous() {

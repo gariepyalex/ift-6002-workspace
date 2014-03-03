@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.application.rest.resources;
 
-import java.net.URI;
 import java.util.NoSuchElementException;
 
 import javax.ws.rs.Consumes;
@@ -19,7 +18,6 @@ import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.OperationResponseValidator;
-import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
 @Path("/interventions")
@@ -53,12 +51,11 @@ public class OperationResource extends Resource {
 
             Integer generatedNumber = operationService.saveOperation(operationResponse);
 
-            URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + generatedNumber);
-            return Response.created(uriLocation).build();
+            return redirectTo(uri, "/" + generatedNumber);
         } catch (InvalidResponseException e) {
-            return fromException(MISSING_INFORMATION, INCOMPLETE_DATA_MESSAGE);
+            return error(MISSING_INFORMATION, INCOMPLETE_DATA_MESSAGE);
         } catch (NoSuchElementException e) {
-            return fromException(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
+            return error(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
         }
     }
 
@@ -68,30 +65,31 @@ public class OperationResource extends Resource {
             InstrumentResponse dto) {
         try {
             instrumentValidator.validate(dto);
+
             operationService.saveInstrument(noIntervention, dto);
 
-            URI uriLocation = URI.create(uri.getRequestUri().toString() + "/" + dto.typecode + "/" + dto.serial);
-            return Response.created(uriLocation).build();
+            return redirectTo(uri, "/" + dto.typecode + "/" + dto.serial);
         } catch (InvalidResponseException e) {
-            return fromException(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
-        } catch (InvalidInstrumentException e) {
-            return fromException(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
+            return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+        } catch (IllegalStateException e) {
+            return error(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
         }
     }
 
     @PUT
     @Path("/{noIntervention}/instruments/{typecode}/{serial}")
-    public Response modifyInstrumentStatus(@PathParam("noIntervention") String operationId,
+    public Response modifyInstrumentStatus(@PathParam("noIntervention") String noIntervention,
             @PathParam("typecode") String typecode, @PathParam("serial") String serial,
             InstrumentResponse instrumentResponse) {
         try {
             instrumentValidator.validateNewStatus(instrumentResponse);
-            operationService.modifyInstrumentStatus(operationId, instrumentResponse);
 
-            // TODO .ok() ? Probably want to return something, or the instrument
-            return Response.ok().build();
+            operationService.modifyInstrumentStatus(noIntervention, instrumentResponse);
+
+            return success();
         } catch (InvalidResponseException e) {
-            return fromException(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+            return error(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
         }
+        // TODO catch invalid data
     }
 }

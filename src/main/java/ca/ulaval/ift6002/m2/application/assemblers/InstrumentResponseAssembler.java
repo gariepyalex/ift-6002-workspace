@@ -9,7 +9,7 @@ import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
 public class InstrumentResponseAssembler {
 
     public Instrument fromResponse(InstrumentResponse response) {
-        InstrumentStatus status = InstrumentStatus.valueOf(response.status);
+        InstrumentStatus status = InstrumentStatus.determineFrom(response.status);
         Typecode typecode = new Typecode(response.typecode);
         Serial serial = new Serial(response.serial);
 
