@@ -7,8 +7,8 @@ import ca.ulaval.ift6002.m2.domain.operation.regular.RegularOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.EyeOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.HeartOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.MarrowOperation;
+import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 public class OperationFactory {
