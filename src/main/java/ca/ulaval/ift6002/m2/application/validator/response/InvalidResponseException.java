@@ -4,8 +4,18 @@ public class InvalidResponseException extends Exception {
 
     private static final long serialVersionUID = -8996461192147116064L;
 
+    private final String code;
+
     public InvalidResponseException(String message) {
-        super(message);
+        this("", message);
     }
 
+    public InvalidResponseException(String code, String message) {
+        super(message);
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
 }

@@ -22,7 +22,7 @@ import ca.ulaval.ift6002.m2.services.PatientService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PatientResource extends Resource {
 
-    private static final String ERROR_CODE = "PRES001";
+    private static final String NO_PATIENT_FOUND_MESSAGE = "There are no patient corresponding to that number";
 
     private final PatientService patientService = new PatientService();
 
@@ -38,8 +38,10 @@ public class PatientResource extends Resource {
             patientService.savePrescription(patientId, response);
 
             return success();
-        } catch (NoSuchElementException | InvalidResponseException e) {
-            return error(ERROR_CODE, e.getMessage());
+        } catch (InvalidResponseException e) {
+            return error(e.getCode(), e.getMessage());
+        } catch (NoSuchElementException e) {
+            return error(NO_ELEMENT_FOUND_CODE, NO_PATIENT_FOUND_MESSAGE);
         }
     }
 
