@@ -19,41 +19,16 @@ public class Instrument {
         this(typecode, status, new Serial(""));
     }
 
+    public boolean isAnonymous() {
+        return serial.isEmpty();
+    }
+
     public boolean hasSerial(Serial serial) {
         return this.serial.equals(serial);
     }
 
     public void changeTo(InstrumentStatus status) {
         this.status = status;
-    }
-
-    public boolean isAnonymous() {
-        return serial.isEmpty();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(status).append(serial).append(typecode).toHashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Instrument other = (Instrument) obj;
-        return new EqualsBuilder().append(isAnonymous(), false).append(serial, other.serial).isEquals();
-    }
-
-    @Override
-    public String toString() {
-        return "[" + status + "] Serial:" + serial;
     }
 
     public InstrumentStatus getStatus() {
@@ -66,5 +41,20 @@ public class Instrument {
 
     public Serial getSerial() {
         return serial;
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + status + "] Serial:" + serial;
     }
 }
