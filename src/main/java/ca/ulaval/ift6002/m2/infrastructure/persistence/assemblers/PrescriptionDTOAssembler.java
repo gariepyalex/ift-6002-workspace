@@ -1,7 +1,5 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
@@ -11,7 +9,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 
-public class PrescriptionDTOAssembler {
+public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, PrescriptionDTO> {
 
     private final DateFormatter dateFormatter;
     private final DrugDTOAssembler drugDTOAssembler;
@@ -26,6 +24,7 @@ public class PrescriptionDTOAssembler {
         this.drugDTOAssembler = new DrugDTOAssembler();
     }
 
+    @Override
     public PrescriptionDTO toDTO(Prescription prescription) {
         String practitioner = prescription.getPractioner().toString();
         String date = dateFormatter.dateToString(prescription.getDate());
@@ -35,17 +34,7 @@ public class PrescriptionDTOAssembler {
         return new PrescriptionDTO(practitioner, date, renewals, drugDTO);
     }
 
-    public Collection<PrescriptionDTO> toDTOs(Collection<Prescription> prescriptions) {
-        Collection<PrescriptionDTO> prescriptionsDTO = new ArrayList<PrescriptionDTO>();
-
-        for (Prescription prescription : prescriptions) {
-            PrescriptionDTO prescriptionDTO = toDTO(prescription);
-            prescriptionsDTO.add(prescriptionDTO);
-        }
-
-        return prescriptionsDTO;
-    }
-
+    @Override
     public Prescription fromDTO(PrescriptionDTO dto) {
         Practitioner practitioner = new Practitioner(dto.practitioner);
         Date date = dateFormatter.parse(dto.date);
@@ -53,17 +42,6 @@ public class PrescriptionDTOAssembler {
         Drug drug = drugDTOAssembler.fromDTO(dto.drugDTO);
 
         return new Prescription(practitioner, date, renewals, drug);
-    }
-
-    public Collection<Prescription> fromDTOs(Collection<PrescriptionDTO> prescriptionDTOs) {
-        Collection<Prescription> prescriptions = new ArrayList<Prescription>();
-
-        for (PrescriptionDTO dto : prescriptionDTOs) {
-            Prescription prescription = fromDTO(dto);
-            prescriptions.add(prescription);
-        }
-
-        return prescriptions;
     }
 
 }
