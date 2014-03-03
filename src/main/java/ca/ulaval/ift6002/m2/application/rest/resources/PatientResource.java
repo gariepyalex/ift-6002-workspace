@@ -40,7 +40,7 @@ public class PatientResource extends Resource {
 
             return Response.created(uri.getRequestUri()).build();
         } catch (NoSuchElementException | InvalidResponseException e) {
-            return fromException(ERROR_CODE, e.getMessage());
+            return error(ERROR_CODE, e.getMessage());
         }
     }
 
