@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.domain.drug;
+package ca.ulaval.ift6002.m2.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
@@ -14,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import ca.ulaval.ift6002.m2.domain.drug.Din;
+import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.file.CSVDrugParser;
 import ca.ulaval.ift6002.m2.file.FileReader;
 
