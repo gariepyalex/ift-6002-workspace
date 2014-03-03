@@ -45,7 +45,6 @@ public class OperationResponseAssembler {
             OperationStatus status = OperationStatus.determineFrom(response.status);
 
             return operationFactory.create(type, description, surgeon, date, room, status, patient);
-
         } catch (IllegalArgumentException e) {
             throw new InvalidResponseException(e.getMessage());
         }
