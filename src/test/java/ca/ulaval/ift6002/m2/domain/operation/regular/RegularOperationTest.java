@@ -46,11 +46,6 @@ public class RegularOperationTest {
         regularOperation = new RegularOperation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
 
             @Override
-            protected boolean isInstrumentElligible(Instrument instrument) {
-                return true;
-            }
-
-            @Override
             public OperationType getType() {
                 return OperationType.OTHER;
             }
