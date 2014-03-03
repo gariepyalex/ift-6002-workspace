@@ -32,6 +32,7 @@ public enum OperationType {
 
     public static String convertToString(OperationType type) {
         if (type == OperationType.EYE) {
+
             return EYE_STRING;
         } else if (type == OperationType.HEART) {
             return HEART_STRING;
