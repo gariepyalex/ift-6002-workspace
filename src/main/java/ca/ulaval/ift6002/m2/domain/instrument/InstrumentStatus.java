@@ -1,7 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.instrument;
 
 public enum InstrumentStatus {
-    USED_PATIENT("UTILISE_PATIENT"), SOILED("SOUILLE"), UNUSED("INUTILISE");
+    USED_PATIENT("UTILISE_PATIENT"), SOILED("SOUILLÉ"), UNUSED("INUTILISE");
 
     private final String textValue;
 
