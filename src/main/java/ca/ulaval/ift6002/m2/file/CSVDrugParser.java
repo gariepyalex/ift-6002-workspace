@@ -8,7 +8,7 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
 public class CSVDrugParser implements FileParser<Drug> {
 
-    private static final String DATA_FILE = "/drug.txt";
+    private static final String DATA_FILE_PATH = "/drug.txt";
 
     private static final int DIN_COLUMN = 3;
     private static final int BRAND_NAME_COLUMN = 4;
@@ -22,7 +22,7 @@ public class CSVDrugParser implements FileParser<Drug> {
 
     @Override
     public List<Drug> parse() {
-        List<String[]> allLinesFromFile = fileReader.readAll(DATA_FILE);
+        List<String[]> allLinesFromFile = fileReader.readAll(DATA_FILE_PATH);
         List<Drug> drugs = new ArrayList<Drug>();
 
         for (String[] line : allLinesFromFile) {

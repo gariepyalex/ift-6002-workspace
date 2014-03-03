@@ -10,9 +10,9 @@ import au.com.bytecode.opencsv.CSVReader;
 public class CSVFileReader implements FileReader<String[]> {
 
     @Override
-    public List<String[]> readAll(String filename) {
+    public List<String[]> readAll(String filePath) {
         try {
-            CSVReader fileReader = openFile(filename);
+            CSVReader fileReader = openFile(filePath);
 
             return fileReader.readAll();
         } catch (Exception e) {
