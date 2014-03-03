@@ -62,13 +62,13 @@ public class OperationResource extends Resource {
     @POST
     @Path("/{noIntervention}/instruments")
     public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
-            InstrumentResponse dto) {
+            InstrumentResponse instrumentResponse) {
         try {
-            instrumentValidator.validate(dto);
+            instrumentValidator.validate(instrumentResponse);
 
-            operationService.saveInstrument(noIntervention, dto);
+            operationService.saveInstrument(noIntervention, instrumentResponse);
 
-            return redirectTo(uri, "/" + dto.typecode + "/" + dto.serial);
+            return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
         } catch (InvalidResponseException e) {
             return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
         } catch (IllegalStateException e) {
