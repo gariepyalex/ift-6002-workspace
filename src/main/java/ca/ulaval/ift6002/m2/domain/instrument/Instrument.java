@@ -53,15 +53,15 @@ public class Instrument {
         return "[" + status + "] Serial:" + serial;
     }
 
-    public String getStatus() {
-        return this.status.toString();
+    public InstrumentStatus getStatus() {
+        return status;
     }
 
-    public String getTypecode() {
-        return this.typecode.toString();
+    public Typecode getTypecode() {
+        return typecode;
     }
 
-    public String getSerial() {
-        return serial.toString();
+    public Serial getSerial() {
+        return serial;
     }
 }
