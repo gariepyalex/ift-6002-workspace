@@ -1,7 +1,8 @@
 package ca.ulaval.ift6002.m2.domain.operation.dangerous;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
 
 import java.util.Date;
 

@@ -13,6 +13,7 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class OperationResponseAssembler {
 
@@ -20,11 +21,17 @@ public class OperationResponseAssembler {
     private final PatientRepository patientRepository;
     private final DateFormatter formatterDate;
 
-    public OperationResponseAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
+    protected OperationResponseAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
             DateFormatter formatterDate) {
         this.operationFactory = operationfactory;
         this.patientRepository = patientRepository;
         this.formatterDate = formatterDate;
+    }
+
+    public OperationResponseAssembler() {
+        this.operationFactory = new OperationFactory();
+        this.patientRepository = RepositoryLocator.getPatientRepository();
+        this.formatterDate = new DateFormatter();
     }
 
     public Operation fromResponse(OperationResponse response) throws InvalidResponseException {

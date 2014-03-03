@@ -19,15 +19,10 @@ public abstract class DangerousOperation extends Operation {
 
     @Override
     public void add(Instrument instrument) {
-        if (has(instrument)) {
-            throw new InvalidInstrumentException("Instrument with same serial already exists: " + instrument);
-        }
-
         if (!isInstrumentElligible(instrument)) {
             throw new InvalidInstrumentException("Instrument " + instrument + " is not elligible.");
         }
-
-        instruments.add(instrument);
+        super.add(instrument);
     }
 
     private boolean isInstrumentElligible(Instrument instrument) {
