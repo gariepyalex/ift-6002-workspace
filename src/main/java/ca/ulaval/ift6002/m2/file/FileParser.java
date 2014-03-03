@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.domain.file;
+package ca.ulaval.ift6002.m2.file;
 
 import java.util.List;
 

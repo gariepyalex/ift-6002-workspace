@@ -1,10 +1,10 @@
-package ca.ulaval.ift6002.m2.domain.drug;
+package ca.ulaval.ift6002.m2.file;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ulaval.ift6002.m2.domain.file.FileParser;
-import ca.ulaval.ift6002.m2.domain.file.FileReader;
+import ca.ulaval.ift6002.m2.domain.drug.Din;
+import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
 public class CSVDrugParser implements FileParser<Drug> {
 

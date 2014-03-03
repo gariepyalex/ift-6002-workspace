@@ -5,13 +5,13 @@ import javax.persistence.EntityManagerFactory;
 
 import ca.ulaval.ift6002.m2.contexts.DemoDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
-import ca.ulaval.ift6002.m2.domain.drug.CSVDrugParser;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.file.CSVFileReader;
-import ca.ulaval.ift6002.m2.domain.file.FileParser;
-import ca.ulaval.ift6002.m2.domain.file.FileReader;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.file.CSVDrugParser;
+import ca.ulaval.ift6002.m2.file.CSVFileReader;
+import ca.ulaval.ift6002.m2.file.FileParser;
+import ca.ulaval.ift6002.m2.file.FileReader;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.HibernateRepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.RepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
