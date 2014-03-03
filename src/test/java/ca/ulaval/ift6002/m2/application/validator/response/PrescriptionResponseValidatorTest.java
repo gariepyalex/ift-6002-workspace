@@ -58,4 +58,12 @@ public class PrescriptionResponseValidatorTest {
 
         prescriptionValidator.validate(response);
     }
+
+    @Test
+    public void givenValidResponseWhenValidatingShouldNotThrowException() throws InvalidResponseException {
+        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
+                EMPTY_NAME);
+
+        prescriptionValidator.validate(response);
+    }
 }

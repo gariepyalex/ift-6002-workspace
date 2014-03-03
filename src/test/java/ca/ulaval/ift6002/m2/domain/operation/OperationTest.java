@@ -1,7 +1,8 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
 import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Date;
 
@@ -12,8 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.operation.dangerous.DangerousOperation;
-import ca.ulaval.ift6002.m2.domain.operation.regular.RegularOperation;
+import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
@@ -45,35 +45,54 @@ public class OperationTest {
 
     private Operation operation;
 
+    private OperationType OPERATION_TYPE_ONCOLOGY;
+
     @Before
-    public void setupInstrument() {
+    public void setupOperationTest() {
         willReturn(true).given(anonymousInstrument).isAnonymous();
         willReturn(false).given(instrument).isAnonymous();
+        OPERATION_TYPE_ONCOLOGY = OperationType.ONCOLOGY;
     }
 
     @Test
     public void givenOperationShouldHaveZeroInstrument() {
-        buildAnOperation();
+        buildAnOperationWithNoAddingOfInstrument();
 
         assertEquals(0, operation.countInstruments());
     }
 
     @Test
     public void givenOperationShouldNotHaveAnyInstrument() {
-        buildAnOperation();
+        buildAnOperationWithNoAddingOfInstrument();
         boolean hasInstrument = operation.has(instrument);
         assertFalse(hasInstrument);
     }
 
-    private void assertRegularOperation(Operation operation) {
-        assertEquals(RegularOperation.class, operation.getClass());
+    @Test
+    public void givenNewStatuswhenUpdatingInstrumentShouldCallSetNewStatus() {
+        buildAnOperation();
+        operation.add(instrument);
+
+        operation.updateInstrumentStatus(instrument, "SOILED");
+
+        verify(instrument).setStatus("SOILED");
+
     }
 
-    private void assertDangerousOperation(Operation operation) {
-        assertEquals(DangerousOperation.class, operation.getClass());
+    @Test(expected = InvalidInstrumentException.class)
+    public void givenInstrumentWithExistingSerialNumberWhenAddingInstrumentShouldThrowInvalidInstrumentException() {
+        buildAnOperation();
+        operation.add(instrument);
+        operation.add(instrument);
     }
 
     private void buildAnOperation() {
+        OperationFactory operationFactory = new OperationFactory();
+        operation = operationFactory
+                .create(OPERATION_TYPE_ONCOLOGY, "", surgeon, date, room, OPERATION_STATUS, patient);
+    }
+
+    private void buildAnOperationWithNoAddingOfInstrument() {
         // It could be any type of operation
         operation = createEligibleOperation();
     }

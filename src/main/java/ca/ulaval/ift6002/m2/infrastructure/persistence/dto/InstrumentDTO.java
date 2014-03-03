@@ -7,13 +7,13 @@ import javax.persistence.Id;
 public class InstrumentDTO {
 
     @Id
-    public int serial;
+    public String serial;
 
     public String status;
 
     public String typecode;
 
-    public InstrumentDTO(String status, String typecode, int serial) {
+    public InstrumentDTO(String status, String typecode, String serial) {
         this.status = status;
         this.serial = serial;
         this.typecode = typecode;
@@ -21,7 +21,7 @@ public class InstrumentDTO {
 
     protected InstrumentDTO() {
         status = "";
-        serial = 0;
+        serial = "";
         typecode = "";
 
     }

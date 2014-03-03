@@ -12,14 +12,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.PrescriptionResponseValidator;
-import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
-import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 import ca.ulaval.ift6002.m2.services.PatientService;
 
 @Path("/patient/")
@@ -29,15 +24,7 @@ public class PatientResource extends Resource {
 
     private static final String ERROR_CODE = "PRES001";
 
-    private final PatientRepository patientRepository = RepositoryLocator.getPatientRepository();
-    private final DrugRepository drugRepository = RepositoryLocator.getDrugRepository();
-
-    private final DateFormatter dateFormatter = new DateFormatter();
-
-    private final PrescriptionResponseAssembler prescriptionAssembler = new PrescriptionResponseAssembler(
-            dateFormatter, drugRepository);
-
-    private final PatientService patientService = new PatientService(patientRepository, prescriptionAssembler);
+    private final PatientService patientService = new PatientService();
 
     private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
 

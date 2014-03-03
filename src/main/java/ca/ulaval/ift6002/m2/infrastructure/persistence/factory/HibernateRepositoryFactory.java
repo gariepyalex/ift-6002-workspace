@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.factory;
 
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembler;
@@ -21,11 +20,6 @@ public class HibernateRepositoryFactory implements RepositoryFactory {
     }
 
     @Override
-    public InstrumentRepository createInstrumentRepository() {
-        return null;
-    }
-
-    @Override
     public OperationRepository createOperationRepository() {
         return null;
     }
@@ -35,6 +29,7 @@ public class HibernateRepositoryFactory implements RepositoryFactory {
         PrescriptionDTOAssembler prescriptionDTOAssembler = new PrescriptionDTOAssembler(new DateFormatter(),
                 new DrugDTOAssembler());
         PatientDTOAssembler patientAssembler = new PatientDTOAssembler(prescriptionDTOAssembler);
+
         return new PatientHibernateRepository(patientAssembler);
     }
 }

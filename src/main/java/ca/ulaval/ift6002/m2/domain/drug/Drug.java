@@ -1,8 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.drug;
 
-import java.util.Objects;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Drug {
 
@@ -34,7 +33,7 @@ public class Drug {
 
     @Override
     public int hashCode() {
-        return Objects.hash(din, brandName, descriptor);
+        return new HashCodeBuilder().append(din).append(brandName).append(descriptor).toHashCode();
     }
 
     @Override

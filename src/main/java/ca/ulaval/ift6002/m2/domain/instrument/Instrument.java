@@ -52,4 +52,16 @@ public class Instrument {
     public String toString() {
         return "[" + status + "] Serial:" + serial;
     }
+
+    public String getStatus() {
+        return this.status.toString();
+    }
+
+    public String getTypecode() {
+        return this.typecode.toString();
+    }
+
+    public String getSerial() {
+        return serial.toString();
+    }
 }

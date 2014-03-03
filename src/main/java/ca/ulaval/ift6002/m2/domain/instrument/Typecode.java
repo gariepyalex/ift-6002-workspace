@@ -1,8 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.instrument;
 
-import java.util.Objects;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Typecode {
 
@@ -14,7 +13,7 @@ public class Typecode {
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return new HashCodeBuilder().append(value).toHashCode();
     }
 
     @Override
@@ -30,5 +29,10 @@ public class Typecode {
         }
         Typecode other = (Typecode) obj;
         return new EqualsBuilder().append(value, other.value).isEquals();
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

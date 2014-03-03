@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
@@ -38,7 +39,12 @@ public abstract class Operation {
         return instruments.size();
     }
 
-    public abstract void add(Instrument instrument);
+    public void add(Instrument instrument) {
+        if (has(instrument)) {
+            throw new InvalidInstrumentException("Instrument with same serial already exists: " + instrument);
+        }
+        instruments.add(instrument);
+    }
 
     public abstract OperationType getType();
 

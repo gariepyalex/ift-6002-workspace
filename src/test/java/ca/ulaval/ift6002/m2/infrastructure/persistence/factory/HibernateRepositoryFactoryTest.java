@@ -1,13 +1,11 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.DrugHibernateRepository;
@@ -34,13 +32,6 @@ public class HibernateRepositoryFactoryTest {
         PatientRepository patientRepository = repositoryFactory.createPatientRepository();
 
         assertEquals(PatientHibernateRepository.class, patientRepository.getClass());
-    }
-
-    @Test
-    public void whenCreateInstrumentRepositoryShouldReturnHibernateInstance() {
-        InstrumentRepository instrumentRepository = repositoryFactory.createInstrumentRepository();
-
-        assertNull(instrumentRepository);
     }
 
     @Test

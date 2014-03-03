@@ -8,6 +8,7 @@ import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseExcept
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class OperationService {
 
@@ -15,11 +16,17 @@ public class OperationService {
     private OperationResponseAssembler operationAssembler;
     private OperationRepository operationRepository;
 
-    public OperationService(OperationRepository operationRepository, OperationResponseAssembler operationAssembler,
+    protected OperationService(OperationRepository operationRepository, OperationResponseAssembler operationAssembler,
             InstrumentResponseAssembler instrumentAssembler) {
         this.operationRepository = operationRepository;
         this.operationAssembler = operationAssembler;
         this.instrumentAssembler = instrumentAssembler;
+    }
+
+    public OperationService() {
+        this.operationRepository = RepositoryLocator.getOperationRepository();
+        this.operationAssembler = new OperationResponseAssembler();
+        this.instrumentAssembler = new InstrumentResponseAssembler();
     }
 
     public void saveOperation(OperationResponse operationResponse) throws InvalidResponseException {

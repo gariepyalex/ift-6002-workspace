@@ -13,18 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
-import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
-import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
-import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
-import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
 @Path("/interventions")
@@ -43,22 +36,12 @@ public class OperationResource extends Resource {
     private static final String MISSING_SERIAL_ERROR = "INT012";
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
-    private final OperationRepository operationRepository = RepositoryLocator.getOperationRepository();
-    private final PatientRepository patientRepository = RepositoryLocator.getPatientRepository();
-    private final DateFormatter dateFormatter = new DateFormatter();
-    private final OperationFactory operationFactory = new OperationFactory();
-
-    private final OperationResponseAssembler operationResponseAssembler = new OperationResponseAssembler(
-            operationFactory, patientRepository, dateFormatter);
-
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
-    private final InstrumentResponseAssembler instrumentResponseAssembler = new InstrumentResponseAssembler();
 
-    private final OperationService operationService = new OperationService(operationRepository,
-            operationResponseAssembler, instrumentResponseAssembler);
+    private final OperationService operationService = new OperationService();
 
     @POST
-    // TODO have a path...
+    @Path("/interventions")
     public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
         try {
             operationService.saveOperation(operationResponse);
