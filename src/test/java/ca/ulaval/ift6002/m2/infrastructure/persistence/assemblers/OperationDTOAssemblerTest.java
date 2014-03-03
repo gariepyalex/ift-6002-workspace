@@ -3,6 +3,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
@@ -56,15 +57,16 @@ public class OperationDTOAssemblerTest {
     private static final Date DATE = new Date();
     private static final Patient PATIENT = new Patient(PATIENT_NUMBER);
     private static final PatientDTO PATIENT_DTO = new PatientDTO(PATIENT_NUMBER, new ArrayList<PrescriptionDTO>());
+    private static final Integer OPERATION_NUMBER = 1;
 
     private static final OperationDTO OPERATION_DTO = new OperationDTO(DATE_STRING, STRING_OPERATION_STATUS,
-            DESCRIPTION, PATIENT_DTO, INSTRUMENTS_DTO, SURGEON_DTO, ROOM_DTO, STRING_OPERATION_TYPE);
+            DESCRIPTION, PATIENT_DTO, INSTRUMENTS_DTO, SURGEON_DTO, ROOM_DTO, STRING_OPERATION_TYPE, OPERATION_NUMBER);
 
     @Mock
     private Operation operation;
 
     @Mock
-    private InstrumentDTOAssembler instrumentsDTOAssembler;
+    private InstrumentDTOAssembler instrumentDTOAssembler;
 
     @Mock
     private SurgeonDTOAssembler surgeonDTOAssembler;
@@ -87,16 +89,17 @@ public class OperationDTOAssemblerTest {
     @Before
     public void setUpFromDTOAssembler() {
         willReturn(operation).given(operationFactory).create(any(OperationType.class), anyString(), any(Surgeon.class),
-                any(Date.class), any(Room.class), any(OperationStatus.class), any(Patient.class));
+                any(Date.class), any(Room.class), any(OperationStatus.class), any(Patient.class), anyInt());
         willReturn(PATIENT).given(patientDTOAssembler).fromDTO(PATIENT_DTO);
         willReturn(SURGEON).given(surgeonDTOAssembler).fromDTO(SURGEON_DTO);
         willReturn(ROOM).given(roomDTOAssembler).fromDTO(ROOM_DTO);
+        willReturn(INSTRUMENTS).given(instrumentDTOAssembler).fromDTOs(INSTRUMENTS_DTO);
         willReturn(DATE).given(dateFormatter).parse(DATE_STRING);
     }
 
     @Before
     public void setUpToDTOAssembler() {
-        willReturn(INSTRUMENTS_DTO).given(instrumentsDTOAssembler).toDTOs(INSTRUMENTS);
+        willReturn(INSTRUMENTS_DTO).given(instrumentDTOAssembler).toDTOs(INSTRUMENTS);
         willReturn(SURGEON_DTO).given(surgeonDTOAssembler).toDTO(SURGEON);
         willReturn(ROOM_DTO).given(roomDTOAssembler).toDTO(ROOM);
         willReturn(PATIENT_DTO).given(patientDTOAssembler).toDTO(PATIENT);
@@ -147,7 +150,7 @@ public class OperationDTOAssemblerTest {
     public void givenOperationWhenConvertToDTOInstrumentToDTOShouldBeCalled() {
         operationAssembler.toDTO(operation);
 
-        verify(instrumentsDTOAssembler).toDTOs(INSTRUMENTS);
+        verify(instrumentDTOAssembler).toDTOs(INSTRUMENTS);
     }
 
     @Test
@@ -168,7 +171,8 @@ public class OperationDTOAssemblerTest {
     public void givenOperationDTOWhenConvertToOperationOperationFactoryCreateShouldBeCall() {
         operationAssembler.fromDTO(OPERATION_DTO);
 
-        verify(operationFactory).create(OPERATION_TYPE, DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT);
+        verify(operationFactory).create(OPERATION_TYPE, DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT,
+                OPERATION_NUMBER);
     }
 
     @Test
@@ -197,5 +201,12 @@ public class OperationDTOAssemblerTest {
         operationAssembler.fromDTO(OPERATION_DTO);
 
         verify(roomDTOAssembler).fromDTO(ROOM_DTO);
+    }
+
+    @Test
+    public void givenOperationDTOWhenConvertToOperationInstrumentFromDTOShouldBeCalled() {
+        operationAssembler.fromDTO(OPERATION_DTO);
+
+        verify(instrumentDTOAssembler).fromDTOs(INSTRUMENTS_DTO);
     }
 }
