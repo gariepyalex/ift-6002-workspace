@@ -39,4 +39,9 @@ public class InstrumentTest {
         assertEquals(STATUS, instrument.getStatus());
     }
 
+    @Test
+    public void whenSerialIsNotEmptyThenIsAnonymousShouldReturnFalse() {
+        assertFalse(instrument.isAnonymous());
+    }
+
 }
