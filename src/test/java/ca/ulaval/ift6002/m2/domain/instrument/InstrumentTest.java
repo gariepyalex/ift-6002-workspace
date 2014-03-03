@@ -1,6 +1,8 @@
 package ca.ulaval.ift6002.m2.domain.instrument;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,60 +10,33 @@ import org.junit.Test;
 public class InstrumentTest {
 
     private static final Typecode TYPECODE = new Typecode("IT72353");
-    private static final Typecode ANOTHER_TYPECODE = new Typecode("IT12345");
-    private static final Serial SERIAL_NUMBER = new Serial("23562543-3635345");
-    private static final Serial ANOTHER_SERIAL_NUMBER = new Serial("231313131-1313131");
-    private static final InstrumentStatus STATUS = InstrumentStatus.UNUSED;
-    private static final InstrumentStatus ANOTHER_STATUS = InstrumentStatus.SOILED;
 
-    private Instrument anonymousInstrument;
+    private static final Serial SERIAL = new Serial("23562543-3635345");
+    private static final Serial AN_OTHER_SERIAL = new Serial("ABCDEFGH");
+    private static final InstrumentStatus STATUS = InstrumentStatus.UNUSED;
+
     private Instrument instrument;
-    private Instrument secondInstrument;
-    private Instrument secondAnonymousInstrument;
 
     @Before
-    public void createdInstruments() {
-        instrument = new Instrument(TYPECODE, STATUS, SERIAL_NUMBER);
-        secondInstrument = new Instrument(ANOTHER_TYPECODE, ANOTHER_STATUS, SERIAL_NUMBER);
-        anonymousInstrument = new Instrument(TYPECODE, STATUS);
-        secondAnonymousInstrument = new Instrument(ANOTHER_TYPECODE, ANOTHER_STATUS);
+    public void setUp() {
+        instrument = new Instrument(TYPECODE, STATUS, SERIAL);
     }
 
     @Test
-    public void createdAnonymousInstrumentShouldBeAnonymous() {
-        assertTrue(anonymousInstrument.isAnonymous());
+    public void whenCheckingSerialWithSameSerialShouldReturnTrue() {
+        assertTrue(instrument.hasSerial(SERIAL));
     }
 
     @Test
-    public void createdInstrumentShouldNotBeAnonymous() {
-        assertFalse(instrument.isAnonymous());
+    public void whenCheckSerialWithOtherSerialShouldReturnFalse() {
+        assertFalse(instrument.hasSerial(AN_OTHER_SERIAL));
     }
 
     @Test
-    public void twoInstrumentsWithSameSerialButDifferentAttributsShouldBeEqual() {
-        assertEquals(instrument, secondInstrument);
+    public void whenChangingStatusShouldHaveNewStatus() {
+        instrument.changeTo(STATUS);
+
+        assertEquals(STATUS, instrument.getStatus());
     }
 
-    @Test
-    public void twoIdenticalInstrumentsShouldBeEqual() {
-        Instrument sameInstrument = new Instrument(TYPECODE, STATUS, SERIAL_NUMBER);
-        assertEquals(sameInstrument, sameInstrument);
-    }
-
-    @Test
-    public void twoInstrumentsWithSameAttributsButDifferentSerialShouldNotBeEqual() {
-        Instrument instrumentWithDifferentSerial = new Instrument(TYPECODE, STATUS, ANOTHER_SERIAL_NUMBER);
-        assertNotEquals(instrument, instrumentWithDifferentSerial);
-    }
-
-    @Test
-    public void twoIdenticalAnonymousInstrumentsShouldNotBeEqual() {
-        Instrument sameAnonymousInstrument = new Instrument(TYPECODE, STATUS);
-        assertNotEquals(sameAnonymousInstrument, anonymousInstrument);
-    }
-
-    @Test
-    public void twoDifferentAnonymousInstrumentsShouldNotBeEqual() {
-        assertNotEquals(anonymousInstrument, secondAnonymousInstrument);
-    }
 }
