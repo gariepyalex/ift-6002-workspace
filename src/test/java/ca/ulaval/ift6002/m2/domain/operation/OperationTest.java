@@ -1,8 +1,9 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -14,16 +15,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
+import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationTest {
 
     private static final OperationStatus OPERATION_STATUS = OperationStatus.PLANNED;
-
     private static final String DESCRIPTION = "description";
+    private static final Room ROOM = new Room("room");
+    private static final Surgeon SURGEON = new Surgeon(12345);
+    private static final Date DATE = new Date();
+    private static final Patient PATIENT = new Patient(12345);
 
     @Mock
     private Instrument instrument;
@@ -31,27 +35,12 @@ public class OperationTest {
     @Mock
     private Instrument anonymousInstrument;
 
-    @Mock
-    private Surgeon surgeon;
-
-    @Mock
-    private Date date;
-
-    @Mock
-    private Room room;
-
-    @Mock
-    private Patient patient;
-
     private Operation operation;
-
-    private OperationType OPERATION_TYPE_ONCOLOGY;
 
     @Before
     public void setupOperationTest() {
         willReturn(true).given(anonymousInstrument).isAnonymous();
         willReturn(false).given(instrument).isAnonymous();
-        OPERATION_TYPE_ONCOLOGY = OperationType.ONCOLOGY;
     }
 
     @Test
@@ -69,7 +58,7 @@ public class OperationTest {
     }
 
     @Test
-    public void givenNewStatuswhenUpdatingInstrumentShouldCallSetNewStatus() {
+    public void givenNewStatusWhenUpdatingInstrumentShouldCallSetNewStatus() {
         buildAnOperation();
         operation.add(instrument);
 
@@ -80,40 +69,47 @@ public class OperationTest {
     }
 
     @Test(expected = InvalidInstrumentException.class)
-    public void givenInstrumentWithExistingSerialNumberWhenAddingInstrumentShouldThrowInvalidInstrumentException() {
+    public void givenInstrumentWithExistingSerialNumberWhenAddingInstrumentShouldThrowException() {
         buildAnOperation();
         operation.add(instrument);
         operation.add(instrument);
     }
 
-    private void buildAnOperation() {
-        OperationFactory operationFactory = new OperationFactory();
-        operation = operationFactory
-                .create(OPERATION_TYPE_ONCOLOGY, "", surgeon, date, room, OPERATION_STATUS, patient);
-    }
-
     private void buildAnOperationWithNoAddingOfInstrument() {
         // It could be any type of operation
-        operation = createEligibleOperation();
+        createEligibleOperation();
     }
 
-    private Operation createEligibleOperation() {
-        Operation eligibleOperation;
-
-        eligibleOperation = new Operation(DESCRIPTION, surgeon, date, room, OPERATION_STATUS, patient) {
+    private void buildAnOperation() {
+        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
 
             @Override
-            public void add(Instrument instrument) {
+            protected boolean isInstrumentElligible(Instrument instrument) {
+                return true;
             }
 
             @Override
             public OperationType getType() {
-                return null;
+                return OperationType.OTHER;
             }
 
         };
+    }
 
-        return eligibleOperation;
+    private void createEligibleOperation() {
+        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
+
+            @Override
+            protected boolean isInstrumentElligible(Instrument instrument) {
+                return true;
+            }
+
+            @Override
+            public OperationType getType() {
+                return OperationType.OTHER;
+            }
+
+        };
     }
 
 }

@@ -1,6 +1,6 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
@@ -11,12 +11,11 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.operation.regular.OncologicalOperation;
-import ca.ulaval.ift6002.m2.domain.operation.regular.RegularOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.EyeOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.HeartOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.MarrowOperation;
+import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -66,12 +65,6 @@ public class OperationFactoryTest {
     public void whenTypeIsOncolyShouldReturnOncologicalOperation() {
         Operation operation = factory.create(OperationType.ONCOLOGY, DESCRIPTION, surgeon, date, room, STATUS, patient);
         assertTrue(operation instanceof OncologicalOperation);
-    }
-
-    @Test
-    public void whenTypeIsOtherShouldReturnRegularOperation() {
-        Operation operation = factory.create(OperationType.OTHER, DESCRIPTION, surgeon, date, room, STATUS, patient);
-        assertTrue(operation instanceof RegularOperation);
     }
 
 }

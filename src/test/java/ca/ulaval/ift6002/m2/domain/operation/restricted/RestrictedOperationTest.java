@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.domain.operation.restricted;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 
@@ -16,9 +15,8 @@ import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
-import ca.ulaval.ift6002.m2.domain.operation.restricted.RestrictedOperation;
+import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -47,6 +45,18 @@ public class RestrictedOperationTest {
         willReturn(true).given(anonymousInstrument).isAnonymous();
     }
 
+    @Test(expected = InvalidInstrumentException.class)
+    public void whenAddingAnInvalidInstrumentShouldThrowException() {
+        restrictedOperation.add(anonymousInstrument);
+    }
+
+    @Test
+    public void whenAddingAnInstrumentShouldContainsInstrument() {
+        restrictedOperation.add(instrument);
+        boolean hasInstrument = restrictedOperation.has(instrument);
+        assertTrue(hasInstrument);
+    }
+
     private RestrictedOperation createRestrictedOperation() {
         RestrictedOperation restrictedOperation;
 
@@ -60,28 +70,5 @@ public class RestrictedOperationTest {
         };
 
         return restrictedOperation;
-    }
-
-    @Test(expected = InvalidInstrumentException.class)
-    public void whenAddingAnInvalidInstrumentShouldThrowInvalidInstrumentException() {
-        restrictedOperation.add(anonymousInstrument);
-    }
-
-    @Test
-    public void whenAddingAnInstrumentCountShouldIncrease() {
-        addInstrument();
-
-        assertEquals(1, restrictedOperation.countInstruments());
-    }
-
-    @Test
-    public void whenAddingAnInstrumentOperationShouldHaveInstrument() {
-        addInstrument();
-
-        assertTrue(restrictedOperation.has(instrument));
-    }
-
-    private void addInstrument() {
-        restrictedOperation.add(instrument);
     }
 }

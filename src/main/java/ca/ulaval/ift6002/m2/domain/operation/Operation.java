@@ -7,19 +7,19 @@ import java.util.List;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
+import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 public abstract class Operation {
 
-    protected final String description;
-    protected final Surgeon surgeon;
-    protected final Date date;
-    protected final Room room;
-    protected final OperationStatus status;
-    protected final Patient patient;
-    protected final List<Instrument> instruments;
+    private final String description;
+    private final Surgeon surgeon;
+    private final Date date;
+    private final Room room;
+    private final OperationStatus status;
+    private final Patient patient;
+    private final List<Instrument> instruments;
 
     protected Operation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
             Patient patient) {
@@ -30,6 +30,12 @@ public abstract class Operation {
         this.status = status;
         this.patient = patient;
         this.instruments = new ArrayList<>();
+    }
+
+    public void updateInstrumentStatus(Instrument instrument, String newStatus) {
+        instruments.remove(instrument);
+        instrument.setStatus(newStatus);
+        instruments.add(instrument);
     }
 
     public boolean has(Instrument instrument) {
@@ -44,16 +50,17 @@ public abstract class Operation {
         if (has(instrument)) {
             throw new InvalidInstrumentException("Instrument with same serial already exists: " + instrument);
         }
+
+        if (!isInstrumentElligible(instrument)) {
+            throw new InvalidInstrumentException("Instrument '" + instrument + "' is not elligible");
+        }
+
         instruments.add(instrument);
     }
+
+    protected abstract boolean isInstrumentElligible(Instrument instrument);
 
     public abstract OperationType getType();
-
-    public void updateInstrumentStatus(Instrument instrument, String newStatus) {
-        instruments.remove(instrument);
-        instrument.setStatus(newStatus);
-        instruments.add(instrument);
-    }
 
     public Collection<Instrument> getInstruments() {
         return instruments;
