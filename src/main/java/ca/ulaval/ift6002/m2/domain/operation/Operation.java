@@ -66,6 +66,12 @@ public abstract class Operation {
         instruments.add(instrument);
     }
 
+    public void add(Collection<Instrument> instruments) {
+        for (Instrument instrument : instruments) {
+            add(instrument);
+        }
+    }
+
     protected abstract boolean isInstrumentElligible(Instrument instrument);
 
     public abstract OperationType getType();
