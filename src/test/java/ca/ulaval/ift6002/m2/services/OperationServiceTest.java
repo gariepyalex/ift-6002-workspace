@@ -1,8 +1,6 @@
 package ca.ulaval.ift6002.m2.services;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +14,7 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
@@ -75,14 +74,16 @@ public class OperationServiceTest {
     }
 
     @Test
-    public void whenModifyingInstrumentOperationShouldUpdateInstrumentStatus() throws InvalidResponseException {
+    public void whenModifyingInstrumentOperationShouldUpdateInstrumentStatus() throws InvalidResponseException,
+            InstrumentNotFoundException {
         willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
         operationService.bookmarkInstrumentToStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
         verify(operation).bookmarkInstrumentToStatus(any(Serial.class), any(InstrumentStatus.class));
     }
 
     @Test
-    public void whenModifyingInstrumentServiceShouldStoreOperationUsingRepository() throws InvalidResponseException {
+    public void whenModifyingInstrumentServiceShouldStoreOperationUsingRepository() throws InvalidResponseException,
+            InstrumentNotFoundException {
         willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
         operationService.bookmarkInstrumentToStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
         verify(operationRepository).store(operation);

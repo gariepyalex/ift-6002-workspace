@@ -1,10 +1,8 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
+
 
 import java.util.Date;
 
@@ -15,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
@@ -62,7 +61,7 @@ public class OperationTest {
     }
 
     @Test
-    public void givenNewStatusWhenBookmarkInstrumentShouldCallSetNewStatus() {
+    public void givenNewStatusWhenBookmarkInstrumentShouldCallSetNewStatus() throws InstrumentNotFoundException {
         buildAnOperation();
         operation.add(instrument);
         willReturn(true).given(instrument).hasSerial(any(Serial.class));
@@ -70,6 +69,16 @@ public class OperationTest {
         operation.bookmarkInstrumentToStatus(new Serial("abc"), AN_INSTRUMENT_STATUS);
 
         verify(instrument).changeTo(AN_INSTRUMENT_STATUS);
+    }
+
+    @Test(expected = InstrumentNotFoundException.class)
+    public void givenNewStatusWithNonExistingSerialWhenBookmarkInstrumentShouldThrowException()
+            throws InstrumentNotFoundException {
+        buildAnOperation();
+        operation.add(instrument);
+        willReturn(false).given(instrument).hasSerial(any(Serial.class));
+
+        operation.bookmarkInstrumentToStatus(new Serial("abc"), AN_INSTRUMENT_STATUS);
     }
 
     @Test(expected = IllegalStateException.class)
