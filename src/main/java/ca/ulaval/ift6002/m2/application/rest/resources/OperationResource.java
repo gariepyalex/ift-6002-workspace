@@ -25,71 +25,79 @@ import ca.ulaval.ift6002.m2.services.OperationService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class OperationResource extends Resource {
 
-    private static final String MISSING_INFORMATION = "INT001";
+	private static final String MISSING_INFORMATION = "INT001";
 
-    private static final String NO_PATIENT_FOUND = "INT002";
-    private static final String NO_PATIENT_FOUND_MESSAGE = "The patient does not exist";
+	private static final String NO_OPERATION_FOUND = "INT020";
+	private static final String NO_OPERATION_FOUND_MESSAGE = "The operation does not exist";
 
-    private static final String INCOMPLETE_DATA_ERROR = "INT010";
-    private static final String INCOMPLETE_DATA_MESSAGE = "Invalid or incomplete data";
+	private static final String NO_PATIENT_FOUND = "INT002";
+	private static final String NO_PATIENT_FOUND_MESSAGE = "The patient does not exist";
 
-    private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
-    private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
+	private static final String INCOMPLETE_DATA_ERROR = "INT010";
+	private static final String INCOMPLETE_DATA_MESSAGE = "Invalid or incomplete data";
 
-    private static final String MISSING_SERIAL_ERROR = "INT012";
-    private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
+	private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
+	private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
 
-    private final OperationResponseValidator operationValidator = new OperationResponseValidator();
-    private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
+	private static final String MISSING_SERIAL_ERROR = "INT012";
+	private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
-    private final OperationService operationService = new OperationService();
+	private final OperationResponseValidator operationValidator = new OperationResponseValidator();
+	private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
 
-    @POST
-    public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
-        try {
-            operationValidator.validate(operationResponse);
+	private final OperationService operationService = new OperationService();
 
-            Integer generatedNumber = operationService.saveOperation(operationResponse);
+	@POST
+	public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
+		try {
+			operationValidator.validate(operationResponse);
 
-            return redirectTo(uri, "/" + generatedNumber);
-        } catch (InvalidResponseException e) {
-            return error(MISSING_INFORMATION, INCOMPLETE_DATA_MESSAGE);
-        } catch (NoSuchElementException e) {
-            return error(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
-        }
-    }
+			Integer generatedNumber = operationService.saveOperation(operationResponse);
 
-    @POST
-    @Path("/{noIntervention}/instruments")
-    public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
-            InstrumentResponse instrumentResponse) {
-        try {
-            instrumentValidator.validate(instrumentResponse);
+			return redirectTo(uri, "/" + generatedNumber);
+		} catch (InvalidResponseException e) {
+			return error(MISSING_INFORMATION, INCOMPLETE_DATA_MESSAGE);
+		} catch (NoSuchElementException e) {
+			return error(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
+		}
+	}
 
-            operationService.saveInstrument(noIntervention, instrumentResponse);
+	@POST
+	@Path("/{noIntervention}/instruments")
+	public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
+			InstrumentResponse instrumentResponse) {
+		try {
+			System.out.println(instrumentResponse.serial);
+			System.out.println(instrumentResponse.status);
+			System.out.println(instrumentResponse.typecode);
+			instrumentValidator.validate(instrumentResponse);
+			System.out.println("passe");
+			operationService.saveInstrument(noIntervention, instrumentResponse);
 
-            return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
-        } catch (InvalidResponseException e) {
-            return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
-        } catch (IllegalStateException e) {
-            return error(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
-        }
-    }
+			return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
+		} catch (InvalidResponseException e) {
+			return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+		} catch (IllegalStateException e) {
+			return error(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
+		} catch (NoSuchElementException e) {
+			return error(NO_OPERATION_FOUND, NO_OPERATION_FOUND_MESSAGE);
+		}
+	}
 
-    @PUT
-    @Path("/{noIntervention}/instruments/{typecode}/{serial}")
-    public Response modifyInstrumentStatus(@PathParam("noIntervention") String noIntervention,
-            @PathParam("typecode") String typecode, @PathParam("serial") String serial,
-            InstrumentResponse instrumentResponse) {
-        try {
-            instrumentValidator.validateNewStatus(instrumentResponse);
+	@PUT
+	@Path("/{noIntervention}/instruments/{typecode}/{serial}")
+	public Response modifyInstrumentStatus(@PathParam("noIntervention") String noIntervention,
+			@PathParam("typecode") String typecode, @PathParam("serial") String serial,
+			InstrumentResponse instrumentResponse) {
+		try {
+			instrumentValidator.validateNewStatus(instrumentResponse);
 
-            operationService.bookmarkInstrumentToStatus(noIntervention, instrumentResponse);
+			operationService.bookmarkInstrumentToStatus(noIntervention, instrumentResponse);
 
-            return success();
-        } catch (InvalidResponseException e) {
-            return error(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
-        }
-        // TODO catch invalid data
-    }
+			return success();
+		} catch (InvalidResponseException e) {
+			return error(MISSING_SERIAL_ERROR, MISSING_SERIAL_MESSAGE);
+		}
+		// TODO catch invalid data
+	}
 }
