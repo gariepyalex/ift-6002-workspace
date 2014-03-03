@@ -1,17 +1,36 @@
 package ca.ulaval.ift6002.m2.domain.instrument;
 
 public enum InstrumentStatus {
-	USED_PATIENT, SOILED, UNUSED;
+    USED_PATIENT("UTILISE_PATIENT"), SOILED("SOUILLE"), UNUSED("INUTILISE");
 
-	public static boolean isValid(String status) {
-		boolean valid = true;
+    private final String textValue;
 
-		try {
-			InstrumentStatus.valueOf(status);
-		} catch (Exception e) {
-			valid = false;
-		}
+    InstrumentStatus(String textValue) {
+        this.textValue = textValue;
+    }
 
-		return valid;
-	}
+    @Override
+    public String toString() {
+        return textValue;
+    }
+
+    public static InstrumentStatus determineFrom(String status) {
+        for (InstrumentStatus currentStatus : values()) {
+            if (status.equalsIgnoreCase(currentStatus.toString())) {
+                return currentStatus;
+            }
+        }
+
+        throw new IllegalArgumentException("There is no status corresponding to: " + status);
+    }
+
+    public static boolean isValid(String status) {
+        for (InstrumentStatus currentStatus : values()) {
+            if (status.equalsIgnoreCase(currentStatus.toString())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

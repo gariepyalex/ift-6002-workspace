@@ -4,12 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
+import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
 public class InstrumentResponseValidatorTest {
 
-    private static final String SOILED_STATUS = "SOILED";
-    private static final String USED_STATUS = "USED_PATIENT";
-    private static final String UNUSED_STATUS = "UNUSED";
+    private static final String SOILED_STATUS = InstrumentStatus.SOILED.toString();
+    private static final String USED_STATUS = InstrumentStatus.USED_PATIENT.toString();
+    private static final String UNUSED_STATUS = InstrumentStatus.UNUSED.toString();
 
     private static final String VALID_SERIAL = "sfsfs3s23";
     private static final String VALID_TYPECODE = "IT313131";
