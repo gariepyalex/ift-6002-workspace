@@ -7,15 +7,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class OperationDTO {
     @Id
     @GeneratedValue
-    public Integer id;
+    public Integer number;
 
     public String date;
     public String status;
@@ -25,17 +24,17 @@ public class OperationDTO {
     @ManyToOne
     public PatientDTO patient;
 
-    @OneToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = { CascadeType.ALL })
     public Collection<InstrumentDTO> instruments;
 
-    @OneToOne(cascade = { CascadeType.ALL })
+    @ManyToOne(cascade = { CascadeType.ALL })
     public SurgeonDTO surgeon;
 
-    @OneToOne(cascade = { CascadeType.ALL })
+    @ManyToOne(cascade = { CascadeType.ALL })
     public RoomDTO room;
 
     public OperationDTO(String date, String status, String description, PatientDTO patient,
-            Collection<InstrumentDTO> instruments, SurgeonDTO surgeon, RoomDTO room, String type) {
+            Collection<InstrumentDTO> instruments, SurgeonDTO surgeon, RoomDTO room, String type, Integer number) {
         this.date = date;
         this.description = description;
         this.patient = patient;
@@ -44,10 +43,11 @@ public class OperationDTO {
         this.room = room;
         this.type = type;
         this.status = status;
+        this.number = number;
     }
 
     protected OperationDTO() {
-        this.id = 0;
+        this.number = null;
         this.status = "";
         this.date = "";
         this.description = "";

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
+import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
@@ -52,6 +53,7 @@ public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO>
         RoomDTO room = roomDTOAssembler.toDTO(operation.getRoom());
         SurgeonDTO surgeon = surgeonDTOAssembler.toDTO(operation.getSurgeon());
         PatientDTO patient = patientDTOAssembler.toDTO(operation.getPatient());
+        Integer number = operation.getNumber();
 
         String description = operation.getDescription();
         String date = dateFormatter.dateToString(operation.getDate());
@@ -59,7 +61,8 @@ public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO>
         String operationType = operation.getType().toString();
         String operationStatus = operation.getStatus().toString();
 
-        return new OperationDTO(date, operationStatus, description, patient, instruments, surgeon, room, operationType);
+        return new OperationDTO(date, operationStatus, description, patient, instruments, surgeon, room, operationType,
+                number);
     }
 
     @Override
@@ -69,9 +72,14 @@ public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO>
         Surgeon surgeon = surgeonDTOAssembler.fromDTO(operationDTO.surgeon);
         Room room = roomDTOAssembler.fromDTO(operationDTO.room);
         String description = operationDTO.description;
+        Integer number = operationDTO.number;
         OperationType type = OperationType.determineFrom(operationDTO.type);
         OperationStatus status = OperationStatus.determineFrom(operationDTO.status);
+        Collection<Instrument> instruments = instrumentDTOAssembler.fromDTOs(operationDTO.instruments);
 
-        return operationFactory.create(type, description, surgeon, date, room, status, patient);
+        Operation operation = operationFactory.create(type, description, surgeon, date, room, status, patient, number);
+        operation.add(instruments);
+
+        return operation;
     }
 }
