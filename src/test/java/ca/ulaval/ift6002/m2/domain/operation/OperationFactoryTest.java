@@ -67,4 +67,10 @@ public class OperationFactoryTest {
         assertTrue(operation instanceof OncologicalOperation);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void whenCreateWithUnknownTypeShouldThrowException() {
+        Operation operation = factory.create(OperationType.OTHER, DESCRIPTION, surgeon, date, room, STATUS, patient);
+        assertTrue(operation instanceof OncologicalOperation);
+    }
+
 }
