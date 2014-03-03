@@ -22,10 +22,7 @@ import ca.ulaval.ift6002.m2.services.PatientService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PatientResource extends Resource {
 
-    private static final String ERROR_CODE = "PRES001";
-
     private final PatientService patientService = new PatientService();
-
     private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
 
     @POST
@@ -38,9 +35,10 @@ public class PatientResource extends Resource {
             patientService.savePrescription(patientId, response);
 
             return success();
-        } catch (NoSuchElementException | InvalidResponseException e) {
-            return error(ERROR_CODE, e.getMessage());
+        } catch (NoSuchElementException e) {
+            return error(PrescriptionResponseValidator.ERROR_CODE, e.getMessage());
+        } catch (InvalidResponseException e) {
+            return error(e.getErrorType(), e.getMessage());
         }
     }
-
 }

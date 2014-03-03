@@ -17,6 +17,8 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator
 
 public class OperationResponseAssembler {
 
+    private static final String MISSING_INFORMATION = "INT001";
+
     private final OperationFactory operationFactory;
     private final PatientRepository patientRepository;
     private final DateFormatter formatterDate;
@@ -46,7 +48,7 @@ public class OperationResponseAssembler {
 
             return operationFactory.create(type, description, surgeon, date, room, status, patient);
         } catch (IllegalArgumentException e) {
-            throw new InvalidResponseException(e.getMessage());
+            throw new InvalidResponseException(MISSING_INFORMATION, e.getMessage());
         }
     }
 

@@ -36,9 +36,6 @@ public class OperationResource extends Resource {
     private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
     private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
 
-    private static final String MISSING_SERIAL_ERROR = "INT012";
-    private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
-
     private static final String NO_OPERATION_FOUND_MESSAGE = "The operation does not exist";
 
     private final OperationResponseValidator operationValidator = new OperationResponseValidator();
@@ -92,9 +89,7 @@ public class OperationResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
-            // TODO catch missing serial (validateNewStatus return same
-            // exception)
-            return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+            return error(e.getErrorType(), e.getMessage());
         } catch (NoSuchElementException e) {
             return error(INCOMPLETE_DATA_ERROR, e.getMessage());
         }
