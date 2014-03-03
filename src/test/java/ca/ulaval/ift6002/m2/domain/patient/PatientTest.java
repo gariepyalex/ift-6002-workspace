@@ -1,6 +1,6 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,7 +40,7 @@ public class PatientTest {
     }
 
     @Test
-    public void givenPatientWhenAddMultiplePrescriptionsShouldHaveCountOfTwo() {
+    public void givenPatientWhenAddTwoPrescriptionsShouldHaveCountOfTwo() {
         patient.receivesPrescription(prescription);
         patient.receivesPrescription(prescription);
 

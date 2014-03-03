@@ -3,7 +3,6 @@ package ca.ulaval.ift6002.m2.domain.operation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -35,6 +34,7 @@ public class OperationTest {
     private static final Date DATE = new Date();
     private static final Patient PATIENT = new Patient(12345);
 
+    private static final Serial A_SERIAL = new Serial("abc");
     private static final InstrumentStatus AN_INSTRUMENT_STATUS = InstrumentStatus.SOILED;
 
     @Mock
@@ -69,9 +69,9 @@ public class OperationTest {
     public void givenInstrumentWhenBookmarkInstrumentShouldCallChangeToNewStatus() {
         buildAnOperation();
         operation.add(instrument);
-        willReturn(true).given(instrument).hasSerial(any(Serial.class));
+        willReturn(true).given(instrument).hasSerial(A_SERIAL);
 
-        operation.bookmarkInstrumentToStatus(new Serial("abc"), AN_INSTRUMENT_STATUS);
+        operation.bookmarkInstrumentToStatus(A_SERIAL, AN_INSTRUMENT_STATUS);
 
         verify(instrument).changeTo(AN_INSTRUMENT_STATUS);
     }
@@ -80,9 +80,9 @@ public class OperationTest {
     public void givenInstrumentWithNonExistingSerialWhenBookmarkInstrumentShouldThrowException() {
         buildAnOperation();
         operation.add(instrument);
-        willReturn(false).given(instrument).hasSerial(any(Serial.class));
+        willReturn(false).given(instrument).hasSerial(A_SERIAL);
 
-        operation.bookmarkInstrumentToStatus(new Serial("abc"), AN_INSTRUMENT_STATUS);
+        operation.bookmarkInstrumentToStatus(A_SERIAL, AN_INSTRUMENT_STATUS);
     }
 
     @Test(expected = IllegalStateException.class)
