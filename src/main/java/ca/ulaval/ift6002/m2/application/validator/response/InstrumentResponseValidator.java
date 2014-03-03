@@ -5,8 +5,8 @@ import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
 public class InstrumentResponseValidator implements ResponseValidator<InstrumentResponse> {
 
-    private static final String INCOMPLETE_DATA_ERROR = "INT010";
-    private static final String MISSING_SERIAL_ERROR = "INT012";
+    public static final String INCOMPLETE_DATA_ERROR = "INT010";
+    public static final String MISSING_SERIAL_ERROR = "INT012";
 
     @Override
     public void validate(InstrumentResponse response) throws InvalidResponseException {
