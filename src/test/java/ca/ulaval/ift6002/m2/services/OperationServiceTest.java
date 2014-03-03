@@ -16,7 +16,6 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
@@ -40,9 +39,6 @@ public class OperationServiceTest {
 
     @Mock
     private OperationRepository operationRepository;
-
-    @Mock
-    private InstrumentRepository instrumentRepository;
 
     @Mock
     private Instrument instrument;
@@ -80,11 +76,8 @@ public class OperationServiceTest {
 
     @Test
     public void whenModifyingInstrumentOperationShouldUpdateInstrumentStatus() throws InvalidResponseException {
-        willReturn(instrument).given(instrumentRepository).get(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
         willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
-
         operationService.bookmarkInstrumentToStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
-
         verify(operation).bookmarkInstrumentToStatus(any(Serial.class), any(InstrumentStatus.class));
     }
 
