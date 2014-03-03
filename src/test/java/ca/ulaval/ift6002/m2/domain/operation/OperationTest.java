@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.Before;
@@ -96,6 +97,16 @@ public class OperationTest {
     public void givenOperationWithInstrumentNotElligibleWhenAddInstrumentShouldThrowInvalidInstrumentException() {
         buildAnOperationWithInstrumentNotElligible();
         operationWithInstrumentNotElligible.add(instrument);
+    }
+
+    @Test
+    public void givenOperationWhenAddInstrumentCollectionShouldAddAllInstruments() {
+        buildAnOperation();
+        ArrayList<Instrument> instruments = new ArrayList<>();
+        instruments.add(anonymousInstrument);
+        instruments.add(instrument);
+        operation.add(instruments);
+        assertEquals(instruments.size(), operation.countInstruments());
     }
 
     private void buildAnOperation() {
