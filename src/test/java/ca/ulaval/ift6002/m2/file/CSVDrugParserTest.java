@@ -16,8 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
-import ca.ulaval.ift6002.m2.file.CSVDrugParser;
-import ca.ulaval.ift6002.m2.file.FileReader;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CSVDrugParserTest {

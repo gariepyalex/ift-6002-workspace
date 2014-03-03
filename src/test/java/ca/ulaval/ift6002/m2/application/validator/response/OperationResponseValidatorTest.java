@@ -24,49 +24,49 @@ public class OperationResponseValidatorTest {
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenValidatingWithEmptyDescriptionShouldThrowException() throws InvalidResponseException {
+    public void givenEmptyDescriptionWhenValidatingShouldThrowException() {
         operationResponse = new OperationResponse("", SURGEON_NUMBER, DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenValidatingWithNullSurgeonNumberShouldThrowException() throws InvalidResponseException {
+    public void givenNullSurgeonWhenValidatingShouldThrowException() {
         operationResponse = new OperationResponse(DESCRIPTION, null, DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenValidatingWithEmptyDateShouldThrowException() throws InvalidResponseException {
+    public void givenEmptyDateWhenValidatingShouldThrowException() {
         operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, "", ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenValidatingWithEmptyRoomShouldThrowException() throws InvalidResponseException {
+    public void givenEmptyRoomWhenValidatingShouldThrowException() {
         operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, DATE, "", TYPE, STATUS, PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenValidatingWithEmptyTypeShouldThrowException() throws InvalidResponseException {
+    public void givenEmptyTypeWhenValidatingShouldThrowException() {
         operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, DATE, ROOM, "", STATUS, PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void whenValidatingWithNullPatientNumberShouldThrowException() throws InvalidResponseException {
+    public void givenNullPatientWhenValidatingShouldThrowException() {
         operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, DATE, ROOM, TYPE, STATUS, null);
 
         operationResponseValidator.validate(operationResponse);
     }
 
     @Test
-    public void whenValidatingWithValidResponseShouldNotThrowException() throws InvalidResponseException {
+    public void givenValidResponseWhenValidatingShouldNotThrowException() {
         operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);

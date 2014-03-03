@@ -15,6 +15,7 @@ public class PrescriptionResponseValidatorTest {
 
     private static final String PRACTITIONER = "102032";
     private static final String DATE = "12-12-12T12:12:12";
+    private static final String INVALID_DATE = "invalide";
 
     private static final Integer VALID_RENEWALS = 15;
     private static final Integer INVALID_RENEWALS = -1;
@@ -28,7 +29,15 @@ public class PrescriptionResponseValidatorTest {
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void givenResponseWithNullRenewalsWhenValidatingShouldThrowException() throws InvalidResponseException {
+    public void givenInvalidDateWhenValidatingShouldThrowException() {
+        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, INVALID_DATE, VALID_RENEWALS, VALID_DIN,
+                EMPTY_NAME);
+
+        prescriptionValidator.validate(response);
+    }
+
+    @Test(expected = InvalidResponseException.class)
+    public void givenWithNullRenewalsWhenValidatingShouldThrowException() {
         PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, NULL_RENEWALS, EMPTY_DIN,
                 VALID_NAME);
 
@@ -36,7 +45,7 @@ public class PrescriptionResponseValidatorTest {
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void givenResponseWithInvalidRenewalsWhenValidatingShouldThrowException() throws InvalidResponseException {
+    public void givenInvalidRenewalsWhenValidatingShouldThrowException() {
         PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, INVALID_RENEWALS, EMPTY_DIN,
                 VALID_NAME);
 
@@ -44,7 +53,7 @@ public class PrescriptionResponseValidatorTest {
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void givenResponseWithoutDinOrNameWhenValidatingShouldThrowException() throws InvalidResponseException {
+    public void givenNoDinOrNameWhenValidatingShouldThrowException() {
         PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, EMPTY_DIN,
                 EMPTY_NAME);
 
@@ -52,7 +61,7 @@ public class PrescriptionResponseValidatorTest {
     }
 
     @Test(expected = InvalidResponseException.class)
-    public void givenResponseWithBothDinAndNameWhenValidatingShouldThrowException() throws InvalidResponseException {
+    public void givenDinAndNameWhenValidatingShouldThrowException() {
         PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
                 VALID_NAME);
 
@@ -60,7 +69,7 @@ public class PrescriptionResponseValidatorTest {
     }
 
     @Test
-    public void givenValidResponseWhenValidatingShouldNotThrowException() throws InvalidResponseException {
+    public void givenValidResponseWhenValidatingShouldNotThrowException() {
         PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
                 EMPTY_NAME);
 

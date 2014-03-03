@@ -41,6 +41,7 @@ public class PatientResource extends Resource {
         } catch (NoSuchElementException e) {
             return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
         }
+
     }
 
 }
