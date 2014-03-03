@@ -29,9 +29,16 @@ public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, Prescri
         String practitioner = prescription.getPractioner().toString();
         String date = dateFormatter.dateToString(prescription.getDate());
         Integer renewals = prescription.getRenewals();
-        DrugDTO drugDTO = drugDTOAssembler.toDTO(prescription.getDrug());
+        DrugDTO drugDTO = null;
+        String other = "";
+        Drug drug = prescription.getDrug();
+        if (drug.hasDin()) {
+            drugDTO = drugDTOAssembler.toDTO(prescription.getDrug());
+        } else {
+            other = drug.getBrandName();
+        }
 
-        return new PrescriptionDTO(practitioner, date, renewals, drugDTO);
+        return new PrescriptionDTO(practitioner, date, renewals, other, drugDTO);
     }
 
     @Override
@@ -39,7 +46,12 @@ public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, Prescri
         Practitioner practitioner = new Practitioner(dto.practitioner);
         Date date = dateFormatter.parse(dto.date);
         Integer renewals = dto.renewals;
-        Drug drug = drugDTOAssembler.fromDTO(dto.drugDTO);
+        Drug drug;
+        if (dto.other.isEmpty()) {
+            drug = drugDTOAssembler.fromDTO(dto.drugDTO);
+        } else {
+            drug = Drug.fromName(dto.other);
+        }
 
         return new Prescription(practitioner, date, renewals, drug);
     }
