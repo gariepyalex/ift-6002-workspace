@@ -1,7 +1,7 @@
 package ca.ulaval.ift6002.m2.contexts;
 
-import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.operation.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 
 public class DemoPatientRepositoryFiller {
 

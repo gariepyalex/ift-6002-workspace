@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.domain.operation.patient;
+package ca.ulaval.ift6002.m2.domain.patient;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 @RunWith(MockitoJUnitRunner.class)

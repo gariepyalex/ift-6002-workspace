@@ -8,7 +8,7 @@ import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.domain.operation.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.file.CSVDrugParser;
 import ca.ulaval.ift6002.m2.file.CSVFileReader;
 import ca.ulaval.ift6002.m2.file.FileParser;

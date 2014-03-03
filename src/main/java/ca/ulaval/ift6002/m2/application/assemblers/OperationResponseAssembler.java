@@ -9,10 +9,10 @@ import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
-import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.operation.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class OperationResponseAssembler {

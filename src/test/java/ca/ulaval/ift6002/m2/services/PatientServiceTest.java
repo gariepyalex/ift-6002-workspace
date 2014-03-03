@@ -13,8 +13,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
-import ca.ulaval.ift6002.m2.domain.operation.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.operation.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 @RunWith(MockitoJUnitRunner.class)

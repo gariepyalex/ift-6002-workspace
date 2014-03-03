@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.domain.operation.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 
 public class RepositoryLocatorTest {
 
