@@ -83,7 +83,7 @@ public class OperationServiceTest {
         willReturn(instrument).given(instrumentRepository).get(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
         willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
 
-        operationService.modifyInstrumentStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
+        operationService.bookmarkInstrumentToStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
 
         verify(operation).bookmarkInstrumentToStatus(any(Serial.class), any(InstrumentStatus.class));
     }
@@ -91,7 +91,7 @@ public class OperationServiceTest {
     @Test
     public void whenModifyingInstrumentServiceShouldStoreOperationUsingRepository() throws InvalidResponseException {
         willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
-        operationService.modifyInstrumentStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
+        operationService.bookmarkInstrumentToStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
         verify(operationRepository).store(operation);
     }
 }

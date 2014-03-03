@@ -48,7 +48,7 @@ public class OperationService {
         operationRepository.store(operation);
     }
 
-    public void modifyInstrumentStatus(String operationId, InstrumentResponse instrumentResponse) {
+    public void bookmarkInstrumentToStatus(String operationId, InstrumentResponse instrumentResponse) {
         Operation operation = operationRepository.get(Integer.valueOf(operationId));
         InstrumentStatus instrumentStatus = InstrumentStatus.determineFrom(instrumentResponse.status);
         Serial serial = new Serial(instrumentResponse.serial);

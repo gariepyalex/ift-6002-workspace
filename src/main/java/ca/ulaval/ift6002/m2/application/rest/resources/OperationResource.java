@@ -84,7 +84,7 @@ public class OperationResource extends Resource {
         try {
             instrumentValidator.validateNewStatus(instrumentResponse);
 
-            operationService.modifyInstrumentStatus(noIntervention, instrumentResponse);
+            operationService.bookmarkInstrumentToStatus(noIntervention, instrumentResponse);
 
             return success();
         } catch (InvalidResponseException e) {
