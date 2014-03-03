@@ -47,13 +47,13 @@ public class InstrumentStatusTest {
     }
 
     @Test
-    public void givenUnuseddStringWhenIsValidShouldReturnTrue() {
+    public void givenUnusedStringWhenIsValidShouldReturnTrue() {
         boolean returnValue = InstrumentStatus.isValid(UNUSED_STRING);
         assertTrue(returnValue);
     }
 
     @Test
-    public void givenUnuseddStringWhenIsValidShouldReturnFalse() {
+    public void givenInvalidStringWhenIsValidShouldReturnFalse() {
         boolean returnValue = InstrumentStatus.isValid(INVALID_STRING);
         assertFalse(returnValue);
     }
