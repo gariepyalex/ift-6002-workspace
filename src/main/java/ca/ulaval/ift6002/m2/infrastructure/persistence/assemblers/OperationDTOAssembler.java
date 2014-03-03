@@ -17,7 +17,7 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.RoomDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.SurgeonDTO;
 
-public class OperationDTOAssembler {
+public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO> {
 
     private final InstrumentDTOAssembler instrumentDTOAssembler;
     private final RoomDTOAssembler roomDTOAssembler;
@@ -46,6 +46,7 @@ public class OperationDTOAssembler {
         this.patientDTOAssembler = new PatientDTOAssembler();
     }
 
+    @Override
     public OperationDTO toDTO(Operation operation) {
         Collection<InstrumentDTO> instruments = instrumentDTOAssembler.toDTOs(operation.getInstruments());
         RoomDTO room = roomDTOAssembler.toDTO(operation.getRoom());
@@ -61,6 +62,7 @@ public class OperationDTOAssembler {
         return new OperationDTO(date, operationStatus, description, patient, instruments, surgeon, room, operationType);
     }
 
+    @Override
     public Operation fromDTO(OperationDTO operationDTO) {
         Patient patient = patientDTOAssembler.fromDTO(operationDTO.patient);
         Date date = dateFormatter.parse(operationDTO.date);

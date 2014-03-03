@@ -1,45 +1,20 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 
-public class DrugDTOAssembler {
+public class DrugDTOAssembler extends DTOAssembler<Drug, DrugDTO> {
 
+    @Override
     public DrugDTO toDTO(Drug drug) {
         return new DrugDTO(drug.getDin().toString(), drug.getBrandName(), drug.getDescriptor());
     }
 
+    @Override
     public Drug fromDTO(DrugDTO dto) {
         Din din = new Din(dto.din);
 
         return new Drug(din, dto.brandName, dto.descriptor);
-    }
-
-    public Collection<DrugDTO> toDTOs(Collection<Drug> drugs) {
-        Collection<DrugDTO> dtos = new ArrayList<>(drugs.size());
-
-        for (Drug drug : drugs) {
-            DrugDTO dto = toDTO(drug);
-
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
-
-    public Collection<Drug> fromDTOs(Collection<DrugDTO> dtos) {
-        Collection<Drug> drugs = new ArrayList<>(dtos.size());
-
-        for (DrugDTO dto : dtos) {
-            Drug drug = fromDTO(dto);
-
-            drugs.add(drug);
-        }
-
-        return drugs;
     }
 }

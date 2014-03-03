@@ -7,7 +7,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 
-public class PatientDTOAssembler {
+public class PatientDTOAssembler extends DTOAssembler<Patient, PatientDTO> {
 
     private final PrescriptionDTOAssembler prescriptionDTOAssembler;
 
@@ -19,12 +19,14 @@ public class PatientDTOAssembler {
         this.prescriptionDTOAssembler = new PrescriptionDTOAssembler();
     }
 
+    @Override
     public Patient fromDTO(PatientDTO dto) {
         Collection<Prescription> prescriptions = prescriptionDTOAssembler.fromDTOs(dto.prescriptions);
 
         return new Patient(dto.number, prescriptions);
     }
 
+    @Override
     public PatientDTO toDTO(Patient patient) {
         Collection<PrescriptionDTO> prescriptionsDTO = prescriptionDTOAssembler.toDTOs(patient.getPrescriptions());
 
