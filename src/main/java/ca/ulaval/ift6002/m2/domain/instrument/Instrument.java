@@ -15,10 +15,6 @@ public class Instrument {
         this.serial = serialNumber;
     }
 
-    public Instrument(Typecode typecode, InstrumentStatus status) {
-        this(typecode, status, new Serial(""));
-    }
-
     public boolean isAnonymous() {
         return serial.isEmpty();
     }

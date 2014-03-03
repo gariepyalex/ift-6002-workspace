@@ -27,10 +27,6 @@ public class Drug {
         return descriptor;
     }
 
-    public static Drug fromName(String name) {
-        return new Drug(new Din(""), name, "");
-    }
-
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
