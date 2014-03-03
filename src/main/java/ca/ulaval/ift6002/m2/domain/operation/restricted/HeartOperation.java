@@ -15,6 +15,11 @@ public class HeartOperation extends RestrictedOperation {
         super(description, surgeon, date, room, status, patient);
     }
 
+    public HeartOperation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
+            Patient patient, Integer number) {
+        super(description, surgeon, date, room, status, patient, number);
+    }
+
     @Override
     public OperationType getType() {
         return OperationType.HEART;

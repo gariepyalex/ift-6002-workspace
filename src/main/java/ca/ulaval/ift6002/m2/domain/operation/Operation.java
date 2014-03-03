@@ -13,6 +13,7 @@ import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 public abstract class Operation {
 
+    private final Integer number;
     private final String description;
     private final Surgeon surgeon;
     private final Date date;
@@ -23,6 +24,12 @@ public abstract class Operation {
 
     protected Operation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
             Patient patient) {
+        this(description, surgeon, date, room, status, patient, null);
+
+    }
+
+    protected Operation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
+            Patient patient, Integer number) {
         this.description = description;
         this.surgeon = surgeon;
         this.date = date;
@@ -30,6 +37,7 @@ public abstract class Operation {
         this.status = status;
         this.patient = patient;
         this.instruments = new ArrayList<>();
+        this.number = number;
     }
 
     public void updateInstrumentStatus(Instrument instrument, String newStatus) {
@@ -64,6 +72,10 @@ public abstract class Operation {
 
     public Collection<Instrument> getInstruments() {
         return instruments;
+    }
+
+    public Integer getNumber() {
+        return number;
     }
 
     public Room getRoom() {

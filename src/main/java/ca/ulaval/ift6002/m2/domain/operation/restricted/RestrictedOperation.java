@@ -16,6 +16,11 @@ public abstract class RestrictedOperation extends Operation {
         super(description, surgeon, date, room, status, patient);
     }
 
+    protected RestrictedOperation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
+            Patient patient, Integer number) {
+        super(description, surgeon, date, room, status, patient, number);
+    }
+
     @Override
     protected boolean isInstrumentElligible(Instrument instrument) {
         return !instrument.isAnonymous();

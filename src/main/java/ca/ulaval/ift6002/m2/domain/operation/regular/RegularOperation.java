@@ -16,6 +16,11 @@ public abstract class RegularOperation extends Operation {
         super(description, surgeon, date, room, status, patient);
     }
 
+    public RegularOperation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
+            Patient patient, Integer number) {
+        super(description, surgeon, date, room, status, patient, number);
+    }
+
     @Override
     protected boolean isInstrumentElligible(Instrument instrument) {
         return true;
