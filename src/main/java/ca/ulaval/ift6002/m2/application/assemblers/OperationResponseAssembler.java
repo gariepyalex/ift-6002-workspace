@@ -42,11 +42,18 @@ public class OperationResponseAssembler {
             Room room = new Room(response.room);
             String description = response.description;
             OperationType type = OperationType.determineFrom(response.type);
-            OperationStatus status = OperationStatus.determineFrom(response.status);
+            OperationStatus status = getStatus(response);
 
             return operationFactory.create(type, description, surgeon, date, room, status, patient);
         } catch (IllegalArgumentException e) {
             throw new InvalidResponseException(e.getMessage());
         }
+    }
+
+    private OperationStatus getStatus(OperationResponse response) {
+        if (response.status == null) {
+            response.status = "";
+        }
+        return OperationStatus.determineFrom(response.status);
     }
 }

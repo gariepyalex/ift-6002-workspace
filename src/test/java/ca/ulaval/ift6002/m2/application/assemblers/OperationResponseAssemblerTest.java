@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -95,5 +96,15 @@ public class OperationResponseAssemblerTest {
                 TYPE, INVALID_STATUS, PATIENT_NUMBER);
 
         operationAssembler.fromResponse(response);
+    }
+
+    @Test
+    public void whenFromResponseCallWithNoStatusStatusIsSetToEmpty() throws InvalidResponseException {
+        OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
+                TYPE, null, PATIENT_NUMBER);
+
+        operationAssembler.fromResponse(response);
+
+        assertEquals("", response.status);
     }
 }
