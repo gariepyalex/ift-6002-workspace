@@ -15,16 +15,18 @@ public class PrescriptionDTO {
     public String practitioner;
     public String date;
     public Integer renewals;
+    public String other;
 
     @ManyToOne
     @JoinColumn(name = "drug_id")
     public DrugDTO drugDTO;
 
-    public PrescriptionDTO(String practitioner, String date, Integer renewals, DrugDTO drugDTO) {
+    public PrescriptionDTO(String practitioner, String date, Integer renewals, String other, DrugDTO drugDTO) {
         this.practitioner = practitioner;
         this.date = date;
         this.renewals = renewals;
         this.drugDTO = drugDTO;
+        this.other = other;
     }
 
     protected PrescriptionDTO() {
@@ -32,5 +34,6 @@ public class PrescriptionDTO {
         this.date = "";
         this.renewals = 0;
         this.drugDTO = null;
+        this.other = "";
     }
 }
