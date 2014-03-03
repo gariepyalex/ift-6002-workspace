@@ -1,8 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.operation.regular;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.willReturn;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import java.util.Date;
 
@@ -14,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
@@ -76,6 +76,13 @@ public class RegularOperationTest {
         addInstrument();
 
         assertTrue(regularOperation.has(instrument));
+    }
+
+    @Test
+    public void getTypeShouldReturnOther() {
+        OperationType result = regularOperation.getType();
+
+        assertEquals(OperationType.OTHER, result);
     }
 
     private void addInstrument() {

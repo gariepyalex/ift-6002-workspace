@@ -40,6 +40,8 @@ public abstract class Operation {
 
     public abstract void add(Instrument instrument);
 
+    public abstract OperationType getType();
+
     public void updateInstrumentStatus(Instrument instrument, String newStatus) {
         instruments.remove(instrument);
         instrument.setStatus(newStatus);

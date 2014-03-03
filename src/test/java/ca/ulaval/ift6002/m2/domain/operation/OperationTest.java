@@ -1,7 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
 import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.willReturn;
 
 import java.util.Date;
 
@@ -86,6 +86,12 @@ public class OperationTest {
             @Override
             public void add(Instrument instrument) {
             }
+
+            @Override
+            public OperationType getType() {
+                return null;
+            }
+
         };
 
         return eligibleOperation;
