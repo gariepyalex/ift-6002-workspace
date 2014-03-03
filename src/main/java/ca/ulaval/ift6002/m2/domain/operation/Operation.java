@@ -16,7 +16,9 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 public abstract class Operation {
 
-    private Integer number;
+    public static int EMPTY_NUMBER = -1;
+
+    private int number;
     private final String description;
     private final Surgeon surgeon;
     private final Date date;
@@ -27,7 +29,7 @@ public abstract class Operation {
 
     protected Operation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
             Patient patient) {
-        this(description, surgeon, date, room, status, patient, null);
+        this(description, surgeon, date, room, status, patient, -1);
 
     }
 
@@ -93,7 +95,7 @@ public abstract class Operation {
         return instruments;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -121,7 +123,11 @@ public abstract class Operation {
         return status;
     }
 
-    public void updateNumber(Integer number) {
+    public void updateNumber(int number) {
         this.number = number;
+    }
+
+    public boolean hasNumber() {
+        return number != EMPTY_NUMBER;
     }
 }
