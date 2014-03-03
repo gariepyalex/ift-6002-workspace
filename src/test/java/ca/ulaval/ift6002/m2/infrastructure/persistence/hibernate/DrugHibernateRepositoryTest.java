@@ -94,7 +94,7 @@ public class DrugHibernateRepositoryTest {
     public void whenStoreDrugsShouldCallEntityManagerMerge() {
         drugRepository.store(DRUGS);
 
-        verify(entityManager).persist(any(DrugDTO.class));
+        verify(entityManager).merge(any(DrugDTO.class));
     }
 
     @Test
