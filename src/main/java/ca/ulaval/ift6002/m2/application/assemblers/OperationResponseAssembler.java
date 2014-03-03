@@ -3,7 +3,6 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
-import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
@@ -34,20 +33,16 @@ public class OperationResponseAssembler {
         this.formatterDate = new DateFormatter();
     }
 
-    public Operation fromResponse(OperationResponse response) throws InvalidResponseException {
-        try {
-            Patient patient = patientRepository.get(response.patientNumber);
-            Date date = formatterDate.parse(response.date);
-            Surgeon surgeon = new Surgeon(response.surgeon);
-            Room room = new Room(response.room);
-            String description = response.description;
-            OperationType type = OperationType.determineFrom(response.type);
-            OperationStatus status = getStatus(response);
+    public Operation fromResponse(OperationResponse response) {
+        Patient patient = patientRepository.get(response.patientNumber);
+        Date date = formatterDate.parse(response.date);
+        Surgeon surgeon = new Surgeon(response.surgeon);
+        Room room = new Room(response.room);
+        String description = response.description;
+        OperationType type = OperationType.determineFrom(response.type);
+        OperationStatus status = getStatus(response);
 
-            return operationFactory.create(type, description, surgeon, date, room, status, patient);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidResponseException(e.getMessage());
-        }
+        return operationFactory.create(type, description, surgeon, date, room, status, patient);
     }
 
     private OperationStatus getStatus(OperationResponse response) {

@@ -6,10 +6,6 @@ public class InvalidResponseException extends Exception {
 
     private final String code;
 
-    public InvalidResponseException(String message) {
-        this("", message);
-    }
-
     public InvalidResponseException(String code, String message) {
         super(message);
         this.code = code;

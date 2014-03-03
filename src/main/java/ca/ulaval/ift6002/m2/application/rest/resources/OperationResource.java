@@ -46,6 +46,8 @@ public class OperationResource extends Resource {
             return redirectTo(uri, "/" + generatedNumber);
         } catch (InvalidResponseException e) {
             return error(e.getCode(), e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
         } catch (NoSuchElementException e) {
             return error(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
         }
