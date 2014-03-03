@@ -16,9 +16,14 @@ public class PrescriptionDTOAssembler {
     private final DateFormatter dateFormatter;
     private final DrugDTOAssembler drugDTOAssembler;
 
-    public PrescriptionDTOAssembler(DateFormatter dateFormatter, DrugDTOAssembler drugDTOAssembler) {
+    protected PrescriptionDTOAssembler(DateFormatter dateFormatter, DrugDTOAssembler drugDTOAssembler) {
         this.dateFormatter = dateFormatter;
         this.drugDTOAssembler = drugDTOAssembler;
+    }
+
+    public PrescriptionDTOAssembler() {
+        this.dateFormatter = new DateFormatter();
+        this.drugDTOAssembler = new DrugDTOAssembler();
     }
 
     public PrescriptionDTO toDTO(Prescription prescription) {

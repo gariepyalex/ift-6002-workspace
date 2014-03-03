@@ -11,8 +11,12 @@ public class PatientDTOAssembler {
 
     private final PrescriptionDTOAssembler prescriptionDTOAssembler;
 
-    public PatientDTOAssembler(PrescriptionDTOAssembler prescriptionDTOAssembler) {
+    protected PatientDTOAssembler(PrescriptionDTOAssembler prescriptionDTOAssembler) {
         this.prescriptionDTOAssembler = prescriptionDTOAssembler;
+    }
+
+    public PatientDTOAssembler() {
+        this.prescriptionDTOAssembler = new PrescriptionDTOAssembler();
     }
 
     public Patient fromDTO(PatientDTO dto) {

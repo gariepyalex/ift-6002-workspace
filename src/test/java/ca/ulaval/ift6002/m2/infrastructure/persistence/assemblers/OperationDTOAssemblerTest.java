@@ -2,7 +2,8 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -35,17 +36,16 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.SurgeonDTO;
 @RunWith(MockitoJUnitRunner.class)
 public class OperationDTOAssemblerTest {
 
+    private static final OperationType OPERATION_TYPE = OperationType.EYE;
+    private static final OperationStatus OPERATION_STATUS = OperationStatus.PLANNED;
+
     private static final int PATIENT_NUMBER = 11;
     private static final String ROOM_VALUE = "room";
     private static final int SURGEON_LICENSE = 123;
-    private static final String STRING_OPERATION_STATUS = "PLANIFIEE";
-    private static final String STRING_OPERATION_TYPE = "OEIL";
-
+    private static final String STRING_OPERATION_STATUS = OPERATION_STATUS.toString();
+    private static final String STRING_OPERATION_TYPE = OPERATION_TYPE.toString();
     private static final String DATE_STRING = "2014-01-01T12:00:00";
     private static final String DESCRIPTION = "description";
-    private static final OperationType OPERATION_TYPE = OperationType.EYE;
-    private static final OperationStatus OPERATION_STATUS = OperationStatus.PLANNED;
-    private static final OperationFactory OPERATION_FACTORY = new OperationFactory();
 
     private static final Collection<InstrumentDTO> INSTRUMENTS_DTO = new ArrayList<InstrumentDTO>();
     private static final Collection<Instrument> INSTRUMENTS = new ArrayList<Instrument>();
@@ -57,11 +57,11 @@ public class OperationDTOAssemblerTest {
     private static final Patient PATIENT = new Patient(PATIENT_NUMBER);
     private static final PatientDTO PATIENT_DTO = new PatientDTO(PATIENT_NUMBER, new ArrayList<PrescriptionDTO>());
 
-    private static final Operation operation = OPERATION_FACTORY.create(OPERATION_TYPE, DESCRIPTION, SURGEON, DATE,
-            ROOM, OPERATION_STATUS, PATIENT);
-
     private static final OperationDTO OPERATION_DTO = new OperationDTO(DATE_STRING, STRING_OPERATION_STATUS,
             DESCRIPTION, PATIENT_DTO, INSTRUMENTS_DTO, SURGEON_DTO, ROOM_DTO, STRING_OPERATION_TYPE);
+
+    @Mock
+    private Operation operation;
 
     @Mock
     private InstrumentDTOAssembler instrumentsDTOAssembler;
@@ -85,13 +85,7 @@ public class OperationDTOAssemblerTest {
     private OperationDTOAssembler operationAssembler;
 
     @Before
-    public void setUp() {
-        setToDTOAssembler();
-
-        setFromDTOAssembler();
-    }
-
-    private void setFromDTOAssembler() {
+    public void setUpFromDTOAssembler() {
         willReturn(operation).given(operationFactory).create(any(OperationType.class), anyString(), any(Surgeon.class),
                 any(Date.class), any(Room.class), any(OperationStatus.class), any(Patient.class));
         willReturn(PATIENT).given(patientDTOAssembler).fromDTO(PATIENT_DTO);
@@ -100,12 +94,25 @@ public class OperationDTOAssemblerTest {
         willReturn(DATE).given(dateFormatter).parse(DATE_STRING);
     }
 
-    private void setToDTOAssembler() {
-        willReturn(INSTRUMENTS_DTO).given(instrumentsDTOAssembler).toDTOs(operation.getInstruments());
+    @Before
+    public void setUpToDTOAssembler() {
+        willReturn(INSTRUMENTS_DTO).given(instrumentsDTOAssembler).toDTOs(INSTRUMENTS);
         willReturn(SURGEON_DTO).given(surgeonDTOAssembler).toDTO(SURGEON);
         willReturn(ROOM_DTO).given(roomDTOAssembler).toDTO(ROOM);
         willReturn(PATIENT_DTO).given(patientDTOAssembler).toDTO(PATIENT);
         willReturn(DATE_STRING).given(dateFormatter).dateToString(DATE);
+    }
+
+    @Before
+    public void setUpOperation() {
+        willReturn(INSTRUMENTS).given(operation).getInstruments();
+        willReturn(SURGEON).given(operation).getSurgeon();
+        willReturn(ROOM).given(operation).getRoom();
+        willReturn(PATIENT).given(operation).getPatient();
+        willReturn(DATE).given(operation).getDate();
+        willReturn(DESCRIPTION).given(operation).getDescription();
+        willReturn(OPERATION_STATUS).given(operation).getStatus();
+        willReturn(OPERATION_TYPE).given(operation).getType();
     }
 
     @Test
@@ -160,30 +167,35 @@ public class OperationDTOAssemblerTest {
     @Test
     public void givenOperationDTOWhenConvertToOperationOperationFactoryCreateShouldBeCall() {
         operationAssembler.fromDTO(OPERATION_DTO);
+
         verify(operationFactory).create(OPERATION_TYPE, DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT);
     }
 
     @Test
     public void givenOperationDTOWhenConvertToOperationPatientDtoAssemblerFromDtoShouldBeCall() {
         operationAssembler.fromDTO(OPERATION_DTO);
+
         verify(patientDTOAssembler).fromDTO(PATIENT_DTO);
     }
 
     @Test
     public void givenOperationDTOWhenConvertToOperationdateFormatterParseShouldBeCall() {
         operationAssembler.fromDTO(OPERATION_DTO);
+
         verify(dateFormatter).parse(DATE_STRING);
     }
 
     @Test
     public void givenOperationDTOWhenConvertToOperationSurgeonDTOAssemblerFromDtoShouldBeCall() {
         operationAssembler.fromDTO(OPERATION_DTO);
+
         verify(surgeonDTOAssembler).fromDTO(SURGEON_DTO);
     }
 
     @Test
     public void givenOperationDTOWhenConvertToOperationRoomDTOAssemblerFromDTOShouldBeCall() {
         operationAssembler.fromDTO(OPERATION_DTO);
+
         verify(roomDTOAssembler).fromDTO(ROOM_DTO);
     }
 }

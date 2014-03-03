@@ -26,7 +26,7 @@ public class OperationDTOAssembler {
     private final PatientDTOAssembler patientDTOAssembler;
     private final OperationFactory operationFactory;
 
-    public OperationDTOAssembler(InstrumentDTOAssembler instrumentDTOAssembler,
+    protected OperationDTOAssembler(InstrumentDTOAssembler instrumentDTOAssembler,
             SurgeonDTOAssembler surgeonDTOAssembler, RoomDTOAssembler roomDTOAssembler,
             PatientDTOAssembler patientDTOAssembler, DateFormatter dateFormatter, OperationFactory operationFactory) {
         this.instrumentDTOAssembler = instrumentDTOAssembler;
@@ -37,35 +37,39 @@ public class OperationDTOAssembler {
         this.patientDTOAssembler = patientDTOAssembler;
     }
 
-    public OperationDTO toDTO(Operation anOperation) {
-
-        Collection<InstrumentDTO> instruments = instrumentDTOAssembler.toDTOs(anOperation.getInstruments());
-        RoomDTO room = roomDTOAssembler.toDTO(anOperation.getRoom());
-        SurgeonDTO surgeon = surgeonDTOAssembler.toDTO(anOperation.getSurgeon());
-        PatientDTO patient = patientDTOAssembler.toDTO(anOperation.getPatient());
-
-        String description = anOperation.getDescription();
-        String date = dateFormatter.dateToString(anOperation.getDate());
-
-        String operationType = OperationType.convertToString(anOperation.getType());
-        String operationStatus = OperationStatus.convertToString(anOperation.getStatus());
-
-        OperationDTO operationDTO = new OperationDTO(date, operationStatus, description, patient, instruments, surgeon,
-                room, operationType);
-        return operationDTO;
+    public OperationDTOAssembler() {
+        this.instrumentDTOAssembler = new InstrumentDTOAssembler();
+        this.surgeonDTOAssembler = new SurgeonDTOAssembler();
+        this.roomDTOAssembler = new RoomDTOAssembler();
+        this.dateFormatter = new DateFormatter();
+        this.operationFactory = new OperationFactory();
+        this.patientDTOAssembler = new PatientDTOAssembler();
     }
 
-    public Operation fromDTO(OperationDTO anOperationDTO) {
+    public OperationDTO toDTO(Operation operation) {
+        Collection<InstrumentDTO> instruments = instrumentDTOAssembler.toDTOs(operation.getInstruments());
+        RoomDTO room = roomDTOAssembler.toDTO(operation.getRoom());
+        SurgeonDTO surgeon = surgeonDTOAssembler.toDTO(operation.getSurgeon());
+        PatientDTO patient = patientDTOAssembler.toDTO(operation.getPatient());
 
-        Patient patient = patientDTOAssembler.fromDTO(anOperationDTO.patient);
-        Date date = dateFormatter.parse(anOperationDTO.date);
-        Surgeon surgeon = surgeonDTOAssembler.fromDTO(anOperationDTO.surgeon);
-        Room room = roomDTOAssembler.fromDTO(anOperationDTO.room);
-        String description = anOperationDTO.description;
-        OperationType type = OperationType.determineFrom(anOperationDTO.type);
-        OperationStatus status = OperationStatus.determineFrom(anOperationDTO.status);
+        String description = operation.getDescription();
+        String date = dateFormatter.dateToString(operation.getDate());
+
+        String operationType = operation.getType().toString();
+        String operationStatus = operation.getStatus().toString();
+
+        return new OperationDTO(date, operationStatus, description, patient, instruments, surgeon, room, operationType);
+    }
+
+    public Operation fromDTO(OperationDTO operationDTO) {
+        Patient patient = patientDTOAssembler.fromDTO(operationDTO.patient);
+        Date date = dateFormatter.parse(operationDTO.date);
+        Surgeon surgeon = surgeonDTOAssembler.fromDTO(operationDTO.surgeon);
+        Room room = roomDTOAssembler.fromDTO(operationDTO.room);
+        String description = operationDTO.description;
+        OperationType type = OperationType.determineFrom(operationDTO.type);
+        OperationStatus status = OperationStatus.determineFrom(operationDTO.status);
 
         return operationFactory.create(type, description, surgeon, date, room, status, patient);
-
     }
 }
