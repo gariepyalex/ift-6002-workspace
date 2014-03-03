@@ -1,7 +1,7 @@
 package ca.ulaval.ift6002.m2.services;
 
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +15,7 @@ import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.instrument.InstrumentRepository;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 
@@ -40,6 +41,9 @@ public class OperationServiceTest {
     private OperationRepository operationRepository;
 
     @Mock
+    private InstrumentRepository instrumentRepository;
+
+    @Mock
     private Instrument instrument;
 
     @Mock
@@ -56,7 +60,7 @@ public class OperationServiceTest {
     @Test
     public void whenSavingInstrumentOperationShouldAddInstrument() throws InvalidResponseException {
         willReturn(instrument).given(instrumentAssembler).fromResponse(INSTRUMENT_RESPONSE);
-        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
+        willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
 
         operationService.saveInstrument(OPERATION_ID, INSTRUMENT_RESPONSE);
 
@@ -65,7 +69,7 @@ public class OperationServiceTest {
 
     @Test
     public void whenSavingInstrumentServiceShouldStoreOperationUsingRepository() throws InvalidResponseException {
-        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
+        willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
 
         operationService.saveInstrument(OPERATION_ID, INSTRUMENT_RESPONSE);
 
@@ -74,8 +78,8 @@ public class OperationServiceTest {
 
     @Test
     public void whenModifyingInstrumentOperationShouldUpdateInstrumentStatus() throws InvalidResponseException {
-        willReturn(instrument).given(operationRepository).getInstrument(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
-        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
+        willReturn(instrument).given(instrumentRepository).get(Integer.valueOf(INSTRUMENT_RESPONSE.serial));
+        willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
 
         operationService.modifyInstrumentStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
 
@@ -84,7 +88,7 @@ public class OperationServiceTest {
 
     @Test
     public void whenModifyingInstrumentServiceShouldStoreOperationUsingRepository() throws InvalidResponseException {
-        willReturn(operation).given(operationRepository).getOperation(Integer.valueOf(OPERATION_ID));
+        willReturn(operation).given(operationRepository).get(Integer.valueOf(OPERATION_ID));
 
         operationService.modifyInstrumentStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
 
