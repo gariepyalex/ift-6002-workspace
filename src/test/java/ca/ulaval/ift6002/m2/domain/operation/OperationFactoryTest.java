@@ -15,8 +15,8 @@ import ca.ulaval.ift6002.m2.domain.operation.dangerous.HeartOperation;
 import ca.ulaval.ift6002.m2.domain.operation.dangerous.MarrowOperation;
 import ca.ulaval.ift6002.m2.domain.operation.regular.OncologicalOperation;
 import ca.ulaval.ift6002.m2.domain.operation.regular.RegularOperation;
-import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
+import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
 
 @RunWith(MockitoJUnitRunner.class)

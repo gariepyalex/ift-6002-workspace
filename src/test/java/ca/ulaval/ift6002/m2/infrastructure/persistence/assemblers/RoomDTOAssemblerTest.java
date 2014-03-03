@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.ift6002.m2.domain.operation.room.Room;
+import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.RoomDTO;
 
 public class RoomDTOAssemblerTest {
