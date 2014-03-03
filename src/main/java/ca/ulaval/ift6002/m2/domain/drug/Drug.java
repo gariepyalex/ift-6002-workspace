@@ -28,11 +28,11 @@ public class Drug {
     }
 
     public boolean hasDin() {
-        return din != null;
+        return !din.isEmpty();
     }
 
     public static Drug fromName(String name) {
-        return new Drug(null, name, "");
+        return new Drug(new Din(""), name, "");
     }
 
     @Override

@@ -26,7 +26,6 @@ import ca.ulaval.ift6002.m2.services.OperationService;
 public class OperationResource extends Resource {
 
     private static final String NO_PATIENT_FOUND = "INT002";
-    private static final String NO_PATIENT_FOUND_MESSAGE = "The patient does not exist";
 
     private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
     private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
@@ -49,7 +48,7 @@ public class OperationResource extends Resource {
         } catch (IllegalArgumentException e) {
             return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
         } catch (NoSuchElementException e) {
-            return error(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
+            return error(NO_PATIENT_FOUND, e.getMessage());
         }
     }
 
