@@ -28,7 +28,6 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
 
     @Override
     public Drug get(Din din) {
-
         DrugDTO dto = find(din.getValue());
 
         return drugDTOAssembler.fromDTO(dto);

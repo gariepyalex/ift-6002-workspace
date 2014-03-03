@@ -3,6 +3,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -38,9 +39,16 @@ public class PrescriptionDTOAssemblerTest {
     private static final DrugDTO DRUG_DTO = new DrugDTO(DIN.toString(), BRAND_NAME, DESCRIPTOR);
     private static final Drug DRUG = new Drug(DIN, BRAND_NAME, DESCRIPTOR);
 
-    private static final PrescriptionDTO PRESCRIPTION_DTO = new PrescriptionDTO(PRACTITIONER_NAME, FORMATTED_DATE,
-            RENEWALS, DRUG_DTO);
-    private static final Prescription PRESCRIPTION = new Prescription(PRACTITIONER, DATE, RENEWALS, DRUG);
+    private static final Drug DRUG_WITH_NAME = Drug.fromName(BRAND_NAME);
+
+    private static final PrescriptionDTO PRESCRIPTION_DTO_WITH_DRUGNAME = new PrescriptionDTO(PRACTITIONER_NAME,
+            FORMATTED_DATE, RENEWALS, BRAND_NAME, null);
+    private static final PrescriptionDTO PRESCRIPTION_DTO_WITH_DRUG = new PrescriptionDTO(PRACTITIONER_NAME,
+            FORMATTED_DATE, RENEWALS, "", DRUG_DTO);
+
+    private static final Prescription PRESCRIPTION_WITH_DRUG = new Prescription(PRACTITIONER, DATE, RENEWALS, DRUG);
+    private static final Prescription PRESCRIPTION_WITH_DRUGNAME = new Prescription(PRACTITIONER, DATE, RENEWALS,
+            DRUG_WITH_NAME);
 
     @Mock
     private DateFormatter dateFormatter;
@@ -60,31 +68,59 @@ public class PrescriptionDTOAssemblerTest {
     }
 
     @Test
-    public void givenPrescriptionWhenAssemblingToDTOShouldReturnCorrespondingDTO() {
-        PrescriptionDTO dtoBuilt = prescriptionAssembler.toDTO(PRESCRIPTION);
+    public void givenPrescriptionWithDrugWhenAssemblingToDTOShouldReturnCorrespondingDTO() {
+        PrescriptionDTO dtoBuilt = prescriptionAssembler.toDTO(PRESCRIPTION_WITH_DRUG);
 
-        assertPrescriptionDTOEquals(PRESCRIPTION_DTO, dtoBuilt);
+        assertPrescriptionDTOEquals(PRESCRIPTION_DTO_WITH_DRUG, dtoBuilt);
     }
 
     @Test
-    public void givenPrescriptionWhenAssemblingToDTOShouldCallDrugDTOAssembler() {
-        prescriptionAssembler.toDTO(PRESCRIPTION);
+    public void givenPrescriptionWithDrugWhenAssemblingToDTOShouldCallDrugDTOAssembler() {
+        prescriptionAssembler.toDTO(PRESCRIPTION_WITH_DRUG);
 
         verify(drugDTOAssembler).toDTO(DRUG);
     }
 
     @Test
-    public void givenPrescriptionDTOWhenFromDTOShouldReturnCorrespondingPrescription() {
-        Prescription prescriptionBuilt = prescriptionAssembler.fromDTO(PRESCRIPTION_DTO);
+    public void givenPrescriptionWithDrugNameWhenAssemblingToDTOShouldReturnCorrespondingDTO() {
+        PrescriptionDTO dtoBuilt = prescriptionAssembler.toDTO(PRESCRIPTION_WITH_DRUGNAME);
 
-        assertEquals(PRESCRIPTION, prescriptionBuilt);
+        assertPrescriptionDTOEquals(PRESCRIPTION_DTO_WITH_DRUGNAME, dtoBuilt);
     }
 
     @Test
-    public void givenPrescriptionDTOWhenFromDTOShouldCallDrugDTOAssembler() {
-        prescriptionAssembler.fromDTO(PRESCRIPTION_DTO);
+    public void givenPrescriptionWithDrugNameWhenAssemblingToDTOShouldNotCallDrugDTOAssembler() {
+        prescriptionAssembler.toDTO(PRESCRIPTION_WITH_DRUGNAME);
+
+        verify(drugDTOAssembler, times(0)).toDTO(DRUG);
+    }
+
+    @Test
+    public void givenPrescriptionDTOWithDrugWhenFromDTOShouldReturnCorrespondingPrescription() {
+        Prescription prescriptionBuilt = prescriptionAssembler.fromDTO(PRESCRIPTION_DTO_WITH_DRUG);
+
+        assertEquals(PRESCRIPTION_WITH_DRUG, prescriptionBuilt);
+    }
+
+    @Test
+    public void givenPrescriptionDTOWithDrugWhenFromDTOShouldCallDrugDTOAssembler() {
+        prescriptionAssembler.fromDTO(PRESCRIPTION_DTO_WITH_DRUG);
 
         verify(drugDTOAssembler).fromDTO(DRUG_DTO);
+    }
+
+    @Test
+    public void givenPrescriptionDTOWithDrugNameWhenFromDTOShouldReturnCorrespondingPrescription() {
+        Prescription prescriptionBuilt = prescriptionAssembler.fromDTO(PRESCRIPTION_DTO_WITH_DRUGNAME);
+
+        assertEquals(PRESCRIPTION_WITH_DRUGNAME, prescriptionBuilt);
+    }
+
+    @Test
+    public void givenPrescriptionDTOWithDrugNameWhenFromDTOShouldCallDrugDTOAssembler() {
+        prescriptionAssembler.fromDTO(PRESCRIPTION_DTO_WITH_DRUGNAME);
+
+        verify(drugDTOAssembler, times(0)).fromDTO(DRUG_DTO);
     }
 
     private void assertPrescriptionDTOEquals(PrescriptionDTO expected, PrescriptionDTO actual) {
