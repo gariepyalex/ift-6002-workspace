@@ -26,7 +26,13 @@ public class OperationResponse {
     public Integer patientNumber;
 
     protected OperationResponse() {
-
+        // Protected constructor for jaxb
+        this.surgeon = 0;
+        this.date = "";
+        this.room = "";
+        this.type = "";
+        this.status = "";
+        this.patientNumber = 0;
     }
 
     public OperationResponse(String description, Integer surgeon, String date, String room, String type, String status,

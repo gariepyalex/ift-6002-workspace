@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -97,13 +96,5 @@ public class OperationResponseAssemblerTest {
                 TYPE, INVALID_STATUS, PATIENT_NUMBER);
 
         operationAssembler.fromResponse(response);
-    }
-
-    @Test
-    public void givenNullStatusWhenFromResponseShouldBeSetToEmpty() {
-        OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
-                TYPE, null, PATIENT_NUMBER);
-        operationAssembler.fromResponse(response);
-        assertTrue(response.status.isEmpty());
     }
 }

@@ -40,15 +40,8 @@ public class OperationResponseAssembler {
         Room room = new Room(response.room);
         String description = response.description;
         OperationType type = OperationType.determineFrom(response.type);
-        OperationStatus status = getStatus(response);
+        OperationStatus status = OperationStatus.determineFrom(response.status);
 
         return operationFactory.create(type, description, surgeon, date, room, status, patient);
-    }
-
-    private OperationStatus getStatus(OperationResponse response) {
-        if (response.status == null) {
-            response.status = "";
-        }
-        return OperationStatus.determineFrom(response.status);
     }
 }
