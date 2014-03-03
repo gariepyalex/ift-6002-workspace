@@ -25,21 +25,11 @@ import ca.ulaval.ift6002.m2.services.OperationService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class OperationResource extends Resource {
 
-    private static final String MISSING_INFORMATION = "INT001";
-
     private static final String NO_PATIENT_FOUND = "INT002";
     private static final String NO_PATIENT_FOUND_MESSAGE = "The patient does not exist";
 
-    private static final String INCOMPLETE_DATA_ERROR = "INT010";
-    private static final String INCOMPLETE_DATA_MESSAGE = "Invalid or incomplete data";
-
     private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
     private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
-
-    private static final String MISSING_SERIAL_ERROR = "INT012";
-    private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
-
-    private static final String NO_OPERATION_FOUND_MESSAGE = "The operation does not exist";
 
     private final OperationResponseValidator operationValidator = new OperationResponseValidator();
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
@@ -55,7 +45,7 @@ public class OperationResource extends Resource {
 
             return redirectTo(uri, "/" + generatedNumber);
         } catch (InvalidResponseException e) {
-            return error(MISSING_INFORMATION, INCOMPLETE_DATA_MESSAGE);
+            return error(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
             return error(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
         }
@@ -72,11 +62,11 @@ public class OperationResource extends Resource {
 
             return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
         } catch (InvalidResponseException e) {
-            return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+            return error(e.getCode(), e.getMessage());
         } catch (IllegalStateException e) {
             return error(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
         } catch (NoSuchElementException e) {
-            return error(INCOMPLETE_DATA_ERROR, NO_OPERATION_FOUND_MESSAGE);
+            return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
         }
     }
 
@@ -92,11 +82,9 @@ public class OperationResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
-            // TODO catch missing serial (validateNewStatus return same
-            // exception)
-            return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+            return error(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
-            return error(INCOMPLETE_DATA_ERROR, e.getMessage());
+            return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
         }
     }
 }

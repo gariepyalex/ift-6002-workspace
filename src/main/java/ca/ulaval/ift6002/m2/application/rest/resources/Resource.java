@@ -10,6 +10,8 @@ import ca.ulaval.ift6002.m2.application.responses.ExceptionResponse;
 
 public abstract class Resource {
 
+    protected static final String NO_ELEMENT_FOUND_CODE = "LOGIC001";
+
     protected Response error(String code, String message) {
         ExceptionResponse exception = new ExceptionResponse(code, message);
 
