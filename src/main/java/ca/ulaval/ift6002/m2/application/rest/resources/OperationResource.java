@@ -18,7 +18,6 @@ import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.OperationResponseValidator;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
 @Path("/interventions")
@@ -40,10 +39,7 @@ public class OperationResource extends Resource {
     private static final String MISSING_SERIAL_ERROR = "INT012";
     private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
 
-    private static final String NO_OPERATION_FOUND = "INT020";
     private static final String NO_OPERATION_FOUND_MESSAGE = "The operation does not exist";
-
-    private static final String NO_INSTRUMENT_FOUND = "INT021";
 
     private final OperationResponseValidator operationValidator = new OperationResponseValidator();
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
@@ -71,6 +67,7 @@ public class OperationResource extends Resource {
             InstrumentResponse instrumentResponse) {
         try {
             instrumentValidator.validate(instrumentResponse);
+
             operationService.saveInstrument(noIntervention, instrumentResponse);
 
             return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
@@ -79,7 +76,7 @@ public class OperationResource extends Resource {
         } catch (IllegalStateException e) {
             return error(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
         } catch (NoSuchElementException e) {
-            return error(NO_OPERATION_FOUND, NO_OPERATION_FOUND_MESSAGE);
+            return error(INCOMPLETE_DATA_ERROR, NO_OPERATION_FOUND_MESSAGE);
         }
     }
 
@@ -95,10 +92,11 @@ public class OperationResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
+            // TODO catch missing serial (validateNewStatus return same
+            // exception)
             return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
-        } catch (InstrumentNotFoundException e) {
-            return error(NO_INSTRUMENT_FOUND, e.getMessage());
+        } catch (NoSuchElementException e) {
+            return error(INCOMPLETE_DATA_ERROR, e.getMessage());
         }
-        // TODO catch missing serial
     }
 }
