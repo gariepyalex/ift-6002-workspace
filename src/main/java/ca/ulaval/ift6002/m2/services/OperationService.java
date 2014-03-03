@@ -33,9 +33,12 @@ public class OperationService {
         this.instrumentRepository = RepositoryLocator.getInstrumentRepository();
     }
 
-    public void saveOperation(OperationResponse operationResponse) throws InvalidResponseException {
+    public Integer saveOperation(OperationResponse operationResponse) throws InvalidResponseException {
         Operation operation = operationAssembler.fromResponse(operationResponse);
+
         operationRepository.store(operation);
+
+        return operation.getNumber();
     }
 
     public void saveInstrument(String operationId, InstrumentResponse instrumentResponse) {
