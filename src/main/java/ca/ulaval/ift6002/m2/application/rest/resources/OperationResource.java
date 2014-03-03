@@ -67,11 +67,7 @@ public class OperationResource extends Resource {
     public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
             InstrumentResponse instrumentResponse) {
         try {
-            System.out.println(instrumentResponse.serial);
-            System.out.println(instrumentResponse.status);
-            System.out.println(instrumentResponse.typecode);
             instrumentValidator.validate(instrumentResponse);
-            System.out.println("passe");
             operationService.saveInstrument(noIntervention, instrumentResponse);
 
             return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
