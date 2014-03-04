@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-
 public enum OperationStatus {
     PLANNED("PLANIFIEE"), IN_PROGRESS("EN_COURS"), FINISH("TERMINE"), CANCELLED("ANNULEE"), POSTPONED("REPORTEE");
 
