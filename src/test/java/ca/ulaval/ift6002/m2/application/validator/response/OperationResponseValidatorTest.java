@@ -7,10 +7,11 @@ import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 
 public class OperationResponseValidatorTest {
 
+    private static final String INVALID = "invalid";
+
     private static final String DESCRIPTION = "description";
     private static final int SURGEON_NUMBER = 101224;
     private static final String VALID_DATE = "0000-00-00T24:01:00";
-    private static final String INVALID_DATE = "invalid";
     private static final String ROOM = "blocB";
     private static final Integer PATIENT_NUMBER = 1234;
     private static final String TYPE = "oeil";
@@ -33,14 +34,14 @@ public class OperationResponseValidatorTest {
 
     @Test(expected = InvalidResponseException.class)
     public void givenNullSurgeonWhenValidatingShouldThrowException() {
-        operationResponse = new OperationResponse(DESCRIPTION, null, INVALID_DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
+        operationResponse = new OperationResponse(DESCRIPTION, null, VALID_DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);
     }
 
     @Test(expected = InvalidResponseException.class)
     public void givenInvalidDateWhenValidatingShouldThrowException() {
-        operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, INVALID_DATE, ROOM, TYPE, STATUS,
+        operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, INVALID, ROOM, TYPE, STATUS,
                 PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);
@@ -65,6 +66,14 @@ public class OperationResponseValidatorTest {
     @Test(expected = InvalidResponseException.class)
     public void givenNullPatientWhenValidatingShouldThrowException() {
         operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, STATUS, null);
+
+        operationResponseValidator.validate(operationResponse);
+    }
+
+    @Test(expected = InvalidResponseException.class)
+    public void givenInvalidStatusWhenValidatingShouldThrowException() {
+        operationResponse = new OperationResponse(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, INVALID,
+                PATIENT_NUMBER);
 
         operationResponseValidator.validate(operationResponse);
     }

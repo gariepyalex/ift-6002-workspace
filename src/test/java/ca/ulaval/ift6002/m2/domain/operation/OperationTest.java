@@ -137,19 +137,8 @@ public class OperationTest {
     }
 
     private void buildAnOperationWithNumber() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT, OPERATION_NUMBER) {
-
-            @Override
-            protected boolean isInstrumentElligible(Instrument instrument) {
-                return true;
-            }
-
-            @Override
-            public OperationType getType() {
-                return OperationType.OTHER;
-            }
-
-        };
+        buildAnOperation();
+        operation.updateNumber(OPERATION_NUMBER);
     }
 
     private void buildAnOperationAndAddTwoInstruments() {

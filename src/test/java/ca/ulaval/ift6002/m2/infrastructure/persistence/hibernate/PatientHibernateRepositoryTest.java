@@ -2,6 +2,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -63,21 +64,21 @@ public class PatientHibernateRepositoryTest {
     public void whenStorePatientShouldCallPatientDTOAssemblerToDTO() {
         patientRepository.store(PATIENT);
 
-        verify(patientAssembler).toDTO(PATIENT);
+        verify(patientAssembler, times(1)).toDTO(PATIENT);
     }
 
     @Test
     public void whenStorePatientShouldCallEntityManagerMerge() {
         patientRepository.store(PATIENT);
 
-        verify(entityManager).merge(any(PatientDTO.class));
+        verify(entityManager, times(1)).merge(any(PatientDTO.class));
     }
 
     @Test
     public void whenGettingPatientShouldCallPatientDTOAssemblerFromDTO() {
         willReturn(PATIENT_DTO).given(entityManager).find(PatientDTO.class, PATIENT_ID);
         patientRepository.get(PATIENT_ID);
-        verify(patientAssembler).fromDTO(PATIENT_DTO);
+        verify(patientAssembler, times(1)).fromDTO(PATIENT_DTO);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -91,7 +92,7 @@ public class PatientHibernateRepositoryTest {
     public void whenGettingPatientShouldCallEntityManagerFind() {
         willReturn(PATIENT_DTO).given(entityManager).find(PatientDTO.class, PATIENT_ID);
         patientRepository.get(PATIENT_ID);
-        verify(entityManager).find(PatientDTO.class, PATIENT_ID);
+        verify(entityManager, times(1)).find(PatientDTO.class, PATIENT_ID);
     }
 
 }

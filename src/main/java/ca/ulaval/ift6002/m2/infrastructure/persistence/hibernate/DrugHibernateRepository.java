@@ -53,6 +53,7 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
     @Override
     public void store(Collection<Drug> drugs) {
         Collection<DrugDTO> dtos = drugDTOAssembler.toDTOs(drugs);
+
         merge(dtos);
     }
 }

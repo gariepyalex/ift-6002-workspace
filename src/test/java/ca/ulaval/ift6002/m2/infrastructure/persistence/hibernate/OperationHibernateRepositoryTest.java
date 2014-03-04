@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -66,9 +65,8 @@ public class OperationHibernateRepositoryTest {
     private static final OperationDTO OPERATION_DTO = new OperationDTO(FORMATTED_DATE, OPERATIONSTATUS, DESCRIPTION,
             PATIENT_DTO, INSTRUMENT_DTOS, SURGEON_DTO, ROOM_DTO, OPERATION_TYPE, OPERATION_NUMBER);
 
-    // private static final OperationDTO OPERATION_DTO =
-    // mock(OperationDTO.class);
-    private Operation OPERATION;
+    @Mock
+    private Operation operation;
 
     @Mock
     private EntityManagerProvider entityManagerProvider;
@@ -89,7 +87,6 @@ public class OperationHibernateRepositoryTest {
     public void setUp() {
         willReturn(entityManager).given(entityManagerProvider).getEntityManager();
         willReturn(transaction).given(entityManager).getTransaction();
-        OPERATION = mock(Operation.class);
     }
 
     @Test
@@ -116,27 +113,21 @@ public class OperationHibernateRepositoryTest {
     @Test
     public void whenStoreOperationShouldCallOperationDTOAssemblerToDTO() {
         willReturn(OPERATION_DTO).given(entityManager).merge(any(OperationDTO.class));
-
-        operationRepository.store(OPERATION);
-
-        verify(operationDTOAssembler).toDTO(OPERATION);
+        operationRepository.store(operation);
+        verify(operationDTOAssembler).toDTO(operation);
     }
 
     @Test
     public void whenStoreOperationShouldCallEntityManagerMerge() {
         willReturn(OPERATION_DTO).given(entityManager).merge(any(OperationDTO.class));
-
-        operationRepository.store(OPERATION);
-
+        operationRepository.store(operation);
         verify(entityManager).merge(any(OperationDTO.class));
     }
 
     @Test
     public void whenStoreOperationShouldCallUpdateOperationNumber() {
         willReturn(OPERATION_DTO).given(entityManager).merge(any(OperationDTO.class));
-
-        operationRepository.store(OPERATION);
-
-        verify(OPERATION).updateNumber(OPERATION_NUMBER);
+        operationRepository.store(operation);
+        verify(operation).updateNumber(OPERATION_NUMBER);
     }
 }
