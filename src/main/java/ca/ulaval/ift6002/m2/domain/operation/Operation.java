@@ -62,7 +62,7 @@ public abstract class Operation {
     }
 
     public boolean has(Instrument instrument) {
-        return instruments.contains(instrument);
+        return !instrument.isAnonymous() && instruments.contains(instrument);
     }
 
     public int countInstruments() {
