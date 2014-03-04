@@ -62,7 +62,23 @@ public abstract class Operation {
     }
 
     public boolean has(Instrument instrument) {
-        return !instrument.isAnonymous() && instruments.contains(instrument);
+        if (instrument.hasASerial()) {
+            if (hasAlreadySerial(instrument)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean hasAlreadySerial(Instrument instrument) {
+        for (Instrument current : instruments) {
+            if (instrument.hasSameSerial(current)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public int countInstruments() {

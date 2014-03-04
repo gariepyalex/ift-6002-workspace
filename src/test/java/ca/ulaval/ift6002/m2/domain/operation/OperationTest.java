@@ -43,14 +43,30 @@ public class OperationTest {
     private Instrument instrument;
 
     @Mock
+    private Instrument anotherInstrument;
+
+    @Mock
     private Instrument anonymousInstrument;
 
     private Operation operation;
 
     @Before
-    public void setupOperationTest() {
-        willReturn(true).given(anonymousInstrument).isAnonymous();
+    public void setUpInstrument() {
         willReturn(false).given(instrument).isAnonymous();
+        willReturn(true).given(instrument).hasASerial();
+        willReturn(true).given(instrument).hasSameSerial(instrument);
+        willReturn(false).given(instrument).hasSameSerial(anotherInstrument);
+    }
+
+    @Before
+    public void setUpAnotherInstrument() {
+        willReturn(true).given(anotherInstrument).hasASerial();
+        willReturn(false).given(anotherInstrument).hasSameSerial(instrument);
+    }
+
+    @Before
+    public void setUpAnonymousInstrument() {
+        willReturn(true).given(anonymousInstrument).isAnonymous();
     }
 
     @Test
@@ -65,6 +81,17 @@ public class OperationTest {
         buildAnOperation();
         boolean hasInstrument = operation.has(instrument);
         assertFalse(hasInstrument);
+    }
+
+    @Test
+    public void givenTwoInstrumentsWithSerialWhenCountInstrumentShouldHaveCountOfTwo() {
+        buildAnOperation();
+        operation.add(instrument);
+        operation.add(anotherInstrument);
+
+        int instrumentsCount = operation.countInstruments();
+
+        assertEquals(2, instrumentsCount);
     }
 
     @Test
