@@ -29,9 +29,11 @@ public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, Prescri
         String practitioner = prescription.getPractioner().toString();
         String date = dateFormatter.dateToString(prescription.getDate());
         Integer renewals = prescription.getRenewals();
+
         DrugDTO drugDTO = null;
         String other = "";
         Drug drug = prescription.getDrug();
+
         if (drug.hasDin()) {
             drugDTO = drugDTOAssembler.toDTO(prescription.getDrug());
         } else {
@@ -46,6 +48,7 @@ public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, Prescri
         Practitioner practitioner = new Practitioner(dto.practitioner);
         Date date = dateFormatter.parse(dto.date);
         Integer renewals = dto.renewals;
+
         Drug drug;
         if (dto.other.isEmpty()) {
             drug = drugDTOAssembler.fromDTO(dto.drugDTO);

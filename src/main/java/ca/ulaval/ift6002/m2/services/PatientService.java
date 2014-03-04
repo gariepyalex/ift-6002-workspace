@@ -22,8 +22,8 @@ public class PatientService {
         this.prescriptionAssembler = new PrescriptionResponseAssembler();
     }
 
-    public void savePrescription(String patientId, PrescriptionResponse dto) {
-        Prescription prescription = prescriptionAssembler.fromResponse(dto);
+    public void savePrescription(String patientId, PrescriptionResponse response) {
+        Prescription prescription = prescriptionAssembler.fromResponse(response);
         Patient patient = patientRepository.get(Integer.valueOf(patientId));
 
         patient.receivesPrescription(prescription);

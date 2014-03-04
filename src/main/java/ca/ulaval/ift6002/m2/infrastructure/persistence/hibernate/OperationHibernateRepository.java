@@ -10,9 +10,9 @@ public class OperationHibernateRepository extends HibernateRepository<OperationD
 
     private final OperationDTOAssembler operationAssembler;
 
-    public OperationHibernateRepository(OperationDTOAssembler operationAssembler) {
+    public OperationHibernateRepository() {
         super(OperationDTO.class);
-        this.operationAssembler = operationAssembler;
+        this.operationAssembler = new OperationDTOAssembler();
     }
 
     public OperationHibernateRepository(EntityManagerProvider entityManagerProvider,
