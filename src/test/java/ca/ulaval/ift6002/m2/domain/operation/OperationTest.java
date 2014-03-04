@@ -94,6 +94,17 @@ public class OperationTest {
         operation.add(instrument);
     }
 
+    @Test
+    public void givenInstrumentsWithoutSerialNumberWhenAddingInstrumentOperationShouldCountTwoInstruments() {
+        buildAnOperation();
+
+        operation.add(anonymousInstrument);
+        operation.add(anonymousInstrument);
+
+        int numberOfInstruments = operation.countInstruments();
+        assertEquals(2, numberOfInstruments);
+    }
+
     @Test(expected = InvalidInstrumentException.class)
     public void givenOperationWithInstrumentNotElligibleWhenAddInstrumentShouldThrowException() {
         buildAnOperationWhereInstrumentsAreNotElligible();
