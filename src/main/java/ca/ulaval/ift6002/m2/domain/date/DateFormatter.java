@@ -22,14 +22,12 @@ public class DateFormatter {
     }
 
     public static boolean isValid(String dateFormat) {
-        boolean valid = true;
-
         try {
             FORMATTER.parse(dateFormat);
-        } catch (ParseException e) {
-            valid = false;
-        }
 
-        return valid;
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }
