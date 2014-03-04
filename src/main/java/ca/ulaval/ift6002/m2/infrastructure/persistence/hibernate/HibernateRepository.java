@@ -34,28 +34,29 @@ public abstract class HibernateRepository<T> {
     }
 
     protected Collection<T> merge(Collection<T> elements) {
-        Collection<T> mergeElements = new ArrayList<T>();
+        Collection<T> mergedElements = new ArrayList<T>();
 
         beginTransaction();
 
         for (T element : elements) {
-            T mergeElement = getEntityManager().merge(element);
-            mergeElements.add(mergeElement);
+            T mergedElement = getEntityManager().merge(element);
+
+            mergedElements.add(mergedElement);
         }
 
         commitTransaction();
 
-        return mergeElements;
+        return mergedElements;
     }
 
     protected T merge(T element) {
         beginTransaction();
 
-        T mergeElement = getEntityManager().merge(element);
+        T mergedElement = getEntityManager().merge(element);
 
         commitTransaction();
 
-        return mergeElement;
+        return mergedElement;
     }
 
     protected TypedQuery<T> createQuery(String query) {
