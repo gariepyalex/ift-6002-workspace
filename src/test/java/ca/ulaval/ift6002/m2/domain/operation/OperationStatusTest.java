@@ -7,6 +7,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class OperationStatusTest {
+
+    private static final String UNEXISTING_STATUS = "invalid";
+
     private static final String CANCELLED_STRING = OperationStatus.CANCELLED.toString();
     private static final String FINISH_STRING = OperationStatus.FINISH.toString();
     private static final String IN_PROGRESS_STRING = OperationStatus.IN_PROGRESS.toString();
@@ -57,56 +60,42 @@ public class OperationStatusTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void givenUnexistingStatusStringWhenDetermineFromShouldThrowIllegalArgumentException() {
-        OperationStatus.determineFrom("UNEXISTING STATUS");
+        OperationStatus.determineFrom(UNEXISTING_STATUS);
     }
 
     @Test
     public void givenEmptyStringWhenIsValidShouldReturnTrue() {
-        boolean isValid = OperationStatus.isValid("");
-
-        assertTrue(isValid);
+        assertTrue(OperationStatus.isValid(""));
     }
 
     @Test
     public void givenCancelledStringWhenIsValidShouldReturnTrue() {
-        boolean isValid = OperationStatus.isValid(CANCELLED_STRING);
-
-        assertTrue(isValid);
+        assertTrue(OperationStatus.isValid(CANCELLED_STRING));
     }
 
     @Test
     public void givenFinishStringWhenIsValidShouldReturnTrue() {
-        boolean isValid = OperationStatus.isValid(FINISH_STRING);
-
-        assertTrue(isValid);
+        assertTrue(OperationStatus.isValid(FINISH_STRING));
     }
 
     @Test
     public void givenInProgressStringWhenIsValidShouldReturnTrue() {
-        boolean isValid = OperationStatus.isValid(IN_PROGRESS_STRING);
-
-        assertTrue(isValid);
+        assertTrue(OperationStatus.isValid(IN_PROGRESS_STRING));
     }
 
     @Test
     public void givenPlannedStringWhenIsValidShouldReturnTrue() {
-        boolean isValid = OperationStatus.isValid(PLANNED_STRING);
-
-        assertTrue(isValid);
+        assertTrue(OperationStatus.isValid(PLANNED_STRING));
     }
 
     @Test
     public void givenPostponedStringWhenIsValidShouldReturnTrue() {
-        boolean isValid = OperationStatus.isValid(POSTPONED_STRING);
-
-        assertTrue(isValid);
+        assertTrue(OperationStatus.isValid(POSTPONED_STRING));
     }
 
     @Test
     public void givenUnexistingStatusStringWhenIsValidShouldReturnFalse() {
-        boolean isValid = OperationStatus.isValid("UNEXISTING STATUS");
-
-        assertFalse(isValid);
+        assertFalse(OperationStatus.isValid(UNEXISTING_STATUS));
     }
 
 }
