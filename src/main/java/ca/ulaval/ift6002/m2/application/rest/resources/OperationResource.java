@@ -18,6 +18,7 @@ import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.OperationResponseValidator;
+import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
 @Path("/interventions")
@@ -26,6 +27,7 @@ import ca.ulaval.ift6002.m2.services.OperationService;
 public class OperationResource extends Resource {
 
     private static final String NO_PATIENT_FOUND = "INT002";
+    private static final String INVALID_INSTRUMENT = "INT030";
 
     private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
     private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
@@ -68,6 +70,8 @@ public class OperationResource extends Resource {
             return error(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
         } catch (NoSuchElementException e) {
             return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
+        } catch (InvalidInstrumentException e) {
+            return error(INVALID_INSTRUMENT, e.getMessage());
         }
     }
 
