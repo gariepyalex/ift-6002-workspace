@@ -7,6 +7,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -62,6 +63,7 @@ public class DrugHibernateRepositoryTest {
 
     @Mock
     private TypedQuery<DrugDTO> query;
+
     @Mock
     private EntityTransaction transaction;
 
@@ -72,8 +74,6 @@ public class DrugHibernateRepositoryTest {
     public void setUp() {
         willReturn(entityManager).given(entityManagerProvider).getEntityManager();
         willReturn(transaction).given(entityManager).getTransaction();
-        willReturn(DRUG_DTOS).given(drugDTOAssembler).toDTOs(DRUGS);
-        willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugDTO.class));
     }
 
     @Test
@@ -92,9 +92,9 @@ public class DrugHibernateRepositoryTest {
 
     @Test
     public void whenStoreDrugsShouldCallEntityManagerMerge() {
+        willReturn(DRUG_DTOS).given(drugDTOAssembler).toDTOs(DRUGS);
         drugRepository.store(DRUGS);
-
-        verify(entityManager).merge(any(DrugDTO.class));
+        verify(entityManager, times(DRUGS.size())).merge(any(DrugDTO.class));
     }
 
     @Test
@@ -107,29 +107,28 @@ public class DrugHibernateRepositoryTest {
     @Test(expected = NoSuchElementException.class)
     public void whenGettingUnknownDrugShouldThowException() {
         willThrow(new RuntimeException()).given(query).getSingleResult();
+
         drugRepository.get(UNKNOWN_DIN);
     }
 
     @Test
     public void whenGettingDrugShouldCallEntityManagerFind() {
         willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
-
         drugRepository.get(TYLENOL_DIN);
-
-        verify(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
+        verify(entityManager, times(1)).find(DrugDTO.class, TYLENOL_DIN.getValue());
     }
 
     @Test
     public void whenFindByBrandNameOrDescriptionShouldCallDrugFromDTOs() {
+        willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugDTO.class));
         drugRepository.findByBrandNameOrDescriptor(KEYWORD);
-
         verify(drugDTOAssembler).fromDTOs(anyCollectionOf(DrugDTO.class));
     }
 
     @Test
     public void whenFindByBrandNameOrDescriptionShouldCallTypedQueryGetResultList() {
+        willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugDTO.class));
         drugRepository.findByBrandNameOrDescriptor(KEYWORD);
-
         verify(query).getResultList();
     }
 
