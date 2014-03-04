@@ -29,7 +29,7 @@ public abstract class Operation {
 
     protected Operation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
             Patient patient) {
-        this(description, surgeon, date, room, status, patient, -1);
+        this(description, surgeon, date, room, status, patient, EMPTY_NUMBER);
 
     }
 
