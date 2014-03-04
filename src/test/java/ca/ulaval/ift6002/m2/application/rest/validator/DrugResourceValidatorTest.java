@@ -16,12 +16,12 @@ public class DrugResourceValidatorTest {
     }
 
     @Test
-    public void validateKeywordWhenValidKeywordShouldDoNothing() {
+    public void givenValidKeywordWhenValidatingShouldNotThrowException() {
         drugResourceValidator.validateKeyword(VALID_KEYWORD);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void validateKeywordWhenLessThanThreeCharactersKeywordShouldThrowException() {
+    public void givenLessThanThreeCharactersKeywordWhenValidatingShouldThrowException() {
         drugResourceValidator.validateKeyword(LESS_THAN_THREE_CHARACTERS_KEYWORD);
     }
 

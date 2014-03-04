@@ -14,7 +14,7 @@ public class OperationFactory {
 
     public Operation create(OperationType type, String description, Surgeon surgeon, Date date, Room room,
             OperationStatus status, Patient patient) {
-        return create(type, description, surgeon, date, room, status, patient, null);
+        return create(type, description, surgeon, date, room, status, patient, Operation.EMPTY_NUMBER);
     }
 
     public Operation create(OperationType type, String description, Surgeon surgeon, Date date, Room room,

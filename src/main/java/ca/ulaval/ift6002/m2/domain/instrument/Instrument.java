@@ -15,6 +15,14 @@ public class Instrument {
         this.serial = serialNumber;
     }
 
+    public boolean hasASerial() {
+        return !isAnonymous();
+    }
+
+    public boolean hasSameSerial(Instrument other) {
+        return hasSerial(other.serial);
+    }
+
     public boolean isAnonymous() {
         return serial.isEmpty();
     }

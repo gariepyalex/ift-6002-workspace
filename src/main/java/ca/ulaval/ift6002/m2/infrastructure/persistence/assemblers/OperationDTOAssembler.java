@@ -53,7 +53,11 @@ public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO>
         RoomDTO room = roomDTOAssembler.toDTO(operation.getRoom());
         SurgeonDTO surgeon = surgeonDTOAssembler.toDTO(operation.getSurgeon());
         PatientDTO patient = patientDTOAssembler.toDTO(operation.getPatient());
-        Integer number = operation.getNumber();
+        Integer number = null;
+
+        if (operation.hasNumber()) {
+            number = operation.getNumber();
+        }
 
         String description = operation.getDescription();
         String date = dateFormatter.dateToString(operation.getDate());

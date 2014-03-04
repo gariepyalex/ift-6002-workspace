@@ -27,4 +27,18 @@ public enum OperationStatus {
 
         throw new IllegalArgumentException("Operation status is not defined");
     }
+
+    public static boolean isValid(String status) {
+        if (status.isEmpty()) {
+            return true;
+        }
+
+        for (OperationStatus currentStatus : values()) {
+            if (status.equalsIgnoreCase(currentStatus.toString())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

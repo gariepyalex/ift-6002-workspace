@@ -4,9 +4,7 @@ import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
 import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
 import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
-import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
@@ -32,7 +30,7 @@ public class OperationService {
         this.instrumentAssembler = new InstrumentResponseAssembler();
     }
 
-    public Integer saveOperation(OperationResponse operationResponse) throws InvalidResponseException {
+    public Integer saveOperation(OperationResponse operationResponse) {
         Operation operation = operationAssembler.fromResponse(operationResponse);
 
         operationRepository.store(operation);
@@ -49,8 +47,7 @@ public class OperationService {
         operationRepository.store(operation);
     }
 
-    public void bookmarkInstrumentToStatus(String operationId, InstrumentResponse instrumentResponse)
-            throws InstrumentNotFoundException {
+    public void bookmarkInstrumentToStatus(String operationId, InstrumentResponse instrumentResponse) {
         Operation operation = operationRepository.get(Integer.valueOf(operationId));
         InstrumentStatus instrumentStatus = InstrumentStatus.determineFrom(instrumentResponse.status);
         Serial serial = new Serial(instrumentResponse.serial);

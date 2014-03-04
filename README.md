@@ -1,7 +1,7 @@
 ##Remise 2
 Numéro d'équipe : M2
 
-Pour la remise 1, voir le tag *remise1* sur la branche *master*.
+Pour la remise 2, voir le tag *remise2* sur la branche *master*.
 
 ###Membres :
 
@@ -35,3 +35,10 @@ Pour la remise 1, voir le tag *remise1* sur la branche *master*.
 Le port utilisé est 8080.
 
 Le Main est dans le package ca.ulaval.ift6002.m2
+
+###Notes quelconques
+Nous sommes conscient d'un petit bug en hibernate où qu'on ne peut pas stocker plusieurs 
+fois un même instrument anonyme. Ne considérant pas ceci, la story serait complétée et testée.
+
+Il faut comprendre que nous n'avons pas encore vu les tests d'intégrations, 
+alors nous avons seulement des tests unitaires. 

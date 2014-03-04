@@ -18,7 +18,7 @@ import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.OperationResponseValidator;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
+import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
 @Path("/interventions")
@@ -26,24 +26,11 @@ import ca.ulaval.ift6002.m2.services.OperationService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class OperationResource extends Resource {
 
-    private static final String MISSING_INFORMATION = "INT001";
-
     private static final String NO_PATIENT_FOUND = "INT002";
-    private static final String NO_PATIENT_FOUND_MESSAGE = "The patient does not exist";
-
-    private static final String INCOMPLETE_DATA_ERROR = "INT010";
-    private static final String INCOMPLETE_DATA_MESSAGE = "Invalid or incomplete data";
+    private static final String INVALID_INSTRUMENT = "INT030";
 
     private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
     private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
-
-    private static final String MISSING_SERIAL_ERROR = "INT012";
-    private static final String MISSING_SERIAL_MESSAGE = "Requires serial number";
-
-    private static final String NO_OPERATION_FOUND = "INT020";
-    private static final String NO_OPERATION_FOUND_MESSAGE = "The operation does not exist";
-
-    private static final String NO_INSTRUMENT_FOUND = "INT021";
 
     private final OperationResponseValidator operationValidator = new OperationResponseValidator();
     private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
@@ -59,9 +46,11 @@ public class OperationResource extends Resource {
 
             return redirectTo(uri, "/" + generatedNumber);
         } catch (InvalidResponseException e) {
-            return error(MISSING_INFORMATION, INCOMPLETE_DATA_MESSAGE);
+            return error(e.getCode(), e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
         } catch (NoSuchElementException e) {
-            return error(NO_PATIENT_FOUND, NO_PATIENT_FOUND_MESSAGE);
+            return error(NO_PATIENT_FOUND, e.getMessage());
         }
     }
 
@@ -71,15 +60,18 @@ public class OperationResource extends Resource {
             InstrumentResponse instrumentResponse) {
         try {
             instrumentValidator.validate(instrumentResponse);
+
             operationService.saveInstrument(noIntervention, instrumentResponse);
 
             return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
         } catch (InvalidResponseException e) {
-            return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
+            return error(e.getCode(), e.getMessage());
         } catch (IllegalStateException e) {
             return error(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
         } catch (NoSuchElementException e) {
-            return error(NO_OPERATION_FOUND, NO_OPERATION_FOUND_MESSAGE);
+            return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
+        } catch (InvalidInstrumentException e) {
+            return error(INVALID_INSTRUMENT, e.getMessage());
         }
     }
 
@@ -95,10 +87,9 @@ public class OperationResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
-            return error(INCOMPLETE_DATA_ERROR, INCOMPLETE_DATA_MESSAGE);
-        } catch (InstrumentNotFoundException e) {
-            return error(NO_INSTRUMENT_FOUND, e.getMessage());
+            return error(e.getCode(), e.getMessage());
+        } catch (NoSuchElementException e) {
+            return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
         }
-        // TODO catch missing serial
     }
 }

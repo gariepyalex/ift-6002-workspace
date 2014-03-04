@@ -168,6 +168,13 @@ public class OperationDTOAssemblerTest {
     }
 
     @Test
+    public void givenOperationWithNumberWhenConvertToDTOShouldCallOperationGetNumber() {
+        willReturn(true).given(operation).hasNumber();
+        operationAssembler.toDTO(operation);
+        verify(operation).getNumber();
+    }
+
+    @Test
     public void givenOperationDTOWhenConvertToOperationOperationFactoryCreateShouldBeCall() {
         operationAssembler.fromDTO(OPERATION_DTO);
 

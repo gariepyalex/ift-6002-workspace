@@ -42,6 +42,8 @@ public class RestrictedOperationTest {
         createRestrictedOperation();
 
         willReturn(false).given(instrument).isAnonymous();
+        willReturn(true).given(instrument).hasASerial();
+
         willReturn(true).given(anonymousInstrument).isAnonymous();
     }
 

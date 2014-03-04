@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentNotFoundException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
@@ -16,7 +16,9 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 public abstract class Operation {
 
-    private Integer number;
+    public static int EMPTY_NUMBER = -1;
+
+    private int number;
     private final String description;
     private final Surgeon surgeon;
     private final Date date;
@@ -27,7 +29,7 @@ public abstract class Operation {
 
     protected Operation(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
             Patient patient) {
-        this(description, surgeon, date, room, status, patient, null);
+        this(description, surgeon, date, room, status, patient, EMPTY_NUMBER);
 
     }
 
@@ -43,19 +45,40 @@ public abstract class Operation {
         this.number = number;
     }
 
-    public void bookmarkInstrumentToStatus(Serial serial, InstrumentStatus status) throws InstrumentNotFoundException {
+    public void bookmarkInstrumentToStatus(Serial serial, InstrumentStatus status) {
+        Instrument instrument = findInstrument(serial);
+
+        instrument.changeTo(status);
+    }
+
+    private Instrument findInstrument(Serial serial) {
         for (Instrument instrument : instruments) {
             if (instrument.hasSerial(serial)) {
-                instrument.changeTo(status);
-                return;
+                return instrument;
             }
         }
 
-        throw new InstrumentNotFoundException("Instrument was not found in operation " + number);
+        throw new NoSuchElementException("There are no instrument corresponding to: " + serial);
     }
 
     public boolean has(Instrument instrument) {
-        return instruments.contains(instrument);
+        if (instrument.hasASerial()) {
+            if (hasAlreadySerial(instrument)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean hasAlreadySerial(Instrument instrument) {
+        for (Instrument current : instruments) {
+            if (instrument.hasSameSerial(current)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public int countInstruments() {
@@ -88,7 +111,7 @@ public abstract class Operation {
         return instruments;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -116,7 +139,11 @@ public abstract class Operation {
         return status;
     }
 
-    public void updateNumber(Integer number) {
+    public void updateNumber(int number) {
         this.number = number;
+    }
+
+    public boolean hasNumber() {
+        return number != EMPTY_NUMBER;
     }
 }

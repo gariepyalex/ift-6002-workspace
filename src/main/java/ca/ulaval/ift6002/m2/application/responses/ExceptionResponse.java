@@ -12,6 +12,7 @@ public class ExceptionResponse {
     public final String message;
 
     protected ExceptionResponse() {
+        // Protected constructor for jaxb
         this.code = "";
         this.message = "";
     }

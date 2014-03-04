@@ -1,11 +1,13 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -38,16 +40,15 @@ public class DrugHibernateRepositoryTest {
 
     private static final Din UNKNOWN_DIN = new Din("Unknown");
 
+    private static final String A_DRUG_NAME = "A name";
+    private static final Drug DRUG_WITH_NAME = Drug.fromName(A_DRUG_NAME);
+
     private static final Drug TYLENOL = new Drug(TYLENOL_DIN, TYLENOL_BRAND_NAME, TYLENOL_DESCRIPTOR);
     private static final DrugDTO TYLENOL_DTO = new DrugDTO(TYLENOL_DIN.getValue(), TYLENOL_BRAND_NAME,
             TYLENOL_DESCRIPTOR);
 
     private static final Collection<Drug> DRUGS = Arrays.asList(TYLENOL);
     private static final Collection<DrugDTO> DRUG_DTOS = Arrays.asList(TYLENOL_DTO);
-
-    private static final String A_DRUG_NAME = "A name";
-
-    private static final String AN_UNKOWN_NAME = "Unknown";
 
     private static final String KEYWORD = "keyword";
 
@@ -62,6 +63,7 @@ public class DrugHibernateRepositoryTest {
 
     @Mock
     private TypedQuery<DrugDTO> query;
+
     @Mock
     private EntityTransaction transaction;
 
@@ -72,27 +74,13 @@ public class DrugHibernateRepositoryTest {
     public void setUp() {
         willReturn(entityManager).given(entityManagerProvider).getEntityManager();
         willReturn(transaction).given(entityManager).getTransaction();
-        willReturn(DRUG_DTOS).given(drugDTOAssembler).toDTOs(DRUGS);
-        willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugDTO.class));
     }
 
     @Test
-    public void whenGettingDrugByNameShouldCallDrugAssemblerFromDTO() {
-        willReturn(TYLENOL_DTO).given(query).getSingleResult();
-        drugRepository.get(A_DRUG_NAME);
-        verify(drugDTOAssembler).fromDTO(TYLENOL_DTO);
-    }
+    public void whenGettingDrugByNameShouldReturnDrugWithName() {
+        Drug drugBuilt = drugRepository.get(A_DRUG_NAME);
 
-    @Test(expected = NoSuchElementException.class)
-    public void whenGettingUnknownDrugNameShouldThowException() {
-        willThrow(new RuntimeException()).given(query).getSingleResult();
-        drugRepository.get(AN_UNKOWN_NAME);
-    }
-
-    @Test
-    public void whenGettingDrugByNameShouldCallQueryGetSingleResult() {
-        drugRepository.get(A_DRUG_NAME);
-        verify(query).getSingleResult();
+        assertEquals(DRUG_WITH_NAME, drugBuilt);
     }
 
     @Test
@@ -104,14 +92,14 @@ public class DrugHibernateRepositoryTest {
 
     @Test
     public void whenStoreDrugsShouldCallEntityManagerMerge() {
+        willReturn(DRUG_DTOS).given(drugDTOAssembler).toDTOs(DRUGS);
         drugRepository.store(DRUGS);
-
-        verify(entityManager).persist(any(DrugDTO.class));
+        verify(entityManager, times(DRUGS.size())).merge(any(DrugDTO.class));
     }
 
     @Test
     public void whenGettingDrugShouldCallDrugAssemblerFromDTO() {
-        willReturn(TYLENOL_DTO).given(query).getSingleResult();
+        willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
         drugRepository.get(TYLENOL_DIN);
         verify(drugDTOAssembler).fromDTO(TYLENOL_DTO);
     }
@@ -119,26 +107,28 @@ public class DrugHibernateRepositoryTest {
     @Test(expected = NoSuchElementException.class)
     public void whenGettingUnknownDrugShouldThowException() {
         willThrow(new RuntimeException()).given(query).getSingleResult();
+
         drugRepository.get(UNKNOWN_DIN);
     }
 
     @Test
-    public void whenGettingDrugShouldCallQueryGetSingleResult() {
+    public void whenGettingDrugShouldCallEntityManagerFind() {
+        willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
         drugRepository.get(TYLENOL_DIN);
-        verify(query).getSingleResult();
+        verify(entityManager, times(1)).find(DrugDTO.class, TYLENOL_DIN.getValue());
     }
 
     @Test
     public void whenFindByBrandNameOrDescriptionShouldCallDrugFromDTOs() {
+        willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugDTO.class));
         drugRepository.findByBrandNameOrDescriptor(KEYWORD);
-
         verify(drugDTOAssembler).fromDTOs(anyCollectionOf(DrugDTO.class));
     }
 
     @Test
     public void whenFindByBrandNameOrDescriptionShouldCallTypedQueryGetResultList() {
+        willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugDTO.class));
         drugRepository.findByBrandNameOrDescriptor(KEYWORD);
-
         verify(query).getResultList();
     }
 

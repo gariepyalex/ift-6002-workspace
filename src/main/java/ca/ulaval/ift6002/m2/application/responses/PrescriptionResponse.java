@@ -22,14 +22,6 @@ public class PrescriptionResponse {
     @XmlElement(name = "nom")
     public final String name;
 
-    public PrescriptionResponse(String practitioner, String date, Integer renewals, String din, String name) {
-        this.practitioner = practitioner;
-        this.date = date;
-        this.renewals = renewals;
-        this.din = din;
-        this.name = name;
-    }
-
     protected PrescriptionResponse() {
         // Protected constructor for jaxb
         this.practitioner = "";
@@ -37,6 +29,14 @@ public class PrescriptionResponse {
         this.renewals = 0;
         this.din = "";
         this.name = "";
+    }
+
+    public PrescriptionResponse(String practitioner, String date, Integer renewals, String din, String name) {
+        this.practitioner = practitioner;
+        this.date = date;
+        this.renewals = renewals;
+        this.din = din;
+        this.name = name;
     }
 
 }

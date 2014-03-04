@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
-import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
@@ -19,10 +18,14 @@ public class InstrumentResponseAssemblerTest {
     private static final InstrumentStatus STATUS = InstrumentStatus.SOILED;
 
     private static final Instrument INSTRUMENT = new Instrument(TYPECODE, STATUS, SERIAL);
+
     private static final String RESPONSE_TYPECODE = "typecode";
     private static final String RESPONSE_SERIAL = "serial";
+
     private static final InstrumentResponse INSTRUMENT_RESPONSE = new InstrumentResponse(RESPONSE_TYPECODE,
             STATUS.toString(), RESPONSE_SERIAL);
+    private static final InstrumentResponse INSTRUMENT_RESPONSE_WITH_UNEXISTING_STATUS = new InstrumentResponse(
+            RESPONSE_TYPECODE, "an unexisting status", RESPONSE_SERIAL);
 
     private InstrumentResponseAssembler instrumentAssembler;
 
@@ -32,9 +35,14 @@ public class InstrumentResponseAssemblerTest {
     }
 
     @Test
-    public void givenInstrumentResponseWhenConvertToInstrumentShouldReturnGivenInstrument()
-            throws InvalidResponseException {
+    public void givenResponseWhenConvertToInstrumentShouldReturnGivenInstrument() {
         Instrument instrumentBuilt = instrumentAssembler.fromResponse(INSTRUMENT_RESPONSE);
+
         assertEquals(INSTRUMENT, instrumentBuilt);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void givenResponseWithUnexistingStatusWhenConvertToInstrumentShouldThrowException() {
+        instrumentAssembler.fromResponse(INSTRUMENT_RESPONSE_WITH_UNEXISTING_STATUS);
     }
 }

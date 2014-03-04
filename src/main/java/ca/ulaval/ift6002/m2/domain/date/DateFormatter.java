@@ -21,4 +21,13 @@ public class DateFormatter {
         return FORMATTER.format(date.getTime());
     }
 
+    public static boolean isValid(String dateFormat) {
+        try {
+            FORMATTER.parse(dateFormat);
+
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 }

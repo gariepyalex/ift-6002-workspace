@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.persistence.TypedQuery;
 
@@ -17,9 +16,9 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
 
     private final DrugDTOAssembler drugDTOAssembler;
 
-    public DrugHibernateRepository(DrugDTOAssembler drugAssembler) {
+    public DrugHibernateRepository() {
         super(DrugDTO.class);
-        this.drugDTOAssembler = drugAssembler;
+        this.drugDTOAssembler = new DrugDTOAssembler();
     }
 
     public DrugHibernateRepository(EntityManagerProvider entityManagerProvider, DrugDTOAssembler drugAssembler) {
@@ -29,37 +28,14 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
 
     @Override
     public Drug get(Din din) {
-
-        String query = "FROM DrugDTO WHERE din = :din";
-        TypedQuery<DrugDTO> typedQuery = createQuery(query);
-
-        typedQuery.setParameter("din", din.getValue());
-
-        DrugDTO dto;
-        try {
-            dto = typedQuery.getSingleResult();
-        } catch (Exception e) {
-            throw new NoSuchElementException("There is no drug with din: " + din.getValue());
-        }
+        DrugDTO dto = find(din.getValue());
 
         return drugDTOAssembler.fromDTO(dto);
     }
 
     @Override
     public Drug get(String name) {
-        String query = "FROM DrugDTO WHERE brandName = :brandName";
-        TypedQuery<DrugDTO> typedQuery = createQuery(query);
-
-        typedQuery.setParameter("brandName", name);
-
-        DrugDTO dto;
-        try {
-            dto = typedQuery.getSingleResult();
-        } catch (Exception e) {
-            throw new NoSuchElementException("There is no drug with name: " + name);
-        }
-
-        return drugDTOAssembler.fromDTO(dto);
+        return Drug.fromName(name);
     }
 
     @Override
@@ -77,6 +53,7 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
     @Override
     public void store(Collection<Drug> drugs) {
         Collection<DrugDTO> dtos = drugDTOAssembler.toDTOs(drugs);
-        persist(dtos);
+
+        merge(dtos);
     }
 }
