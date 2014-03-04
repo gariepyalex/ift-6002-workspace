@@ -23,7 +23,7 @@ public abstract class RestrictedOperation extends Operation {
 
     @Override
     protected boolean isInstrumentElligible(Instrument instrument) {
-        return !instrument.isAnonymous();
+        return instrument.hasASerial();
     }
 
 }
