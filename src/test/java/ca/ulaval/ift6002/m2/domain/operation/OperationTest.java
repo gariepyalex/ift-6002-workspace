@@ -2,6 +2,7 @@ package ca.ulaval.ift6002.m2.domain.operation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.verify;
 
@@ -33,6 +34,7 @@ public class OperationTest {
     private static final Surgeon SURGEON = new Surgeon(12345);
     private static final Date DATE = new Date();
     private static final Patient PATIENT = new Patient(12345);
+    private static final int OPERATION_NUMBER = 1;
 
     private static final Serial A_SERIAL = new Serial("abc");
     private static final InstrumentStatus AN_INSTRUMENT_STATUS = InstrumentStatus.SOILED;
@@ -106,8 +108,36 @@ public class OperationTest {
         assertEquals(2, instrumentsCount);
     }
 
+    @Test
+    public void givenOperationShouldNotHaveNumber() {
+        buildAnOperation();
+        assertFalse(operation.hasNumber());
+    }
+
+    @Test
+    public void givenOperationShouldHaveNumber() {
+        buildAnOperationWithNumber();
+        assertTrue(operation.hasNumber());
+    }
+
     private void buildAnOperation() {
         operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
+
+            @Override
+            protected boolean isInstrumentElligible(Instrument instrument) {
+                return true;
+            }
+
+            @Override
+            public OperationType getType() {
+                return OperationType.OTHER;
+            }
+
+        };
+    }
+
+    private void buildAnOperationWithNumber() {
+        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT, OPERATION_NUMBER) {
 
             @Override
             protected boolean isInstrumentElligible(Instrument instrument) {
