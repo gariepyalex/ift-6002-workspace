@@ -28,11 +28,11 @@ public class OperationResponseValidator implements ResponseValidator<OperationRe
             throw new InvalidResponseException(MISSING_INFORMATION, "Room is empty");
         }
 
-        if (isTypeInvalid(response.type)) {
+        if (!OperationType.isValid(response.type)) {
             throw new InvalidResponseException(MISSING_INFORMATION, "Type is invalid");
         }
 
-        if (isStatusInvalid(response.status)) {
+        if (!OperationStatus.isValid(response.status)) {
             throw new InvalidResponseException(MISSING_INFORMATION, "Status is invalid");
         }
 
@@ -40,13 +40,4 @@ public class OperationResponseValidator implements ResponseValidator<OperationRe
             throw new InvalidResponseException(MISSING_INFORMATION, "Patient number is missing");
         }
     }
-
-    private boolean isStatusInvalid(String status) {
-        return !OperationStatus.isValid(status);
-    }
-
-    private boolean isTypeInvalid(String type) {
-        return !OperationType.isValid(type);
-    }
-
 }

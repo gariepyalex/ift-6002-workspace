@@ -14,7 +14,7 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
             throw new InvalidResponseException(INCOMPLETE_DATA_ERROR, "Typecode must not be empty");
         }
 
-        if (isStatusNotValid(response)) {
+        if (!InstrumentStatus.isValid(response.status)) {
             throw new InvalidResponseException(INCOMPLETE_DATA_ERROR, "The status value is not valid");
         }
     }
@@ -24,12 +24,8 @@ public class InstrumentResponseValidator implements ResponseValidator<Instrument
             throw new InvalidResponseException(MISSING_SERIAL_ERROR, "Serial must not be empty");
         }
 
-        if (isStatusNotValid(response)) {
+        if (!InstrumentStatus.isValid(response.status)) {
             throw new InvalidResponseException(INCOMPLETE_DATA_ERROR, "The status value is not valid");
         }
-    }
-
-    private boolean isStatusNotValid(InstrumentResponse response) {
-        return !InstrumentStatus.isValid(response.status);
     }
 }
