@@ -45,6 +45,14 @@ public class Main {
         RepositoryLocator.load(repositoryLocator);
     }
 
+    private static EntityManager setUpEntityManager() {
+        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManagerProvider.setEntityManager(entityManager);
+
+        return entityManager;
+    }
+
     private static void fillDrugRepository(EntityManager entityManager) {
         FileReader<String[]> fileReader = new CSVFileReader();
         FileParser<Drug> drugParser = new CSVDrugParser(fileReader);
@@ -62,11 +70,4 @@ public class Main {
         EntityManagerFactoryProvider.getFactory().close();
     }
 
-    private static EntityManager setUpEntityManager() {
-        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
-
-        return entityManager;
-    }
 }
