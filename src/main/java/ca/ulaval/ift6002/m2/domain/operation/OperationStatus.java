@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
+
 public enum OperationStatus {
     PLANNED("PLANIFIEE"), IN_PROGRESS("EN_COURS"), FINISH("TERMINE"), CANCELLED("ANNULEE"), POSTPONED("REPORTEE");
 
@@ -26,5 +27,19 @@ public enum OperationStatus {
         }
 
         throw new IllegalArgumentException("Operation status is not defined");
+    }
+
+    public static boolean isValid(String status) {
+        if (status.isEmpty()) {
+            return true;
+        }
+
+        for (OperationStatus currentStatus : values()) {
+            if (status.equalsIgnoreCase(currentStatus.toString())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -28,4 +28,14 @@ public enum OperationType {
 
         throw new IllegalArgumentException("Operation type is not defined");
     }
+
+    public static boolean isValid(String status) {
+        for (OperationType currentStatus : values()) {
+            if (status.equalsIgnoreCase(currentStatus.toString())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
