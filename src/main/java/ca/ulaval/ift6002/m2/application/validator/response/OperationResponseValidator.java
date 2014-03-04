@@ -33,7 +33,7 @@ public class OperationResponseValidator implements ResponseValidator<OperationRe
         }
 
         if (isStatusInvalid(response.status)) {
-            throw new InvalidResponseException(MISSING_INFORMATION, "Statis is invalid");
+            throw new InvalidResponseException(MISSING_INFORMATION, "Status is invalid");
         }
 
         if (response.patientNumber == null) {
