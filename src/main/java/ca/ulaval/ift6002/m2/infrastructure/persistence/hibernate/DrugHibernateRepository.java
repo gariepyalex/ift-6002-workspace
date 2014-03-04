@@ -16,9 +16,9 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
 
     private final DrugDTOAssembler drugDTOAssembler;
 
-    public DrugHibernateRepository(DrugDTOAssembler drugAssembler) {
+    public DrugHibernateRepository() {
         super(DrugDTO.class);
-        this.drugDTOAssembler = drugAssembler;
+        this.drugDTOAssembler = new DrugDTOAssembler();
     }
 
     public DrugHibernateRepository(EntityManagerProvider entityManagerProvider, DrugDTOAssembler drugAssembler) {

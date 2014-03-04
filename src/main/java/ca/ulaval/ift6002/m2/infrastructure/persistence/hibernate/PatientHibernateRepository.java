@@ -10,9 +10,9 @@ public class PatientHibernateRepository extends HibernateRepository<PatientDTO> 
 
     private final PatientDTOAssembler patientAssembler;
 
-    public PatientHibernateRepository(PatientDTOAssembler patientAssembler) {
+    public PatientHibernateRepository() {
         super(PatientDTO.class);
-        this.patientAssembler = patientAssembler;
+        this.patientAssembler = new PatientDTOAssembler();
     }
 
     public PatientHibernateRepository(EntityManagerProvider entityManagerProvider, PatientDTOAssembler patientAssembler) {
