@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class LineFileReader implements FileReader<String> {
+public class ByLineFileReader implements FileReader<String> {
 
     @Override
     public List<String> readAll(String filePath) {

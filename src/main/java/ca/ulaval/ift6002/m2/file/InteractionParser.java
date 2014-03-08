@@ -8,18 +8,18 @@ import ca.ulaval.ift6002.m2.domain.patient.Interaction;
 
 public class InteractionParser implements FileParser<Interaction> {
 
-    private static final String DATA_FILE_PATH = "/interaction.txt";
+    private static final String DATA_FILE_PATH = "/InteractionDTO.txt";
     private static final String REGEX_SEPARATOR = "=>|,";
 
-    private final FileReader<String> interactionFileReader;
+    private final FileReader<String> InteractionFileReader;
 
-    public InteractionParser(FileReader<String> interactionFileReader) {
-        this.interactionFileReader = interactionFileReader;
+    public InteractionParser(FileReader<String> InteractionDTOFileReader) {
+        this.InteractionFileReader = InteractionDTOFileReader;
     }
 
     @Override
     public List<Interaction> parse() {
-        List<String> lines = interactionFileReader.readAll(DATA_FILE_PATH);
+        List<String> lines = InteractionFileReader.readAll(DATA_FILE_PATH);
         List<Interaction> interactions = parseLinesToInteractions(lines);
         return interactions;
     }

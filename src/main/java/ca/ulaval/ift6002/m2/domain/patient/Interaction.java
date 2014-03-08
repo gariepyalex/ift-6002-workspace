@@ -9,25 +9,17 @@ import ca.ulaval.ift6002.m2.domain.drug.Din;
 
 public class Interaction {
 
-    private final Din din;
+    private final Din dinFromWhichInteractionsAreChecked;
     private final List<Din> interactingDins;
 
     public Interaction(Din din, List<Din> interactingDins) {
-        this.din = din;
+        this.dinFromWhichInteractionsAreChecked = din;
         this.interactingDins = interactingDins;
-    }
-
-    public Din getDin() {
-        return din;
-    }
-
-    public List<Din> getInteractingDins() {
-        return interactingDins;
     }
 
     @Override
     public String toString() {
-        return "Din: " + din;
+        return "Din: " + dinFromWhichInteractionsAreChecked;
     }
 
     @Override
@@ -40,4 +32,17 @@ public class Interaction {
         return EqualsBuilder.reflectionEquals(this, obj);
 
     }
+
+    public boolean isInteractingWith(Din dinToCheck) {
+        return interactingDins.contains(dinToCheck);
+    }
+
+    public Din getDinFromWhichInteractionsAreChecked() {
+        return dinFromWhichInteractionsAreChecked;
+    }
+
+    public List<Din> getInteractingDins() {
+        return interactingDins;
+    }
+
 }
