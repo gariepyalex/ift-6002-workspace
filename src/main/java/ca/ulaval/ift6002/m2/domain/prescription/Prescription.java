@@ -1,5 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.prescription;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -13,12 +15,14 @@ public class Prescription {
     private final Date date;
     private final int renewals;
     private final Drug drug;
+    private final Collection<Consumption> consumptions;
 
     public Prescription(Practitioner practitioner, Date date, int renewals, Drug drug) {
         this.practitioner = practitioner;
         this.date = date;
         this.renewals = renewals;
         this.drug = drug;
+        this.consumptions = new ArrayList<>();
     }
 
     public Practitioner getPractioner() {
@@ -35,6 +39,36 @@ public class Prescription {
 
     public Drug getDrug() {
         return drug;
+    }
+
+    public Collection<Consumption> getConsumptions() {
+        return consumptions;
+    }
+
+    public void addConsumption(Consumption consumption) {
+        if (hasEnoughRenewalsFor(consumption)) {
+            consumptions.add(consumption);
+        } else {
+            throw new NotEnoughRenewalsException("Consumption request: " + consumption.getCount()
+                    + ", but remaining renewals: " + remainingRenewals());
+        }
+    }
+
+    private boolean hasEnoughRenewalsFor(Consumption consumption) {
+        return (remainingRenewals() > consumption.getCount());
+    }
+
+    public int remainingRenewals() {
+        return (renewals - consumptionsCount());
+    }
+
+    private int consumptionsCount() {
+        int count = 0;
+        for (Consumption consumption : consumptions) {
+            count += consumption.getCount();
+        }
+
+        return count;
     }
 
     @Override
