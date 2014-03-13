@@ -16,7 +16,7 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 public abstract class Operation {
 
-    public static int EMPTY_NUMBER = -1;
+    public static final int EMPTY_NUMBER = -1;
 
     private int number;
     private final String description;
