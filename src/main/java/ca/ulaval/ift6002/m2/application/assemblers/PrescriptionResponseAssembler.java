@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
+import java.util.Collection;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
@@ -36,6 +37,17 @@ public class PrescriptionResponseAssembler {
         return new PrescriptionResponse(practitioner, formattedDate, renewals, din, brandName);
     }
 
+    public PrescriptionResponse[] toResponses(Collection<Prescription> prescriptions) {
+        PrescriptionResponse[] prescriptionResponses = new PrescriptionResponse[prescriptions.size()];
+        int i = 0;
+
+        for (Prescription prescription : prescriptions) {
+            prescriptionResponses[i++] = toResponse(prescription);
+        }
+
+        return prescriptionResponses;
+    }
+
     public Prescription fromResponse(PrescriptionResponse response) {
         Practitioner practitioner = new Practitioner(response.practitioner);
         Date parsedDate = dateFormatter.parse(response.date);
@@ -57,4 +69,5 @@ public class PrescriptionResponseAssembler {
     private boolean isDinSpecified(PrescriptionResponse response) {
         return !response.din.trim().isEmpty();
     }
+
 }

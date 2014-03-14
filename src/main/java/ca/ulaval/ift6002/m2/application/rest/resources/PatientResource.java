@@ -3,6 +3,7 @@ package ca.ulaval.ift6002.m2.application.rest.resources;
 import java.util.NoSuchElementException;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,17 +18,17 @@ import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseExcept
 import ca.ulaval.ift6002.m2.application.validator.response.PrescriptionResponseValidator;
 import ca.ulaval.ift6002.m2.services.PatientService;
 
-@Path("/patient/")
+@Path("/patient/{patientId}/prescriptions")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PatientResource extends Resource {
 
     private final PatientService patientService = new PatientService();
+    private final String NO_PATIENT_FOUND = "PRES010";
 
     private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
 
     @POST
-    @Path("{patientId}/prescriptions")
     public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
             PrescriptionResponse response) {
         try {
@@ -41,7 +42,17 @@ public class PatientResource extends Resource {
         } catch (NoSuchElementException e) {
             return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
         }
-
     }
 
+    @GET
+    public Response findPrescriptions(@PathParam("patientId") String patientId) {
+        try {
+            PrescriptionResponse[] responses = patientService.loadPrescription(patientId);
+            return Response.ok(responses).build();
+
+        } catch (NoSuchElementException e) {
+            return error(NO_PATIENT_FOUND, e.getMessage());
+        }
+
+    }
 }

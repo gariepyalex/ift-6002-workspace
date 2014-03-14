@@ -1,9 +1,9 @@
 package ca.ulaval.ift6002.m2.services;
 
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.Before;
@@ -28,13 +28,15 @@ public class PatientServiceTest {
 
     private static final int PATIENT_ID_AS_INT = 1212;
 
-    private static final Patient PATIENT = new Patient(PATIENT_ID_AS_INT);
-
     private static final Practitioner PRACTITIONER = new Practitioner("");
     private static final Date DATE = new Date();
     private static final Drug DRUG = Drug.fromName("a name");
     private static final Prescription PRESCRIPTION = new Prescription(PRACTITIONER, DATE, 0, DRUG);
     private static final PrescriptionResponse RESPONSE = new PrescriptionResponse("", "", 0, "", "");
+    private static final ArrayList<Prescription> prescriptionList = new ArrayList<Prescription>();
+
+    @Mock
+    private Patient patient;
 
     @Mock
     private PatientRepository patientRepository;
@@ -48,28 +50,42 @@ public class PatientServiceTest {
     @Before
     public void setUp() {
         willReturn(PRESCRIPTION).given(prescriptionAssembler).fromResponse(RESPONSE);
-        willReturn(PATIENT).given(patientRepository).get(PATIENT_ID_AS_INT);
+        willReturn(patient).given(patientRepository).get(PATIENT_ID_AS_INT);
+        willReturn(prescriptionList).given(patient).getPrescriptions();
     }
 
     @Test
     public void whenSavePrescriptionToPatientShouldConvertResponseToPrescription() {
         patientService.savePrescription(PATIENT_ID_AS_STRING, RESPONSE);
 
-        verify(prescriptionAssembler, times(1)).fromResponse(RESPONSE);
+        verify(prescriptionAssembler).fromResponse(RESPONSE);
     }
 
     @Test
     public void whenSavePrescriptionToPatientShouldRetrievePatientFromRepository() {
         patientService.savePrescription(PATIENT_ID_AS_STRING, RESPONSE);
 
-        verify(patientRepository, times(1)).get(PATIENT_ID_AS_INT);
+        verify(patientRepository).get(PATIENT_ID_AS_INT);
     }
 
     @Test
     public void whenSavePrescriptionToPatientShouldStoreInRepository() {
         patientService.savePrescription(PATIENT_ID_AS_STRING, RESPONSE);
 
-        verify(patientRepository, times(1)).store(PATIENT);
+        verify(patientRepository).store(patient);
     }
 
+    @Test
+    public void whenLoadPrescriptionShouldLoadPatientFromRepository() {
+        patientService.loadPrescription(PATIENT_ID_AS_STRING);
+
+        verify(patientRepository).get(PATIENT_ID_AS_INT);
+    }
+
+    @Test
+    public void whenLoadPrescriptionShouldConvertPrescriptionsToResponse() {
+        patientService.loadPrescription(PATIENT_ID_AS_STRING);
+
+        verify(prescriptionAssembler).toResponses(prescriptionList);
+    }
 }
