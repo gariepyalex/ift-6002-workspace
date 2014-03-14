@@ -12,10 +12,14 @@ public abstract class Resource {
 
     protected static final String NO_ELEMENT_FOUND_CODE = "LOGIC001";
 
-    protected Response error(String code, String message) {
+    protected Response errorBadRequest(String code, String message) {
+        return error(code, message, Status.BAD_REQUEST);
+    }
+
+    protected Response error(String code, String message, Status status) {
         ExceptionResponse exception = new ExceptionResponse(code, message);
 
-        return Response.status(Status.BAD_REQUEST).entity(exception).build();
+        return Response.status(status).entity(exception).build();
     }
 
     protected Response success() {

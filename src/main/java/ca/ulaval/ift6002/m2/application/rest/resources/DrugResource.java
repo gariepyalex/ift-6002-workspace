@@ -39,7 +39,7 @@ public class DrugResource extends Resource {
 
             return Response.ok(dtos).build();
         } catch (IllegalArgumentException e) {
-            return error(INVALID_SEARCH_ERROR_CODE, e.getMessage());
+            return errorBadRequest(INVALID_SEARCH_ERROR_CODE, e.getMessage());
         }
     }
 

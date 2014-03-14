@@ -10,11 +10,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.PrescriptionResponseValidator;
+import ca.ulaval.ift6002.m2.domain.patient.DeadPatientException;
 import ca.ulaval.ift6002.m2.services.PatientService;
 
 @Path("/patient/")
@@ -22,8 +24,9 @@ import ca.ulaval.ift6002.m2.services.PatientService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PatientResource extends Resource {
 
-    private final PatientService patientService = new PatientService();
+    private static final String DEAD_PATIENT_CODE = "PATDCD";
 
+    private final PatientService patientService = new PatientService();
     private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
 
     @POST
@@ -37,9 +40,11 @@ public class PatientResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
-            return error(e.getCode(), e.getMessage());
+            return errorBadRequest(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
-            return error(NO_ELEMENT_FOUND_CODE, e.getMessage());
+            return errorBadRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
+        } catch (DeadPatientException e) {
+            return error(DEAD_PATIENT_CODE, e.getMessage(), Status.GONE);
         }
 
     }
