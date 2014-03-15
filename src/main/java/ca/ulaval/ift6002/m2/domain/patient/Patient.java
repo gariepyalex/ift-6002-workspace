@@ -32,7 +32,7 @@ public class Patient {
     }
 
     public void receivesPrescription(Prescription prescription) {
-        if(isDead){
+        if (isDead) {
             throw new DeadPatientException();
         }
         prescriptions.add(prescription);

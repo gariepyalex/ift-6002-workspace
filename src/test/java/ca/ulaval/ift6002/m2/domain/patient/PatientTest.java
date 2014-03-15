@@ -49,12 +49,12 @@ public class PatientTest {
 
         assertEquals(2, prescriptionsCount);
     }
-    
+
     @Test(expected = DeadPatientException.class)
     public void givenDeadPatientWhenAddingPrescriptionShouldThrow() {
         Patient deadPatient = new Patient(DEAD_PATIENT_NUMBER);
         deadPatient.noteDeath();
-        
+
         deadPatient.receivesPrescription(prescription);
     }
 }
