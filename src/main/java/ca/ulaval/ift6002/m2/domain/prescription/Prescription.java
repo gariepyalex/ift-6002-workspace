@@ -25,6 +25,10 @@ public class Prescription {
         this.consumptions = new ArrayList<>();
     }
 
+    public int getNumber() {
+        return 1; // todo: en attendant de mettre un membre privé
+    }
+
     public Practitioner getPractioner() {
         return practitioner;
     }

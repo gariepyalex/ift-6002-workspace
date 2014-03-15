@@ -71,7 +71,7 @@ public class PatientResource extends Resource {
         try {
             consumptionValidator.validate(response);
 
-            // prescription.addConsumption(...)
+            patientService.addConsumption(patientId, prescriptionId, response);
 
             return success();
         } catch (InvalidResponseException e) {

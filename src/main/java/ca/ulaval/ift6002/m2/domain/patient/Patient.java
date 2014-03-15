@@ -6,7 +6,10 @@ import java.util.Collection;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+
+import com.sun.jersey.api.NotFoundException;
 
 public class Patient {
 
@@ -36,6 +39,20 @@ public class Patient {
             throw new DeadPatientException();
         }
         prescriptions.add(prescription);
+    }
+
+    public void consumePrescription(int prescriptionNumber, Consumption consumption) {
+        Prescription prescription = getPrescription(prescriptionNumber);
+        prescription.addConsumption(consumption);
+    }
+
+    private Prescription getPrescription(int prescriptionNumber) {
+        for (Prescription prescription : prescriptions) {
+            if (prescription.getNumber() == prescriptionNumber) {
+                return prescription;
+            }
+        }
+        throw new NotFoundException("No prescription found for number: " + prescriptionNumber);
     }
 
     public int countPrescriptions() {
