@@ -3,6 +3,8 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Before;
@@ -43,6 +45,9 @@ public class PrescriptionResponseAssemblerTest {
 
     private static final PrescriptionResponse PRESCRIPTION_RESPONSE = new PrescriptionResponse(
             A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS, A_VALID_DIN.toString(), A_BRAND_NAME);
+
+    private static final Collection<Prescription> PRESCRIPTIONS = Arrays.asList(PRESCRIPTION);
+    private static final PrescriptionResponse[] PRESCRIPTION_RESPONSES = { PRESCRIPTION_RESPONSE };
 
     @Mock
     private DrugRepository drugRepository;
@@ -85,6 +90,19 @@ public class PrescriptionResponseAssemblerTest {
                 A_RENEWALS, AN_EMPTY_DIN.toString(), A_BRAND_NAME);
         Prescription returnedPrescription = prescriptionAssembler.fromResponse(response);
         assertEquals(PRESCRIPTION_WITH_INCOMPLETE_DRUG, returnedPrescription);
+    }
+
+    @Test
+    public void whenGivenCollectionOfPrescriptionsShouldConvertToCollectionOfPrescriptionResponse() {
+        PrescriptionResponse[] prescriptionsResponseBuilt = prescriptionAssembler.toResponses(PRESCRIPTIONS);
+
+        assertResponsesEquals(PRESCRIPTION_RESPONSES, prescriptionsResponseBuilt);
+    }
+
+    private void assertResponsesEquals(PrescriptionResponse[] expected, PrescriptionResponse[] actual) {
+        for (int i = 0; i < expected.length; i++) {
+            assertResponseEquals(expected[i], actual[i]);
+        }
     }
 
     private void assertResponseEquals(PrescriptionResponse expected, PrescriptionResponse actual) {

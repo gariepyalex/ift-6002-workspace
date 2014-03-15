@@ -35,11 +35,11 @@ public class DrugResource extends Resource {
             drugValidator.validateKeyword(keyword);
 
             Collection<Drug> drugsFound = drugRepository.findByBrandNameOrDescriptor(keyword);
-            DrugResponse[] dtos = drugAssembler.toResponses(drugsFound);
+            DrugResponse[] responses = drugAssembler.toResponses(drugsFound);
 
-            return Response.ok(dtos).build();
+            return Response.ok(responses).build();
         } catch (IllegalArgumentException e) {
-            return error(INVALID_SEARCH_ERROR_CODE, e.getMessage());
+            return errorBadRequest(INVALID_SEARCH_ERROR_CODE, e.getMessage());
         }
     }
 

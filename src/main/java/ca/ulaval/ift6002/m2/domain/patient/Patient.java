@@ -12,6 +12,7 @@ public class Patient {
 
     private final int number;
     private final Collection<Prescription> prescriptions;
+    private boolean isDead;
 
     public Patient(int number) {
         this(number, new ArrayList<Prescription>());
@@ -31,6 +32,9 @@ public class Patient {
     }
 
     public void receivesPrescription(Prescription prescription) {
+        if(isDead){
+            throw new DeadPatientException();
+        }
         prescriptions.add(prescription);
     }
 
@@ -47,6 +51,10 @@ public class Patient {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
 
+    }
+
+    public void noteDeath() {
+        this.isDead = true;
     }
 
 }

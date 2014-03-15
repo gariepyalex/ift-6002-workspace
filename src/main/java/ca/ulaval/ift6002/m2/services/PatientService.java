@@ -24,10 +24,20 @@ public class PatientService {
 
     public void savePrescription(String patientId, PrescriptionResponse response) {
         Prescription prescription = prescriptionAssembler.fromResponse(response);
-        Patient patient = patientRepository.get(Integer.valueOf(patientId));
+        Patient patient = loadPatient(patientId);
 
         patient.receivesPrescription(prescription);
 
         patientRepository.store(patient);
+    }
+
+    public PrescriptionResponse[] loadPrescription(String patientId) {
+
+        Patient patient = loadPatient(patientId);
+        return prescriptionAssembler.toResponses(patient.getPrescriptions());
+    }
+
+    private Patient loadPatient(String patientId) {
+        return patientRepository.get(Integer.valueOf(patientId));
     }
 }

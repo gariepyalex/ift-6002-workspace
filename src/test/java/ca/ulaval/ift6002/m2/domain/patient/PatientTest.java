@@ -14,6 +14,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 public class PatientTest {
 
     private static final int PATIENT_NUMBER = 12345;
+    private static final int DEAD_PATIENT_NUMBER = 67890;
 
     @Mock
     private Prescription prescription;
@@ -47,5 +48,13 @@ public class PatientTest {
         int prescriptionsCount = patient.countPrescriptions();
 
         assertEquals(2, prescriptionsCount);
+    }
+    
+    @Test(expected = DeadPatientException.class)
+    public void givenDeadPatientWhenAddingPrescriptionShouldThrow() {
+        Patient deadPatient = new Patient(DEAD_PATIENT_NUMBER);
+        deadPatient.noteDeath();
+        
+        deadPatient.receivesPrescription(prescription);
     }
 }
