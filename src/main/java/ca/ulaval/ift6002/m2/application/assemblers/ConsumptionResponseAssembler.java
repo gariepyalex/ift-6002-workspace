@@ -27,4 +27,11 @@ public class ConsumptionResponseAssembler {
         return new Consumption(formattedDate, pharmacy, consumptionsCount);
     }
 
+    public ConsumptionResponse toResponse(Consumption consumption) {
+        String date = dateFormatter.dateToString(consumption.getDate());
+        String pharmacy = consumption.getPharmacy().toString();
+        Integer count = Integer.valueOf(consumption.getCount());
+
+        return new ConsumptionResponse(date, pharmacy, count);
+    }
 }
