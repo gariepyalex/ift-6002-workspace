@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
@@ -12,6 +13,7 @@ import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
 public class InstrumentHibernate extends Instrument {
 
     @Id
+    @GeneratedValue
     private Integer instrumentId;
     private InstrumentStatus status;
     private Serial serial;
