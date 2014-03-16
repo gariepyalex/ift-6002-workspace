@@ -19,9 +19,42 @@ public class InstrumentTest {
 
     private Instrument instrument;
 
+    private class TestInstrument extends Instrument {
+
+        private InstrumentStatus status;
+        private Serial serial;
+        private Typecode typecode;
+
+        public TestInstrument(Typecode typecode, InstrumentStatus status, Serial serialNumber) {
+            this.status = status;
+            this.typecode = typecode;
+            this.serial = serialNumber;
+        }
+
+        @Override
+        public InstrumentStatus getStatus() {
+            return status;
+        }
+
+        @Override
+        public Typecode getTypecode() {
+            return typecode;
+        }
+
+        @Override
+        public Serial getSerial() {
+            return serial;
+        }
+
+        @Override
+        protected void setStatus(InstrumentStatus status) {
+            this.status = status;
+        }
+    }
+
     @Before
     public void setUp() {
-        instrument = new Instrument(TYPECODE, STATUS, SERIAL);
+        instrument = new TestInstrument(TYPECODE, STATUS, SERIAL);
     }
 
     @Test
@@ -31,7 +64,7 @@ public class InstrumentTest {
 
     @Test
     public void givenAnonymousInstrumentWhenCheckingForSerialShouldReturnFalse() {
-        Instrument anonymous = new Instrument(TYPECODE, STATUS, ANONYMOUS_SERIAL);
+        Instrument anonymous = new TestInstrument(TYPECODE, STATUS, ANONYMOUS_SERIAL);
 
         assertFalse(anonymous.hasASerial());
     }
@@ -43,7 +76,7 @@ public class InstrumentTest {
 
     @Test
     public void whenComparingSerialWithOtherInstrumentShouldReturnFalse() {
-        Instrument other = new Instrument(TYPECODE, STATUS, AN_OTHER_SERIAL);
+        Instrument other = new TestInstrument(TYPECODE, STATUS, AN_OTHER_SERIAL);
 
         assertFalse(instrument.hasSameSerial(other));
     }

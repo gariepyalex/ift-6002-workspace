@@ -1,18 +1,9 @@
 package ca.ulaval.ift6002.m2.domain.instrument;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Instrument {
+public abstract class Instrument {
 
-    private InstrumentStatus status;
-    private final Serial serial;
-    private final Typecode typecode;
-
-    public Instrument(Typecode typecode, InstrumentStatus status, Serial serialNumber) {
-        this.status = status;
-        this.typecode = typecode;
-        this.serial = serialNumber;
+    public Instrument() {
     }
 
     public boolean hasASerial() {
@@ -20,45 +11,27 @@ public class Instrument {
     }
 
     public boolean hasSameSerial(Instrument other) {
-        return hasSerial(other.serial);
+        return hasSerial(other.getSerial());
     }
 
     public boolean isAnonymous() {
-        return serial.isEmpty();
+        return getSerial().isEmpty();
     }
 
     public boolean hasSerial(Serial serial) {
-        return this.serial.equals(serial);
+        return getSerial().equals(serial);
     }
 
     public void changeTo(InstrumentStatus status) {
-        this.status = status;
+        setStatus(status);
     }
 
-    public InstrumentStatus getStatus() {
-        return status;
-    }
+    public abstract InstrumentStatus getStatus();
 
-    public Typecode getTypecode() {
-        return typecode;
-    }
+    protected abstract void setStatus(InstrumentStatus status);
 
-    public Serial getSerial() {
-        return serial;
-    }
+    public abstract Typecode getTypecode();
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+    public abstract Serial getSerial();
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
-
-    @Override
-    public String toString() {
-        return "[" + status + "] Serial:" + serial;
-    }
 }
