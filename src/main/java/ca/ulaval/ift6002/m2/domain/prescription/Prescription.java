@@ -59,11 +59,11 @@ public class Prescription {
     }
 
     private boolean hasEnoughRenewalsFor(Consumption consumption) {
-        return (remainingRenewals() > consumption.getCount());
+        return remainingRenewals() > consumption.getCount();
     }
 
     public int remainingRenewals() {
-        return (renewals - consumptionsCount());
+        return renewals - consumptionsCount();
     }
 
     private int consumptionsCount() {
@@ -83,5 +83,9 @@ public class Prescription {
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    public int numberOfConsumptions() {
+        return consumptions.size();
     }
 }
