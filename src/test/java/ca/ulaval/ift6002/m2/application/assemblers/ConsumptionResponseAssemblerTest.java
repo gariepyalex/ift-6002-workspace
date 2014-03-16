@@ -17,8 +17,8 @@ public class ConsumptionResponseAssemblerTest {
     private static final DateFormatter DATE_FORMATTER = new DateFormatter();
     private static final Pharmacy PHARMACY = new Pharmacy("pharmacy");
     private static final int COUNT = 1;
-    private static final Date DATE = new Date();
-    private static final String DATE_AS_STRING = DATE_FORMATTER.dateToString(DATE);
+    private static final String DATE_AS_STRING = "2001-07-04T12:08:56";
+    private static final Date DATE = DATE_FORMATTER.parse(DATE_AS_STRING);
     private static final Consumption CONSUMPTION = new Consumption(DATE, PHARMACY, COUNT);
     private static final ConsumptionResponse CONSUMPTION_RESPONSE = new ConsumptionResponse(DATE_AS_STRING,
             PHARMACY.toString(), COUNT);

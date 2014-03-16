@@ -15,6 +15,11 @@ public class Pharmacy {
     }
 
     @Override
+    public String toString() {
+        return description;
+    }
+
+    @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
