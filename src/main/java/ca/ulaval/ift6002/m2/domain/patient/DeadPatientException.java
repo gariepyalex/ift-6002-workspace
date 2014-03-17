@@ -4,10 +4,6 @@ public class DeadPatientException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public DeadPatientException() {
-
-    }
-
     public DeadPatientException(String message) {
         super(message);
     }

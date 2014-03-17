@@ -25,8 +25,8 @@ public class Prescription {
         this.consumptions = new ArrayList<>();
     }
 
-    public int getNumber() {
-        return 1; // todo: en attendant de mettre un membre privé
+    public boolean hasNumber(int number) {
+        return number == 1; // TODO: en attendant de mettre un membre privé
     }
 
     public Practitioner getPractioner() {
