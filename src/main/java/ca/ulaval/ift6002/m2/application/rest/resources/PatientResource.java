@@ -28,7 +28,7 @@ import ca.ulaval.ift6002.m2.services.PatientService;
 public class PatientResource extends Resource {
 
     private static final String DEAD_PATIENT_CODE = "PATDCD";
-    private final String NO_PATIENT_FOUND = "PRES010";
+    private static final String NO_PATIENT_FOUND = "PRES010";
 
     private final PatientService patientService = new PatientService();
     private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();

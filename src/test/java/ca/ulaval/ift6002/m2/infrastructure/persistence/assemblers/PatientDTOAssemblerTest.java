@@ -21,9 +21,9 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 public class PatientDTOAssemblerTest {
 
     private static final int PATIENT_NUMBER = 12345;
-    private static final Collection<PrescriptionDTO> prescriptionDTOs = new ArrayList<PrescriptionDTO>();
-    private static final Collection<Prescription> prescriptions = new ArrayList<Prescription>();
-    private static final PatientDTO PATIENT_DTO = new PatientDTO(PATIENT_NUMBER, prescriptionDTOs);
+    private static final Collection<PrescriptionDTO> PRESCRIPTION_DTOS = new ArrayList<PrescriptionDTO>();
+    private static final Collection<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
+    private static final PatientDTO PATIENT_DTO = new PatientDTO(PATIENT_NUMBER, PRESCRIPTION_DTOS);
     private static final Patient PATIENT = new Patient(PATIENT_NUMBER);
 
     @Mock
@@ -50,7 +50,7 @@ public class PatientDTOAssemblerTest {
     public void givenPatientWhenAssemblingToDTOShouldCallPrescriptionDTOAssembler() {
         patientAssembler.toDTO(PATIENT);
 
-        verify(prescriptionAssembler).toDTOs(prescriptions);
+        verify(prescriptionAssembler).toDTOs(PRESCRIPTIONS);
     }
 
     private void assertPatientDTOEquals(PatientDTO expected, PatientDTO actual) {

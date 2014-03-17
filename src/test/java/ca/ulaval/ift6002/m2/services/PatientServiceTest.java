@@ -33,7 +33,7 @@ public class PatientServiceTest {
     private static final Drug DRUG = Drug.fromName("a name");
     private static final Prescription PRESCRIPTION = new Prescription(PRACTITIONER, DATE, 0, DRUG);
     private static final PrescriptionResponse RESPONSE = new PrescriptionResponse("", "", 0, "", "");
-    private static final ArrayList<Prescription> prescriptionList = new ArrayList<Prescription>();
+    private static final ArrayList<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
 
     @Mock
     private Patient patient;
@@ -51,7 +51,7 @@ public class PatientServiceTest {
     public void setUp() {
         willReturn(PRESCRIPTION).given(prescriptionAssembler).fromResponse(RESPONSE);
         willReturn(patient).given(patientRepository).get(PATIENT_ID_AS_INT);
-        willReturn(prescriptionList).given(patient).getPrescriptions();
+        willReturn(PRESCRIPTIONS).given(patient).getPrescriptions();
     }
 
     @Test
@@ -86,6 +86,6 @@ public class PatientServiceTest {
     public void whenLoadPrescriptionShouldConvertPrescriptionsToResponse() {
         patientService.loadPrescription(PATIENT_ID_AS_STRING);
 
-        verify(prescriptionAssembler).toResponses(prescriptionList);
+        verify(prescriptionAssembler).toResponses(PRESCRIPTIONS);
     }
 }

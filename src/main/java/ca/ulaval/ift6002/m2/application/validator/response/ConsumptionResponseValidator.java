@@ -8,7 +8,7 @@ public class ConsumptionResponseValidator implements ResponseValidator<Consumpti
     private static final String MISSING_INFORMATION = "PRES013";
 
     @Override
-    public void validate(ConsumptionResponse response) throws InvalidResponseException {
+    public void validate(ConsumptionResponse response) {
         if (!DateFormatter.isValid(response.date)) {
             throw new InvalidResponseException(MISSING_INFORMATION,
                     "The date format is invalid. (yyyy-MM-dd'T'HH:mm:ss)");
