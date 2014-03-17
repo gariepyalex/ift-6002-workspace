@@ -3,6 +3,9 @@ package ca.ulaval.ift6002.m2.domain.patient;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,16 +13,23 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientTest {
 
     private static final int PATIENT_NUMBER = 12345;
     private static final int DEAD_PATIENT_NUMBER = 67890;
+    private static final int NOT_EXISTING_PRESCRIPTION_NUMBER = 42;
+    private static final int EXISTING_PRESCRIPTION_NUMBER = 1;
 
     @Mock
     private Prescription prescription;
+
+    @Mock
+    private Consumption consumption;
 
     private Patient patient;
 
@@ -70,5 +80,22 @@ public class PatientTest {
         deadPatient.declareDead();
 
         deadPatient.receivesPrescription(prescription);
+    }
+
+    @Test(expected = PrescriptionNotFoundException.class)
+    public void givenNotExistingPrescriptionNumberWhenConsumesPrescriptionShouldThrowException() {
+        patient.receivesPrescription(prescription);
+        willReturn(false).given(prescription).hasNumber(NOT_EXISTING_PRESCRIPTION_NUMBER);
+
+        patient.consumesPrescription(NOT_EXISTING_PRESCRIPTION_NUMBER, consumption);
+    }
+
+    @Test
+    public void givenExistingPrescriptionWhenConsumesPrescriptionShouldCallAddConsumption() {
+        patient.receivesPrescription(prescription);
+        willReturn(true).given(prescription).hasNumber(EXISTING_PRESCRIPTION_NUMBER);
+
+        patient.consumesPrescription(EXISTING_PRESCRIPTION_NUMBER, consumption);
+        verify(prescription, times(1)).addConsumption(consumption);
     }
 }

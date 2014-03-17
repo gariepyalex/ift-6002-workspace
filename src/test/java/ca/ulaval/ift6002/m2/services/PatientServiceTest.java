@@ -77,14 +77,14 @@ public class PatientServiceTest {
 
     @Test
     public void whenLoadPrescriptionShouldLoadPatientFromRepository() {
-        patientService.loadPrescription(PATIENT_ID_AS_STRING);
+        patientService.getPrescriptions(PATIENT_ID_AS_STRING);
 
         verify(patientRepository).get(PATIENT_ID_AS_INT);
     }
 
     @Test
     public void whenLoadPrescriptionShouldConvertPrescriptionsToResponse() {
-        patientService.loadPrescription(PATIENT_ID_AS_STRING);
+        patientService.getPrescriptions(PATIENT_ID_AS_STRING);
 
         verify(prescriptionAssembler).toResponses(PRESCRIPTIONS);
     }

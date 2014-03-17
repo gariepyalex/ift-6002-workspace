@@ -55,13 +55,12 @@ public class PatientResource extends Resource {
     @GET
     public Response findPrescriptions(@PathParam("patientId") String patientId) {
         try {
-            PrescriptionResponse[] responses = patientService.loadPrescription(patientId);
-            return Response.ok(responses).build();
+            PrescriptionResponse[] responses = patientService.getPrescriptions(patientId);
 
+            return Response.ok(responses).build();
         } catch (NoSuchElementException e) {
             return errorBadRequest(NO_PATIENT_FOUND, e.getMessage());
         }
-
     }
 
     @POST

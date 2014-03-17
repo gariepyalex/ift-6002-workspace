@@ -12,9 +12,8 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator
 
 public class PatientService {
 
-    private final PrescriptionResponseAssembler prescriptionAssembler;
     private final PatientRepository patientRepository;
-
+    private final PrescriptionResponseAssembler prescriptionAssembler;
     private final ConsumptionResponseAssembler consumptionAssembler;
 
     public PatientService(PatientRepository patientRepository, PrescriptionResponseAssembler prescriptionAssembler,
@@ -32,7 +31,7 @@ public class PatientService {
 
     public void savePrescription(String patientId, PrescriptionResponse response) {
         Prescription prescription = prescriptionAssembler.fromResponse(response);
-        Patient patient = loadPatient(patientId);
+        Patient patient = getPatient(patientId);
 
         patient.receivesPrescription(prescription);
 
@@ -42,17 +41,17 @@ public class PatientService {
     public void addConsumption(String patientId, String prescriptionId, ConsumptionResponse response) {
         Consumption consumption = consumptionAssembler.fromResponse(response);
 
-        Patient patient = loadPatient(patientId);
-        patient.consumePrescription(Integer.valueOf(prescriptionId), consumption);
+        Patient patient = getPatient(patientId);
+        patient.consumesPrescription(Integer.valueOf(prescriptionId), consumption);
     }
 
-    public PrescriptionResponse[] loadPrescription(String patientId) {
-        Patient patient = loadPatient(patientId);
+    public PrescriptionResponse[] getPrescriptions(String patientId) {
+        Patient patient = getPatient(patientId);
 
         return prescriptionAssembler.toResponses(patient.getPrescriptions());
     }
 
-    private Patient loadPatient(String patientId) {
+    private Patient getPatient(String patientId) {
         return patientRepository.get(Integer.valueOf(patientId));
     }
 }

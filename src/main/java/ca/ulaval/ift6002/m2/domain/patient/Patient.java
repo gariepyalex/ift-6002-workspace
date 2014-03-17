@@ -2,13 +2,13 @@ package ca.ulaval.ift6002.m2.domain.patient;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 
 public class Patient {
 
@@ -45,7 +45,7 @@ public class Patient {
         prescriptions.add(prescription);
     }
 
-    public void consumePrescription(int prescriptionNumber, Consumption consumption) {
+    public void consumesPrescription(int prescriptionNumber, Consumption consumption) {
         Prescription prescription = findPrescription(prescriptionNumber);
         prescription.addConsumption(consumption);
     }
@@ -57,7 +57,7 @@ public class Patient {
             }
         }
 
-        throw new NoSuchElementException("No prescription found for number: " + prescriptionNumber);
+        throw new PrescriptionNotFoundException("No prescription found for number: " + prescriptionNumber);
     }
 
     public int countPrescriptions() {

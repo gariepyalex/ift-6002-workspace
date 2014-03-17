@@ -24,16 +24,8 @@ public class PrescriptionTest {
 
     private Prescription prescription;
 
-    public void buildPrescriptionWithFiveRenewals() {
-        prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, RENEWALS, DRUG);
-    }
-
-    public void buildPrescriptionWithNoRenewals() {
-        prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, ZERO_RENEWALS, DRUG);
-    }
-
     @Test(expected = NotEnoughRenewalsException.class)
-    public void givenZeroRenewalsWhenAddConsumptionShouldThrowNotEnoughRenewalsException() {
+    public void givenZeroRenewalsWhenAddConsumptionShouldThrowException() {
         buildPrescriptionWithNoRenewals();
         prescription.addConsumption(CONSUMPTION_WITH_COUNT_ONE);
     }
@@ -52,6 +44,14 @@ public class PrescriptionTest {
         prescription.addConsumption(CONSUMPTION_WITH_COUNT_TWO);
 
         assertEquals(3, prescription.remainingRenewals());
+    }
+
+    private void buildPrescriptionWithFiveRenewals() {
+        prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, RENEWALS, DRUG);
+    }
+
+    private void buildPrescriptionWithNoRenewals() {
+        prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, ZERO_RENEWALS, DRUG);
     }
 
 }
