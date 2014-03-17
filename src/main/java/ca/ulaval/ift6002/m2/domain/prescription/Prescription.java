@@ -50,12 +50,12 @@ public class Prescription {
     }
 
     public void addConsumption(Consumption consumption) {
-        if (hasEnoughRenewalsFor(consumption)) {
-            consumptions.add(consumption);
-        } else {
+        if (!hasEnoughRenewalsFor(consumption)) {
             throw new NotEnoughRenewalsException("Consumption request: " + consumption.getCount()
                     + ", but remaining renewals: " + remainingRenewals());
         }
+
+        consumptions.add(consumption);
     }
 
     private boolean hasEnoughRenewalsFor(Consumption consumption) {
@@ -68,11 +68,17 @@ public class Prescription {
 
     private int consumptionsCount() {
         int count = 0;
+
         for (Consumption consumption : consumptions) {
             count += consumption.getCount();
         }
 
         return count;
+    }
+
+    public int numberOfConsumptions() {
+        // TODO Not used yet... I left it there temporary
+        return consumptions.size();
     }
 
     @Override
@@ -83,9 +89,5 @@ public class Prescription {
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
-    }
-
-    public int numberOfConsumptions() {
-        return consumptions.size();
     }
 }
