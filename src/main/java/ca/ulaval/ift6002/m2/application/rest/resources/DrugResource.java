@@ -39,7 +39,7 @@ public class DrugResource extends Resource {
 
             return Response.ok(responses).build();
         } catch (IllegalArgumentException e) {
-            return errorBadRequest(INVALID_SEARCH_ERROR_CODE, e.getMessage());
+            return badRequest(INVALID_SEARCH_ERROR_CODE, e.getMessage());
         }
     }
 

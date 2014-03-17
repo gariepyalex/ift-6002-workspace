@@ -46,11 +46,11 @@ public class OperationResource extends Resource {
 
             return redirectTo(uri, "/" + generatedNumber);
         } catch (InvalidResponseException e) {
-            return errorBadRequest(e.getCode(), e.getMessage());
+            return badRequest(e.getCode(), e.getMessage());
         } catch (IllegalArgumentException e) {
-            return errorBadRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
+            return badRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
         } catch (NoSuchElementException e) {
-            return errorBadRequest(NO_PATIENT_FOUND, e.getMessage());
+            return badRequest(NO_PATIENT_FOUND, e.getMessage());
         }
     }
 
@@ -65,13 +65,13 @@ public class OperationResource extends Resource {
 
             return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
         } catch (InvalidResponseException e) {
-            return errorBadRequest(e.getCode(), e.getMessage());
+            return badRequest(e.getCode(), e.getMessage());
         } catch (IllegalStateException e) {
-            return errorBadRequest(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
+            return badRequest(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
         } catch (NoSuchElementException e) {
-            return errorBadRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
+            return badRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
         } catch (InvalidInstrumentException e) {
-            return errorBadRequest(INVALID_INSTRUMENT, e.getMessage());
+            return badRequest(INVALID_INSTRUMENT, e.getMessage());
         }
     }
 
@@ -87,9 +87,9 @@ public class OperationResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
-            return errorBadRequest(e.getCode(), e.getMessage());
+            return badRequest(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
-            return errorBadRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
+            return badRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
         }
     }
 }
