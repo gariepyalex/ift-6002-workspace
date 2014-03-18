@@ -1,11 +1,11 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.verify;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.Before;
@@ -18,20 +18,9 @@ import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
-import ca.ulaval.ift6002.m2.domain.operation.room.Room;
-import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationTest {
-
-    private static final OperationStatus OPERATION_STATUS = OperationStatus.PLANNED;
-    private static final String DESCRIPTION = "description";
-    private static final Room ROOM = new Room("room");
-    private static final Surgeon SURGEON = new Surgeon(12345);
-    private static final Date DATE = new Date();
-    private static final Patient PATIENT = new Patient(12345);
-    private static final int OPERATION_NUMBER = 1;
 
     private static final Serial A_SERIAL = new Serial("abc");
     private static final InstrumentStatus AN_INSTRUMENT_STATUS = InstrumentStatus.SOILED;
@@ -44,6 +33,9 @@ public class OperationTest {
 
     @Mock
     private Instrument anonymousInstrument;
+
+    @Mock
+    private OperationData operationData;
 
     private Operation operation;
 
@@ -68,12 +60,12 @@ public class OperationTest {
     }
 
     @Test
-    public void givenOperationShouldHaveZeroInstrument() {
+    public void givenOperationWhenCallingHasInstrumentShouldCallOperationDataHasInstrument() {
         buildAnOperation();
 
-        boolean hasInstrument = operation.hasInstruments();
+        operation.hasInstruments();
 
-        assertFalse(hasInstrument);
+        verify(operationData).hasInstrument();
     }
 
     @Test
@@ -84,23 +76,19 @@ public class OperationTest {
     }
 
     @Test
-    public void givenTwoInstrumentsWithSerialWhenAddingToOperationShouldBeInOperationInstruments() {
+    public void givenTwoInstrumentsWithSerialWhenAddingToOperationShouldOperationDataAddInstrument() {
         buildAnOperation();
         operation.add(instrument);
         operation.add(anotherInstrument);
 
-        boolean hasInsturment = operation.has(instrument);
-        boolean hasAnotherInstrument = operation.has(anotherInstrument);
-
-        assertTrue(hasInsturment);
-        assertTrue(hasAnotherInstrument);
+        verify(operationData).addInstrument(instrument);
+        verify(operationData).addInstrument(anotherInstrument);
     }
 
     @Test
     public void givenInstrumentWhenBookmarkInstrumentShouldCallChangeToNewStatus() {
         buildAnOperation();
-        operation.add(instrument);
-        willReturn(true).given(instrument).hasSerial(A_SERIAL);
+        setupBookMarkInstrument();
 
         operation.bookmarkInstrumentToStatus(A_SERIAL, AN_INSTRUMENT_STATUS);
 
@@ -119,6 +107,8 @@ public class OperationTest {
     @Test(expected = IllegalStateException.class)
     public void givenInstrumentWithExistingSerialNumberWhenAddingInstrumentShouldThrowException() {
         buildAnOperation();
+        setupInstrumentList();
+
         operation.add(instrument);
         operation.add(instrument);
     }
@@ -130,20 +120,9 @@ public class OperationTest {
         operation.add(instrument);
     }
 
-    @Test
-    public void givenOperationShouldNotHaveNumber() {
-        buildAnOperation();
-        assertFalse(operation.hasNumber());
-    }
-
-    @Test
-    public void givenOperationShouldHaveNumber() {
-        buildAnOperationWithNumber();
-        assertTrue(operation.hasNumber());
-    }
-
     private void buildAnOperation() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
+
+        operation = new Operation(operationData) {
 
             @Override
             protected boolean isInstrumentElligible(Instrument instrument) {
@@ -158,13 +137,8 @@ public class OperationTest {
         };
     }
 
-    private void buildAnOperationWithNumber() {
-        buildAnOperation();
-        operation.updateNumber(OPERATION_NUMBER);
-    }
-
     private void buildAnOperationWhereInstrumentsAreNotElligible() {
-        operation = new Operation(DESCRIPTION, SURGEON, DATE, ROOM, OPERATION_STATUS, PATIENT) {
+        operation = new Operation(operationData) {
 
             @Override
             protected boolean isInstrumentElligible(Instrument instrument) {
@@ -177,6 +151,21 @@ public class OperationTest {
             }
 
         };
+    }
+
+    private void setupBookMarkInstrument() {
+        List<Instrument> instruments = new ArrayList<Instrument>();
+        instruments.add(instrument);
+
+        willReturn(true).given(instrument).hasSerial(A_SERIAL);
+        willReturn(instruments).given(operationData).getInstruments();
+    }
+
+    private void setupInstrumentList() {
+        List<Instrument> instruments = new ArrayList<Instrument>();
+        instruments.add(instrument);
+
+        willReturn(instruments).given(operationData).getInstruments();
     }
 
 }
