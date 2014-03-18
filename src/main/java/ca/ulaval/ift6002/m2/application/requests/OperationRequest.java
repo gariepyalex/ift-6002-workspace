@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.application.responses;
+package ca.ulaval.ift6002.m2.application.requests;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "operation")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OperationResponse {
+public class OperationRequest {
     public String description;
 
     @XmlElement(name = "chirurgien")
@@ -25,7 +25,7 @@ public class OperationResponse {
     @XmlElement(name = "patient")
     public Integer patientNumber;
 
-    protected OperationResponse() {
+    protected OperationRequest() {
         // Protected constructor for jaxb
         this.date = "";
         this.room = "";
@@ -33,7 +33,7 @@ public class OperationResponse {
         this.status = "";
     }
 
-    public OperationResponse(String description, Integer surgeon, String date, String room, String type, String status,
+    public OperationRequest(String description, Integer surgeon, String date, String room, String type, String status,
             Integer patientNumber) {
         this.description = description;
         this.surgeon = surgeon;

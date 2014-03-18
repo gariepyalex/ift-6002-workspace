@@ -2,7 +2,7 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 
 import java.util.Date;
 
-import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
@@ -33,7 +33,7 @@ public class OperationResponseAssembler {
         this.formatterDate = new DateFormatter();
     }
 
-    public Operation fromResponse(OperationResponse response) {
+    public Operation fromResponse(OperationRequest response) {
         Patient patient = patientRepository.get(response.patientNumber);
         Date date = formatterDate.parse(response.date);
         Surgeon surgeon = new Surgeon(response.surgeon);

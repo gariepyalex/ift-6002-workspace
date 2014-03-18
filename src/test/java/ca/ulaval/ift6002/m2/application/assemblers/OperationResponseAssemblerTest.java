@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
@@ -39,7 +39,7 @@ public class OperationResponseAssemblerTest {
     private static final String STATUS = "planifiee";
     private static final Date DATE = new Date();
 
-    private final OperationResponse operationResponse = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER,
+    private final OperationRequest operationResponse = new OperationRequest(RANDOM_DESCRIPTOR, SURGEON_NUMBER,
             DATE_AS_STRING, ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
     @Mock
@@ -75,7 +75,7 @@ public class OperationResponseAssemblerTest {
 
     @Test
     public void whenFromResponseShouldCallCreateInOperationFactory() {
-        OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
+        OperationRequest response = new OperationRequest(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
                 TYPE, STATUS, PATIENT_NUMBER);
         operationAssembler.fromResponse(response);
         verify(operationFactory, times(1)).create(any(OperationType.class), anyString(), any(Surgeon.class),
@@ -84,7 +84,7 @@ public class OperationResponseAssemblerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void givenInvalidTypeWhenFromResponseShouldThrowException() {
-        OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
+        OperationRequest response = new OperationRequest(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
                 INVALID_TYPE, STATUS, PATIENT_NUMBER);
 
         operationAssembler.fromResponse(response);
@@ -92,7 +92,7 @@ public class OperationResponseAssemblerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void givenInvalidStatusWhenFromResponseShouldThrowException() {
-        OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
+        OperationRequest response = new OperationRequest(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
                 TYPE, INVALID_STATUS, PATIENT_NUMBER);
 
         operationAssembler.fromResponse(response);

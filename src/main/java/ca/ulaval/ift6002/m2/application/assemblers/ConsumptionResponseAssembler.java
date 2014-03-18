@@ -2,7 +2,7 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 
 import java.util.Date;
 
-import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
+import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Pharmacy;
@@ -19,7 +19,7 @@ public class ConsumptionResponseAssembler {
         this.dateFormatter = new DateFormatter();
     }
 
-    public Consumption fromResponse(ConsumptionResponse response) {
+    public Consumption fromResponse(ConsumptionRequest response) {
         Date formattedDate = dateFormatter.parse(response.date);
         Pharmacy pharmacy = new Pharmacy(response.pharmacy);
         Integer consumptionsCount = response.consumptions;
@@ -27,11 +27,11 @@ public class ConsumptionResponseAssembler {
         return new Consumption(formattedDate, pharmacy, consumptionsCount);
     }
 
-    public ConsumptionResponse toResponse(Consumption consumption) {
+    public ConsumptionRequest toResponse(Consumption consumption) {
         String date = dateFormatter.dateToString(consumption.getDate());
         String pharmacy = consumption.getPharmacy().toString();
         Integer count = Integer.valueOf(consumption.getCount());
 
-        return new ConsumptionResponse(date, pharmacy, count);
+        return new ConsumptionRequest(date, pharmacy, count);
     }
 }

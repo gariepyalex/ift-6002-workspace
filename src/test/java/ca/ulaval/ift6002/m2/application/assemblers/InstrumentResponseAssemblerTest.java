@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
+import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
@@ -28,9 +28,9 @@ public class InstrumentResponseAssemblerTest {
     private static final String RESPONSE_TYPECODE = "typecode";
     private static final String RESPONSE_SERIAL = "serial";
 
-    private static final InstrumentResponse INSTRUMENT_RESPONSE = new InstrumentResponse(RESPONSE_TYPECODE,
+    private static final InstrumentRequest INSTRUMENT_RESPONSE = new InstrumentRequest(RESPONSE_TYPECODE,
             STATUS.toString(), RESPONSE_SERIAL);
-    private static final InstrumentResponse INSTRUMENT_RESPONSE_WITH_UNEXISTING_STATUS = new InstrumentResponse(
+    private static final InstrumentRequest INSTRUMENT_RESPONSE_WITH_UNEXISTING_STATUS = new InstrumentRequest(
             RESPONSE_TYPECODE, "an unexisting status", RESPONSE_SERIAL);
 
     @Mock

@@ -14,11 +14,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
-import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
-import ca.ulaval.ift6002.m2.application.validator.response.ConsumptionResponseValidator;
-import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
-import ca.ulaval.ift6002.m2.application.validator.response.PrescriptionResponseValidator;
+import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
+import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.validator.request.ConsumptionRequestValidator;
+import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
+import ca.ulaval.ift6002.m2.application.validator.request.PrescriptionRequestValidator;
 import ca.ulaval.ift6002.m2.domain.patient.DeadPatientException;
 import ca.ulaval.ift6002.m2.domain.prescription.NotEnoughRenewalsException;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
@@ -35,19 +35,19 @@ public class PatientResource extends Resource {
     private static final String NOT_ENOUGH_RENEWALS_CODE = "PRES012";
 
     private final PatientService patientService = new PatientService();
-    private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
-    private final ConsumptionResponseValidator consumptionValidator = new ConsumptionResponseValidator();
+    private final PrescriptionRequestValidator prescriptionValidator = new PrescriptionRequestValidator();
+    private final ConsumptionRequestValidator consumptionValidator = new ConsumptionRequestValidator();
 
     @POST
     public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
-            PrescriptionResponse response) {
+            PrescriptionRequest response) {
         try {
             prescriptionValidator.validate(response);
 
             patientService.savePrescription(patientId, response);
 
             return success();
-        } catch (InvalidResponseException e) {
+        } catch (InvalidRequestException e) {
             return badRequest(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
             return badRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
@@ -59,7 +59,7 @@ public class PatientResource extends Resource {
     @GET
     public Response findPrescriptions(@PathParam("patientId") String patientId) {
         try {
-            PrescriptionResponse[] responses = patientService.getPrescriptions(patientId);
+            PrescriptionRequest[] responses = patientService.getPrescriptions(patientId);
 
             return success(responses);
         } catch (NoSuchElementException e) {
@@ -70,14 +70,14 @@ public class PatientResource extends Resource {
     @POST
     @Path("{patientId}/prescriptions/{prescriptionId}/consommations")
     public Response addConsumption(@PathParam("patientId") String patientId,
-            @PathParam("prescriptionId") String prescriptionId, @Context UriInfo uri, ConsumptionResponse response) {
+            @PathParam("prescriptionId") String prescriptionId, @Context UriInfo uri, ConsumptionRequest response) {
         try {
             consumptionValidator.validate(response);
 
             patientService.addConsumption(patientId, prescriptionId, response);
 
             return success();
-        } catch (InvalidResponseException e) {
+        } catch (InvalidRequestException e) {
             return badRequest(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
             return notFound(NO_PATIENT_FOUND_CODE, e.getMessage());
