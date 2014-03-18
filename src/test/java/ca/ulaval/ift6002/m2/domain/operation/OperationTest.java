@@ -71,7 +71,9 @@ public class OperationTest {
     public void givenOperationShouldHaveZeroInstrument() {
         buildAnOperation();
 
-        assertFalse(operation.hasInstruments());
+        boolean hasInstrument = operation.hasInstruments();
+
+        assertFalse(hasInstrument);
     }
 
     @Test
