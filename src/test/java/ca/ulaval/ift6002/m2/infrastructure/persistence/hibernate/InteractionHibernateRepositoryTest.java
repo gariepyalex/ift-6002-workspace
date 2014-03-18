@@ -1,7 +1,6 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 
@@ -58,5 +57,4 @@ public class InteractionHibernateRepositoryTest {
         verify(assembler).fromDTO(INTERACTION_DTO);
     }
 
-    // ga
 }
