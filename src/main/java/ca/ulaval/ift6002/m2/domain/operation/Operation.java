@@ -76,6 +76,10 @@ public abstract class Operation {
         return operationData.getNumber();
     }
 
+    public OperationData getData() {
+        return operationData;
+    }
+
     protected abstract boolean isInstrumentElligible(Instrument instrument);
 
     // TODO Remove this useless method
