@@ -14,10 +14,14 @@ public class InstrumentHibernate extends Instrument {
 
     @Id
     @GeneratedValue
-    private Integer instrumentId;
+    private Integer id;
     private InstrumentStatus status;
     private Serial serial;
     private Typecode typecode;
+
+    public InstrumentHibernate(Typecode typecode, InstrumentStatus status) {
+        this(typecode, status, new Serial(""));
+    }
 
     public InstrumentHibernate(Typecode typecode, InstrumentStatus status, Serial serialNumber) {
         this.status = status;
@@ -25,8 +29,8 @@ public class InstrumentHibernate extends Instrument {
         this.serial = serialNumber;
     }
 
-    public Integer getInstrumentId() {
-        return instrumentId;
+    public Integer getId() {
+        return id;
     }
 
     @Override

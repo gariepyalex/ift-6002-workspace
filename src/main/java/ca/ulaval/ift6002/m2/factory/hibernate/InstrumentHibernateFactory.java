@@ -14,4 +14,10 @@ public class InstrumentHibernateFactory implements InstrumentFactory {
         return null;
     }
 
+    @Override
+    public Instrument create(Typecode typecode, InstrumentStatus status) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

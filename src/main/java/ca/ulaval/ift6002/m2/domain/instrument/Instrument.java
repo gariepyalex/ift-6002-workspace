@@ -1,10 +1,6 @@
 package ca.ulaval.ift6002.m2.domain.instrument;
 
-
 public abstract class Instrument {
-
-    public Instrument() {
-    }
 
     public boolean hasASerial() {
         return !isAnonymous();
