@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
-import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
-import ca.ulaval.ift6002.m2.application.validator.request.OperationRequestValidator;
 
 public class OperationRequestValidatorTest {
 
@@ -19,72 +17,72 @@ public class OperationRequestValidatorTest {
     private static final String TYPE = "oeil";
     private static final String STATUS = "en_cours";
 
-    private OperationRequestValidator operationResponseValidator;
-    private OperationRequest operationResponse;
+    private OperationRequestValidator operationRequestValidator;
+    private OperationRequest operationRequest;
 
     @Before
     public void setUp() {
-        operationResponseValidator = new OperationRequestValidator();
+        operationRequestValidator = new OperationRequestValidator();
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenEmptyDescriptionWhenValidatingShouldThrowException() {
-        operationResponse = new OperationRequest("", SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
+        operationRequest = new OperationRequest("", SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
-        operationResponseValidator.validate(operationResponse);
+        operationRequestValidator.validate(operationRequest);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenNullSurgeonWhenValidatingShouldThrowException() {
-        operationResponse = new OperationRequest(DESCRIPTION, null, VALID_DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
+        operationRequest = new OperationRequest(DESCRIPTION, null, VALID_DATE, ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
-        operationResponseValidator.validate(operationResponse);
+        operationRequestValidator.validate(operationRequest);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenInvalidDateWhenValidatingShouldThrowException() {
-        operationResponse = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, INVALID, ROOM, TYPE, STATUS,
+        operationRequest = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, INVALID, ROOM, TYPE, STATUS,
                 PATIENT_NUMBER);
 
-        operationResponseValidator.validate(operationResponse);
+        operationRequestValidator.validate(operationRequest);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenEmptyRoomWhenValidatingShouldThrowException() {
-        operationResponse = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, "", TYPE, STATUS,
+        operationRequest = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, "", TYPE, STATUS,
                 PATIENT_NUMBER);
 
-        operationResponseValidator.validate(operationResponse);
+        operationRequestValidator.validate(operationRequest);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenEmptyTypeWhenValidatingShouldThrowException() {
-        operationResponse = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, "", STATUS,
+        operationRequest = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, "", STATUS,
                 PATIENT_NUMBER);
 
-        operationResponseValidator.validate(operationResponse);
+        operationRequestValidator.validate(operationRequest);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenNullPatientWhenValidatingShouldThrowException() {
-        operationResponse = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, STATUS, null);
+        operationRequest = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, STATUS, null);
 
-        operationResponseValidator.validate(operationResponse);
+        operationRequestValidator.validate(operationRequest);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenInvalidStatusWhenValidatingShouldThrowException() {
-        operationResponse = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, INVALID,
+        operationRequest = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, INVALID,
                 PATIENT_NUMBER);
 
-        operationResponseValidator.validate(operationResponse);
+        operationRequestValidator.validate(operationRequest);
     }
 
     @Test
-    public void givenValidResponseWhenValidatingShouldNotThrowException() {
-        operationResponse = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, STATUS,
+    public void givenValidRequestWhenValidatingShouldNotThrowException() {
+        operationRequest = new OperationRequest(DESCRIPTION, SURGEON_NUMBER, VALID_DATE, ROOM, TYPE, STATUS,
                 PATIENT_NUMBER);
 
-        operationResponseValidator.validate(operationResponse);
+        operationRequestValidator.validate(operationRequest);
     }
 }

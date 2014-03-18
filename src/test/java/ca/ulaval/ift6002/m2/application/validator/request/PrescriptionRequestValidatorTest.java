@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
-import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
-import ca.ulaval.ift6002.m2.application.validator.request.PrescriptionRequestValidator;
 
 public class PrescriptionRequestValidatorTest {
 
@@ -32,49 +30,45 @@ public class PrescriptionRequestValidatorTest {
 
     @Test(expected = InvalidRequestException.class)
     public void givenInvalidDateWhenValidatingShouldThrowException() {
-        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, INVALID_DATE, VALID_RENEWALS, VALID_DIN,
+        PrescriptionRequest request = new PrescriptionRequest(PRACTITIONER, INVALID_DATE, VALID_RENEWALS, VALID_DIN,
                 EMPTY_NAME);
 
-        prescriptionValidator.validate(response);
+        prescriptionValidator.validate(request);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenWithNullRenewalsWhenValidatingShouldThrowException() {
-        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, NULL_RENEWALS, EMPTY_DIN,
-                VALID_NAME);
+        PrescriptionRequest request = new PrescriptionRequest(PRACTITIONER, DATE, NULL_RENEWALS, EMPTY_DIN, VALID_NAME);
 
-        prescriptionValidator.validate(response);
+        prescriptionValidator.validate(request);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenInvalidRenewalsWhenValidatingShouldThrowException() {
-        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, INVALID_RENEWALS, EMPTY_DIN,
+        PrescriptionRequest request = new PrescriptionRequest(PRACTITIONER, DATE, INVALID_RENEWALS, EMPTY_DIN,
                 VALID_NAME);
 
-        prescriptionValidator.validate(response);
+        prescriptionValidator.validate(request);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenNoDinOrNameWhenValidatingShouldThrowException() {
-        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, EMPTY_DIN,
-                EMPTY_NAME);
+        PrescriptionRequest request = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, EMPTY_DIN, EMPTY_NAME);
 
-        prescriptionValidator.validate(response);
+        prescriptionValidator.validate(request);
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenDinAndNameWhenValidatingShouldThrowException() {
-        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
-                VALID_NAME);
+        PrescriptionRequest request = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN, VALID_NAME);
 
-        prescriptionValidator.validate(response);
+        prescriptionValidator.validate(request);
     }
 
     @Test
-    public void givenValidResponseWhenValidatingShouldNotThrowException() {
-        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
-                EMPTY_NAME);
+    public void givenValidRequestWhenValidatingShouldNotThrowException() {
+        PrescriptionRequest request = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN, EMPTY_NAME);
 
-        prescriptionValidator.validate(response);
+        prescriptionValidator.validate(request);
     }
 }
