@@ -8,7 +8,7 @@ public interface DrugRepository {
 
     Drug get(String name);
 
-    Collection<Drug> findByBrandNameOrDescriptor(String keyword);
+    Collection<Drug> findBy(String keyword);
 
     void store(Collection<Drug> drugs);
 }
