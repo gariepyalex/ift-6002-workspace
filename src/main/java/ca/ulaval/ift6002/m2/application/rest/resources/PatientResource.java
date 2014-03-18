@@ -61,7 +61,7 @@ public class PatientResource extends Resource {
         try {
             PrescriptionResponse[] responses = patientService.getPrescriptions(patientId);
 
-            return Response.ok(responses).build();
+            return success(responses);
         } catch (NoSuchElementException e) {
             return badRequest(NO_PATIENT_FOUND_CODE, e.getMessage());
         }

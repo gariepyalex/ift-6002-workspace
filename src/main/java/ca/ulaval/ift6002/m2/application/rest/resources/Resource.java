@@ -30,6 +30,10 @@ public abstract class Resource {
         return Response.ok().build();
     }
 
+    protected Response success(Object response) {
+        return Response.ok(response).build();
+    }
+
     protected Response redirectTo(UriInfo uri, String url) {
         URI uriLocation = URI.create(uri.getRequestUri().toString() + url);
 

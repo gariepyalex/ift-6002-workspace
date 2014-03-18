@@ -31,7 +31,7 @@ public class DrugResource extends Resource {
             Collection<Drug> drugsFound = drugService.findBy(keyword);
             DrugResponse[] responses = drugAssembler.toResponses(drugsFound);
 
-            return Response.ok(responses).build();
+            return success(responses);
         } catch (IllegalArgumentException e) {
             return badRequest(INVALID_SEARCH_ERROR_CODE, e.getMessage());
         }
