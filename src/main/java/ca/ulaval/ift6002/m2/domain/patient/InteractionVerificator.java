@@ -41,7 +41,7 @@ public class InteractionVerificator {
         return dinsInConflict;
     }
 
-    private void throwInteractionException(Din newDin, List<Din> dinsInConflict) throws InteractionException {
+    private void throwInteractionException(Din newDin, List<Din> dinsInConflict) {
         String message = createExceptionMessage(newDin, dinsInConflict);
         throw new InteractionException(message);
     }
