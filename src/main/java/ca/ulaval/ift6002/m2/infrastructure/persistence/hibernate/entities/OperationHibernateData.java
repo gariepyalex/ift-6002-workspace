@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -18,13 +19,14 @@ import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
+@Entity
 public class OperationHibernateData implements OperationData {
 
     @Id
     @GeneratedValue
     private int id;
     private String description;
-    private int surgeonLiscence;
+    private int surgeonLicense;
     private Date date;
     private String room;
     private OperationStatus operationStatus;
@@ -38,7 +40,7 @@ public class OperationHibernateData implements OperationData {
     public OperationHibernateData(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
             Patient patient, OperationType operationType) {
         this.description = description;
-        this.surgeonLiscence = surgeon.license;
+        this.surgeonLicense = surgeon.license;
         this.date = date;
         this.room = room.value;
         this.operationStatus = status;
@@ -74,7 +76,7 @@ public class OperationHibernateData implements OperationData {
     }
 
     public int getSurgeonLiscence() {
-        return surgeonLiscence;
+        return surgeonLicense;
     }
 
     public Date getDate() {
