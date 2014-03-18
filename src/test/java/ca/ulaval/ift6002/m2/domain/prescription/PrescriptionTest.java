@@ -1,6 +1,11 @@
 package ca.ulaval.ift6002.m2.domain.prescription;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 
 import java.util.Date;
 
@@ -13,7 +18,7 @@ public class PrescriptionTest {
 
     private static final String PRACTIONNER_NAME = "practionner name";
     private static final Date DATE = new Date();
-    private static final int RENEWALS = 5;
+    private static final int FIVE_RENEWALS = 5;
     private static final int ZERO_RENEWALS = 0;
     private static final Drug DRUG = new Drug(new Din("din"), "brandname", "descriptor");
 
@@ -46,12 +51,55 @@ public class PrescriptionTest {
         assertEquals(3, prescription.remainingRenewals());
     }
 
+    @Test
+    public void givenPrescriptionWithNoRemainingRenewalsShouldBeObsolete() {
+        buildPrescriptionWithNoRenewals();
+        boolean isObsolete = prescription.isObsolete();
+        assertTrue(isObsolete);
+    }
+
+    @Test
+    public void givenPrescriptionWithOneOldConsumptionShouldBeObsolete() {
+        buildPrescriptionWithFiveRenewals();
+        Consumption oldConsumption = consumptionOfSevenMonthsAgo();
+        prescription.addConsumption(oldConsumption);
+
+        boolean isObsolete = prescription.isObsolete();
+
+        assertTrue(isObsolete);
+    }
+
+    @Test
+    public void givenPrescriptionWithOneRecentConsumptionShouldNotBeObsolete() {
+        buildPrescriptionWithFiveRenewals();
+        Consumption recentConsumption = consumptionOfOneMonthAgo();
+        prescription.addConsumption(recentConsumption);
+
+        boolean isObsolete = prescription.isObsolete();
+
+        assertFalse(isObsolete);
+    }
+
     private void buildPrescriptionWithFiveRenewals() {
-        prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, RENEWALS, DRUG);
+        prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, FIVE_RENEWALS, DRUG);
     }
 
     private void buildPrescriptionWithNoRenewals() {
         prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, ZERO_RENEWALS, DRUG);
+    }
+
+    private Consumption consumptionOfSevenMonthsAgo() {
+        Date sevenMonthsAgo = mock(Date.class);
+        willReturn(false).given(sevenMonthsAgo).after(any(Date.class));
+
+        return new Consumption(sevenMonthsAgo, PHARMACY, 1);
+    }
+
+    private Consumption consumptionOfOneMonthAgo() {
+        Date oneMonthsAgo = mock(Date.class);
+        willReturn(true).given(oneMonthsAgo).after(any(Date.class));
+
+        return new Consumption(oneMonthsAgo, PHARMACY, 1);
     }
 
 }
