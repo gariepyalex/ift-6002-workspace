@@ -3,7 +3,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -92,7 +92,7 @@ public class PrescriptionDTOAssemblerTest {
     public void givenPrescriptionWithDrugNameWhenAssemblingToDTOShouldNotCallDrugDTOAssembler() {
         prescriptionAssembler.toDTO(PRESCRIPTION_WITH_DRUGNAME);
 
-        verify(drugDTOAssembler, times(0)).toDTO(DRUG);
+        verify(drugDTOAssembler, never()).toDTO(DRUG);
     }
 
     @Test
@@ -120,7 +120,7 @@ public class PrescriptionDTOAssemblerTest {
     public void givenPrescriptionDTOWithDrugNameWhenFromDTOShouldCallDrugDTOAssembler() {
         prescriptionAssembler.fromDTO(PRESCRIPTION_DTO_WITH_DRUGNAME);
 
-        verify(drugDTOAssembler, times(0)).fromDTO(DRUG_DTO);
+        verify(drugDTOAssembler, never()).fromDTO(DRUG_DTO);
     }
 
     private void assertPrescriptionDTOEquals(PrescriptionDTO expected, PrescriptionDTO actual) {

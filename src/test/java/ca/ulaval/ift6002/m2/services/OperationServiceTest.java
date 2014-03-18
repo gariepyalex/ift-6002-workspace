@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.services;
 
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -67,27 +66,27 @@ public class OperationServiceTest {
     public void whenSavingInstrumentShouldAddInstrument() {
         willReturn(instrument).given(instrumentAssembler).fromResponse(INSTRUMENT_RESPONSE);
         operationService.saveInstrument(OPERATION_ID, INSTRUMENT_RESPONSE);
-        verify(operation, times(1)).add(instrument);
+        verify(operation).add(instrument);
     }
 
     @Test
     public void whenSavingInstrumentShouldStoreOperationUsingRepository() {
         operationService.saveInstrument(OPERATION_ID, INSTRUMENT_RESPONSE);
 
-        verify(operationRepository, times(1)).store(operation);
+        verify(operationRepository).store(operation);
     }
 
     @Test
     public void whenBookmarkingInstrumentShouldUpdateInstrumentStatus() {
         operationService.bookmarkInstrumentToStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
 
-        verify(operation, times(1)).bookmarkInstrumentToStatus(any(Serial.class), any(InstrumentStatus.class));
+        verify(operation).bookmarkInstrumentToStatus(any(Serial.class), any(InstrumentStatus.class));
     }
 
     @Test
     public void whenBookmarkingInstrumentShouldStoreOperationUsingRepository() {
         operationService.bookmarkInstrumentToStatus(OPERATION_ID, INSTRUMENT_RESPONSE);
 
-        verify(operationRepository, times(1)).store(operation);
+        verify(operationRepository).store(operation);
     }
 }
