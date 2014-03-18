@@ -12,11 +12,8 @@ import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.InstrumentDTO;
+import ca.ulaval.ift6002.m2.factory.hibernate.OperationHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.OperationDTO;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.RoomDTO;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.SurgeonDTO;
 
 public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO> {
 
@@ -43,30 +40,34 @@ public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO>
         this.surgeonDTOAssembler = new SurgeonDTOAssembler();
         this.roomDTOAssembler = new RoomDTOAssembler();
         this.dateFormatter = new DateFormatter();
-        this.operationFactory = new OperationFactory();
+        // TODO Call factorylocator
+        this.operationFactory = new OperationHibernateFactory();
         this.patientDTOAssembler = new PatientDTOAssembler();
     }
 
     @Override
     public OperationDTO toDTO(Operation operation) {
-        Collection<InstrumentDTO> instruments = instrumentDTOAssembler.toDTOs(operation.getInstruments());
-        RoomDTO room = roomDTOAssembler.toDTO(operation.getRoom());
-        SurgeonDTO surgeon = surgeonDTOAssembler.toDTO(operation.getSurgeon());
-        PatientDTO patient = patientDTOAssembler.toDTO(operation.getPatient());
+        // Collection<InstrumentDTO> instruments =
+        // instrumentDTOAssembler.toDTOs(operation.getInstruments());
+        // RoomDTO room = roomDTOAssembler.toDTO(operation.getRoom());
+        // SurgeonDTO surgeon =
+        // surgeonDTOAssembler.toDTO(operation.getSurgeon());
+        // PatientDTO patient =
+        // patientDTOAssembler.toDTO(operation.getPatient());
         Integer number = null;
 
         if (operation.hasNumber()) {
             number = operation.getNumber();
         }
 
-        String description = operation.getDescription();
-        String date = dateFormatter.dateToString(operation.getDate());
+        // String description = operation.getDescription();
+        // String date = dateFormatter.dateToString(operation.getDate());
+        //
+        // String operationType = operation.getType().toString();
+        // String operationStatus = operation.getStatus().toString();
 
-        String operationType = operation.getType().toString();
-        String operationStatus = operation.getStatus().toString();
-
-        return new OperationDTO(date, operationStatus, description, patient, instruments, surgeon, room, operationType,
-                number);
+        return null;// new OperationDTO(new Date(), "", "", null, null, null,
+                    // null, OperationType.EYE.toString(), number);
     }
 
     @Override
@@ -76,12 +77,12 @@ public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO>
         Surgeon surgeon = surgeonDTOAssembler.fromDTO(operationDTO.surgeon);
         Room room = roomDTOAssembler.fromDTO(operationDTO.room);
         String description = operationDTO.description;
-        Integer number = operationDTO.number;
+        // Integer number = operationDTO.number;
         OperationType type = OperationType.determineFrom(operationDTO.type);
         OperationStatus status = OperationStatus.determineFrom(operationDTO.status);
         Collection<Instrument> instruments = instrumentDTOAssembler.fromDTOs(operationDTO.instruments);
 
-        Operation operation = operationFactory.create(type, description, surgeon, date, room, status, patient, number);
+        Operation operation = operationFactory.create(type, description, surgeon, date, room, status, patient);
         operation.add(instruments);
 
         return operation;
