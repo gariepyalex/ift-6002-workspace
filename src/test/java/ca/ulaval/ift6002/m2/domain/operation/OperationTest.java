@@ -1,14 +1,11 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.verify;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.Before;
@@ -62,6 +59,7 @@ public class OperationTest {
     public void setUpAnotherInstrument() {
         willReturn(true).given(anotherInstrument).hasASerial();
         willReturn(false).given(anotherInstrument).hasSameSerial(instrument);
+        willReturn(true).given(anotherInstrument).hasSameSerial(anotherInstrument);
     }
 
     @Before
@@ -72,8 +70,8 @@ public class OperationTest {
     @Test
     public void givenOperationShouldHaveZeroInstrument() {
         buildAnOperation();
-
-        assertEquals(0, operation.countInstruments());
+        boolean hasInstrument = operation.hasInstruments();
+        assertFalse(hasInstrument);
     }
 
     @Test
@@ -84,14 +82,16 @@ public class OperationTest {
     }
 
     @Test
-    public void givenTwoInstrumentsWithSerialWhenCountInstrumentShouldHaveCountOfTwo() {
+    public void givenTwoInstrumentsWithSerialWhenAddingToOperationShouldBeInOperationInstruments() {
         buildAnOperation();
         operation.add(instrument);
         operation.add(anotherInstrument);
 
-        int instrumentsCount = operation.countInstruments();
+        boolean hasInstrument = operation.has(instrument);
+        boolean hasAnotherInstrument = operation.has(anotherInstrument);
 
-        assertEquals(2, instrumentsCount);
+        assertTrue(hasInstrument);
+        assertTrue(hasAnotherInstrument);
     }
 
     @Test
@@ -121,29 +121,11 @@ public class OperationTest {
         operation.add(instrument);
     }
 
-    @Test
-    public void givenInstrumentsWithoutSerialNumberWhenAddingInstrumentOperationShouldCountTwoInstruments() {
-        buildAnOperation();
-
-        operation.add(anonymousInstrument);
-        operation.add(anonymousInstrument);
-
-        int numberOfInstruments = operation.countInstruments();
-        assertEquals(2, numberOfInstruments);
-    }
-
     @Test(expected = InvalidInstrumentException.class)
     public void givenOperationWithInstrumentNotElligibleWhenAddInstrumentShouldThrowException() {
         buildAnOperationWhereInstrumentsAreNotElligible();
 
         operation.add(instrument);
-    }
-
-    @Test
-    public void givenOperationWhenTwoAddInstrumentsShouldCountTwoInstruments() {
-        buildAnOperationAndAddTwoInstruments();
-        int instrumentsCount = operation.countInstruments();
-        assertEquals(2, instrumentsCount);
     }
 
     @Test
@@ -177,13 +159,6 @@ public class OperationTest {
     private void buildAnOperationWithNumber() {
         buildAnOperation();
         operation.updateNumber(OPERATION_NUMBER);
-    }
-
-    private void buildAnOperationAndAddTwoInstruments() {
-        buildAnOperation();
-        List<Instrument> instruments = Arrays.asList(instrument, anonymousInstrument);
-
-        operation.add(instruments);
     }
 
     private void buildAnOperationWhereInstrumentsAreNotElligible() {

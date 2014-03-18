@@ -1,12 +1,25 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
+import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
+import ca.ulaval.ift6002.m2.factory.hibernate.InstrumentHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.InstrumentDTO;
 
 public class InstrumentDTOAssembler extends DTOAssembler<Instrument, InstrumentDTO> {
+
+    private final InstrumentFactory instrumentFactory;
+
+    public InstrumentDTOAssembler() {
+        // TODO CHANGE THIS WITH LOCATOR
+        instrumentFactory = new InstrumentHibernateFactory();
+    }
+
+    public InstrumentDTOAssembler(InstrumentFactory instrumentFactory) {
+        this.instrumentFactory = instrumentFactory;
+    }
 
     @Override
     public Instrument fromDTO(InstrumentDTO dto) {
@@ -14,7 +27,7 @@ public class InstrumentDTOAssembler extends DTOAssembler<Instrument, InstrumentD
         InstrumentStatus status = InstrumentStatus.determineFrom(dto.status);
         Serial serial = new Serial(dto.serial);
 
-        return new Instrument(typecode, status, serial);
+        return instrumentFactory.create(typecode, status, serial);
     }
 
     @Override
