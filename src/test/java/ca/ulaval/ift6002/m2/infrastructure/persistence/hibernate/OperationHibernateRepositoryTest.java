@@ -35,8 +35,10 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerPro
 public class OperationHibernateRepositoryTest {
 
     private static final int PATIENT_NUMBER = 1;
+    private static final String HEALTH_INSURANCE_NUMBER = "ABCD 1234 5678";
     private static final Collection<PrescriptionDTO> PRESCRIPTION_DTOS = new ArrayList<PrescriptionDTO>();
-    private static final PatientDTO PATIENT_DTO = new PatientDTO(PATIENT_NUMBER, PRESCRIPTION_DTOS);
+    private static final PatientDTO PATIENT_DTO = new PatientDTO(PATIENT_NUMBER, PRESCRIPTION_DTOS,
+            HEALTH_INSURANCE_NUMBER);
 
     private static final String INSTRUMENT_SERIAL = "a serial";
     private static final String INSTRUMENT_TYPECODE = "A typecode";

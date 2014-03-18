@@ -17,13 +17,17 @@ public class PatientDTO {
     @OneToMany(cascade = { CascadeType.ALL })
     public Collection<PrescriptionDTO> prescriptions;
 
-    public PatientDTO(Integer number, Collection<PrescriptionDTO> prescriptions) {
+    public String healthInsuranceNumber;
+
+    public PatientDTO(Integer number, Collection<PrescriptionDTO> prescriptions, String healthInsuranceNumber) {
         this.number = number;
         this.prescriptions = prescriptions;
+        this.healthInsuranceNumber = healthInsuranceNumber;
     }
 
     protected PatientDTO() {
         this.number = 0;
         this.prescriptions = new ArrayList<PrescriptionDTO>();
+        this.healthInsuranceNumber = "";
     }
 }

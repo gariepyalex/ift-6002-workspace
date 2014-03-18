@@ -31,12 +31,13 @@ public class PatientHibernateRepositoryTest {
     private static final int UNEXISTING_PATIENT_ID = -1;
 
     private static final int PATIENT_ID = 12345;
+    private static final String HEALTH_INSURANCE_NUMBER = "ABCD 1234 5678";
 
     private static final Collection<PrescriptionDTO> PRESCRIPTION_DTOS = new ArrayList<PrescriptionDTO>();
     private static final Collection<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
 
-    private static final PatientDTO PATIENT_DTO = new PatientDTO(12345, PRESCRIPTION_DTOS);
-    private static final Patient PATIENT = new Patient(PATIENT_ID, PRESCRIPTIONS);
+    private static final PatientDTO PATIENT_DTO = new PatientDTO(12345, PRESCRIPTION_DTOS, HEALTH_INSURANCE_NUMBER);
+    private static final Patient PATIENT = new Patient(PATIENT_ID, PRESCRIPTIONS, HEALTH_INSURANCE_NUMBER);
 
     @Mock
     private EntityManagerProvider entityManagerProvider;
