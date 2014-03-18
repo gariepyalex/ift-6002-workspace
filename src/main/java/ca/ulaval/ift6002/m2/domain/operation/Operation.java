@@ -81,10 +81,6 @@ public abstract class Operation {
         return false;
     }
 
-    public int countInstruments() {
-        return instruments.size();
-    }
-
     public void add(Instrument instrument) {
         if (has(instrument)) {
             throw new IllegalStateException("Instrument with same serial already exists: " + instrument);
@@ -141,6 +137,10 @@ public abstract class Operation {
 
     public void updateNumber(int number) {
         this.number = number;
+    }
+
+    public boolean hasInstruments() {
+        return !instruments.isEmpty();
     }
 
     public boolean hasNumber() {
