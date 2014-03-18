@@ -1,9 +1,9 @@
 package ca.ulaval.ift6002.m2.services;
 
-import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
-import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
-import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
-import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.assemblers.InstrumentAssembler;
+import ca.ulaval.ift6002.m2.application.assemblers.OperationAssembler;
+import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
@@ -13,12 +13,12 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator
 
 public class OperationService {
 
-    private final InstrumentResponseAssembler instrumentAssembler;
-    private final OperationResponseAssembler operationAssembler;
+    private final InstrumentAssembler instrumentAssembler;
+    private final OperationAssembler operationAssembler;
     private final OperationRepository operationRepository;
 
-    protected OperationService(OperationRepository operationRepository, OperationResponseAssembler operationAssembler,
-            InstrumentResponseAssembler instrumentAssembler) {
+    protected OperationService(OperationRepository operationRepository, OperationAssembler operationAssembler,
+            InstrumentAssembler instrumentAssembler) {
         this.operationRepository = operationRepository;
         this.operationAssembler = operationAssembler;
         this.instrumentAssembler = instrumentAssembler;
@@ -26,20 +26,20 @@ public class OperationService {
 
     public OperationService() {
         this.operationRepository = RepositoryLocator.getOperationRepository();
-        this.operationAssembler = new OperationResponseAssembler();
-        this.instrumentAssembler = new InstrumentResponseAssembler();
+        this.operationAssembler = new OperationAssembler();
+        this.instrumentAssembler = new InstrumentAssembler();
     }
 
-    public Integer saveOperation(OperationResponse operationResponse) {
-        Operation operation = operationAssembler.fromResponse(operationResponse);
+    public Integer saveOperation(OperationRequest operationResponse) {
+        Operation operation = operationAssembler.fromRequest(operationResponse);
 
         operationRepository.store(operation);
 
         return operation.getNumber();
     }
 
-    public void saveInstrument(String operationNumber, InstrumentResponse instrumentResponse) {
-        Instrument instrument = instrumentAssembler.fromResponse(instrumentResponse);
+    public void saveInstrument(String operationNumber, InstrumentRequest instrumentResponse) {
+        Instrument instrument = instrumentAssembler.fromRequest(instrumentResponse);
         Operation operation = operationRepository.get(Integer.valueOf(operationNumber));
 
         operation.add(instrument);
@@ -47,7 +47,7 @@ public class OperationService {
         operationRepository.store(operation);
     }
 
-    public void bookmarkInstrumentToStatus(String operationId, InstrumentResponse instrumentResponse) {
+    public void bookmarkInstrumentToStatus(String operationId, InstrumentRequest instrumentResponse) {
         Operation operation = operationRepository.get(Integer.valueOf(operationId));
         InstrumentStatus instrumentStatus = InstrumentStatus.determineFrom(instrumentResponse.status);
         Serial serial = new Serial(instrumentResponse.serial);

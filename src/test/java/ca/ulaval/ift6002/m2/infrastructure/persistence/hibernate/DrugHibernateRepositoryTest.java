@@ -115,7 +115,7 @@ public class DrugHibernateRepositoryTest {
     public void whenGettingDrugShouldCallEntityManagerFind() {
         willReturn(TYLENOL_DTO).given(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
         drugRepository.get(TYLENOL_DIN);
-        verify(entityManager, times(1)).find(DrugDTO.class, TYLENOL_DIN.getValue());
+        verify(entityManager).find(DrugDTO.class, TYLENOL_DIN.getValue());
     }
 
     @Test

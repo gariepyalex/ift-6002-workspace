@@ -10,33 +10,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PrescriptionResponse {
 
     @XmlElement(name = "intervenant")
-    public final String practitioner;
+    public final String practionner;
 
     public final String date;
 
-    @XmlElement(name = "renouvellements")
-    public final Integer renewals;
+    @XmlElement(name = "renouvellements_restants")
+    public final Integer remainingRenewals;
+
+    @XmlElement(name = "renouvellements_autorises")
+    public final Integer autorizedRenewals;
 
     public final String din;
 
-    @XmlElement(name = "nom")
-    public final String name;
+    @XmlElement(name = "consommations")
+    public final ConsumptionResponse[] consumptionResponses;
 
     protected PrescriptionResponse() {
-        // Protected constructor for jaxb
-        this.practitioner = "";
+        this.practionner = "";
         this.date = "";
-        this.renewals = 0;
+        this.remainingRenewals = 0;
+        this.autorizedRenewals = 0;
         this.din = "";
-        this.name = "";
+        this.consumptionResponses = null;
     }
 
-    public PrescriptionResponse(String practitioner, String date, Integer renewals, String din, String name) {
-        this.practitioner = practitioner;
+    public PrescriptionResponse(String practionner, String date, Integer remainingRenewals, Integer autorizedRenewals,
+            String din, ConsumptionResponse[] consumptionResponses) {
+        this.practionner = practionner;
         this.date = date;
-        this.renewals = renewals;
+        this.remainingRenewals = remainingRenewals;
+        this.autorizedRenewals = autorizedRenewals;
         this.din = din;
-        this.name = name;
+        this.consumptionResponses = consumptionResponses;
     }
 
 }

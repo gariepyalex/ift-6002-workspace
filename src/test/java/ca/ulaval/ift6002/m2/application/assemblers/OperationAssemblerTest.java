@@ -3,7 +3,6 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -15,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
@@ -26,7 +25,7 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-public class OperationResponseAssemblerTest {
+public class OperationAssemblerTest {
 
     private static final String INVALID_STATUS = "Vivant";
     private static final String INVALID_TYPE = "House";
@@ -39,7 +38,7 @@ public class OperationResponseAssemblerTest {
     private static final String STATUS = "planifiee";
     private static final Date DATE = new Date();
 
-    private final OperationResponse operationResponse = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER,
+    private final OperationRequest operationRequest = new OperationRequest(RANDOM_DESCRIPTOR, SURGEON_NUMBER,
             DATE_AS_STRING, ROOM, TYPE, STATUS, PATIENT_NUMBER);
 
     @Mock
@@ -52,7 +51,7 @@ public class OperationResponseAssemblerTest {
     private DateFormatter formatterDate;
 
     @InjectMocks
-    private OperationResponseAssembler operationAssembler;
+    private OperationAssembler operationAssembler;
 
     @Before
     public void setUp() {
@@ -60,41 +59,41 @@ public class OperationResponseAssemblerTest {
     }
 
     @Test
-    public void whenFromResponseShouldCallGetInPatientRepository() {
-        operationAssembler.fromResponse(operationResponse);
+    public void whenFromRequestShouldCallGetInPatientRepository() {
+        operationAssembler.fromRequest(operationRequest);
 
-        verify(patientRepository, times(1)).get(PATIENT_NUMBER);
+        verify(patientRepository).get(PATIENT_NUMBER);
     }
 
     @Test
-    public void whenFromResponseShouldCallParseInDateFormatter() {
-        operationAssembler.fromResponse(operationResponse);
+    public void whenFromRequestShouldCallParseInDateFormatter() {
+        operationAssembler.fromRequest(operationRequest);
 
-        verify(formatterDate, times(1)).parse(DATE_AS_STRING);
+        verify(formatterDate).parse(DATE_AS_STRING);
     }
 
     @Test
-    public void whenFromResponseShouldCallCreateInOperationFactory() {
-        OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
-                TYPE, STATUS, PATIENT_NUMBER);
-        operationAssembler.fromResponse(response);
-        verify(operationFactory, times(1)).create(any(OperationType.class), anyString(), any(Surgeon.class),
-                any(Date.class), any(Room.class), any(OperationStatus.class), any(Patient.class));
+    public void whenFromRequestShouldCallCreateInOperationFactory() {
+        OperationRequest request = new OperationRequest(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM, TYPE,
+                STATUS, PATIENT_NUMBER);
+        operationAssembler.fromRequest(request);
+        verify(operationFactory).create(any(OperationType.class), anyString(), any(Surgeon.class), any(Date.class),
+                any(Room.class), any(OperationStatus.class), any(Patient.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void givenInvalidTypeWhenFromResponseShouldThrowException() {
-        OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
+    public void givenInvalidTypeWhenFromRequestShouldThrowException() {
+        OperationRequest request = new OperationRequest(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
                 INVALID_TYPE, STATUS, PATIENT_NUMBER);
 
-        operationAssembler.fromResponse(response);
+        operationAssembler.fromRequest(request);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void givenInvalidStatusWhenFromResponseShouldThrowException() {
-        OperationResponse response = new OperationResponse(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM,
-                TYPE, INVALID_STATUS, PATIENT_NUMBER);
+    public void givenInvalidStatusWhenFromRequestShouldThrowException() {
+        OperationRequest request = new OperationRequest(RANDOM_DESCRIPTOR, SURGEON_NUMBER, DATE_AS_STRING, ROOM, TYPE,
+                INVALID_STATUS, PATIENT_NUMBER);
 
-        operationAssembler.fromResponse(response);
+        operationAssembler.fromRequest(request);
     }
 }

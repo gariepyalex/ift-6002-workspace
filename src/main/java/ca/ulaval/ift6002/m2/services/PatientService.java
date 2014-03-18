@@ -1,9 +1,9 @@
 package ca.ulaval.ift6002.m2.services;
 
-import ca.ulaval.ift6002.m2.application.assemblers.ConsumptionResponseAssembler;
-import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionResponseAssembler;
-import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
-import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
+import ca.ulaval.ift6002.m2.application.assemblers.ConsumptionAssembler;
+import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionAssembler;
+import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
+import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
@@ -13,11 +13,11 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator
 public class PatientService {
 
     private final PatientRepository patientRepository;
-    private final PrescriptionResponseAssembler prescriptionAssembler;
-    private final ConsumptionResponseAssembler consumptionAssembler;
+    private final PrescriptionAssembler prescriptionAssembler;
+    private final ConsumptionAssembler consumptionAssembler;
 
-    public PatientService(PatientRepository patientRepository, PrescriptionResponseAssembler prescriptionAssembler,
-            ConsumptionResponseAssembler consumptionAssembler) {
+    public PatientService(PatientRepository patientRepository, PrescriptionAssembler prescriptionAssembler,
+            ConsumptionAssembler consumptionAssembler) {
         this.patientRepository = patientRepository;
         this.prescriptionAssembler = prescriptionAssembler;
         this.consumptionAssembler = consumptionAssembler;
@@ -25,11 +25,11 @@ public class PatientService {
 
     public PatientService() {
         this.patientRepository = RepositoryLocator.getPatientRepository();
-        this.prescriptionAssembler = new PrescriptionResponseAssembler();
-        this.consumptionAssembler = new ConsumptionResponseAssembler();
+        this.prescriptionAssembler = new PrescriptionAssembler();
+        this.consumptionAssembler = new ConsumptionAssembler();
     }
 
-    public void savePrescription(String patientId, PrescriptionResponse response) {
+    public void savePrescription(String patientId, PrescriptionRequest response) {
         Prescription prescription = prescriptionAssembler.fromResponse(response);
         Patient patient = getPatient(patientId);
 
@@ -38,14 +38,14 @@ public class PatientService {
         patientRepository.store(patient);
     }
 
-    public void addConsumption(String patientId, String prescriptionId, ConsumptionResponse response) {
-        Consumption consumption = consumptionAssembler.fromResponse(response);
+    public void addConsumption(String patientId, String prescriptionId, ConsumptionRequest response) {
+        Consumption consumption = consumptionAssembler.fromRequest(response);
 
         Patient patient = getPatient(patientId);
         patient.consumesPrescription(Integer.valueOf(prescriptionId), consumption);
     }
 
-    public PrescriptionResponse[] getPrescriptions(String patientId) {
+    public PrescriptionRequest[] getPrescriptions(String patientId) {
         Patient patient = getPatient(patientId);
 
         return prescriptionAssembler.toResponses(patient.getPrescriptions());

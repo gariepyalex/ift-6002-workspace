@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
+import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
@@ -23,7 +23,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PrescriptionResponseAssemblerTest {
+public class PrescriptionAssemblerTest {
 
     private static final Practitioner A_PRACTITIONER = new Practitioner("A random name");
     private static final String A_DATE_AS_STRING = "2014-01-03T12:00:00";
@@ -43,11 +43,11 @@ public class PrescriptionResponseAssemblerTest {
     private static final Prescription PRESCRIPTION_WITH_INCOMPLETE_DRUG = new Prescription(A_PRACTITIONER, A_DATE,
             A_RENEWALS, A_DRUG_WITH_ONLY_A_NAME);
 
-    private static final PrescriptionResponse PRESCRIPTION_RESPONSE = new PrescriptionResponse(
+    private static final PrescriptionRequest PRESCRIPTION_RESPONSE = new PrescriptionRequest(
             A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS, A_VALID_DIN.toString(), A_BRAND_NAME);
 
     private static final Collection<Prescription> PRESCRIPTIONS = Arrays.asList(PRESCRIPTION);
-    private static final PrescriptionResponse[] PRESCRIPTION_RESPONSES = { PRESCRIPTION_RESPONSE };
+    private static final PrescriptionRequest[] PRESCRIPTION_RESPONSES = { PRESCRIPTION_RESPONSE };
 
     @Mock
     private DrugRepository drugRepository;
@@ -56,7 +56,7 @@ public class PrescriptionResponseAssemblerTest {
     private DateFormatter dateFormatter;
 
     @InjectMocks
-    private PrescriptionResponseAssembler prescriptionAssembler;
+    private PrescriptionAssembler prescriptionAssembler;
 
     @Before
     public void givenDrugRepositoryReturns() {
@@ -72,7 +72,7 @@ public class PrescriptionResponseAssemblerTest {
 
     @Test
     public void givenPrescriptionWhenConvertToResponseShouldReturnGivenResponse() {
-        PrescriptionResponse responseBuilt = prescriptionAssembler.toResponse(PRESCRIPTION);
+        PrescriptionRequest responseBuilt = prescriptionAssembler.toResponse(PRESCRIPTION);
 
         assertResponseEquals(PRESCRIPTION_RESPONSE, responseBuilt);
     }
@@ -86,7 +86,7 @@ public class PrescriptionResponseAssemblerTest {
 
     @Test
     public void givenResponseWithNameAndNoDinWhenConvertToPrescriptionShouldReturnGivenPrescription() {
-        PrescriptionResponse response = new PrescriptionResponse(A_PRACTITIONER.toString(), A_DATE_AS_STRING,
+        PrescriptionRequest response = new PrescriptionRequest(A_PRACTITIONER.toString(), A_DATE_AS_STRING,
                 A_RENEWALS, AN_EMPTY_DIN.toString(), A_BRAND_NAME);
         Prescription returnedPrescription = prescriptionAssembler.fromResponse(response);
         assertEquals(PRESCRIPTION_WITH_INCOMPLETE_DRUG, returnedPrescription);
@@ -94,18 +94,18 @@ public class PrescriptionResponseAssemblerTest {
 
     @Test
     public void whenGivenCollectionOfPrescriptionsShouldConvertToCollectionOfPrescriptionResponse() {
-        PrescriptionResponse[] prescriptionsResponseBuilt = prescriptionAssembler.toResponses(PRESCRIPTIONS);
+        PrescriptionRequest[] prescriptionsResponseBuilt = prescriptionAssembler.toResponses(PRESCRIPTIONS);
 
         assertResponsesEquals(PRESCRIPTION_RESPONSES, prescriptionsResponseBuilt);
     }
 
-    private void assertResponsesEquals(PrescriptionResponse[] expected, PrescriptionResponse[] actual) {
+    private void assertResponsesEquals(PrescriptionRequest[] expected, PrescriptionRequest[] actual) {
         for (int i = 0; i < expected.length; i++) {
             assertResponseEquals(expected[i], actual[i]);
         }
     }
 
-    private void assertResponseEquals(PrescriptionResponse expected, PrescriptionResponse actual) {
+    private void assertResponseEquals(PrescriptionRequest expected, PrescriptionRequest actual) {
         assertEquals(expected.practitioner, actual.practitioner);
         assertEquals(expected.date, actual.date);
         assertEquals(expected.renewals, actual.renewals);

@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.ift6002.m2.application.assemblers.DrugResponseAssembler;
+import ca.ulaval.ift6002.m2.application.assemblers.DrugAssembler;
 import ca.ulaval.ift6002.m2.application.responses.DrugResponse;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.services.DrugService;
@@ -20,7 +20,7 @@ public class DrugResource extends Resource {
 
     private static final String INVALID_SEARCH_ERROR_CODE = "DIN001";
 
-    private final DrugResponseAssembler drugAssembler = new DrugResponseAssembler();
+    private final DrugAssembler drugAssembler = new DrugAssembler();
 
     private final DrugService drugService = new DrugService();
 

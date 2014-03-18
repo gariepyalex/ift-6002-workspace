@@ -2,7 +2,7 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 
 import java.util.Date;
 
-import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
@@ -12,37 +12,35 @@ import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.factory.hibernate.OperationHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
-public class OperationResponseAssembler {
+public class OperationAssembler {
 
     private final OperationFactory operationFactory;
     private final PatientRepository patientRepository;
     private final DateFormatter formatterDate;
 
-    protected OperationResponseAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
+    protected OperationAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
             DateFormatter formatterDate) {
         this.operationFactory = operationfactory;
         this.patientRepository = patientRepository;
         this.formatterDate = formatterDate;
     }
 
-    public OperationResponseAssembler() {
-        // TODO call factory locator
-        this.operationFactory = new OperationHibernateFactory();
+    public OperationAssembler() {
+        this.operationFactory = new OperationFactory();
         this.patientRepository = RepositoryLocator.getPatientRepository();
         this.formatterDate = new DateFormatter();
     }
 
-    public Operation fromResponse(OperationResponse response) {
-        Patient patient = patientRepository.get(response.patientNumber);
-        Date date = formatterDate.parse(response.date);
-        Surgeon surgeon = new Surgeon(response.surgeon);
-        Room room = new Room(response.room);
-        String description = response.description;
-        OperationType type = OperationType.determineFrom(response.type);
-        OperationStatus status = OperationStatus.determineFrom(response.status);
+    public Operation fromRequest(OperationRequest request) {
+        Patient patient = patientRepository.get(request.patientNumber);
+        Date date = formatterDate.parse(request.date);
+        Surgeon surgeon = new Surgeon(request.surgeon);
+        Room room = new Room(request.room);
+        String description = request.description;
+        OperationType type = OperationType.determineFrom(request.type);
+        OperationStatus status = OperationStatus.determineFrom(request.status);
 
         return operationFactory.create(type, description, surgeon, date, room, status, patient);
     }

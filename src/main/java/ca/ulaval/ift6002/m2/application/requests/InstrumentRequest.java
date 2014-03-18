@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.application.responses;
+package ca.ulaval.ift6002.m2.application.requests;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "instrument")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class InstrumentResponse {
+public class InstrumentRequest {
 
     @XmlElement(name = "statut")
     public final String status;
@@ -18,14 +18,14 @@ public class InstrumentResponse {
     @XmlElement(name = "typecode")
     public final String typecode;
 
-    protected InstrumentResponse() {
+    protected InstrumentRequest() {
         // Protected constructor for jaxb
         this.status = "";
         this.serial = "";
         this.typecode = "";
     }
 
-    public InstrumentResponse(String typecode, String status, String serial) {
+    public InstrumentRequest(String typecode, String status, String serial) {
         this.status = status;
         this.serial = serial;
         this.typecode = typecode;

@@ -5,7 +5,7 @@ import java.util.Collection;
 import ca.ulaval.ift6002.m2.application.responses.DrugResponse;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
-public class DrugResponseAssembler {
+public class DrugAssembler {
 
     public DrugResponse toResponse(Drug drug) {
         return new DrugResponse(drug.getDin().toString(), drug.getBrandName(), drug.getDescriptor());

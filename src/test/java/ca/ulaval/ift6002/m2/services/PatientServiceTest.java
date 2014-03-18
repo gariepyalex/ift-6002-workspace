@@ -13,8 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionResponseAssembler;
-import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
+import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionAssembler;
+import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
@@ -32,7 +32,7 @@ public class PatientServiceTest {
     private static final Date DATE = new Date();
     private static final Drug DRUG = Drug.fromName("a name");
     private static final Prescription PRESCRIPTION = new Prescription(PRACTITIONER, DATE, 0, DRUG);
-    private static final PrescriptionResponse RESPONSE = new PrescriptionResponse("", "", 0, "", "");
+    private static final PrescriptionRequest RESPONSE = new PrescriptionRequest("", "", 0, "", "");
     private static final ArrayList<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
 
     @Mock
@@ -42,7 +42,7 @@ public class PatientServiceTest {
     private PatientRepository patientRepository;
 
     @Mock
-    private PrescriptionResponseAssembler prescriptionAssembler;
+    private PrescriptionAssembler prescriptionAssembler;
 
     @InjectMocks
     private PatientService patientService;

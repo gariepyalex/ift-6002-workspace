@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -96,6 +95,6 @@ public class PatientTest {
         willReturn(true).given(prescription).hasNumber(EXISTING_PRESCRIPTION_NUMBER);
 
         patient.consumesPrescription(EXISTING_PRESCRIPTION_NUMBER, consumption);
-        verify(prescription, times(1)).addConsumption(consumption);
+        verify(prescription).addConsumption(consumption);
     }
 }
