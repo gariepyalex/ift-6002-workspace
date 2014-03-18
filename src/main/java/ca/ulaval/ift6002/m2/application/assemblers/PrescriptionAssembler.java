@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
@@ -27,18 +28,19 @@ public class PrescriptionAssembler {
         this.drugRepository = RepositoryLocator.getDrugRepository();
     }
 
-    public PrescriptionRequest toResponse(Prescription prescription) {
+    public PrescriptionResponse toResponse(Prescription prescription) {
         String formattedDate = dateFormatter.dateToString(prescription.getDate());
         String practitioner = prescription.getPractioner().toString();
-        Integer renewals = prescription.getRenewals();
-        String din = prescription.getDrug().getDin().toString();
+        Integer remainingRenewals = Integer.valueOf(prescription.remainingRenewals());
+        Integer authorizedRenewals = Integer.valueOf(prescription.getRenewals());
         String brandName = prescription.getDrug().getBrandName();
 
-        return new PrescriptionRequest(practitioner, formattedDate, renewals, din, brandName);
+        return new PrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals, authorizedRenewals,
+                null, null);
     }
 
-    public PrescriptionRequest[] toResponses(Collection<Prescription> prescriptions) {
-        PrescriptionRequest[] prescriptionResponses = new PrescriptionRequest[prescriptions.size()];
+    public PrescriptionResponse[] toResponses(Collection<Prescription> prescriptions) {
+        PrescriptionResponse[] prescriptionResponses = new PrescriptionResponse[prescriptions.size()];
         int i = 0;
 
         for (Prescription prescription : prescriptions) {
@@ -48,26 +50,26 @@ public class PrescriptionAssembler {
         return prescriptionResponses;
     }
 
-    public Prescription fromResponse(PrescriptionRequest response) {
-        Practitioner practitioner = new Practitioner(response.practitioner);
-        Date parsedDate = dateFormatter.parse(response.date);
-        Drug drug = getDrugFromRepository(response);
+    public Prescription fromRequest(PrescriptionRequest request) {
+        Practitioner practitioner = new Practitioner(request.practitioner);
+        Date parsedDate = dateFormatter.parse(request.date);
+        Drug drug = getDrugFromRepository(request);
 
-        return new Prescription(practitioner, parsedDate, response.renewals, drug);
+        return new Prescription(practitioner, parsedDate, request.renewals, drug);
     }
 
-    private Drug getDrugFromRepository(PrescriptionRequest response) {
-        if (isDinSpecified(response)) {
-            Din din = new Din(response.din);
+    private Drug getDrugFromRepository(PrescriptionRequest request) {
+        if (isDinSpecified(request)) {
+            Din din = new Din(request.din);
 
             return drugRepository.get(din);
         } else {
-            return drugRepository.get(response.name);
+            return drugRepository.get(request.name);
         }
     }
 
-    private boolean isDinSpecified(PrescriptionRequest response) {
-        return !response.din.trim().isEmpty();
+    private boolean isDinSpecified(PrescriptionRequest request) {
+        return !request.din.trim().isEmpty();
     }
 
 }

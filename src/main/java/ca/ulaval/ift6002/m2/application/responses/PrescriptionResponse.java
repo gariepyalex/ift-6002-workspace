@@ -10,7 +10,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PrescriptionResponse {
 
     @XmlElement(name = "intervenant")
-    public final String practionner;
+    public final String practitioner;
+
+    @XmlElement(name = "nom")
+    public final String name;
 
     public final String date;
 
@@ -26,17 +29,19 @@ public class PrescriptionResponse {
     public final ConsumptionResponse[] consumptionResponses;
 
     protected PrescriptionResponse() {
-        this.practionner = "";
+        this.practitioner = "";
         this.date = "";
         this.remainingRenewals = 0;
         this.autorizedRenewals = 0;
         this.din = "";
+        this.name = "";
         this.consumptionResponses = null;
     }
 
-    public PrescriptionResponse(String practionner, String date, Integer remainingRenewals, Integer autorizedRenewals,
-            String din, ConsumptionResponse[] consumptionResponses) {
-        this.practionner = practionner;
+    public PrescriptionResponse(String name, String practionner, String date, Integer remainingRenewals,
+            Integer autorizedRenewals, String din, ConsumptionResponse[] consumptionResponses) {
+        this.name = name;
+        this.practitioner = practionner;
         this.date = date;
         this.remainingRenewals = remainingRenewals;
         this.autorizedRenewals = autorizedRenewals;

@@ -16,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.application.validator.request.ConsumptionRequestValidator;
 import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
 import ca.ulaval.ift6002.m2.application.validator.request.PrescriptionRequestValidator;
@@ -59,7 +60,7 @@ public class PatientResource extends Resource {
     @GET
     public Response findPrescriptions(@PathParam("patientId") String patientId) {
         try {
-            PrescriptionRequest[] responses = patientService.getPrescriptions(patientId);
+            PrescriptionResponse[] responses = patientService.getPrescriptions(patientId);
 
             return success(responses);
         } catch (NoSuchElementException e) {

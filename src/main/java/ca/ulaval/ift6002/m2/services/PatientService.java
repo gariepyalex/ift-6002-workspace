@@ -4,6 +4,7 @@ import ca.ulaval.ift6002.m2.application.assemblers.ConsumptionAssembler;
 import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionAssembler;
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
@@ -30,7 +31,7 @@ public class PatientService {
     }
 
     public void savePrescription(String patientId, PrescriptionRequest response) {
-        Prescription prescription = prescriptionAssembler.fromResponse(response);
+        Prescription prescription = prescriptionAssembler.fromRequest(response);
         Patient patient = getPatient(patientId);
 
         patient.receivesPrescription(prescription);
@@ -45,7 +46,7 @@ public class PatientService {
         patient.consumesPrescription(Integer.valueOf(prescriptionId), consumption);
     }
 
-    public PrescriptionRequest[] getPrescriptions(String patientId) {
+    public PrescriptionResponse[] getPrescriptions(String patientId) {
         Patient patient = getPatient(patientId);
 
         return prescriptionAssembler.toResponses(patient.getPrescriptions());
