@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionResponseAssembler;
+import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionAssembler;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
@@ -42,7 +42,7 @@ public class PatientServiceTest {
     private PatientRepository patientRepository;
 
     @Mock
-    private PrescriptionResponseAssembler prescriptionAssembler;
+    private PrescriptionAssembler prescriptionAssembler;
 
     @InjectMocks
     private PatientService patientService;

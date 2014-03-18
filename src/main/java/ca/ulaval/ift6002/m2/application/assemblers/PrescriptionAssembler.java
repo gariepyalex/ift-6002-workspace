@@ -12,17 +12,17 @@ import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
-public class PrescriptionResponseAssembler {
+public class PrescriptionAssembler {
 
     private final DateFormatter dateFormatter;
     private final DrugRepository drugRepository;
 
-    protected PrescriptionResponseAssembler(DateFormatter dateFormatter, DrugRepository drugRepository) {
+    protected PrescriptionAssembler(DateFormatter dateFormatter, DrugRepository drugRepository) {
         this.dateFormatter = dateFormatter;
         this.drugRepository = drugRepository;
     }
 
-    public PrescriptionResponseAssembler() {
+    public PrescriptionAssembler() {
         this.dateFormatter = new DateFormatter();
         this.drugRepository = RepositoryLocator.getDrugRepository();
     }

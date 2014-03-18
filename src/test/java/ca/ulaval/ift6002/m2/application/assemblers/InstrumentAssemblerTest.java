@@ -19,7 +19,7 @@ import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InstrumentResponseAssemblerTest {
+public class InstrumentAssemblerTest {
 
     private static final Serial SERIAL = new Serial("serial");
     private static final Typecode TYPECODE = new Typecode("typecode");
@@ -28,9 +28,9 @@ public class InstrumentResponseAssemblerTest {
     private static final String RESPONSE_TYPECODE = "typecode";
     private static final String RESPONSE_SERIAL = "serial";
 
-    private static final InstrumentRequest INSTRUMENT_RESPONSE = new InstrumentRequest(RESPONSE_TYPECODE,
+    private static final InstrumentRequest INSTRUMENT_REQUEST = new InstrumentRequest(RESPONSE_TYPECODE,
             STATUS.toString(), RESPONSE_SERIAL);
-    private static final InstrumentRequest INSTRUMENT_RESPONSE_WITH_UNEXISTING_STATUS = new InstrumentRequest(
+    private static final InstrumentRequest INSTRUMENT_REQUEST_WITH_UNEXISTING_STATUS = new InstrumentRequest(
             RESPONSE_TYPECODE, "an unexisting status", RESPONSE_SERIAL);
 
     @Mock
@@ -40,7 +40,7 @@ public class InstrumentResponseAssemblerTest {
     private static Instrument instrument;
 
     @InjectMocks
-    private InstrumentResponseAssembler instrumentAssembler;
+    private InstrumentAssembler instrumentAssembler;
 
     @Before
     public void setUp() {
@@ -48,15 +48,15 @@ public class InstrumentResponseAssemblerTest {
     }
 
     @Test
-    public void givenResponseWhenConvertToInstrumentShouldCallFactory() {
-        instrumentAssembler.fromResponse(INSTRUMENT_RESPONSE);
+    public void givenRequestWhenConvertToInstrumentShouldCallFactory() {
+        instrumentAssembler.fromRequest(INSTRUMENT_REQUEST);
 
         verify(instrumentFactory).create(any(Typecode.class), any(InstrumentStatus.class), any(Serial.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void givenResponseWithUnexistingStatusWhenConvertToInstrumentShouldThrowException() {
-        instrumentAssembler.fromResponse(INSTRUMENT_RESPONSE_WITH_UNEXISTING_STATUS);
+    public void givenRequestWithUnexistingStatusWhenConvertToInstrumentShouldThrowException() {
+        instrumentAssembler.fromRequest(INSTRUMENT_REQUEST_WITH_UNEXISTING_STATUS);
     }
 
     private void setUpInstrument(Typecode typecode, InstrumentStatus status, Serial serialNumber) {
