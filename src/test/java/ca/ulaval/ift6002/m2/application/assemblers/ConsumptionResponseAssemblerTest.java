@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
@@ -24,11 +23,6 @@ public class ConsumptionResponseAssemblerTest {
             PHARMACY.toString(), COUNT);
     private ConsumptionResponseAssembler consumptionResponseAssembler = new ConsumptionResponseAssembler();
 
-    @Before
-    public void setUpConsumptionResponseAssemblerTest() {
-
-    }
-
     @Test
     public void givenConsumptionWhenConvertToResponseShouldReturnGivenConsumptionResponse() {
         ConsumptionRequest responseBuilt = consumptionResponseAssembler.toResponse(CONSUMPTION);
@@ -38,13 +32,7 @@ public class ConsumptionResponseAssemblerTest {
     @Test
     public void givenConsumptionResponseWhenConvertToConsumptionShouldReturnGivenConsumption() {
         Consumption consumptionBuilt = consumptionResponseAssembler.fromResponse(CONSUMPTION_RESPONSE);
-        assertConsumptionEquals(CONSUMPTION, consumptionBuilt);
-    }
-
-    private void assertConsumptionEquals(Consumption expected, Consumption actual) {
-        assertEquals(expected.getCount(), actual.getCount());
-        assertEquals(expected.getDate(), actual.getDate());
-        assertEquals(expected.getPharmacy(), actual.getPharmacy());
+        assertEquals(CONSUMPTION, consumptionBuilt);
     }
 
     private void assertConsumptionResponseEquals(ConsumptionRequest expected, ConsumptionRequest actual) {
