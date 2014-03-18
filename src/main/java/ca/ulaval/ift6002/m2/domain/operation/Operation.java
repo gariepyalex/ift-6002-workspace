@@ -91,7 +91,7 @@ public abstract class Operation {
     }
 
     public boolean hasInstruments() {
-        return !operationData.hasInstrument();
+        return operationData.hasInstrument();
     }
 
     public boolean hasNumber() {
