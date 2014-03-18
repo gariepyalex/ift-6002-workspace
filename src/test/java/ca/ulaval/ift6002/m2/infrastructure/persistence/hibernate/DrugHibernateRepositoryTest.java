@@ -119,16 +119,16 @@ public class DrugHibernateRepositoryTest {
     }
 
     @Test
-    public void whenFindByBrandNameOrDescriptionShouldCallDrugFromDTOs() {
+    public void whenFindByKeywordShouldCallDrugFromDTOs() {
         willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugDTO.class));
-        drugRepository.findByBrandNameOrDescriptor(KEYWORD);
+        drugRepository.findBy(KEYWORD);
         verify(drugDTOAssembler).fromDTOs(anyCollectionOf(DrugDTO.class));
     }
 
     @Test
-    public void whenFindByBrandNameOrDescriptionShouldCallTypedQueryGetResultList() {
+    public void whenFindByKeywordShouldCallTypedQueryGetResultList() {
         willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugDTO.class));
-        drugRepository.findByBrandNameOrDescriptor(KEYWORD);
+        drugRepository.findBy(KEYWORD);
         verify(query).getResultList();
     }
 
