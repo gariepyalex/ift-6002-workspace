@@ -50,6 +50,10 @@ public class OperationHibernateData implements OperationData {
         this.instruments = new ArrayList<>();
     }
 
+    protected OperationHibernateData() {
+        // For hibernate
+    }
+
     @Override
     public Collection<Instrument> getInstruments() {
         return new ArrayList<Instrument>(instruments);
