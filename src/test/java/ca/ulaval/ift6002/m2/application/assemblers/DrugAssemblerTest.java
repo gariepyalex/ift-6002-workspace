@@ -12,7 +12,7 @@ import ca.ulaval.ift6002.m2.application.responses.DrugResponse;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
-public class DrugResponseAssemblerTest {
+public class DrugAssemblerTest {
 
     private static final Din DIN = new Din("A random din");
     private static final String BRAND_NAME = "A random brand name";
@@ -24,11 +24,11 @@ public class DrugResponseAssemblerTest {
     private static final Collection<Drug> DRUGS = Arrays.asList(DRUG);
     private static final DrugResponse[] DRUG_RESPONSES = { DRUG_RESPONSE };
 
-    private DrugResponseAssembler drugAssembler;
+    private DrugAssembler drugAssembler;
 
     @Before
     public void setUp() {
-        drugAssembler = new DrugResponseAssembler();
+        drugAssembler = new DrugAssembler();
     }
 
     @Test

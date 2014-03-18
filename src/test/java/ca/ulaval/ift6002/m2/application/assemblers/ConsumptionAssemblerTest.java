@@ -7,11 +7,12 @@ import java.util.Date;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
+import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Pharmacy;
 
-public class ConsumptionResponseAssemblerTest {
+public class ConsumptionAssemblerTest {
 
     private static final DateFormatter DATE_FORMATTER = new DateFormatter();
     private static final Pharmacy PHARMACY = new Pharmacy("pharmacy");
@@ -19,26 +20,29 @@ public class ConsumptionResponseAssemblerTest {
     private static final String DATE_AS_STRING = "2001-07-04T12:08:56";
     private static final Date DATE = DATE_FORMATTER.parse(DATE_AS_STRING);
     private static final Consumption CONSUMPTION = new Consumption(DATE, PHARMACY, COUNT);
-    private static final ConsumptionRequest CONSUMPTION_RESPONSE = new ConsumptionRequest(DATE_AS_STRING,
+    private static final ConsumptionResponse CONSUMPTION_RESPONSE = new ConsumptionResponse(DATE_AS_STRING,
             PHARMACY.toString(), COUNT);
-    private ConsumptionResponseAssembler consumptionResponseAssembler = new ConsumptionResponseAssembler();
+    private static final ConsumptionRequest CONSUMPTION_REQUEST = new ConsumptionRequest(DATE_AS_STRING,
+            PHARMACY.toString(), COUNT);
+    private ConsumptionAssembler consumptionAssembler = new ConsumptionAssembler();
 
     @Test
     public void givenConsumptionWhenConvertToResponseShouldReturnGivenConsumptionResponse() {
-        ConsumptionRequest responseBuilt = consumptionResponseAssembler.toResponse(CONSUMPTION);
+        ConsumptionResponse responseBuilt = consumptionAssembler.toResponse(CONSUMPTION);
         assertConsumptionResponseEquals(CONSUMPTION_RESPONSE, responseBuilt);
     }
 
     @Test
-    public void givenConsumptionResponseWhenConvertToConsumptionShouldReturnGivenConsumption() {
-        Consumption consumptionBuilt = consumptionResponseAssembler.fromResponse(CONSUMPTION_RESPONSE);
+    public void givenConsumptionRequestWhenConvertToConsumptionShouldReturnGivenConsumption() {
+        Consumption consumptionBuilt = consumptionAssembler.fromRequest(CONSUMPTION_REQUEST);
         assertEquals(CONSUMPTION, consumptionBuilt);
     }
 
-    private void assertConsumptionResponseEquals(ConsumptionRequest expected, ConsumptionRequest actual) {
-        assertEquals(expected.consumptions, actual.consumptions);
-        assertEquals(expected.date, actual.date);
-        assertEquals(expected.pharmacy, actual.pharmacy);
+    private void assertConsumptionResponseEquals(ConsumptionResponse consumptionResponse,
+            ConsumptionResponse responseBuilt) {
+        assertEquals(consumptionResponse.consumptions, responseBuilt.consumptions);
+        assertEquals(consumptionResponse.date, responseBuilt.date);
+        assertEquals(consumptionResponse.pharmacy, responseBuilt.pharmacy);
     }
 
 }

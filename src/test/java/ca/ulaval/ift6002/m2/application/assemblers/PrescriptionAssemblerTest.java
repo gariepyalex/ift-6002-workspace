@@ -23,7 +23,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PrescriptionResponseAssemblerTest {
+public class PrescriptionAssemblerTest {
 
     private static final Practitioner A_PRACTITIONER = new Practitioner("A random name");
     private static final String A_DATE_AS_STRING = "2014-01-03T12:00:00";
@@ -56,7 +56,7 @@ public class PrescriptionResponseAssemblerTest {
     private DateFormatter dateFormatter;
 
     @InjectMocks
-    private PrescriptionResponseAssembler prescriptionAssembler;
+    private PrescriptionAssembler prescriptionAssembler;
 
     @Before
     public void givenDrugRepositoryReturns() {
