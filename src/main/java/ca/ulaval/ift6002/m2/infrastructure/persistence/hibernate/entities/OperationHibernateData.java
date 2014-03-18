@@ -79,7 +79,7 @@ public class OperationHibernateData implements OperationData {
         return room;
     }
 
-    public int getSurgeonLiscence() {
+    public int getSurgeonLicense() {
         return surgeonLicense;
     }
 
