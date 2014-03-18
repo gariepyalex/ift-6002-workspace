@@ -49,7 +49,7 @@ public class PatientServiceTest {
 
     @Before
     public void setUp() {
-        willReturn(PRESCRIPTION).given(prescriptionAssembler).fromResponse(RESPONSE);
+        willReturn(PRESCRIPTION).given(prescriptionAssembler).fromRequest(RESPONSE);
         willReturn(patient).given(patientRepository).get(PATIENT_ID_AS_INT);
         willReturn(PRESCRIPTIONS).given(patient).getPrescriptions();
     }
@@ -58,7 +58,7 @@ public class PatientServiceTest {
     public void whenSavePrescriptionToPatientShouldConvertResponseToPrescription() {
         patientService.savePrescription(PATIENT_ID_AS_STRING, RESPONSE);
 
-        verify(prescriptionAssembler).fromResponse(RESPONSE);
+        verify(prescriptionAssembler).fromRequest(RESPONSE);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
@@ -25,6 +27,8 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 @RunWith(MockitoJUnitRunner.class)
 public class PrescriptionAssemblerTest {
 
+    private static final int AN_AUTHORIZED_RENEWALS = 1;
+    private static final int A_REMAINING_RENEWALS = 1;
     private static final Practitioner A_PRACTITIONER = new Practitioner("A random name");
     private static final String A_DATE_AS_STRING = "2014-01-03T12:00:00";
     private static final Date A_DATE = new Date();
@@ -43,11 +47,14 @@ public class PrescriptionAssemblerTest {
     private static final Prescription PRESCRIPTION_WITH_INCOMPLETE_DRUG = new Prescription(A_PRACTITIONER, A_DATE,
             A_RENEWALS, A_DRUG_WITH_ONLY_A_NAME);
 
-    private static final PrescriptionRequest PRESCRIPTION_RESPONSE = new PrescriptionRequest(
-            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS, A_VALID_DIN.toString(), A_BRAND_NAME);
+    private static final PrescriptionRequest PRESCRIPTION_REQUEST = new PrescriptionRequest(A_PRACTITIONER.toString(),
+            A_DATE_AS_STRING, A_RENEWALS, A_VALID_DIN.toString(), A_BRAND_NAME);
+
+    private static final PrescriptionResponse PRESCRIPTION_RESPONSE = new PrescriptionResponse(A_BRAND_NAME,
+            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_REMAINING_RENEWALS, AN_AUTHORIZED_RENEWALS, null, null);
 
     private static final Collection<Prescription> PRESCRIPTIONS = Arrays.asList(PRESCRIPTION);
-    private static final PrescriptionRequest[] PRESCRIPTION_RESPONSES = { PRESCRIPTION_RESPONSE };
+    private static final PrescriptionResponse[] PRESCRIPTION_RESPONSES = { PRESCRIPTION_RESPONSE };
 
     @Mock
     private DrugRepository drugRepository;
@@ -72,44 +79,46 @@ public class PrescriptionAssemblerTest {
 
     @Test
     public void givenPrescriptionWhenConvertToResponseShouldReturnGivenResponse() {
-        PrescriptionRequest responseBuilt = prescriptionAssembler.toResponse(PRESCRIPTION);
+        PrescriptionResponse responseBuilt = prescriptionAssembler.toResponse(PRESCRIPTION);
 
         assertResponseEquals(PRESCRIPTION_RESPONSE, responseBuilt);
     }
 
     @Test
-    public void givenResponseWhenConvertToPrescriptionShouldReturnGivenPrescription() {
-        Prescription prescriptionBuilt = prescriptionAssembler.fromResponse(PRESCRIPTION_RESPONSE);
+    public void givenRequestWhenConvertToPrescriptionShouldReturnGivenPrescription() {
+        Prescription prescriptionBuilt = prescriptionAssembler.fromRequest(PRESCRIPTION_REQUEST);
 
         assertEquals(PRESCRIPTION, prescriptionBuilt);
     }
 
     @Test
-    public void givenResponseWithNameAndNoDinWhenConvertToPrescriptionShouldReturnGivenPrescription() {
-        PrescriptionRequest response = new PrescriptionRequest(A_PRACTITIONER.toString(), A_DATE_AS_STRING,
-                A_RENEWALS, AN_EMPTY_DIN.toString(), A_BRAND_NAME);
-        Prescription returnedPrescription = prescriptionAssembler.fromResponse(response);
+    public void givenRequestWithNameAndNoDinWhenConvertToPrescriptionShouldReturnGivenPrescription() {
+        PrescriptionRequest request = new PrescriptionRequest(A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS,
+                AN_EMPTY_DIN.toString(), A_BRAND_NAME);
+        Prescription returnedPrescription = prescriptionAssembler.fromRequest(request);
         assertEquals(PRESCRIPTION_WITH_INCOMPLETE_DRUG, returnedPrescription);
     }
 
     @Test
     public void whenGivenCollectionOfPrescriptionsShouldConvertToCollectionOfPrescriptionResponse() {
-        PrescriptionRequest[] prescriptionsResponseBuilt = prescriptionAssembler.toResponses(PRESCRIPTIONS);
+        PrescriptionResponse[] prescriptionsResponseBuilt = prescriptionAssembler.toResponses(PRESCRIPTIONS);
 
         assertResponsesEquals(PRESCRIPTION_RESPONSES, prescriptionsResponseBuilt);
     }
 
-    private void assertResponsesEquals(PrescriptionRequest[] expected, PrescriptionRequest[] actual) {
+    private void assertResponsesEquals(PrescriptionResponse[] expected, PrescriptionResponse[] actual) {
         for (int i = 0; i < expected.length; i++) {
             assertResponseEquals(expected[i], actual[i]);
         }
     }
 
-    private void assertResponseEquals(PrescriptionRequest expected, PrescriptionRequest actual) {
-        assertEquals(expected.practitioner, actual.practitioner);
-        assertEquals(expected.date, actual.date);
-        assertEquals(expected.renewals, actual.renewals);
-        assertEquals(expected.name, actual.name);
-        assertEquals(expected.din, actual.din);
+    private void assertResponseEquals(PrescriptionResponse expectedResponse, PrescriptionResponse responseBuilt) {
+        assertEquals(expectedResponse.practitioner, responseBuilt.practitioner);
+        assertEquals(expectedResponse.date, responseBuilt.date);
+        assertEquals(expectedResponse.remainingRenewals, responseBuilt.remainingRenewals);
+        assertEquals(expectedResponse.autorizedRenewals, responseBuilt.autorizedRenewals);
+        assertEquals(expectedResponse.name, responseBuilt.name);
+        assertEquals(expectedResponse.din, responseBuilt.din);
+        assertArrayEquals(expectedResponse.consumptionResponses, responseBuilt.consumptionResponses);
     }
 }
