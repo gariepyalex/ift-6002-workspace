@@ -70,9 +70,7 @@ public class OperationTest {
     @Test
     public void givenOperationShouldHaveZeroInstrument() {
         buildAnOperation();
-
         boolean hasInstrument = operation.hasInstruments();
-
         assertFalse(hasInstrument);
     }
 
@@ -89,10 +87,10 @@ public class OperationTest {
         operation.add(instrument);
         operation.add(anotherInstrument);
 
-        boolean hasInsturment = operation.has(instrument);
+        boolean hasInstrument = operation.has(instrument);
         boolean hasAnotherInstrument = operation.has(anotherInstrument);
 
-        assertTrue(hasInsturment);
+        assertTrue(hasInstrument);
         assertTrue(hasAnotherInstrument);
     }
 
