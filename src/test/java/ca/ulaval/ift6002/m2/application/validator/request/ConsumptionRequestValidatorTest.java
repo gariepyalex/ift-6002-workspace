@@ -1,11 +1,13 @@
-package ca.ulaval.ift6002.m2.application.validator.response;
+package ca.ulaval.ift6002.m2.application.validator.request;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
+import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
+import ca.ulaval.ift6002.m2.application.validator.request.ConsumptionRequestValidator;
+import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
 
-public class ConsumptionResponseValidatorTest {
+public class ConsumptionRequestValidatorTest {
 
     private static final String INVALID_DATE = "abc";
     private static final String INVALID_PHARMACY = "";
@@ -16,44 +18,44 @@ public class ConsumptionResponseValidatorTest {
     private static final String A_PHARMACY = "pharmacy";
     private static final Integer A_COUNT = 10;
 
-    private ConsumptionResponseValidator consumptionResponseValidator;
+    private ConsumptionRequestValidator consumptionResponseValidator;
 
     @Before
     public void setUp() {
-        consumptionResponseValidator = new ConsumptionResponseValidator();
+        consumptionResponseValidator = new ConsumptionRequestValidator();
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenInvalidDateWhenValidatingShouldThrowException() {
-        ConsumptionResponse response = new ConsumptionResponse(INVALID_DATE, A_PHARMACY, A_COUNT);
+        ConsumptionRequest response = new ConsumptionRequest(INVALID_DATE, A_PHARMACY, A_COUNT);
 
         consumptionResponseValidator.validate(response);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenEmptyPharmacyWhenValidatingShouldThrowException() {
-        ConsumptionResponse response = new ConsumptionResponse(A_DATE, INVALID_PHARMACY, A_COUNT);
+        ConsumptionRequest response = new ConsumptionRequest(A_DATE, INVALID_PHARMACY, A_COUNT);
 
         consumptionResponseValidator.validate(response);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenInvalidCountWhenValidatingShouldThrowException() {
-        ConsumptionResponse response = new ConsumptionResponse(A_DATE, A_PHARMACY, INVALID_COUNT);
+        ConsumptionRequest response = new ConsumptionRequest(A_DATE, A_PHARMACY, INVALID_COUNT);
 
         consumptionResponseValidator.validate(response);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenNegativeCountWhenValidatingShouldThrowException() {
-        ConsumptionResponse response = new ConsumptionResponse(A_DATE, A_PHARMACY, NEGATIVE_COUNT);
+        ConsumptionRequest response = new ConsumptionRequest(A_DATE, A_PHARMACY, NEGATIVE_COUNT);
 
         consumptionResponseValidator.validate(response);
     }
 
     @Test
     public void givenValidResponseWhenValidatingShouldNotThrowException() {
-        ConsumptionResponse response = new ConsumptionResponse(A_DATE, A_PHARMACY, A_COUNT);
+        ConsumptionRequest response = new ConsumptionRequest(A_DATE, A_PHARMACY, A_COUNT);
 
         consumptionResponseValidator.validate(response);
     }

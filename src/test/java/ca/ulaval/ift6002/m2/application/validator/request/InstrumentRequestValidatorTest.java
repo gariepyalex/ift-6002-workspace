@@ -1,12 +1,14 @@
-package ca.ulaval.ift6002.m2.application.validator.response;
+package ca.ulaval.ift6002.m2.application.validator.request;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
+import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
+import ca.ulaval.ift6002.m2.application.validator.request.InstrumentRequestValidator;
+import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
-public class InstrumentResponseValidatorTest {
+public class InstrumentRequestValidatorTest {
 
     private static final String SOILED_STATUS = InstrumentStatus.SOILED.toString();
     private static final String USED_STATUS = InstrumentStatus.USED_PATIENT.toString();
@@ -20,72 +22,72 @@ public class InstrumentResponseValidatorTest {
 
     private static final String INVALID_STATUS = "";
 
-    private InstrumentResponseValidator instrumentResponseValidator;
+    private InstrumentRequestValidator instrumentResponseValidator;
 
     @Before
     public void setUp() {
-        instrumentResponseValidator = new InstrumentResponseValidator();
+        instrumentResponseValidator = new InstrumentRequestValidator();
     }
 
     @Test
     public void givenSoiledInstrumentShouldNotThrowAnException() {
-        InstrumentResponse soiledInstrument = new InstrumentResponse(VALID_TYPECODE, SOILED_STATUS, VALID_SERIAL);
+        InstrumentRequest soiledInstrument = new InstrumentRequest(VALID_TYPECODE, SOILED_STATUS, VALID_SERIAL);
 
         instrumentResponseValidator.validate(soiledInstrument);
     }
 
     @Test
     public void givenUsedInstrumentShouldNotThrowAnException() {
-        InstrumentResponse usedInstrument = new InstrumentResponse(VALID_TYPECODE, USED_STATUS, VALID_SERIAL);
+        InstrumentRequest usedInstrument = new InstrumentRequest(VALID_TYPECODE, USED_STATUS, VALID_SERIAL);
 
         instrumentResponseValidator.validate(usedInstrument);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenResponseWithEmptyTypecodeShouldThrowException() {
-        InstrumentResponse emptyTypecodeResponse = new InstrumentResponse(EMTPY_TYPECODE, SOILED_STATUS, VALID_SERIAL);
+        InstrumentRequest emptyTypecodeResponse = new InstrumentRequest(EMTPY_TYPECODE, SOILED_STATUS, VALID_SERIAL);
 
         instrumentResponseValidator.validate(emptyTypecodeResponse);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenInstrumentWithInvalidStatusShouldThrowException() {
-        InstrumentResponse invalidInstrument = new InstrumentResponse(VALID_TYPECODE, INVALID_STATUS, VALID_SERIAL);
+        InstrumentRequest invalidInstrument = new InstrumentRequest(VALID_TYPECODE, INVALID_STATUS, VALID_SERIAL);
 
         instrumentResponseValidator.validate(invalidInstrument);
     }
 
     @Test
     public void givenSoiledInstrumentWhenValidatingNewStatusShouldNotThrowAnException() {
-        InstrumentResponse soiledInstrument = new InstrumentResponse(VALID_TYPECODE, SOILED_STATUS, VALID_SERIAL);
+        InstrumentRequest soiledInstrument = new InstrumentRequest(VALID_TYPECODE, SOILED_STATUS, VALID_SERIAL);
 
         instrumentResponseValidator.validateNewStatus(soiledInstrument);
     }
 
     @Test
     public void givenUsedInstrumentWhenValidatingNewStatusShouldNotThrowAnException() {
-        InstrumentResponse usedInstrument = new InstrumentResponse(VALID_TYPECODE, USED_STATUS, VALID_SERIAL);
+        InstrumentRequest usedInstrument = new InstrumentRequest(VALID_TYPECODE, USED_STATUS, VALID_SERIAL);
 
         instrumentResponseValidator.validateNewStatus(usedInstrument);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenInstrumentWithEmptySerialWhenValidatingNewStatusShouldThrowAnException() {
-        InstrumentResponse instrument = new InstrumentResponse(VALID_TYPECODE, USED_STATUS, EMPTY_SERIAL);
+        InstrumentRequest instrument = new InstrumentRequest(VALID_TYPECODE, USED_STATUS, EMPTY_SERIAL);
 
         instrumentResponseValidator.validateNewStatus(instrument);
     }
 
     @Test
     public void givenUnusedInstrumentWhenValidatingNewStatusShouldNotThrowAnException() {
-        InstrumentResponse unusedInstrument = new InstrumentResponse(VALID_TYPECODE, UNUSED_STATUS, VALID_SERIAL);
+        InstrumentRequest unusedInstrument = new InstrumentRequest(VALID_TYPECODE, UNUSED_STATUS, VALID_SERIAL);
 
         instrumentResponseValidator.validateNewStatus(unusedInstrument);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenInstrumentWithInvalidStatusWhenValidatingNewStatusShouldThrowAnException() {
-        InstrumentResponse invalidInstrument = new InstrumentResponse(VALID_TYPECODE, INVALID_STATUS, VALID_SERIAL);
+        InstrumentRequest invalidInstrument = new InstrumentRequest(VALID_TYPECODE, INVALID_STATUS, VALID_SERIAL);
 
         instrumentResponseValidator.validateNewStatus(invalidInstrument);
     }

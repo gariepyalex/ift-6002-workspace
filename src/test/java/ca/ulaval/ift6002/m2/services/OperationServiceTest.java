@@ -14,8 +14,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
 import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
-import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
-import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
@@ -28,9 +28,9 @@ public class OperationServiceTest {
     private static final String OPERATION_ID = "1232";
     private static final String UNUSED = InstrumentStatus.UNUSED.toString();
 
-    private static final InstrumentResponse INSTRUMENT_RESPONSE = new InstrumentResponse("123", UNUSED, "1312422");
+    private static final InstrumentRequest INSTRUMENT_RESPONSE = new InstrumentRequest("123", UNUSED, "1312422");
 
-    private static final OperationResponse OPERATION_RESPONSE = new OperationResponse("Cataracte à l'oeil gauche",
+    private static final OperationRequest OPERATION_RESPONSE = new OperationRequest("Cataracte à l'oeil gauche",
             101224, "0000-00-00T24:01:00", "blocB", "oeil", "en cours", 1);
 
     @Mock

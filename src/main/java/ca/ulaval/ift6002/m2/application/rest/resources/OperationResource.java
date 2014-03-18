@@ -13,11 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
-import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
-import ca.ulaval.ift6002.m2.application.validator.response.InstrumentResponseValidator;
-import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
-import ca.ulaval.ift6002.m2.application.validator.response.OperationResponseValidator;
+import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
+import ca.ulaval.ift6002.m2.application.validator.request.InstrumentRequestValidator;
+import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
+import ca.ulaval.ift6002.m2.application.validator.request.OperationRequestValidator;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.services.OperationService;
 
@@ -32,20 +32,20 @@ public class OperationResource extends Resource {
     private static final String ALREADY_USED_SERIAL_ERROR = "INT011";
     private static final String ALREADY_USED_SERIAL_MESSAGE = "Serial number already in use";
 
-    private final OperationResponseValidator operationValidator = new OperationResponseValidator();
-    private final InstrumentResponseValidator instrumentValidator = new InstrumentResponseValidator();
+    private final OperationRequestValidator operationValidator = new OperationRequestValidator();
+    private final InstrumentRequestValidator instrumentValidator = new InstrumentRequestValidator();
 
     private final OperationService operationService = new OperationService();
 
     @POST
-    public Response createOperation(@Context UriInfo uri, OperationResponse operationResponse) {
+    public Response createOperation(@Context UriInfo uri, OperationRequest operationResponse) {
         try {
             operationValidator.validate(operationResponse);
 
             Integer generatedNumber = operationService.saveOperation(operationResponse);
 
             return redirectTo(uri, "/" + generatedNumber);
-        } catch (InvalidResponseException e) {
+        } catch (InvalidRequestException e) {
             return badRequest(e.getCode(), e.getMessage());
         } catch (IllegalArgumentException e) {
             return badRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
@@ -57,14 +57,14 @@ public class OperationResource extends Resource {
     @POST
     @Path("/{noIntervention}/instruments")
     public Response createInstrument(@PathParam("noIntervention") String noIntervention, @Context UriInfo uri,
-            InstrumentResponse instrumentResponse) {
+            InstrumentRequest instrumentResponse) {
         try {
             instrumentValidator.validate(instrumentResponse);
 
             operationService.saveInstrument(noIntervention, instrumentResponse);
 
             return redirectTo(uri, "/" + instrumentResponse.typecode + "/" + instrumentResponse.serial);
-        } catch (InvalidResponseException e) {
+        } catch (InvalidRequestException e) {
             return badRequest(e.getCode(), e.getMessage());
         } catch (IllegalStateException e) {
             return badRequest(ALREADY_USED_SERIAL_ERROR, ALREADY_USED_SERIAL_MESSAGE);
@@ -79,14 +79,14 @@ public class OperationResource extends Resource {
     @Path("/{noIntervention}/instruments/{typecode}/{serial}")
     public Response modifyInstrumentStatus(@PathParam("noIntervention") String noIntervention,
             @PathParam("typecode") String typecode, @PathParam("serial") String serial,
-            InstrumentResponse instrumentResponse) {
+            InstrumentRequest instrumentResponse) {
         try {
             instrumentValidator.validateNewStatus(instrumentResponse);
 
             operationService.bookmarkInstrumentToStatus(noIntervention, instrumentResponse);
 
             return success();
-        } catch (InvalidResponseException e) {
+        } catch (InvalidRequestException e) {
             return badRequest(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
             return badRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());

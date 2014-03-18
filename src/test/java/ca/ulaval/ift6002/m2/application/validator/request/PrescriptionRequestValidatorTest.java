@@ -1,11 +1,13 @@
-package ca.ulaval.ift6002.m2.application.validator.response;
+package ca.ulaval.ift6002.m2.application.validator.request;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
+import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
+import ca.ulaval.ift6002.m2.application.validator.request.PrescriptionRequestValidator;
 
-public class PrescriptionResponseValidatorTest {
+public class PrescriptionRequestValidatorTest {
 
     private static final String EMPTY_DIN = "";
     private static final String EMPTY_NAME = "";
@@ -21,48 +23,48 @@ public class PrescriptionResponseValidatorTest {
     private static final Integer INVALID_RENEWALS = -1;
     private static final Integer NULL_RENEWALS = null;
 
-    private PrescriptionResponseValidator prescriptionValidator;
+    private PrescriptionRequestValidator prescriptionValidator;
 
     @Before
     public void setUp() {
-        prescriptionValidator = new PrescriptionResponseValidator();
+        prescriptionValidator = new PrescriptionRequestValidator();
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenInvalidDateWhenValidatingShouldThrowException() {
-        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, INVALID_DATE, VALID_RENEWALS, VALID_DIN,
+        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, INVALID_DATE, VALID_RENEWALS, VALID_DIN,
                 EMPTY_NAME);
 
         prescriptionValidator.validate(response);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenWithNullRenewalsWhenValidatingShouldThrowException() {
-        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, NULL_RENEWALS, EMPTY_DIN,
+        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, NULL_RENEWALS, EMPTY_DIN,
                 VALID_NAME);
 
         prescriptionValidator.validate(response);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenInvalidRenewalsWhenValidatingShouldThrowException() {
-        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, INVALID_RENEWALS, EMPTY_DIN,
+        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, INVALID_RENEWALS, EMPTY_DIN,
                 VALID_NAME);
 
         prescriptionValidator.validate(response);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenNoDinOrNameWhenValidatingShouldThrowException() {
-        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, EMPTY_DIN,
+        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, EMPTY_DIN,
                 EMPTY_NAME);
 
         prescriptionValidator.validate(response);
     }
 
-    @Test(expected = InvalidResponseException.class)
+    @Test(expected = InvalidRequestException.class)
     public void givenDinAndNameWhenValidatingShouldThrowException() {
-        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
+        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
                 VALID_NAME);
 
         prescriptionValidator.validate(response);
@@ -70,7 +72,7 @@ public class PrescriptionResponseValidatorTest {
 
     @Test
     public void givenValidResponseWhenValidatingShouldNotThrowException() {
-        PrescriptionResponse response = new PrescriptionResponse(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
+        PrescriptionRequest response = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN,
                 EMPTY_NAME);
 
         prescriptionValidator.validate(response);

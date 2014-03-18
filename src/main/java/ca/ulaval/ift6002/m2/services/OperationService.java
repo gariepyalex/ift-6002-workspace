@@ -2,8 +2,8 @@ package ca.ulaval.ift6002.m2.services;
 
 import ca.ulaval.ift6002.m2.application.assemblers.InstrumentResponseAssembler;
 import ca.ulaval.ift6002.m2.application.assemblers.OperationResponseAssembler;
-import ca.ulaval.ift6002.m2.application.responses.InstrumentResponse;
-import ca.ulaval.ift6002.m2.application.responses.OperationResponse;
+import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
@@ -30,7 +30,7 @@ public class OperationService {
         this.instrumentAssembler = new InstrumentResponseAssembler();
     }
 
-    public Integer saveOperation(OperationResponse operationResponse) {
+    public Integer saveOperation(OperationRequest operationResponse) {
         Operation operation = operationAssembler.fromResponse(operationResponse);
 
         operationRepository.store(operation);
@@ -38,7 +38,7 @@ public class OperationService {
         return operation.getNumber();
     }
 
-    public void saveInstrument(String operationNumber, InstrumentResponse instrumentResponse) {
+    public void saveInstrument(String operationNumber, InstrumentRequest instrumentResponse) {
         Instrument instrument = instrumentAssembler.fromResponse(instrumentResponse);
         Operation operation = operationRepository.get(Integer.valueOf(operationNumber));
 
@@ -47,7 +47,7 @@ public class OperationService {
         operationRepository.store(operation);
     }
 
-    public void bookmarkInstrumentToStatus(String operationId, InstrumentResponse instrumentResponse) {
+    public void bookmarkInstrumentToStatus(String operationId, InstrumentRequest instrumentResponse) {
         Operation operation = operationRepository.get(Integer.valueOf(operationId));
         InstrumentStatus instrumentStatus = InstrumentStatus.determineFrom(instrumentResponse.status);
         Serial serial = new Serial(instrumentResponse.serial);
