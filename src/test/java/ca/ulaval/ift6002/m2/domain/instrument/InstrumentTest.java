@@ -4,16 +4,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class InstrumentTest {
 
-    private static final Serial SERIAL = new Serial("23562543-3635345");
+    private static final Serial A_SERIAL = new Serial("23562543-3635345");
     private static final Serial AN_OTHER_SERIAL = new Serial("ABCDEFGH");
     private static final Serial ANONYMOUS_SERIAL = new Serial("");
+
+    private static final InstrumentStatus A_STATUS = InstrumentStatus.UNUSED;
 
     private Instrument instrument;
 
@@ -21,7 +25,7 @@ public class InstrumentTest {
     public void setUp() {
         instrument = mock(Instrument.class, CALLS_REAL_METHODS);
 
-        willReturn(SERIAL).given(instrument).getSerial();
+        willReturn(A_SERIAL).given(instrument).getSerial();
     }
 
     @Test
@@ -50,7 +54,7 @@ public class InstrumentTest {
 
     @Test
     public void whenCheckingSerialWithSameSerialShouldReturnTrue() {
-        assertTrue(instrument.hasSerial(SERIAL));
+        assertTrue(instrument.hasSerial(A_SERIAL));
     }
 
     @Test
@@ -61,6 +65,13 @@ public class InstrumentTest {
     @Test
     public void whenSerialIsNotEmptyThenIsAnonymousShouldReturnFalse() {
         assertFalse(instrument.isAnonymous());
+    }
+
+    @Test
+    public void whenChangingStatusShouldChangeItStatus() {
+        doNothing().when(instrument).setStatus(A_STATUS);
+        instrument.changeTo(A_STATUS);
+        verify(instrument).setStatus(A_STATUS);
     }
 
     private Instrument setUpOtherInstrument() {
