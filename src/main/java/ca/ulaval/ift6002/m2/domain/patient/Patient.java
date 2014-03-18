@@ -8,8 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
-
-import com.sun.jersey.api.NotFoundException;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 
 public class Patient {
 
@@ -34,29 +33,39 @@ public class Patient {
         return prescriptions;
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
+
     public void receivesPrescription(Prescription prescription) {
-        if (isDead) {
-            throw new DeadPatientException();
+        if (isDead()) {
+            throw new DeadPatientException("A dead patient cannot receives a prescription.");
         }
+
         prescriptions.add(prescription);
     }
 
-    public void consumePrescription(int prescriptionNumber, Consumption consumption) {
-        Prescription prescription = getPrescription(prescriptionNumber);
+    public void consumesPrescription(int prescriptionNumber, Consumption consumption) {
+        Prescription prescription = findPrescription(prescriptionNumber);
         prescription.addConsumption(consumption);
     }
 
-    private Prescription getPrescription(int prescriptionNumber) {
+    private Prescription findPrescription(int prescriptionNumber) {
         for (Prescription prescription : prescriptions) {
-            if (prescription.getNumber() == prescriptionNumber) {
+            if (prescription.hasNumber(prescriptionNumber)) {
                 return prescription;
             }
         }
-        throw new NotFoundException("No prescription found for number: " + prescriptionNumber);
+
+        throw new PrescriptionNotFoundException("No prescription found for number: " + prescriptionNumber);
     }
 
     public int countPrescriptions() {
         return prescriptions.size();
+    }
+
+    public void declareDead() {
+        isDead = true;
     }
 
     @Override
@@ -68,10 +77,6 @@ public class Patient {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
 
-    }
-
-    public void noteDeath() {
-        this.isDead = true;
     }
 
 }

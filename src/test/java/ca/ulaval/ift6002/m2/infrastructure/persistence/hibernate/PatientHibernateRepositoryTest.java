@@ -33,11 +33,11 @@ public class PatientHibernateRepositoryTest {
 
     private static final int PATIENT_ID = 12345;
 
-    private static final Collection<PrescriptionDTO> prescriptionDTOs = new ArrayList<PrescriptionDTO>();
-    private static final Collection<Prescription> prescriptions = new ArrayList<Prescription>();
+    private static final Collection<PrescriptionDTO> PRESCRIPTION_DTOS = new ArrayList<PrescriptionDTO>();
+    private static final Collection<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
 
-    private static final PatientDTO PATIENT_DTO = new PatientDTO(12345, prescriptionDTOs);
-    private static final Patient PATIENT = new Patient(PATIENT_ID, prescriptions);
+    private static final PatientDTO PATIENT_DTO = new PatientDTO(12345, PRESCRIPTION_DTOS);
+    private static final Patient PATIENT = new Patient(PATIENT_ID, PRESCRIPTIONS);
 
     @Mock
     private EntityManagerProvider entityManagerProvider;

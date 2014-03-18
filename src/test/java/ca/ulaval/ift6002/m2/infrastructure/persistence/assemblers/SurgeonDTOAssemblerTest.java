@@ -1,6 +1,6 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,23 +14,23 @@ public class SurgeonDTOAssemblerTest {
     private static final SurgeonDTO SURGEON_DTO = new SurgeonDTO(SURGEON_LICENSE);
     private static final Surgeon SURGEON = new Surgeon(SURGEON_LICENSE);
 
-    private SurgeonDTOAssembler SurgeonAssembler;
+    private SurgeonDTOAssembler surgeonAssembler;
 
     @Before
     public void setUp() {
-        SurgeonAssembler = new SurgeonDTOAssembler();
+        surgeonAssembler = new SurgeonDTOAssembler();
     }
 
     @Test
     public void givenDTOWhenAssemblingSurgeonShouldReturnCorrespondingSurgeon() {
-        Surgeon SurgeonBuilt = SurgeonAssembler.fromDTO(SURGEON_DTO);
+        Surgeon surgeonBuilt = surgeonAssembler.fromDTO(SURGEON_DTO);
 
-        assertEquals(SURGEON, SurgeonBuilt);
+        assertEquals(SURGEON, surgeonBuilt);
     }
 
     @Test
     public void givenSurgeonWhenAssemblingDTOShouldReturnCorrespondingDTO() {
-        SurgeonDTO dtoBuilt = SurgeonAssembler.toDTO(SURGEON);
+        SurgeonDTO dtoBuilt = surgeonAssembler.toDTO(SURGEON);
 
         assertSurgeonDTOEquals(SURGEON_DTO, dtoBuilt);
     }

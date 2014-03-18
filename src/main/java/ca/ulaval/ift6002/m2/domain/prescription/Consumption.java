@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Consumption {
+
     private final Date date;
     private final Pharmacy pharmacy;
     private final int count;

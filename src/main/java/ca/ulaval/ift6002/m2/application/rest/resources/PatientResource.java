@@ -20,6 +20,8 @@ import ca.ulaval.ift6002.m2.application.validator.response.ConsumptionResponseVa
 import ca.ulaval.ift6002.m2.application.validator.response.InvalidResponseException;
 import ca.ulaval.ift6002.m2.application.validator.response.PrescriptionResponseValidator;
 import ca.ulaval.ift6002.m2.domain.patient.DeadPatientException;
+import ca.ulaval.ift6002.m2.domain.prescription.NotEnoughRenewalsException;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 import ca.ulaval.ift6002.m2.services.PatientService;
 
 @Path("/patient/{patientId}/prescriptions")
@@ -28,7 +30,9 @@ import ca.ulaval.ift6002.m2.services.PatientService;
 public class PatientResource extends Resource {
 
     private static final String DEAD_PATIENT_CODE = "PATDCD";
-    private final String NO_PATIENT_FOUND = "PRES010";
+    private static final String NO_PATIENT_FOUND_CODE = "PRES010";
+    private static final String NO_PRESCRIPTION_FOUND_CODE = "PRES011";
+    private static final String NOT_ENOUGH_RENEWALS_CODE = "PRES012";
 
     private final PatientService patientService = new PatientService();
     private final PrescriptionResponseValidator prescriptionValidator = new PrescriptionResponseValidator();
@@ -44,9 +48,9 @@ public class PatientResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
-            return errorBadRequest(e.getCode(), e.getMessage());
+            return badRequest(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
-            return errorBadRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
+            return badRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
         } catch (DeadPatientException e) {
             return error(DEAD_PATIENT_CODE, e.getMessage(), Status.GONE);
         }
@@ -55,13 +59,12 @@ public class PatientResource extends Resource {
     @GET
     public Response findPrescriptions(@PathParam("patientId") String patientId) {
         try {
-            PrescriptionResponse[] responses = patientService.loadPrescription(patientId);
+            PrescriptionResponse[] responses = patientService.getPrescriptions(patientId);
+
             return Response.ok(responses).build();
-
         } catch (NoSuchElementException e) {
-            return errorBadRequest(NO_PATIENT_FOUND, e.getMessage());
+            return badRequest(NO_PATIENT_FOUND_CODE, e.getMessage());
         }
-
     }
 
     @POST
@@ -75,7 +78,13 @@ public class PatientResource extends Resource {
 
             return success();
         } catch (InvalidResponseException e) {
-            return errorBadRequest(e.getCode(), e.getMessage());
+            return badRequest(e.getCode(), e.getMessage());
+        } catch (NoSuchElementException e) {
+            return notFound(NO_PATIENT_FOUND_CODE, e.getMessage());
+        } catch (PrescriptionNotFoundException e) {
+            return notFound(NO_PRESCRIPTION_FOUND_CODE, e.getMessage());
+        } catch (NotEnoughRenewalsException e) {
+            return badRequest(NOT_ENOUGH_RENEWALS_CODE, e.getMessage());
         }
 
     }

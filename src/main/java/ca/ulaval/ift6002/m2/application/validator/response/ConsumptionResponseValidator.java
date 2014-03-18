@@ -8,25 +8,25 @@ public class ConsumptionResponseValidator implements ResponseValidator<Consumpti
     private static final String MISSING_INFORMATION = "PRES013";
 
     @Override
-    public void validate(ConsumptionResponse response) throws InvalidResponseException {
+    public void validate(ConsumptionResponse response) {
         if (!DateFormatter.isValid(response.date)) {
             throw new InvalidResponseException(MISSING_INFORMATION,
                     "The date format is invalid. (yyyy-MM-dd'T'HH:mm:ss)");
         }
-        if (isPharmacySet(response)) {
+        if (isPharmacyNotSet(response)) {
             throw new InvalidResponseException(MISSING_INFORMATION, "A pharmacy description must be set");
         }
-        if (isConsumptionsCountSet(response)) {
+        if (isConsumptionsCountNotSet(response)) {
             throw new InvalidResponseException(MISSING_INFORMATION, "A consumptions count must be set");
         }
     }
 
-    private boolean isPharmacySet(ConsumptionResponse response) {
-        return !response.pharmacy.trim().isEmpty();
+    private boolean isPharmacyNotSet(ConsumptionResponse response) {
+        return response.pharmacy.trim().isEmpty();
     }
 
-    private boolean isConsumptionsCountSet(ConsumptionResponse response) {
-        return response.consumptions != null;
+    private boolean isConsumptionsCountNotSet(ConsumptionResponse response) {
+        return response.consumptions == null || response.consumptions <= 0;
     }
 
 }
