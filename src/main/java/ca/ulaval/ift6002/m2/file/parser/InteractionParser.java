@@ -1,26 +1,64 @@
 package ca.ulaval.ift6002.m2.file.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.patient.Interaction;
+import ca.ulaval.ift6002.m2.file.ByLineFileReader;
 import ca.ulaval.ift6002.m2.file.FileReader;
 
 public class InteractionParser implements FileParser<Interaction> {
 
-    private static final String DATA_FILE_PATH = "/Interaction.txt";
-    private static final String REGEX_SEPARATOR = "=>|,";
+    private static final String DATA_FILE_PATH = "/interactions.txt";
 
-    private final FileReader<String> interactionFileReader;
+    private static final String KEY_REGEX_SEPARATOR = "=>";
+    private static final String VALUE_REGEX_SEPARATOR = ",";
 
-    public InteractionParser(FileReader<String> interactionFileReader) {
-        this.interactionFileReader = interactionFileReader;
+    private final FileReader<String> fileReader;
+
+    public InteractionParser() {
+        this.fileReader = new ByLineFileReader();
+    }
+
+    public Map<Din, List<Din>> parseMap() {
+        List<String> lines = fileReader.readAll(DATA_FILE_PATH);
+
+        return fillInteractions(lines);
+    }
+
+    private Map<Din, List<Din>> fillInteractions(List<String> lines) {
+        Map<Din, List<Din>> interactions = new HashMap<>();
+
+        for (String line : lines) {
+            String[] splittedLine = line.split(KEY_REGEX_SEPARATOR);
+
+            Din din = new Din(splittedLine[0]);
+            List<Din> interactingDins = fillInteractingDins(splittedLine[1]);
+
+            interactions.put(din, interactingDins);
+        }
+
+        return interactions;
+    }
+
+    private List<Din> fillInteractingDins(String dinValues) {
+        List<Din> interactingDins = new ArrayList<>();
+        String[] values = dinValues.split(VALUE_REGEX_SEPARATOR);
+
+        for (String value : values) {
+            Din current = new Din(value);
+            interactingDins.add(current);
+        }
+
+        return interactingDins;
     }
 
     @Override
     public List<Interaction> parse() {
-        List<String> lines = interactionFileReader.readAll(DATA_FILE_PATH);
+        List<String> lines = fileReader.readAll(DATA_FILE_PATH);
         List<Interaction> interactions = parseLinesToInteractions(lines);
         return interactions;
     }
@@ -39,7 +77,7 @@ public class InteractionParser implements FileParser<Interaction> {
     }
 
     private List<Din> getDinsFromLine(String line) {
-        String[] dinStringsFromLine = line.split(REGEX_SEPARATOR);
+        String[] dinStringsFromLine = line.split("=>|,");
         List<Din> dinsFromLine = new ArrayList<Din>();
 
         for (String dinString : dinStringsFromLine) {
@@ -47,5 +85,9 @@ public class InteractionParser implements FileParser<Interaction> {
         }
 
         return dinsFromLine;
+    }
+
+    protected InteractionParser(FileReader<String> interactionFileReader) {
+        this.fileReader = interactionFileReader;
     }
 }

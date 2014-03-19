@@ -1,42 +1,31 @@
 package ca.ulaval.ift6002.m2.file;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
+
+import ca.ulaval.ift6002.m2.Main;
 
 public class ByLineFileReader implements FileReader<String> {
 
     @Override
-    public List<String> readAll(String filePath) {
-        List<String> lines;
+    public List<String> readAll(String filepath) {
         try {
-            Scanner scanner = getScannerOnFile(filePath);
-            lines = getAllLinesFromScanner(scanner);
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            // TODO how to handle the exception (waiting teacher's answer)
-            e.printStackTrace();
-            lines = Collections.emptyList();
+            URI uri = Main.class.getResource(filepath).toURI();
+            Path path = Paths.get(uri);
+
+            return Files.readAllLines(path, StandardCharsets.UTF_8);
+        } catch (IOException | InvalidPathException | URISyntaxException e) {
+            // TODO should we stop the program?
+            return Collections.emptyList();
         }
-
-        return lines;
-    }
-
-    private List<String> getAllLinesFromScanner(Scanner scanner) {
-        List<String> lines = new ArrayList<String>();
-        while (scanner.hasNextLine()) {
-            lines.add(scanner.nextLine());
-        }
-        return lines;
-    }
-
-    private Scanner getScannerOnFile(String filePath) throws FileNotFoundException {
-        File interactionFile = new File(filePath);
-        Scanner scanner = new Scanner(interactionFile);
-        return scanner;
     }
 
 }
