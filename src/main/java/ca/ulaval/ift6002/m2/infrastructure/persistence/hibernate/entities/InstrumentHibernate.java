@@ -29,6 +29,10 @@ public class InstrumentHibernate extends Instrument {
         this.serial = serialNumber;
     }
 
+    protected InstrumentHibernate() {
+        // For hibernate
+    }
+
     public Integer getId() {
         return id;
     }

@@ -12,5 +12,5 @@ public interface OperationData {
 
     void addInstrument(Instrument instrument);
 
-    boolean hasInstrument();
+    boolean hasInstruments();
 }

@@ -15,6 +15,7 @@ public class DrugDTOAssembler extends DTOAssembler<Drug, DrugDTO> {
     public Drug fromDTO(DrugDTO dto) {
         Din din = new Din(dto.din);
 
-        return new Drug(din, dto.brandName, dto.descriptor);
+        // TODO Change this
+        return null;// new Drug(din, dto.brandName, dto.descriptor);
     }
 }

@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.services;
 
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class PatientServiceTest {
 
     private static final Practitioner PRACTITIONER = new Practitioner("");
     private static final Date DATE = new Date();
-    private static final Drug DRUG = Drug.fromName("a name");
+    private static final Drug DRUG = mock(Drug.class);
     private static final Prescription PRESCRIPTION = new Prescription(PRACTITIONER, DATE, 0, DRUG);
     private static final PrescriptionRequest RESPONSE = new PrescriptionRequest("", "", 0, "", "");
     private static final ArrayList<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();

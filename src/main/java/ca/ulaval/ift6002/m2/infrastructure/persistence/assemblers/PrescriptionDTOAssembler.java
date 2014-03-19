@@ -53,7 +53,8 @@ public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, Prescri
         if (dto.other.isEmpty()) {
             drug = drugDTOAssembler.fromDTO(dto.drugDTO);
         } else {
-            drug = Drug.fromName(dto.other);
+            // TODO Change this
+            drug = null;// Drug.fromName(dto.other);
         }
 
         return new Prescription(practitioner, date, renewals, drug);

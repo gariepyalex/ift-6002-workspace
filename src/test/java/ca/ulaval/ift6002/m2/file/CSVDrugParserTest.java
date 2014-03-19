@@ -1,8 +1,10 @@
 package ca.ulaval.ift6002.m2.file;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
-import ca.ulaval.ift6002.m2.domain.drug.Drug;
+import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CSVDrugParserTest {
@@ -33,9 +35,8 @@ public class CSVDrugParserTest {
     private static final String[] DRUG_DATA_2 = { "", "", "", DIN_2, BRAND_NAME_2, DESCRIPTOR_2 };
     private static final List<String[]> ALL_DRUGS_DATA = Arrays.asList(DRUG_DATA_1, DRUG_DATA_2);
 
-    private static final Drug DRUG_1 = new Drug(new Din(DIN_1), BRAND_NAME_1, DESCRIPTOR_1);
-    private static final Drug DRUG_2 = new Drug(new Din(DIN_2), BRAND_NAME_2, DESCRIPTOR_2);
-    private static final List<Drug> ALL_DRUGS = Arrays.asList(DRUG_1, DRUG_2);
+    @Mock
+    private DrugFactory drugFactory;
 
     @Mock
     private FileReader<String[]> fileReader;
@@ -49,10 +50,9 @@ public class CSVDrugParserTest {
     }
 
     @Test
-    public void givenParserWhenParsingShouldReturnListOfDrugs() {
-        List<Drug> drugsParsed = drugParser.parse();
+    public void givenParserWhenParsingShouldReturnCallCreateFactoryTwoTime() {
+        drugParser.parse();
 
-        assertEquals(ALL_DRUGS, drugsParsed);
+        verify(drugFactory, times(2)).create(any(Din.class), anyString(), anyString());
     }
-
 }
