@@ -36,52 +36,53 @@ public class OperationFactoryTest {
     @Mock
     private OperationData operationData;
 
-    private OperationFactory factory;
+    private OperationFactory operationFactory;
 
     @Before
     public void setUp() {
-        factory = mock(OperationFactory.class, CALLS_REAL_METHODS);
+        operationFactory = mock(OperationFactory.class, CALLS_REAL_METHODS);
     }
 
     @Test
     public void whenTypeIsEyeShouldReturnEyeOperation() {
-        Operation operation = factory.create(OperationType.EYE, operationData);
+        Operation operation = operationFactory.create(OperationType.EYE, operationData);
 
         assertEquals(EyeOperation.class, operation.getClass());
     }
 
     @Test
     public void whenTypeIsHeartShouldReturnHeartOperation() {
-        Operation operation = factory.create(OperationType.HEART, operationData);
+        Operation operation = operationFactory.create(OperationType.HEART, operationData);
 
         assertEquals(HeartOperation.class, operation.getClass());
     }
 
     @Test
     public void whenTypeIsMarrowShouldReturnMarrowOperation() {
-        Operation operation = factory.create(OperationType.MARROW, operationData);
+        Operation operation = operationFactory.create(OperationType.MARROW, operationData);
 
         assertEquals(MarrowOperation.class, operation.getClass());
     }
 
     @Test
     public void whenTypeIsOncolyShouldReturnOncologicalOperation() {
-        Operation operation = factory.create(OperationType.ONCOLOGY, operationData);
+        Operation operation = operationFactory.create(OperationType.ONCOLOGY, operationData);
 
         assertEquals(OncologicalOperation.class, operation.getClass());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void whenCreateWithUnknownTypeShouldThrowException() {
-        factory.create(OperationType.OTHER, operationData);
+        operationFactory.create(OperationType.OTHER, operationData);
     }
 
     @Test
     public void whenCreateWithManyArgumentsShouldCreateAnOperationData() {
-        willReturn(operationData).given(factory).createOperationData(A_TYPE, A_DESCRIPTION, A_SURGEON, A_DATE, A_ROOM,
-                A_STATUS, A_PATIENT);
-        factory.create(A_TYPE, A_DESCRIPTION, A_SURGEON, A_DATE, A_ROOM, A_STATUS, A_PATIENT);
-        verify(factory).createOperationData(A_TYPE, A_DESCRIPTION, A_SURGEON, A_DATE, A_ROOM, A_STATUS, A_PATIENT);
+        willReturn(operationData).given(operationFactory).createOperationData(A_TYPE, A_DESCRIPTION, A_SURGEON, A_DATE,
+                A_ROOM, A_STATUS, A_PATIENT);
+        operationFactory.create(A_TYPE, A_DESCRIPTION, A_SURGEON, A_DATE, A_ROOM, A_STATUS, A_PATIENT);
+        verify(operationFactory).createOperationData(A_TYPE, A_DESCRIPTION, A_SURGEON, A_DATE, A_ROOM, A_STATUS,
+                A_PATIENT);
     }
 
 }
