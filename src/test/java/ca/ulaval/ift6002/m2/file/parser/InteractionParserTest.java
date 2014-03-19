@@ -1,7 +1,8 @@
-package ca.ulaval.ift6002.m2.file;
+package ca.ulaval.ift6002.m2.file.parser;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.patient.Interaction;
+import ca.ulaval.ift6002.m2.file.FileReader;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InteractionParserTest {

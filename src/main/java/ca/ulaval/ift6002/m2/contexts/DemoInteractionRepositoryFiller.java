@@ -4,7 +4,7 @@ import java.util.List;
 
 import ca.ulaval.ift6002.m2.domain.patient.Interaction;
 import ca.ulaval.ift6002.m2.domain.patient.InteractionRepository;
-import ca.ulaval.ift6002.m2.file.FileParser;
+import ca.ulaval.ift6002.m2.file.parser.FileParser;
 
 public class DemoInteractionRepositoryFiller {
 

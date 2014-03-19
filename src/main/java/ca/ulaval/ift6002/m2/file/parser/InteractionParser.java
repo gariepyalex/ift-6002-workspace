@@ -1,10 +1,11 @@
-package ca.ulaval.ift6002.m2.file;
+package ca.ulaval.ift6002.m2.file.parser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.patient.Interaction;
+import ca.ulaval.ift6002.m2.file.FileReader;
 
 public class InteractionParser implements FileParser<Interaction> {
 
