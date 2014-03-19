@@ -3,6 +3,7 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,8 +40,8 @@ public class PrescriptionAssemblerTest {
     private static final String A_BRAND_NAME = "A random brand name";
     private static final String A_DESCRIPTOR = "A random descriptor";
     private static final String AN_EMPTY_DESCRIPTOR = "";
-    private static final Drug A_COMPLETE_DRUG = new Drug(A_VALID_DIN, A_BRAND_NAME, A_DESCRIPTOR);
-    private static final Drug A_DRUG_WITH_ONLY_A_NAME = new Drug(AN_EMPTY_DIN, A_BRAND_NAME, AN_EMPTY_DESCRIPTOR);
+    private static final Drug A_COMPLETE_DRUG = mock(Drug.class);
+    private static final Drug A_DRUG_WITH_ONLY_A_NAME = mock(Drug.class);
 
     private static final Prescription PRESCRIPTION = new Prescription(A_PRACTITIONER, A_DATE, A_RENEWALS,
             A_COMPLETE_DRUG);
@@ -64,12 +65,6 @@ public class PrescriptionAssemblerTest {
 
     @InjectMocks
     private PrescriptionAssembler prescriptionAssembler;
-
-    @Before
-    public void givenDrugRepositoryReturns() {
-        willReturn(A_COMPLETE_DRUG).given(drugRepository).get(A_VALID_DIN);
-        willReturn(A_DRUG_WITH_ONLY_A_NAME).given(drugRepository).get(A_BRAND_NAME);
-    }
 
     @Before
     public void givenDateFormatterReturns() {

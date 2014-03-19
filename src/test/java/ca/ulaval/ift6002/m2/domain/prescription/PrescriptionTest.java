@@ -11,7 +11,6 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
 public class PrescriptionTest {
@@ -20,12 +19,13 @@ public class PrescriptionTest {
     private static final Date DATE = new Date();
     private static final int FIVE_RENEWALS = 5;
     private static final int ZERO_RENEWALS = 0;
-    private static final Drug DRUG = new Drug(new Din("din"), "brandname", "descriptor");
 
     private static final Pharmacy PHARMACY = new Pharmacy("pharmacy description");
 
     private static final Consumption CONSUMPTION_WITH_COUNT_ONE = new Consumption(DATE, PHARMACY, 1);
     private static final Consumption CONSUMPTION_WITH_COUNT_TWO = new Consumption(DATE, PHARMACY, 2);
+
+    private static final Drug DRUG = mock(Drug.class);
 
     private Prescription prescription;
 

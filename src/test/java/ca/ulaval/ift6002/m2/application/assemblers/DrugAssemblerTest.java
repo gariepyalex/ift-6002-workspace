@@ -1,6 +1,8 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,11 +20,12 @@ public class DrugAssemblerTest {
     private static final String BRAND_NAME = "A random brand name";
     private static final String DESCRIPTOR = "A random descriptor";
 
-    private static final Drug DRUG = new Drug(DIN, BRAND_NAME, DESCRIPTOR);
     private static final DrugResponse DRUG_RESPONSE = new DrugResponse(DIN.toString(), BRAND_NAME, DESCRIPTOR);
 
-    private static final Collection<Drug> DRUGS = Arrays.asList(DRUG);
     private static final DrugResponse[] DRUG_RESPONSES = { DRUG_RESPONSE };
+
+    private Drug drug;
+    private Collection<Drug> drugs;
 
     private DrugAssembler drugAssembler;
 
@@ -33,14 +36,18 @@ public class DrugAssemblerTest {
 
     @Test
     public void givenDrugWhenConvertToResponseShouldReturnGivenDrugResponse() {
-        DrugResponse responseBuilt = drugAssembler.toResponse(DRUG);
+        setupDrug();
+
+        DrugResponse responseBuilt = drugAssembler.toResponse(drug);
 
         assertDrugResponseEquals(DRUG_RESPONSE, responseBuilt);
     }
 
     @Test
     public void givenDrugsWhenConvertToResponsesShouldReturnGivenDrugResponses() {
-        DrugResponse[] responsesBuilt = drugAssembler.toResponses(DRUGS);
+        setupDrugs();
+
+        DrugResponse[] responsesBuilt = drugAssembler.toResponses(drugs);
 
         assertDrugResponsesEquals(responsesBuilt, DRUG_RESPONSES);
     }
@@ -57,4 +64,16 @@ public class DrugAssemblerTest {
         assertEquals(expected.description, actual.description);
     }
 
+    private void setupDrug() {
+        drug = mock(Drug.class);
+
+        willReturn(DIN).given(drug).getDin();
+        willReturn(BRAND_NAME).given(drug).getBrandName();
+        willReturn(DESCRIPTOR).given(drug).getDescriptor();
+    }
+
+    private void setupDrugs() {
+        setupDrug();
+        drugs = Arrays.asList(drug);
+    }
 }

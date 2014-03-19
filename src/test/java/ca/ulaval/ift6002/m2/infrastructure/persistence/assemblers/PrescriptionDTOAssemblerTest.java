@@ -23,6 +23,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 
+//TODO Refactor
 @RunWith(MockitoJUnitRunner.class)
 public class PrescriptionDTOAssemblerTest {
 
@@ -36,10 +37,13 @@ public class PrescriptionDTOAssemblerTest {
     private static final String BRAND_NAME = "A random brand name";
     private static final String DESCRIPTOR = "A random descriptor";
 
-    private static final DrugDTO DRUG_DTO = new DrugDTO(DIN.toString(), BRAND_NAME, DESCRIPTOR);
-    private static final Drug DRUG = new Drug(DIN, BRAND_NAME, DESCRIPTOR);
+    private static final DrugDTO DRUG_DTO = null;// = new
+                                                 // DrugDTO(DIN.toString(),
+                                                 // BRAND_NAME, DESCRIPTOR);
+    private static final Drug DRUG = null;// = new Drug(DIN, BRAND_NAME,
+                                          // DESCRIPTOR);
 
-    private static final Drug DRUG_WITH_NAME = Drug.fromName(BRAND_NAME);
+    private static final Drug DRUG_WITH_NAME = null;// Drug.fromName(BRAND_NAME);
 
     private static final PrescriptionDTO PRESCRIPTION_DTO_WITH_DRUGNAME = new PrescriptionDTO(PRACTITIONER_NAME,
             FORMATTED_DATE, RENEWALS, BRAND_NAME, null);
