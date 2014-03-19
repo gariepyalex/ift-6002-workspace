@@ -65,7 +65,7 @@ public class OperationTest {
 
         operation.hasInstruments();
 
-        verify(operationData).hasInstrument();
+        verify(operationData).hasInstruments();
     }
 
     @Test

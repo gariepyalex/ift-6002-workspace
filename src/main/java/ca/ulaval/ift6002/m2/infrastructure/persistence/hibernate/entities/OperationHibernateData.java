@@ -66,7 +66,7 @@ public class OperationHibernateData implements OperationData {
     }
 
     @Override
-    public boolean hasInstrument() {
+    public boolean hasInstruments() {
         return instruments.isEmpty();
     }
 
