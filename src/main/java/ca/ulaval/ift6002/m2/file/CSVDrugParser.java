@@ -5,6 +5,8 @@ import java.util.List;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
+import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
+import ca.ulaval.ift6002.m2.factory.hibernate.DrugHibernateFactory;
 
 public class CSVDrugParser implements FileParser<Drug> {
 
@@ -15,9 +17,17 @@ public class CSVDrugParser implements FileParser<Drug> {
     private static final int DESCRIPTOR_COLUMN = 5;
 
     private final FileReader<String[]> fileReader;
+    private final DrugFactory drugFactory;
 
     public CSVDrugParser(FileReader<String[]> fileReader) {
         this.fileReader = fileReader;
+        // TODO call factoryLocator
+        this.drugFactory = new DrugHibernateFactory();
+    }
+
+    public CSVDrugParser(FileReader<String[]> fileReader, DrugFactory drugFactory) {
+        this.fileReader = fileReader;
+        this.drugFactory = drugFactory;
     }
 
     @Override
@@ -39,7 +49,7 @@ public class CSVDrugParser implements FileParser<Drug> {
         String brandName = line[BRAND_NAME_COLUMN];
         String descriptor = line[DESCRIPTOR_COLUMN];
 
-        return new Drug(new Din(din), brandName, descriptor);
+        return drugFactory.create(new Din(din), brandName, descriptor);
     }
 
 }

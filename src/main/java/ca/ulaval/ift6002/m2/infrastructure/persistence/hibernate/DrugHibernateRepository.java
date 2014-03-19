@@ -35,7 +35,8 @@ public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implem
 
     @Override
     public Drug get(String name) {
-        return Drug.fromName(name);
+        // TODO CHAnge this
+        return null;// Drug.fromName(name);
     }
 
     @Override
