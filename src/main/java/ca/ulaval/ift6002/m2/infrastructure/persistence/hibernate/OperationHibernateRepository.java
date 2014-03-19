@@ -32,7 +32,6 @@ public class OperationHibernateRepository extends HibernateRepository<OperationH
 
     @Override
     public void store(Operation operation) {
-
         OperationHibernateData operationData = (OperationHibernateData) operation.getData();
 
         merge(operationData);

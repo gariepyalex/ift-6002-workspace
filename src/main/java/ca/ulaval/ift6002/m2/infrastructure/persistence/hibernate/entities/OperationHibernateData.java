@@ -66,7 +66,7 @@ public class OperationHibernateData implements OperationData {
     }
 
     @Override
-    public boolean hasInstrument() {
+    public boolean hasInstruments() {
         return instruments.isEmpty();
     }
 
@@ -79,7 +79,7 @@ public class OperationHibernateData implements OperationData {
         return room;
     }
 
-    public int getSurgeonLiscence() {
+    public int getSurgeonLicense() {
         return surgeonLicense;
     }
 
