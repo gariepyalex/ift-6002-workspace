@@ -5,14 +5,9 @@ import javax.persistence.EntityManagerFactory;
 
 import ca.ulaval.ift6002.m2.contexts.DemoDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
-import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.file.CSVDrugParser;
-import ca.ulaval.ift6002.m2.file.CSVFileReader;
-import ca.ulaval.ift6002.m2.file.FileParser;
-import ca.ulaval.ift6002.m2.file.FileReader;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.HibernateRepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.RepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
@@ -25,8 +20,8 @@ public class Main {
         setupRepositoryLocator();
 
         EntityManager entityManager = setUpEntityManager();
-        fillDrugRepository(entityManager);
-        fillPatientRepository(entityManager);
+        fillDrugRepository();
+        fillPatientRepository();
 
         JettyServer server = new JettyServer();
         server.start();
@@ -53,15 +48,12 @@ public class Main {
         return entityManager;
     }
 
-    private static void fillDrugRepository(EntityManager entityManager) {
-        FileReader<String[]> fileReader = new CSVFileReader();
-        FileParser<Drug> drugParser = new CSVDrugParser(fileReader);
-
-        new DemoDrugRepositoryFiller(RepositoryLocator.getDrugRepository(), drugParser).fill();
+    private static void fillDrugRepository() {
+        new DemoDrugRepositoryFiller().fill();
     }
 
-    private static void fillPatientRepository(EntityManager entityManager) {
-        new DemoPatientRepositoryFiller().fill(RepositoryLocator.getPatientRepository());
+    private static void fillPatientRepository() {
+        new DemoPatientRepositoryFiller().fill();
     }
 
     private static void closeEntityManager(EntityManager entityManager) {

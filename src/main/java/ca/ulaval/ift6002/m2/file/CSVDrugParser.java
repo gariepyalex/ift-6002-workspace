@@ -19,6 +19,11 @@ public class CSVDrugParser implements FileParser<Drug> {
     private final FileReader<String[]> fileReader;
     private final DrugFactory drugFactory;
 
+    public CSVDrugParser() {
+        this.fileReader = new CSVFileReader();
+        this.drugFactory = new DrugHibernateFactory();
+    }
+
     public CSVDrugParser(FileReader<String[]> fileReader) {
         this.fileReader = fileReader;
         // TODO call factoryLocator
