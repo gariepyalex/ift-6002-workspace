@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.factory.hibernate;
 
 import java.util.Date;
 
-import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationData;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
@@ -15,10 +14,9 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.Operat
 public class OperationHibernateFactory extends OperationFactory {
 
     @Override
-    public Operation create(OperationType type, String description, Surgeon surgeon, Date date, Room room,
-            OperationStatus status, Patient patient) {
-        OperationData operationData = new OperationHibernateData(description, surgeon, date, room, status, patient,
-                type);
-        return create(type, operationData);
+    public OperationData createOperationData(OperationType type, String description, Surgeon surgeon, Date date,
+            Room room, OperationStatus status, Patient patient) {
+        return new OperationHibernateData(description, surgeon, date, room, status, patient, type);
     }
+
 }

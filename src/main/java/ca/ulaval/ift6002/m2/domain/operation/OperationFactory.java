@@ -26,6 +26,12 @@ public abstract class OperationFactory {
         throw new IllegalArgumentException("Operation type is not defined");
     }
 
-    public abstract Operation create(OperationType type, String description, Surgeon surgeon, Date date, Room room,
-            OperationStatus status, Patient patient);
+    public Operation create(OperationType type, String description, Surgeon surgeon, Date date, Room room,
+            OperationStatus status, Patient patient) {
+        OperationData operationData = createOperationData(type, description, surgeon, date, room, status, patient);
+        return create(type, operationData);
+    }
+
+    public abstract OperationData createOperationData(OperationType type, String description, Surgeon surgeon,
+            Date date, Room room, OperationStatus status, Patient patient);
 }

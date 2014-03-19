@@ -7,7 +7,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.ift6002.m2.domain.operation.Operation;
+import ca.ulaval.ift6002.m2.domain.operation.OperationData;
+import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
@@ -25,7 +26,7 @@ public class OperationHibernateFactoryTest {
     private static final Patient PATIENT = new Patient(12345);
     private static final Date DATE = new Date();
 
-    private OperationHibernateFactory operationHibernateFactory;
+    private OperationFactory operationHibernateFactory;
 
     @Before
     public void setUp() {
@@ -33,9 +34,10 @@ public class OperationHibernateFactoryTest {
     }
 
     @Test
-    public void whenCallingCreateShouldReturnOperationWithOperationHibernateData() {
-        Operation operation = operationHibernateFactory.create(TYPE, DESCRIPTION, SURGEON, DATE, ROOM, STATUS, PATIENT);
+    public void whenCreatingOperationDataShouldReturnAnHibernateInstance() {
+        OperationData operationData = operationHibernateFactory.createOperationData(TYPE, DESCRIPTION, SURGEON, DATE,
+                ROOM, STATUS, PATIENT);
 
-        assertEquals(OperationHibernateData.class, operation.getData().getClass());
+        assertEquals(OperationHibernateData.class, operationData.getClass());
     }
 }
