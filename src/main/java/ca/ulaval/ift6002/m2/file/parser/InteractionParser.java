@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
-import ca.ulaval.ift6002.m2.domain.patient.Interaction;
 import ca.ulaval.ift6002.m2.file.ByLineFileReader;
 import ca.ulaval.ift6002.m2.file.FileReader;
 
-public class InteractionParser implements FileParser<Interaction> {
+public class InteractionParser {
 
     private static final String DATA_FILE_PATH = "/interactions.txt";
 
@@ -23,7 +22,7 @@ public class InteractionParser implements FileParser<Interaction> {
         this.fileReader = new ByLineFileReader();
     }
 
-    public Map<Din, List<Din>> parseMap() {
+    public Map<Din, List<Din>> parse() {
         List<String> lines = fileReader.readAll(DATA_FILE_PATH);
 
         return fillInteractions(lines);
@@ -54,37 +53,6 @@ public class InteractionParser implements FileParser<Interaction> {
         }
 
         return interactingDins;
-    }
-
-    @Override
-    public List<Interaction> parse() {
-        List<String> lines = fileReader.readAll(DATA_FILE_PATH);
-        List<Interaction> interactions = parseLinesToInteractions(lines);
-        return interactions;
-    }
-
-    private List<Interaction> parseLinesToInteractions(List<String> lines) {
-        List<Interaction> interactions = new ArrayList<Interaction>();
-
-        for (String line : lines) {
-            List<Din> dinsFromLine = getDinsFromLine(line);
-            Din dinsFromWhichInteractionsAreChecked = dinsFromLine.remove(0);
-            List<Din> interactingDins = dinsFromLine;
-            interactions.add(new Interaction(dinsFromWhichInteractionsAreChecked, interactingDins));
-        }
-
-        return interactions;
-    }
-
-    private List<Din> getDinsFromLine(String line) {
-        String[] dinStringsFromLine = line.split("=>|,");
-        List<Din> dinsFromLine = new ArrayList<Din>();
-
-        for (String dinString : dinStringsFromLine) {
-            dinsFromLine.add(new Din(dinString));
-        }
-
-        return dinsFromLine;
     }
 
     protected InteractionParser(FileReader<String> interactionFileReader) {
