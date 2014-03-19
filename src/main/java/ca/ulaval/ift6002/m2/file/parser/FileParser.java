@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.file;
+package ca.ulaval.ift6002.m2.file.parser;
 
 import java.util.List;
 

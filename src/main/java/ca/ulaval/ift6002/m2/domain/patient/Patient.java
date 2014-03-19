@@ -15,14 +15,16 @@ public class Patient {
     private final int number;
     private final Collection<Prescription> prescriptions;
     private boolean isDead;
+    private final String healthInsuranceNumber;
 
-    public Patient(int number) {
-        this(number, new ArrayList<Prescription>());
+    public Patient(int number, String healthInsuranceNumber) {
+        this(number, new ArrayList<Prescription>(), healthInsuranceNumber);
     }
 
-    public Patient(int number, Collection<Prescription> prescriptions) {
+    public Patient(int number, Collection<Prescription> prescriptions, String healthInsuranceNumber) {
         this.number = number;
         this.prescriptions = prescriptions;
+        this.healthInsuranceNumber = healthInsuranceNumber;
     }
 
     public int getNumber() {
@@ -31,6 +33,10 @@ public class Patient {
 
     public Collection<Prescription> getPrescriptions() {
         return prescriptions;
+    }
+
+    public String getHealthInsuranceNumber() {
+        return healthInsuranceNumber;
     }
 
     public boolean isDead() {

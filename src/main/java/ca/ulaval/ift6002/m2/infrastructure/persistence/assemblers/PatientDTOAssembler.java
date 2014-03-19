@@ -23,13 +23,13 @@ public class PatientDTOAssembler extends DTOAssembler<Patient, PatientDTO> {
     public Patient fromDTO(PatientDTO dto) {
         Collection<Prescription> prescriptions = prescriptionDTOAssembler.fromDTOs(dto.prescriptions);
 
-        return new Patient(dto.number, prescriptions);
+        return new Patient(dto.number, prescriptions, dto.healthInsuranceNumber);
     }
 
     @Override
     public PatientDTO toDTO(Patient patient) {
         Collection<PrescriptionDTO> prescriptionsDTO = prescriptionDTOAssembler.toDTOs(patient.getPrescriptions());
 
-        return new PatientDTO(patient.getNumber(), prescriptionsDTO);
+        return new PatientDTO(patient.getNumber(), prescriptionsDTO, patient.getHealthInsuranceNumber());
     }
 }

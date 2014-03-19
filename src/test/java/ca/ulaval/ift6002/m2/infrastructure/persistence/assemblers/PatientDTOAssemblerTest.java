@@ -21,10 +21,12 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 public class PatientDTOAssemblerTest {
 
     private static final int PATIENT_NUMBER = 12345;
+    private static final String HEALTH_INSURANCE_NUMBER = "ABCD 1234 5678";
     private static final Collection<PrescriptionDTO> PRESCRIPTION_DTOS = new ArrayList<PrescriptionDTO>();
     private static final Collection<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
-    private static final PatientDTO PATIENT_DTO = new PatientDTO(PATIENT_NUMBER, PRESCRIPTION_DTOS);
-    private static final Patient PATIENT = new Patient(PATIENT_NUMBER);
+    private static final PatientDTO PATIENT_DTO = new PatientDTO(PATIENT_NUMBER, PRESCRIPTION_DTOS,
+            HEALTH_INSURANCE_NUMBER);
+    private static final Patient PATIENT = new Patient(PATIENT_NUMBER, HEALTH_INSURANCE_NUMBER);
 
     @Mock
     private PrescriptionDTOAssembler prescriptionAssembler;

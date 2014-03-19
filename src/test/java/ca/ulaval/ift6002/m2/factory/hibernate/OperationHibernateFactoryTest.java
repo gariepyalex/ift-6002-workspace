@@ -23,7 +23,7 @@ public class OperationHibernateFactoryTest {
     private static final String DESCRIPTION = "description";
     private static final Surgeon SURGEON = new Surgeon(12345);
     private static final Room ROOM = new Room("room");
-    private static final Patient PATIENT = new Patient(12345);
+    private static final Patient PATIENT = new Patient(12345, "ABCD 1234 5678");
     private static final Date DATE = new Date();
 
     private OperationFactory operationHibernateFactory;

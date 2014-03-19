@@ -20,6 +20,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 public class PatientTest {
 
     private static final int PATIENT_NUMBER = 12345;
+    private static final String HEALTH_INSURANCE_NUMBER = "ABCD 1234 5678";
     private static final int DEAD_PATIENT_NUMBER = 67890;
     private static final int NOT_EXISTING_PRESCRIPTION_NUMBER = 42;
     private static final int EXISTING_PRESCRIPTION_NUMBER = 1;
@@ -34,7 +35,7 @@ public class PatientTest {
 
     @Before
     public void setUp() {
-        patient = new Patient(PATIENT_NUMBER);
+        patient = new Patient(PATIENT_NUMBER, HEALTH_INSURANCE_NUMBER);
     }
 
     @Test
@@ -75,7 +76,7 @@ public class PatientTest {
 
     @Test(expected = DeadPatientException.class)
     public void givenDeadPatientWhenAddingPrescriptionShouldThrowException() {
-        Patient deadPatient = new Patient(DEAD_PATIENT_NUMBER);
+        Patient deadPatient = new Patient(DEAD_PATIENT_NUMBER, HEALTH_INSURANCE_NUMBER);
         deadPatient.declareDead();
 
         deadPatient.receivesPrescription(prescription);
