@@ -24,11 +24,6 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
         this.drugFactory = new DrugHibernateFactory();
     }
 
-    public DrugHibernateRepository(EntityManagerProvider entityManagerProvider, DrugFactory drugFactory) {
-        super(entityManagerProvider, DrugHibernate.class);
-        this.drugFactory = drugFactory;
-    }
-
     @Override
     public Drug get(Din din) {
         return find(din.getValue());
@@ -54,11 +49,17 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
     @Override
     public void store(Collection<Drug> drugs) {
         Collection<DrugHibernate> hibernateDrugs = new ArrayList<DrugHibernate>();
+
         for (Drug drug : drugs) {
             DrugHibernate drugHibernate = (DrugHibernate) drug;
             hibernateDrugs.add(drugHibernate);
         }
 
         merge(hibernateDrugs);
+    }
+
+    protected DrugHibernateRepository(EntityManagerProvider entityManagerProvider, DrugFactory drugFactory) {
+        super(entityManagerProvider, DrugHibernate.class);
+        this.drugFactory = drugFactory;
     }
 }
