@@ -36,7 +36,7 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
 
     @Override
     public Drug get(String name) {
-        return drugFactory.create(new Din(""), name);
+        return drugFactory.create(name);
     }
 
     @Override
