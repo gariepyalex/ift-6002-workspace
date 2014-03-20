@@ -7,12 +7,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 
 @Entity
+@Table(name = "tbl_patient")
 public class PatientHibernate extends Patient {
 
     @Id
