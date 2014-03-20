@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.PatientDTOAssembler;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
@@ -34,10 +33,11 @@ public class PatientHibernateRepositoryTest {
     private static final String HEALTH_INSURANCE_NUMBER = "ABCD 1234 5678";
 
     private static final Collection<PrescriptionDTO> PRESCRIPTION_DTOS = new ArrayList<PrescriptionDTO>();
-    private static final Collection<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
 
     private static final PatientDTO PATIENT_DTO = new PatientDTO(12345, PRESCRIPTION_DTOS, HEALTH_INSURANCE_NUMBER);
-    private static final Patient PATIENT = new Patient(PATIENT_ID, PRESCRIPTIONS, HEALTH_INSURANCE_NUMBER);
+
+    @Mock
+    private Patient patient;
 
     @Mock
     private EntityManagerProvider entityManagerProvider;
@@ -62,14 +62,14 @@ public class PatientHibernateRepositoryTest {
 
     @Test
     public void whenStorePatientShouldCallPatientDTOAssemblerToDTO() {
-        patientRepository.store(PATIENT);
+        patientRepository.store(patient);
 
-        verify(patientAssembler).toDTO(PATIENT);
+        verify(patientAssembler).toDTO(patient);
     }
 
     @Test
     public void whenStorePatientShouldCallEntityManagerMerge() {
-        patientRepository.store(PATIENT);
+        patientRepository.store(patient);
 
         verify(entityManager).merge(any(PatientDTO.class));
     }
