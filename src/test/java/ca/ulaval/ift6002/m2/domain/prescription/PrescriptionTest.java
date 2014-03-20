@@ -5,8 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.mock;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import org.junit.Test;
@@ -31,38 +33,38 @@ public class PrescriptionTest {
 
     @Test(expected = NotEnoughRenewalsException.class)
     public void givenZeroRenewalsWhenAddConsumptionShouldThrowException() {
-        buildPrescriptionWithNoRenewals();
+        setupPrescriptionWithNoRenewals();
         prescription.addConsumption(CONSUMPTION_WITH_COUNT_ONE);
     }
 
     @Test
-    public void givenFiveRenewalsWhenAddConsumptionWithCountOneShouldHaveFourRemainingRenewals() {
-        buildPrescriptionWithFiveRenewals();
-        prescription.addConsumption(CONSUMPTION_WITH_COUNT_ONE);
+    public void givenFiveRenewalsWhenHavingConsumptionWithCountOneShouldHaveFourRemainingRenewals() {
+        setupPrescriptionWithFiveRenewals();
+        willReturn(Arrays.asList(CONSUMPTION_WITH_COUNT_ONE)).given(prescription).getConsumptions();
 
         assertEquals(4, prescription.remainingRenewals());
     }
 
     @Test
-    public void givenFiveRenewalsWhenAddConsumptionWithCountTwoShouldHaveThreeRemainingRenewals() {
-        buildPrescriptionWithFiveRenewals();
-        prescription.addConsumption(CONSUMPTION_WITH_COUNT_TWO);
+    public void givenFiveRenewalsWhenHavingConsumptionWithCountTwoShouldHaveThreeRemainingRenewals() {
+        setupPrescriptionWithFiveRenewals();
+        willReturn(Arrays.asList(CONSUMPTION_WITH_COUNT_TWO)).given(prescription).getConsumptions();
 
         assertEquals(3, prescription.remainingRenewals());
     }
 
     @Test
     public void givenPrescriptionWithNoRemainingRenewalsShouldBeObsolete() {
-        buildPrescriptionWithNoRenewals();
+        setupPrescriptionWithNoRenewals();
         boolean isObsolete = prescription.isObsolete();
         assertTrue(isObsolete);
     }
 
     @Test
     public void givenPrescriptionWithOneOldConsumptionShouldBeObsolete() {
-        buildPrescriptionWithFiveRenewals();
+        setupPrescriptionWithFiveRenewals();
         Consumption oldConsumption = consumptionOfSevenMonthsAgo();
-        prescription.addConsumption(oldConsumption);
+        willReturn(oldConsumption).given(prescription).lastConsumption();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -71,21 +73,23 @@ public class PrescriptionTest {
 
     @Test
     public void givenPrescriptionWithOneRecentConsumptionShouldNotBeObsolete() {
-        buildPrescriptionWithFiveRenewals();
+        setupPrescriptionWithFiveRenewals();
         Consumption recentConsumption = consumptionOfOneMonthAgo();
-        prescription.addConsumption(recentConsumption);
+        willReturn(recentConsumption).given(prescription).lastConsumption();
 
         boolean isObsolete = prescription.isObsolete();
 
         assertFalse(isObsolete);
     }
 
-    private void buildPrescriptionWithFiveRenewals() {
-        prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, FIVE_RENEWALS, DRUG);
+    private void setupPrescriptionWithFiveRenewals() {
+        prescription = mock(Prescription.class, CALLS_REAL_METHODS);
+        willReturn(FIVE_RENEWALS).given(prescription).getRenewals();
     }
 
-    private void buildPrescriptionWithNoRenewals() {
-        prescription = new Prescription(new Practitioner(PRACTIONNER_NAME), DATE, ZERO_RENEWALS, DRUG);
+    private void setupPrescriptionWithNoRenewals() {
+        prescription = mock(Prescription.class, CALLS_REAL_METHODS);
+        willReturn(ZERO_RENEWALS).given(prescription).getRenewals();
     }
 
     private Consumption consumptionOfSevenMonthsAgo() {

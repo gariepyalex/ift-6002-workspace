@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +15,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionAssembler;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
-import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,10 +26,7 @@ public class PatientServiceTest {
 
     private static final int PATIENT_ID_AS_INT = 1212;
 
-    private static final Practitioner PRACTITIONER = new Practitioner("");
-    private static final Date DATE = new Date();
-    private static final Drug DRUG = mock(Drug.class);
-    private static final Prescription PRESCRIPTION = new Prescription(PRACTITIONER, DATE, 0, DRUG);
+    private static final Prescription PRESCRIPTION = mock(Prescription.class);
     private static final PrescriptionRequest RESPONSE = new PrescriptionRequest("", "", 0, "", "");
     private static final ArrayList<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
 
