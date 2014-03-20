@@ -1,9 +1,10 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -19,11 +20,8 @@ import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 @RunWith(MockitoJUnitRunner.class)
 public class PatientTest {
 
-    private static final int PATIENT_NUMBER = 12345;
-    private static final String HEALTH_INSURANCE_NUMBER = "ABCD 1234 5678";
-    private static final int DEAD_PATIENT_NUMBER = 67890;
-    private static final int NOT_EXISTING_PRESCRIPTION_NUMBER = 42;
     private static final int EXISTING_PRESCRIPTION_NUMBER = 1;
+    private static final int NOT_EXISTING_PRESCRIPTION_NUMBER = 42;
 
     @Mock
     private Prescription prescription;
@@ -35,67 +33,36 @@ public class PatientTest {
 
     @Before
     public void setUp() {
-        patient = new Patient(PATIENT_NUMBER, HEALTH_INSURANCE_NUMBER);
-    }
-
-    @Test
-    public void givenNewPatientWhenCountPrescriptionsShouldBeEmpty() {
-        int prescriptionsCount = patient.countPrescriptions();
-
-        assertEquals(0, prescriptionsCount);
-    }
-
-    @Test
-    public void givenNewPatientShouldNotBeDead() {
-        assertFalse(patient.isDead());
-    }
-
-    @Test
-    public void givenDeadPatientShouldBeDead() {
-        patient.declareDead();
-        boolean isDead = patient.isDead();
-        assertTrue(isDead);
-    }
-
-    @Test
-    public void givenPatientWhenAddPrescriptionShouldHaveCountOfOne() {
-        patient.receivesPrescription(prescription);
-        int prescriptionsCount = patient.countPrescriptions();
-        assertEquals(1, prescriptionsCount);
-    }
-
-    @Test
-    public void givenPatientWhenAddTwoPrescriptionsShouldHaveCountOfTwo() {
-        patient.receivesPrescription(prescription);
-        patient.receivesPrescription(prescription);
-
-        int prescriptionsCount = patient.countPrescriptions();
-
-        assertEquals(2, prescriptionsCount);
+        patient = mock(Patient.class, CALLS_REAL_METHODS);
     }
 
     @Test(expected = DeadPatientException.class)
     public void givenDeadPatientWhenAddingPrescriptionShouldThrowException() {
-        Patient deadPatient = new Patient(DEAD_PATIENT_NUMBER, HEALTH_INSURANCE_NUMBER);
-        deadPatient.declareDead();
+        willReturn(true).given(patient).isDead();
 
-        deadPatient.receivesPrescription(prescription);
-    }
-
-    @Test(expected = PrescriptionNotFoundException.class)
-    public void givenNotExistingPrescriptionNumberWhenConsumesPrescriptionShouldThrowException() {
         patient.receivesPrescription(prescription);
-        willReturn(false).given(prescription).hasNumber(NOT_EXISTING_PRESCRIPTION_NUMBER);
-
-        patient.consumesPrescription(NOT_EXISTING_PRESCRIPTION_NUMBER, consumption);
     }
 
     @Test
-    public void givenExistingPrescriptionWhenConsumesPrescriptionShouldCallAddConsumption() {
+    public void whenReceivesPrescriptionShouldAddPrescription() {
+        willReturn(false).given(patient).isDead();
+        doNothing().when(patient).addPrescription(prescription);
         patient.receivesPrescription(prescription);
-        willReturn(true).given(prescription).hasNumber(EXISTING_PRESCRIPTION_NUMBER);
 
+        verify(patient).addPrescription(prescription);
+    }
+
+    @Test
+    public void whenConsumingAnExistingPrescriptionShouldConsumeAConsumption() {
+        willReturn(prescription).given(patient).findPrescription(EXISTING_PRESCRIPTION_NUMBER);
         patient.consumesPrescription(EXISTING_PRESCRIPTION_NUMBER, consumption);
+
         verify(prescription).addConsumption(consumption);
+    }
+
+    @Test(expected = PrescriptionNotFoundException.class)
+    public void whenConsumingAnUnexistingPrescriptionShouldThrowException() {
+        doThrow(new PrescriptionNotFoundException("")).when(patient).findPrescription(NOT_EXISTING_PRESCRIPTION_NUMBER);
+        patient.consumesPrescription(NOT_EXISTING_PRESCRIPTION_NUMBER, consumption);
     }
 }
