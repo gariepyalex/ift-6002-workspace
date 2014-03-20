@@ -12,7 +12,7 @@ public abstract class Prescription {
     private static final int SIX_MONTHS_AGO = -6;
 
     public boolean hasNumber(int number) {
-        return number == 1; // TODO: en attendant de mettre un membre privé
+        return number == getNumber();
     }
 
     public void addConsumption(Consumption consumption) {
