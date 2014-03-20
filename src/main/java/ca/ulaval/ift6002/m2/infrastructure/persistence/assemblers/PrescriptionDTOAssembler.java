@@ -6,6 +6,8 @@ import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
+import ca.ulaval.ift6002.m2.factory.hibernate.PrescriptionHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 
@@ -13,15 +15,20 @@ public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, Prescri
 
     private final DateFormatter dateFormatter;
     private final DrugDTOAssembler drugDTOAssembler;
+    private final PrescriptionFactory prescriptionFactory;
 
-    protected PrescriptionDTOAssembler(DateFormatter dateFormatter, DrugDTOAssembler drugDTOAssembler) {
+    protected PrescriptionDTOAssembler(DateFormatter dateFormatter, DrugDTOAssembler drugDTOAssembler,
+            PrescriptionFactory prescriptionFactory) {
         this.dateFormatter = dateFormatter;
         this.drugDTOAssembler = drugDTOAssembler;
+        this.prescriptionFactory = prescriptionFactory;
     }
 
     public PrescriptionDTOAssembler() {
         this.dateFormatter = new DateFormatter();
         this.drugDTOAssembler = new DrugDTOAssembler();
+        // TODO Call factory locator
+        this.prescriptionFactory = new PrescriptionHibernateFactory();
     }
 
     @Override
@@ -57,7 +64,7 @@ public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, Prescri
             drug = null;// Drug.fromName(dto.other);
         }
 
-        return new Prescription(practitioner, date, renewals, drug);
+        return prescriptionFactory.create(practitioner, date, renewals, drug);
     }
 
 }

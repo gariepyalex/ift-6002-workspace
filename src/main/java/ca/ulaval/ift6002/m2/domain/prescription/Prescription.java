@@ -1,56 +1,18 @@
 package ca.ulaval.ift6002.m2.domain.prescription;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
-public class Prescription {
+public abstract class Prescription {
 
     private static final int SIX_MONTHS_AGO = -6;
 
-    private final Practitioner practitioner;
-    private final Date date;
-    private final int renewals;
-    private final Drug drug;
-    private final List<Consumption> consumptions;
-
-    public Prescription(Practitioner practitioner, Date date, int renewals, Drug drug) {
-        this.practitioner = practitioner;
-        this.date = date;
-        this.renewals = renewals;
-        this.drug = drug;
-        this.consumptions = new ArrayList<>();
-    }
-
     public boolean hasNumber(int number) {
         return number == 1; // TODO: en attendant de mettre un membre privé
-    }
-
-    public Practitioner getPractioner() {
-        return practitioner;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public int getRenewals() {
-        return renewals;
-    }
-
-    public Drug getDrug() {
-        return drug;
-    }
-
-    public List<Consumption> getConsumptions() {
-        return consumptions;
     }
 
     public void addConsumption(Consumption consumption) {
@@ -59,7 +21,7 @@ public class Prescription {
                     + ", but remaining renewals: " + remainingRenewals());
         }
 
-        consumptions.add(consumption);
+        addConsumptionInPrescription(consumption);
     }
 
     private boolean hasEnoughRenewalsFor(Consumption consumption) {
@@ -67,13 +29,13 @@ public class Prescription {
     }
 
     public int remainingRenewals() {
-        return renewals - consumptionsCount();
+        return getRenewals() - consumptionsCount();
     }
 
     private int consumptionsCount() {
         int count = 0;
 
-        for (Consumption consumption : consumptions) {
+        for (Consumption consumption : getConsumptions()) {
             count += consumption.getCount();
         }
 
@@ -101,11 +63,11 @@ public class Prescription {
     }
 
     private Consumption lastComsumption() {
-        if (consumptions.isEmpty()) {
+        if (isConsumptionsEmpty()) {
             throw new NoSuchElementException("The prescription has no consumptions yet.");
         }
 
-        return consumptions.get(consumptions.size() - 1);
+        return lastConsumption();
     }
 
     private Date sixMonthsAgo() {
@@ -115,13 +77,21 @@ public class Prescription {
         return now.getTime();
     }
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+    public abstract int getNumber();
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
+    public abstract Practitioner getPractioner();
+
+    public abstract Date getDate();
+
+    public abstract int getRenewals();
+
+    public abstract Drug getDrug();
+
+    public abstract List<Consumption> getConsumptions();
+
+    protected abstract void addConsumptionInPrescription(Consumption consumption);
+
+    protected abstract Consumption lastConsumption();
+
+    protected abstract boolean isConsumptionsEmpty();
 }

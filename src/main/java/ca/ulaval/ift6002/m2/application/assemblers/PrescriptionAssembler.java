@@ -11,21 +11,28 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
+import ca.ulaval.ift6002.m2.factory.hibernate.PrescriptionHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class PrescriptionAssembler {
 
     private final DateFormatter dateFormatter;
     private final DrugRepository drugRepository;
+    private final PrescriptionFactory prescriptionFactory;
 
-    protected PrescriptionAssembler(DateFormatter dateFormatter, DrugRepository drugRepository) {
+    protected PrescriptionAssembler(DateFormatter dateFormatter, DrugRepository drugRepository,
+            PrescriptionFactory prescriptionFactory) {
         this.dateFormatter = dateFormatter;
         this.drugRepository = drugRepository;
+        this.prescriptionFactory = prescriptionFactory;
     }
 
     public PrescriptionAssembler() {
         this.dateFormatter = new DateFormatter();
         this.drugRepository = RepositoryLocator.getDrugRepository();
+        // TODO Call the factory Locator
+        this.prescriptionFactory = new PrescriptionHibernateFactory();
     }
 
     public PrescriptionResponse toResponse(Prescription prescription) {
@@ -55,7 +62,7 @@ public class PrescriptionAssembler {
         Date parsedDate = dateFormatter.parse(request.date);
         Drug drug = getDrugFromRepository(request);
 
-        return new Prescription(practitioner, parsedDate, request.renewals, drug);
+        return prescriptionFactory.create(practitioner, parsedDate, request.renewals, drug);
     }
 
     private Drug getDrugFromRepository(PrescriptionRequest request) {
