@@ -100,6 +100,7 @@ public class InteractionVerificatorTest {
         Practitioner practitioner = new Practitioner("Mister X");
         Date date = new Date();
         int renewal = 1;
-        return new Prescription(practitioner, date, renewal, drug);
+        // TODO Change this
+        return null;// new Prescription(practitioner, date, renewal, drug);
     }
 }

@@ -26,6 +26,7 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
 
     @Override
     public Drug get(Din din) {
+        // TODO Change this because din is not the id of the drug
         return find(din.getValue());
     }
 
