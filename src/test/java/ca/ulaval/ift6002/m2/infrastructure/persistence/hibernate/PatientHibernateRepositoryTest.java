@@ -1,11 +1,9 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
@@ -19,34 +17,26 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.PatientDTOAssembler;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.PatientHibernate;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientHibernateRepositoryTest {
 
-    private static final int UNEXISTING_PATIENT_ID = -1;
-
     private static final int PATIENT_ID = 12345;
-    private static final String HEALTH_INSURANCE_NUMBER = "ABCD 1234 5678";
-
-    private static final Collection<PrescriptionDTO> PRESCRIPTION_DTOS = new ArrayList<PrescriptionDTO>();
-
-    private static final PatientDTO PATIENT_DTO = new PatientDTO(12345, PRESCRIPTION_DTOS, HEALTH_INSURANCE_NUMBER);
+    private static final int UNEXISTING_PATIENT_ID = -1;
 
     @Mock
     private Patient patient;
+
+    @Mock
+    private PatientHibernate patientHibernate;
 
     @Mock
     private EntityManagerProvider entityManagerProvider;
 
     @Mock
     private EntityManager entityManager;
-
-    @Mock
-    private PatientDTOAssembler patientAssembler;
 
     @Mock
     private EntityTransaction transaction;
@@ -61,38 +51,38 @@ public class PatientHibernateRepositoryTest {
     }
 
     @Test
-    public void whenStorePatientShouldCallPatientDTOAssemblerToDTO() {
-        patientRepository.store(patient);
-
-        verify(patientAssembler).toDTO(patient);
-    }
-
-    @Test
-    public void whenStorePatientShouldCallEntityManagerMerge() {
-        patientRepository.store(patient);
-
-        verify(entityManager).merge(any(PatientDTO.class));
-    }
-
-    @Test
-    public void whenGettingPatientShouldCallPatientDTOAssemblerFromDTO() {
-        willReturn(PATIENT_DTO).given(entityManager).find(PatientDTO.class, PATIENT_ID);
-        patientRepository.get(PATIENT_ID);
-        verify(patientAssembler).fromDTO(PATIENT_DTO);
+    public void givenExistingPatientIdWhenGettingPatientShouldReturnAPatient() {
+        willReturn(patient).given(entityManager).find(PatientHibernate.class, PATIENT_ID);
+        Patient patientFound = patientRepository.get(PATIENT_ID);
+        assertEquals(patient, patientFound);
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void whenGettingUnknownPatientShouldThowException() {
-        willReturn(null).given(entityManager).find(PatientDTO.class, UNEXISTING_PATIENT_ID);
+    public void givenUnexistingPatientIdWhenGettingPatientShouldThrowException() {
+        willReturn(null).given(entityManager).find(PatientHibernate.class, UNEXISTING_PATIENT_ID);
 
         patientRepository.get(UNEXISTING_PATIENT_ID);
     }
 
     @Test
-    public void whenGettingPatientShouldCallEntityManagerFind() {
-        willReturn(PATIENT_DTO).given(entityManager).find(PatientDTO.class, PATIENT_ID);
-        patientRepository.get(PATIENT_ID);
-        verify(entityManager).find(PatientDTO.class, PATIENT_ID);
+    public void whenStorePatientShouldBeginTransaction() {
+        patientRepository.store(patientHibernate);
+
+        verify(transaction).begin();
+    }
+
+    @Test
+    public void whenStorePatientShouldMergePatient() {
+        patientRepository.store(patientHibernate);
+
+        verify(entityManager).merge(patientHibernate);
+    }
+
+    @Test
+    public void whenStorePatientShouldCommitTransaction() {
+        patientRepository.store(patientHibernate);
+
+        verify(transaction).commit();
     }
 
 }
