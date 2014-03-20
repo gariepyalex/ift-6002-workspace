@@ -3,11 +3,13 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
 @Entity
+@Table(name = "tbl_drug")
 public class DrugHibernate extends Drug {
 
     @Id

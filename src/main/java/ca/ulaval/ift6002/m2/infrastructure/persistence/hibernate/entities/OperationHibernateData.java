@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.operation.OperationData;
@@ -20,6 +21,7 @@ import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 
 @Entity
+@Table(name = "tbl_operation")
 public class OperationHibernateData implements OperationData {
 
     @Id
