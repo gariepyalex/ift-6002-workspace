@@ -3,7 +3,11 @@ package ca.ulaval.ift6002.m2.application.assemblers;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,7 +28,9 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
 
+//TODO Refactor this test to handle null in reponse / request
 @RunWith(MockitoJUnitRunner.class)
 public class PrescriptionAssemblerTest {
 
@@ -35,24 +41,22 @@ public class PrescriptionAssemblerTest {
     private static final Date A_DATE = new Date();
     private static final int A_RENEWALS = 1;
 
-    private static final Din A_VALID_DIN = new Din("A valid din");
-    private static final Din AN_EMPTY_DIN = new Din("");
-    private static final String A_BRAND_NAME = "A random brand name";
-    private static final String A_DESCRIPTOR = "A random descriptor";
-    private static final String AN_EMPTY_DESCRIPTOR = "";
-    private static final Drug A_COMPLETE_DRUG = mock(Drug.class);
-    private static final Drug A_DRUG_WITH_ONLY_A_NAME = mock(Drug.class);
+    private static final Din A_DIN = new Din("A valid din");
+    private static final String A_BRAND_NAME = "A random brand name";;
 
-    private static final Prescription PRESCRIPTION = new Prescription(A_PRACTITIONER, A_DATE, A_RENEWALS,
-            A_COMPLETE_DRUG);
-    private static final Prescription PRESCRIPTION_WITH_INCOMPLETE_DRUG = new Prescription(A_PRACTITIONER, A_DATE,
-            A_RENEWALS, A_DRUG_WITH_ONLY_A_NAME);
+    private static final Drug DRUG = mock(Drug.class);
+    private static final Prescription PRESCRIPTION = mock(Prescription.class);
 
     private static final PrescriptionRequest PRESCRIPTION_REQUEST = new PrescriptionRequest(A_PRACTITIONER.toString(),
-            A_DATE_AS_STRING, A_RENEWALS, A_VALID_DIN.toString(), A_BRAND_NAME);
+            A_DATE_AS_STRING, A_RENEWALS, A_DIN.toString(), A_BRAND_NAME);
 
+    private static final PrescriptionRequest PRESCRIPTION_REQUEST_WITHOUT_DIN = new PrescriptionRequest(
+            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS, "", A_BRAND_NAME);
+
+    // TODO WHY NULL HERE ???
     private static final PrescriptionResponse PRESCRIPTION_RESPONSE = new PrescriptionResponse(A_BRAND_NAME,
-            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_REMAINING_RENEWALS, AN_AUTHORIZED_RENEWALS, null, null);
+            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_REMAINING_RENEWALS, AN_AUTHORIZED_RENEWALS,
+            A_DIN.toString(), null);
 
     private static final Collection<Prescription> PRESCRIPTIONS = Arrays.asList(PRESCRIPTION);
     private static final PrescriptionResponse[] PRESCRIPTION_RESPONSES = { PRESCRIPTION_RESPONSE };
@@ -62,6 +66,9 @@ public class PrescriptionAssemblerTest {
 
     @Mock
     private DateFormatter dateFormatter;
+
+    @Mock
+    private PrescriptionFactory prescriptionFactory;
 
     @InjectMocks
     private PrescriptionAssembler prescriptionAssembler;
@@ -74,28 +81,40 @@ public class PrescriptionAssemblerTest {
 
     @Test
     public void givenPrescriptionWhenConvertToResponseShouldReturnGivenResponse() {
+        setupDrugWithDin();
+        setupPrescription();
+
         PrescriptionResponse responseBuilt = prescriptionAssembler.toResponse(PRESCRIPTION);
 
         assertResponseEquals(PRESCRIPTION_RESPONSE, responseBuilt);
     }
 
     @Test
-    public void givenRequestWhenConvertToPrescriptionShouldReturnGivenPrescription() {
-        Prescription prescriptionBuilt = prescriptionAssembler.fromRequest(PRESCRIPTION_REQUEST);
+    public void givenRequestWhenConvertToPrescriptionShouldCallPrescriptionFactoryCreate() {
+        prescriptionAssembler.fromRequest(PRESCRIPTION_REQUEST);
 
-        assertEquals(PRESCRIPTION, prescriptionBuilt);
+        verify(prescriptionFactory).create(any(Practitioner.class), any(Date.class), anyInt(), any(Drug.class));
     }
 
     @Test
-    public void givenRequestWithNameAndNoDinWhenConvertToPrescriptionShouldReturnGivenPrescription() {
-        PrescriptionRequest request = new PrescriptionRequest(A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS,
-                AN_EMPTY_DIN.toString(), A_BRAND_NAME);
-        Prescription returnedPrescription = prescriptionAssembler.fromRequest(request);
-        assertEquals(PRESCRIPTION_WITH_INCOMPLETE_DRUG, returnedPrescription);
+    public void givenRequestWithDinWhenConvertToPrescriptionShouldCallDrugRepositoryGet() {
+        prescriptionAssembler.fromRequest(PRESCRIPTION_REQUEST);
+
+        verify(drugRepository).get(any(Din.class));
     }
 
     @Test
-    public void whenGivenCollectionOfPrescriptionsShouldConvertToCollectionOfPrescriptionResponse() {
+    public void givenRequestWithDrugBrandNameWhenConvertToPrescriptionShouldCallDrugRepositoryGet() {
+        prescriptionAssembler.fromRequest(PRESCRIPTION_REQUEST_WITHOUT_DIN);
+
+        verify(drugRepository).get(anyString());
+    }
+
+    @Test
+    public void givenCollectionOfPrescriptionsWhenToResponsesShouldConvertToCollectionOfPrescriptionResponse() {
+        setupDrugWithDin();
+        setupPrescription();
+
         PrescriptionResponse[] prescriptionsResponseBuilt = prescriptionAssembler.toResponses(PRESCRIPTIONS);
 
         assertResponsesEquals(PRESCRIPTION_RESPONSES, prescriptionsResponseBuilt);
@@ -115,5 +134,19 @@ public class PrescriptionAssemblerTest {
         assertEquals(expectedResponse.name, responseBuilt.name);
         assertEquals(expectedResponse.din, responseBuilt.din);
         assertArrayEquals(expectedResponse.consumptionResponses, responseBuilt.consumptionResponses);
+    }
+
+    private void setupDrugWithDin() {
+        willReturn(A_BRAND_NAME).given(DRUG).getBrandName();
+        willReturn(A_DIN).given(DRUG).getDin();
+    }
+
+    private void setupPrescription() {
+
+        willReturn(A_DATE).given(PRESCRIPTION).getDate();
+        willReturn(A_PRACTITIONER).given(PRESCRIPTION).getPractioner();
+        willReturn(A_RENEWALS).given(PRESCRIPTION).getRenewals();
+        willReturn(A_REMAINING_RENEWALS).given(PRESCRIPTION).remainingRenewals();
+        willReturn(DRUG).given(PRESCRIPTION).getDrug();
     }
 }
