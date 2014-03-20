@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -7,54 +8,57 @@ import javax.persistence.TypedQuery;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
+import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.assemblers.DrugDTOAssembler;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
+import ca.ulaval.ift6002.m2.factory.hibernate.DrugHibernateFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.DrugHibernate;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public class DrugHibernateRepository extends HibernateRepository<DrugDTO> implements DrugRepository {
+public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> implements DrugRepository {
 
-    private final DrugDTOAssembler drugDTOAssembler;
+    private final DrugFactory drugFactory;
 
     public DrugHibernateRepository() {
-        super(DrugDTO.class);
-        this.drugDTOAssembler = new DrugDTOAssembler();
+        super(DrugHibernate.class);
+        // TODO call factory locator
+        this.drugFactory = new DrugHibernateFactory();
     }
 
-    public DrugHibernateRepository(EntityManagerProvider entityManagerProvider, DrugDTOAssembler drugAssembler) {
-        super(entityManagerProvider, DrugDTO.class);
-        this.drugDTOAssembler = drugAssembler;
+    public DrugHibernateRepository(EntityManagerProvider entityManagerProvider, DrugFactory drugFactory) {
+        super(entityManagerProvider, DrugHibernate.class);
+        this.drugFactory = drugFactory;
     }
 
     @Override
     public Drug get(Din din) {
-        DrugDTO dto = find(din.getValue());
-
-        return drugDTOAssembler.fromDTO(dto);
+        return find(din.getValue());
     }
 
     @Override
     public Drug get(String name) {
-        // TODO CHAnge this
-        return null;// Drug.fromName(name);
+        return drugFactory.create(new Din(""), name);
     }
 
     @Override
     public Collection<Drug> findBy(String keyword) {
-        String query = "FROM DrugDTO WHERE LOWER(brandName) LIKE :keyword OR LOWER(descriptor) LIKE :keyword";
-        TypedQuery<DrugDTO> typedQuery = createQuery(query);
+        String query = "FROM tbl_drug WHERE LOWER(brandName) LIKE LOWER(:keyword) OR LOWER(descriptor) LIKE LOWER(:keyword)";
+        TypedQuery<DrugHibernate> typedQuery = createQuery(query);
+        // TODO do wildcard with spaces
+        typedQuery.setParameter("keyword", '%' + keyword + '%');
 
-        typedQuery.setParameter("keyword", '%' + keyword.toLowerCase() + '%');
+        List<DrugHibernate> drugs = typedQuery.getResultList();
 
-        List<DrugDTO> dtos = typedQuery.getResultList();
-
-        return drugDTOAssembler.fromDTOs(dtos);
+        return new ArrayList<Drug>(drugs);
     }
 
     @Override
     public void store(Collection<Drug> drugs) {
-        Collection<DrugDTO> dtos = drugDTOAssembler.toDTOs(drugs);
+        Collection<DrugHibernate> hibernateDrugs = new ArrayList<DrugHibernate>();
+        for (Drug drug : drugs) {
+            DrugHibernate drugHibernate = (DrugHibernate) drug;
+            hibernateDrugs.add(drugHibernate);
+        }
 
-        merge(dtos);
+        merge(hibernateDrugs);
     }
 }
