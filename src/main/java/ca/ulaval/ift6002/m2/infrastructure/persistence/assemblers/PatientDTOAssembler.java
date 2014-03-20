@@ -7,7 +7,6 @@ import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.factory.hibernate.PatientHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 
 public class PatientDTOAssembler extends DTOAssembler<Patient, PatientDTO> {
 
@@ -29,9 +28,12 @@ public class PatientDTOAssembler extends DTOAssembler<Patient, PatientDTO> {
 
     @Override
     public PatientDTO toDTO(Patient patient) {
-        Collection<PrescriptionDTO> prescriptionsDTO = prescriptionDTOAssembler.toDTOs(patient.getPrescriptions());
+        prescriptionDTOAssembler.toDTOs(patient.getPrescriptions());
 
-        return new PatientDTO(patient.getNumber(), prescriptionsDTO, patient.getHealthInsuranceNumber());
+        // This class will be deleted soon...
+        return null;
+        // return new PatientDTO(patient.getNumber(), prescriptionsDTO,
+        // patient.getHealthInsuranceNumber());
     }
 
     protected PatientDTOAssembler(PrescriptionDTOAssembler prescriptionDTOAssembler, PatientFactory patientFactory) {
