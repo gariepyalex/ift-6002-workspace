@@ -1,7 +1,5 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import java.util.Date;
-
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
 import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
@@ -21,11 +19,11 @@ public class ConsumptionAssembler {
     }
 
     public Consumption fromRequest(ConsumptionRequest request) {
-        Date formattedDate = dateFormatter.parse(request.date);
-        Pharmacy pharmacy = new Pharmacy(request.pharmacy);
-        Integer consumptionsCount = request.consumptions;
-
-        return new Consumption(formattedDate, pharmacy, consumptionsCount);
+        dateFormatter.parse(request.date);
+        new Pharmacy(request.pharmacy);
+        // TODO call the factory
+        // return new Consumption(formattedDate, pharmacy, consumptionsCount);
+        return null;
     }
 
     public ConsumptionResponse toResponse(Consumption consumption) {
