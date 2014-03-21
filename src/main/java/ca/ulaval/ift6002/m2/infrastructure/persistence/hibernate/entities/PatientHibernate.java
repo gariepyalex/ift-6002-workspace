@@ -29,16 +29,22 @@ public class PatientHibernate extends Patient {
     }
 
     public PatientHibernate(Integer number, String healthInsuranceNumber, Collection<Prescription> prescriptions) {
-
-        this.prescriptions = new ArrayList<>();
-        for (Prescription prescription : prescriptions) {
-            PrescriptionHibernate prescriptionHibernate = (PrescriptionHibernate) prescription;
-            this.prescriptions.add(prescriptionHibernate);
-        }
-
         this.number = number;
         this.healthInsuranceNumber = healthInsuranceNumber;
         this.isDead = false;
+        this.prescriptions = convertToHibernate(prescriptions);
+    }
+
+    private Collection<PrescriptionHibernate> convertToHibernate(Collection<Prescription> prescriptions) {
+        Collection<PrescriptionHibernate> prescriptionsHibernate = new ArrayList<>();
+
+        for (Prescription prescription : prescriptions) {
+            PrescriptionHibernate prescriptionHibernate = (PrescriptionHibernate) prescription;
+
+            prescriptionsHibernate.add(prescriptionHibernate);
+        }
+
+        return prescriptionsHibernate;
     }
 
     @Override
