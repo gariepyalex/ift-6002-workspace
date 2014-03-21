@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
@@ -24,7 +26,8 @@ public class PrescriptionHibernate extends Prescription {
     private int renewals;
     @ManyToOne
     private DrugHibernate drug;
-    private List<Consumption> consumptions;
+    @OneToMany(cascade = { CascadeType.ALL })
+    private List<ConsumptionHibernate> consumptions;
     private DateFormatter dateFormatter;
 
     public PrescriptionHibernate(Practitioner practitioner, Date date, int renewals, Drug drug,
@@ -68,8 +71,7 @@ public class PrescriptionHibernate extends Prescription {
 
     @Override
     public List<Consumption> getConsumptions() {
-        // TODO create a list of consumption with the consuptionHibernate List
-        return consumptions;
+        return new ArrayList<Consumption>(consumptions);
     }
 
     @Override
@@ -79,13 +81,12 @@ public class PrescriptionHibernate extends Prescription {
 
     @Override
     protected void addConsumptionInPrescription(Consumption consumption) {
-        // TODO Cast object to ConsumptionHibernate and add it to the list
-
+        ConsumptionHibernate consumptionHibernate = (ConsumptionHibernate) consumption;
+        consumptions.add(consumptionHibernate);
     }
 
     @Override
     protected Consumption lastConsumption() {
-        // TODO Cast object to consumptionHibernate
         return consumptions.get(consumptions.size() - 1);
     }
 
