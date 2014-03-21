@@ -31,9 +31,11 @@ public class EntityManagerContextFilter implements Filter {
         try {
             entityManager = entityManagerFactory.createEntityManager();
             EntityManagerProvider.setEntityManager(entityManager);
+            entityManager.getTransaction().begin();
             chain.doFilter(request, response);
         } finally {
             if (entityManager != null) {
+                entityManager.getTransaction().commit();
                 entityManager.close();
             }
             EntityManagerProvider.clearEntityManager();
