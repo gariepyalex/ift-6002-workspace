@@ -1,5 +1,8 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,20 +22,44 @@ public class DrugHibernate extends Drug {
     private String brandName;
     private String descriptor;
 
+    // TODO add Hibernate annotation
+    private Collection<DrugHibernate> interactingDrugs;
+
     public DrugHibernate(Din din, String brandName) {
-        this.din = din.getValue();
-        this.brandName = brandName;
-        this.descriptor = "";
+        this(din, brandName, "");
     }
 
     public DrugHibernate(Din din, String brandName, String descriptor) {
         this.din = din.getValue();
         this.brandName = brandName;
         this.descriptor = descriptor;
+        this.interactingDrugs = new ArrayList<>();
     }
 
     protected DrugHibernate() {
         // For hibernate
+    }
+
+    @Override
+    public void interactWith(Collection<Drug> drugs) {
+        this.interactingDrugs = convertToHibernate(drugs);
+    }
+
+    private Collection<DrugHibernate> convertToHibernate(Collection<Drug> drugs) {
+        Collection<DrugHibernate> drugsHibernate = new ArrayList<>();
+
+        for (Drug drug : drugs) {
+            DrugHibernate drugHibernate = (DrugHibernate) drug;
+
+            drugsHibernate.add(drugHibernate);
+        }
+
+        return drugsHibernate;
+    }
+
+    @Override
+    protected Collection<Drug> getInteractingDrugs() {
+        return new ArrayList<Drug>(interactingDrugs);
     }
 
     @Override
