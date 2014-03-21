@@ -22,7 +22,6 @@ public abstract class Patient {
     }
 
     protected Prescription findPrescription(int prescriptionNumber) {
-
         for (Prescription prescription : getPrescriptions()) {
             if (prescription.hasNumber(prescriptionNumber)) {
                 return prescription;
