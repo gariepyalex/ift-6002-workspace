@@ -34,7 +34,7 @@ public class OperationHibernateRepository extends HibernateRepository<OperationH
     public void store(Operation operation) {
         OperationHibernateData operationData = (OperationHibernateData) operation.getData();
 
-        merge(operationData);
+        storeElement(operationData);
     }
 
 }

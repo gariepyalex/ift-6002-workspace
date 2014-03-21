@@ -20,7 +20,7 @@ public class PatientHibernateRepository extends HibernateRepository<PatientHiber
     public void store(Patient patient) {
         PatientHibernate patientHibernate = (PatientHibernate) patient;
 
-        merge(patientHibernate);
+        storeElement(patientHibernate);
     }
 
     protected PatientHibernateRepository(EntityManagerProvider entityManagerProvider) {
