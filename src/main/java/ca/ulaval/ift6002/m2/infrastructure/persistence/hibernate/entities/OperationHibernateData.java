@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
@@ -33,9 +34,10 @@ public class OperationHibernateData implements OperationData {
     private String room;
     private OperationStatus operationStatus;
     private OperationType operationType;
-    // TODO Make hibernate patient
-    // @ManyToOne
-    // private Patient patient;
+
+    @ManyToOne
+    private PatientHibernate patient;
+
     @ManyToMany(cascade = { CascadeType.ALL })
     private List<InstrumentHibernate> instruments;
 
@@ -47,8 +49,7 @@ public class OperationHibernateData implements OperationData {
         this.room = room.value;
         this.operationStatus = status;
         this.operationType = operationType;
-        // TODO Change this
-        // this.patient = patient;
+        this.patient = (PatientHibernate) patient;
         this.instruments = new ArrayList<>();
     }
 
@@ -90,8 +91,7 @@ public class OperationHibernateData implements OperationData {
     }
 
     public Patient getPatient() {
-        // TODO Change this
-        return null;// patient;
+        return patient;
     }
 
     public String getDescription() {
