@@ -35,7 +35,7 @@ public class InteractionHibernateRepository extends HibernateRepository<Interact
     public void store(List<Interaction> interactions) {
         Collection<InteractionDTO> dtos = assembler.toDTOs(interactions);
 
-        merge(dtos);
+        // storeElements(dtos);
     }
 
 }

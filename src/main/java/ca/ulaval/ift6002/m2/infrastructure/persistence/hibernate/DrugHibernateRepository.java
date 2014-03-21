@@ -49,14 +49,10 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
 
     @Override
     public void store(Collection<Drug> drugs) {
-        Collection<DrugHibernate> hibernateDrugs = new ArrayList<DrugHibernate>();
-
         for (Drug drug : drugs) {
             DrugHibernate drugHibernate = (DrugHibernate) drug;
-            hibernateDrugs.add(drugHibernate);
+            storeElement(drugHibernate);
         }
-
-        merge(hibernateDrugs);
     }
 
     protected DrugHibernateRepository(EntityManagerProvider entityManagerProvider, DrugFactory drugFactory) {

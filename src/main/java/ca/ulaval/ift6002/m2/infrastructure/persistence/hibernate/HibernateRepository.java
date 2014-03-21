@@ -1,7 +1,5 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
@@ -33,42 +31,14 @@ public abstract class HibernateRepository<T> {
         return element;
     }
 
-    protected Collection<T> merge(Collection<T> elements) {
-        Collection<T> mergedElements = new ArrayList<T>();
-
-        beginTransaction();
-
-        for (T element : elements) {
-            T mergedElement = getEntityManager().merge(element);
-
-            mergedElements.add(mergedElement);
+    protected void storeElement(T element) {
+        if (!getEntityManager().contains(element)) {
+            getEntityManager().persist(element);
         }
-
-        commitTransaction();
-
-        return mergedElements;
-    }
-
-    protected T merge(T element) {
-        beginTransaction();
-
-        T mergedElement = getEntityManager().merge(element);
-
-        commitTransaction();
-
-        return mergedElement;
     }
 
     protected TypedQuery<T> createQuery(String query) {
         return getEntityManager().createQuery(query, classType);
-    }
-
-    private void beginTransaction() {
-        getEntityManager().getTransaction().begin();
-    }
-
-    private void commitTransaction() {
-        getEntityManager().getTransaction().commit();
     }
 
     private EntityManager getEntityManager() {
