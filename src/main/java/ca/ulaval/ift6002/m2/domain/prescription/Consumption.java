@@ -4,10 +4,10 @@ import java.util.Date;
 
 public interface Consumption {
 
-    public Date getDate();
+    Date getDate();
 
-    public Pharmacy getPharmacy();
+    Pharmacy getPharmacy();
 
-    public int getCount();
+    int getCount();
 
 }
