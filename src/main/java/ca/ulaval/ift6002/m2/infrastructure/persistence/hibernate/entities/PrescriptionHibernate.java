@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -18,6 +20,8 @@ import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 @Table(name = "tbl_prescription")
 public class PrescriptionHibernate extends Prescription {
 
+    @Id
+    @GeneratedValue
     private int id;
     private String practitionerName;
     private String date;
