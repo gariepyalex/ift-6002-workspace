@@ -21,8 +21,9 @@ import ca.ulaval.ift6002.m2.factory.hibernate.InstrumentHibernateFactory;
 import ca.ulaval.ift6002.m2.factory.hibernate.OperationHibernateFactory;
 import ca.ulaval.ift6002.m2.factory.hibernate.PatientHibernateFactory;
 import ca.ulaval.ift6002.m2.factory.hibernate.PrescriptionHibernateFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.HibernateRepositoryFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.RepositoryFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.DrugHibernateRepository;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.OperationHibernateRepository;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.PatientHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
@@ -44,12 +45,11 @@ public class Main {
     }
 
     private static void setupRepositoryLocator() {
-        RepositoryFactory hibernateRepositoryFactory = new HibernateRepositoryFactory();
         RepositoryLocator repositoryLocator = new RepositoryLocator();
 
-        repositoryLocator.register(DrugRepository.class, hibernateRepositoryFactory.createDrugRepository());
-        repositoryLocator.register(PatientRepository.class, hibernateRepositoryFactory.createPatientRepository());
-        repositoryLocator.register(OperationRepository.class, hibernateRepositoryFactory.createOperationRepository());
+        repositoryLocator.register(DrugRepository.class, new DrugHibernateRepository());
+        repositoryLocator.register(PatientRepository.class, new PatientHibernateRepository());
+        repositoryLocator.register(OperationRepository.class, new OperationHibernateRepository());
 
         RepositoryLocator.load(repositoryLocator);
     }
