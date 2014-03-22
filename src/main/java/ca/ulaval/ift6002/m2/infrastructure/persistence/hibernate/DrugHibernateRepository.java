@@ -3,6 +3,7 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.persistence.TypedQuery;
 
@@ -26,8 +27,17 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
 
     @Override
     public Drug get(Din din) {
-        // TODO Change this because din is not the id of the drug
-        return find(din.getValue());
+        String query = "FROM tbl_drug WHERE din = :din";
+
+        TypedQuery<DrugHibernate> typedQuery = createQuery(query);
+        typedQuery.setParameter("din", din.getValue());
+
+        try {
+            Drug drug = typedQuery.getSingleResult();
+            return drug;
+        } catch (Exception ex) {
+            throw new NoSuchElementException("There is no element with value: " + din.getValue());
+        }
     }
 
     @Override
