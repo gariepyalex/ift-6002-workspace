@@ -16,8 +16,8 @@ import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
-import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.OperationHibernateData;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.PatientHibernate;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OperationHibernateFactoryTest {
@@ -30,7 +30,7 @@ public class OperationHibernateFactoryTest {
     private static final Date DATE = new Date();
 
     @Mock
-    private Patient patient;
+    private PatientHibernate patient;
 
     private OperationFactory operationHibernateFactory;
 
