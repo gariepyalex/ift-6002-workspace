@@ -5,9 +5,22 @@ import javax.persistence.EntityManagerFactory;
 
 import ca.ulaval.ift6002.m2.contexts.DemoDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
+import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
+import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
+import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
+import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.prescription.ConsumptionFactory;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
+import ca.ulaval.ift6002.m2.factory.hibernate.ConsumptionHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.hibernate.DrugHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.hibernate.InstrumentHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.hibernate.OperationHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.hibernate.PatientHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.hibernate.PrescriptionHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.HibernateRepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.factory.RepositoryFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
@@ -18,6 +31,7 @@ public class Main {
 
     public static void main(String[] args) {
         setupRepositoryLocator();
+        setupFactoryLocator();
 
         EntityManager entityManager = setUpEntityManager();
         fillDrugRepository();
@@ -38,6 +52,19 @@ public class Main {
         repositoryLocator.register(OperationRepository.class, hibernateRepositoryFactory.createOperationRepository());
 
         RepositoryLocator.load(repositoryLocator);
+    }
+
+    private static void setupFactoryLocator() {
+        FactoryLocator factoryLocator = new FactoryLocator();
+
+        factoryLocator.register(ConsumptionFactory.class, new ConsumptionHibernateFactory());
+        factoryLocator.register(DrugFactory.class, new DrugHibernateFactory());
+        factoryLocator.register(InstrumentFactory.class, new InstrumentHibernateFactory());
+        factoryLocator.register(OperationFactory.class, new OperationHibernateFactory());
+        factoryLocator.register(PatientFactory.class, new PatientHibernateFactory());
+        factoryLocator.register(PrescriptionFactory.class, new PrescriptionHibernateFactory());
+
+        FactoryLocator.load(factoryLocator);
     }
 
     private static EntityManager setUpEntityManager() {
