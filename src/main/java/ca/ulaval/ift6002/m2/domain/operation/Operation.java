@@ -80,22 +80,9 @@ public abstract class Operation {
         return operationData;
     }
 
-    protected abstract boolean isInstrumentElligible(Instrument instrument);
-
-    // TODO Remove this useless method
-    public abstract OperationType getType();
-
-    public void updateNumber(int number) {
-        // TODO Remove this useless method
-        // this.number = number;
-    }
-
     public boolean hasInstruments() {
         return operationData.hasInstruments();
     }
 
-    public boolean hasNumber() {
-        // TODO REmove this useless method
-        return true; // number != EMPTY_NUMBER;
-    }
+    protected abstract boolean isInstrumentElligible(Instrument instrument);
 }

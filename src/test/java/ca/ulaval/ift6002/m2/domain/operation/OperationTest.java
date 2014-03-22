@@ -129,11 +129,6 @@ public class OperationTest {
                 return true;
             }
 
-            @Override
-            public OperationType getType() {
-                return OperationType.OTHER;
-            }
-
         };
     }
 
@@ -143,11 +138,6 @@ public class OperationTest {
             @Override
             protected boolean isInstrumentElligible(Instrument instrument) {
                 return false;
-            }
-
-            @Override
-            public OperationType getType() {
-                return OperationType.OTHER;
             }
 
         };
