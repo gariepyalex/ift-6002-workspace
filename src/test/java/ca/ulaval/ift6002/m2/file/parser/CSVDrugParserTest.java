@@ -40,6 +40,9 @@ public class CSVDrugParserTest {
     private DrugFactory drugFactory;
 
     @Mock
+    private InteractionParser interactionParser;
+
+    @Mock
     private FileReader<String[]> fileReader;
 
     @InjectMocks
@@ -51,7 +54,7 @@ public class CSVDrugParserTest {
     }
 
     @Test
-    public void givenParserWhenParsingShouldReturnCallCreateFactoryTwoTime() {
+    public void givenParserWhenParsingShouldCallCreateFactoryTwoTime() {
         drugParser.parse();
 
         verify(drugFactory, times(2)).create(any(Din.class), anyString(), anyString());
