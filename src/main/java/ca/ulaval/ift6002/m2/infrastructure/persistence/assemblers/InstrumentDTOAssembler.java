@@ -5,7 +5,7 @@ import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
-import ca.ulaval.ift6002.m2.factory.hibernate.InstrumentHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.InstrumentDTO;
 
 public class InstrumentDTOAssembler extends DTOAssembler<Instrument, InstrumentDTO> {
@@ -13,8 +13,7 @@ public class InstrumentDTOAssembler extends DTOAssembler<Instrument, InstrumentD
     private final InstrumentFactory instrumentFactory;
 
     public InstrumentDTOAssembler() {
-        // TODO CHANGE THIS WITH LOCATOR
-        instrumentFactory = new InstrumentHibernateFactory();
+        instrumentFactory = FactoryLocator.getInstrumentFactory();
     }
 
     public InstrumentDTOAssembler(InstrumentFactory instrumentFactory) {

@@ -12,7 +12,7 @@ import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.factory.hibernate.OperationHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.OperationDTO;
 
 public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO> {
@@ -40,8 +40,7 @@ public class OperationDTOAssembler extends DTOAssembler<Operation, OperationDTO>
         this.surgeonDTOAssembler = new SurgeonDTOAssembler();
         this.roomDTOAssembler = new RoomDTOAssembler();
         this.dateFormatter = new DateFormatter();
-        // TODO Call factorylocator
-        this.operationFactory = new OperationHibernateFactory();
+        this.operationFactory = FactoryLocator.getOperationFactory();
         this.patientDTOAssembler = new PatientDTOAssembler();
     }
 

@@ -7,7 +7,7 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
-import ca.ulaval.ift6002.m2.factory.hibernate.PrescriptionHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PrescriptionDTO;
 
@@ -27,8 +27,7 @@ public class PrescriptionDTOAssembler extends DTOAssembler<Prescription, Prescri
     public PrescriptionDTOAssembler() {
         this.dateFormatter = new DateFormatter();
         this.drugDTOAssembler = new DrugDTOAssembler();
-        // TODO Call factory locator
-        this.prescriptionFactory = new PrescriptionHibernateFactory();
+        this.prescriptionFactory = FactoryLocator.getPrescriptionFactory();
     }
 
     @Override

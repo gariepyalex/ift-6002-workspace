@@ -11,7 +11,7 @@ import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.factory.hibernate.DrugHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.DrugHibernate;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
@@ -21,8 +21,7 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
 
     public DrugHibernateRepository() {
         super(DrugHibernate.class);
-        // TODO call factory locator
-        this.drugFactory = new DrugHibernateFactory();
+        this.drugFactory = FactoryLocator.getDrugFactory();
     }
 
     @Override

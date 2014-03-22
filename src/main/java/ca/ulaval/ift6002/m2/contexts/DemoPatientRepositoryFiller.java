@@ -2,7 +2,7 @@ package ca.ulaval.ift6002.m2.contexts;
 
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.factory.hibernate.PatientHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class DemoPatientRepositoryFiller {
@@ -12,8 +12,7 @@ public class DemoPatientRepositoryFiller {
 
     public DemoPatientRepositoryFiller() {
         this.patientRepository = RepositoryLocator.getPatientRepository();
-        // TODO use FactoryLocator
-        this.patientFactory = new PatientHibernateFactory();
+        this.patientFactory = FactoryLocator.getPatientFactory();
     }
 
     public void fill() {

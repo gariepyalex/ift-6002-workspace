@@ -12,7 +12,7 @@ import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
-import ca.ulaval.ift6002.m2.factory.hibernate.PrescriptionHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class PrescriptionAssembler {
@@ -31,8 +31,7 @@ public class PrescriptionAssembler {
     public PrescriptionAssembler() {
         this.dateFormatter = new DateFormatter();
         this.drugRepository = RepositoryLocator.getDrugRepository();
-        // TODO Call the factory Locator
-        this.prescriptionFactory = new PrescriptionHibernateFactory();
+        this.prescriptionFactory = FactoryLocator.getPrescriptionFactory();
     }
 
     public PrescriptionResponse toResponse(Prescription prescription) {

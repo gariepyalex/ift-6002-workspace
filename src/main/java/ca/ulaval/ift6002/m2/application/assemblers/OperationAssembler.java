@@ -12,7 +12,7 @@ import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.factory.hibernate.OperationHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
 
 public class OperationAssembler {
@@ -29,8 +29,7 @@ public class OperationAssembler {
     }
 
     public OperationAssembler() {
-        // TODO Call factory locator
-        this.operationFactory = new OperationHibernateFactory();
+        this.operationFactory = FactoryLocator.getOperationFactory();
         this.patientRepository = RepositoryLocator.getPatientRepository();
         this.formatterDate = new DateFormatter();
     }

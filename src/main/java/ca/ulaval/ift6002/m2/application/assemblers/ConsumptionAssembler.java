@@ -8,7 +8,7 @@ import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.ConsumptionFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.Pharmacy;
-import ca.ulaval.ift6002.m2.factory.hibernate.ConsumptionHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 
 public class ConsumptionAssembler {
 
@@ -22,8 +22,7 @@ public class ConsumptionAssembler {
 
     public ConsumptionAssembler() {
         this.dateFormatter = new DateFormatter();
-        // TODO call locator instead of new...
-        this.consumptionFactory = new ConsumptionHibernateFactory();
+        this.consumptionFactory = FactoryLocator.getConsumptionFactory();
     }
 
     public Consumption fromRequest(ConsumptionRequest request) {

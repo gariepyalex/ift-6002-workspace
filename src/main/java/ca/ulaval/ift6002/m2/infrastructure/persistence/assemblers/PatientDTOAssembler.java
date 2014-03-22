@@ -5,7 +5,7 @@ import java.util.Collection;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
-import ca.ulaval.ift6002.m2.factory.hibernate.PatientHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.PatientDTO;
 
 public class PatientDTOAssembler extends DTOAssembler<Patient, PatientDTO> {
@@ -15,8 +15,7 @@ public class PatientDTOAssembler extends DTOAssembler<Patient, PatientDTO> {
 
     public PatientDTOAssembler() {
         this.prescriptionDTOAssembler = new PrescriptionDTOAssembler();
-        // TODO The class should be deleted soon
-        this.patientFactory = new PatientHibernateFactory();
+        this.patientFactory = FactoryLocator.getPatientFactory();
     }
 
     @Override

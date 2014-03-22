@@ -6,15 +6,14 @@ import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
-import ca.ulaval.ift6002.m2.factory.hibernate.InstrumentHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 
 public class InstrumentAssembler {
 
     private final InstrumentFactory instrumentFactory;
 
     public InstrumentAssembler() {
-        // TODO CHANGE THIS WITH LOCATOR
-        instrumentFactory = new InstrumentHibernateFactory();
+        instrumentFactory = FactoryLocator.getInstrumentFactory();
     }
 
     public InstrumentAssembler(InstrumentFactory instrumentFactory) {

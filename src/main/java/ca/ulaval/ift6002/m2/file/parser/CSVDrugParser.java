@@ -7,7 +7,7 @@ import java.util.Map;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
-import ca.ulaval.ift6002.m2.factory.hibernate.DrugHibernateFactory;
+import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.file.CSVFileReader;
 import ca.ulaval.ift6002.m2.file.FileReader;
 
@@ -25,8 +25,7 @@ public class CSVDrugParser implements FileParser<Drug> {
 
     public CSVDrugParser() {
         this.fileReader = new CSVFileReader();
-        // TODO call factoryLocator
-        this.drugFactory = new DrugHibernateFactory();
+        this.drugFactory = FactoryLocator.getDrugFactory();
         this.interactionParser = new InteractionParser();
     }
 
