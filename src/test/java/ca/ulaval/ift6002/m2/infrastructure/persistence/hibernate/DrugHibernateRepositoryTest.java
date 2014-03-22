@@ -27,7 +27,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.dto.DrugDTO;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.DrugHibernate;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
@@ -78,7 +77,7 @@ public class DrugHibernateRepositoryTest {
 
         drugRepository.store(drugs);
 
-        verify(entityManager, times(drugs.size())).persist(any(DrugDTO.class));
+        verify(entityManager, times(drugs.size())).persist(any(DrugHibernate.class));
     }
 
     @Test
@@ -88,7 +87,7 @@ public class DrugHibernateRepositoryTest {
 
         drugRepository.store(drugs);
 
-        verify(entityManager, never()).persist(any(DrugDTO.class));
+        verify(entityManager, never()).persist(any(DrugHibernate.class));
     }
 
     @Test(expected = NoSuchElementException.class)
