@@ -41,9 +41,8 @@ public class PrescriptionAssembler {
         Integer remainingRenewals = Integer.valueOf(prescription.remainingRenewals());
         Integer authorizedRenewals = Integer.valueOf(prescription.getRenewals());
         String brandName = prescription.getDrug().getBrandName();
-        // TODO not sure if its good to put null here ....
-        return new PrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals, authorizedRenewals,
-                null, null);
+
+        return new PrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals, authorizedRenewals);
     }
 
     public PrescriptionResponse[] toResponses(Collection<Prescription> prescriptions) {

@@ -30,7 +30,6 @@ import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
 
-//TODO Refactor this test to handle null in reponse / request
 @RunWith(MockitoJUnitRunner.class)
 public class PrescriptionAssemblerTest {
 
@@ -53,10 +52,8 @@ public class PrescriptionAssemblerTest {
     private static final PrescriptionRequest PRESCRIPTION_REQUEST_WITHOUT_DIN = new PrescriptionRequest(
             A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS, "", A_BRAND_NAME);
 
-    // TODO WHY NULL HERE ???
     private static final PrescriptionResponse PRESCRIPTION_RESPONSE = new PrescriptionResponse(A_BRAND_NAME,
-            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_REMAINING_RENEWALS, AN_AUTHORIZED_RENEWALS,
-            A_DIN.toString(), null);
+            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_REMAINING_RENEWALS, AN_AUTHORIZED_RENEWALS);
 
     private static final Collection<Prescription> PRESCRIPTIONS = Arrays.asList(PRESCRIPTION);
     private static final PrescriptionResponse[] PRESCRIPTION_RESPONSES = { PRESCRIPTION_RESPONSE };
