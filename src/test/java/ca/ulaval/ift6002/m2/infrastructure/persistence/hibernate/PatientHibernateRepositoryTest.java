@@ -2,12 +2,13 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,10 +28,7 @@ public class PatientHibernateRepositoryTest {
     private static final int UNEXISTING_PATIENT_ID = -1;
 
     @Mock
-    private Patient patient;
-
-    @Mock
-    private PatientHibernate patientHibernate;
+    private PatientHibernate patient;
 
     @Mock
     private EntityManagerProvider entityManagerProvider;
@@ -38,16 +36,12 @@ public class PatientHibernateRepositoryTest {
     @Mock
     private EntityManager entityManager;
 
-    @Mock
-    private EntityTransaction transaction;
-
     @InjectMocks
     private PatientHibernateRepository patientRepository;
 
     @Before
     public void setUp() {
         willReturn(entityManager).given(entityManagerProvider).getEntityManager();
-        willReturn(transaction).given(entityManager).getTransaction();
     }
 
     @Test
@@ -65,24 +59,16 @@ public class PatientHibernateRepositoryTest {
     }
 
     @Test
-    public void whenStorePatientShouldBeginTransaction() {
-        patientRepository.store(patientHibernate);
-
-        verify(transaction).begin();
+    public void whenStorePatientNotContainInEntityManagerShouldCallEntityManagerPersist() {
+        willReturn(false).given(entityManager).contains(any(PatientHibernate.class));
+        patientRepository.store(patient);
+        verify(entityManager).persist(any(PatientHibernate.class));
     }
 
     @Test
-    public void whenStorePatientShouldMergePatient() {
-        patientRepository.store(patientHibernate);
-
-        verify(entityManager).merge(patientHibernate);
+    public void whenStorePatientContainInEntityManagerShouldNotCallEntityManagerPersist() {
+        willReturn(true).given(entityManager).contains(any(PatientHibernate.class));
+        patientRepository.store(patient);
+        verify(entityManager, never()).persist(any(PatientHibernate.class));
     }
-
-    @Test
-    public void whenStorePatientShouldCommitTransaction() {
-        patientRepository.store(patientHibernate);
-
-        verify(transaction).commit();
-    }
-
 }

@@ -2,12 +2,12 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,16 +42,12 @@ public class OperationHibernateRepositoryTest {
     @Mock
     private EntityManager entityManager;
 
-    @Mock
-    private EntityTransaction transaction;
-
     @InjectMocks
     private OperationHibernateRepository operationRepository;
 
     @Before
     public void setUp() {
         willReturn(entityManager).given(entityManagerProvider).getEntityManager();
-        willReturn(transaction).given(entityManager).getTransaction();
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -69,10 +65,17 @@ public class OperationHibernateRepositoryTest {
     }
 
     @Test
-    public void whenStoreOperationShouldCallEntityManagerMerge() {
-        willReturn(operationData).given(entityManager).merge(any(OperationHibernateData.class));
+    public void whenStoreOperationNotContainInEntityManagerShouldCallEntityManagerPersist() {
+        willReturn(false).given(entityManager).contains(any(OperationHibernateData.class));
         operationRepository.store(operation);
-        verify(entityManager).merge(any(OperationHibernateData.class));
+        verify(entityManager).persist(any(OperationHibernateData.class));
+    }
+
+    @Test
+    public void whenStoreOperationContainInEntityManagerShouldNotCallEntityManagerPersist() {
+        willReturn(true).given(entityManager).contains(any(OperationHibernateData.class));
+        operationRepository.store(operation);
+        verify(entityManager, never()).persist(any(OperationHibernateData.class));
     }
 
 }
