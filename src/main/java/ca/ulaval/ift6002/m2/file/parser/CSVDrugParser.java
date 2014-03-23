@@ -1,8 +1,11 @@
 package ca.ulaval.ift6002.m2.file.parser;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
@@ -31,34 +34,66 @@ public class CSVDrugParser implements FileParser<Drug> {
 
     @Override
     public List<Drug> parse() {
-        Map<Din, List<Din>> interactingDins = interactionParser.parse();
         List<String[]> allLinesFromFile = fileReader.readAll(DATA_FILE_PATH);
 
-        return fillDrugs(allLinesFromFile, interactingDins);
+        Map<Din, List<Din>> interactingDins = interactionParser.parse();
+        Map<Din, Drug> filledDrugs = fillDrugsFromLines(allLinesFromFile);
+        List<Drug> drugs = linkInteractingDrugs(filledDrugs, interactingDins);
+
+        return drugs;
     }
 
-    private List<Drug> fillDrugs(List<String[]> lines, Map<Din, List<Din>> interactingDins) {
-        List<Drug> drugs = new ArrayList<Drug>();
+    private Map<Din, Drug> fillDrugsFromLines(List<String[]> lines) {
+        Map<Din, Drug> drugs = new HashMap<>();
 
         for (String[] line : lines) {
-            Drug drugBuilt = hydrate(line, interactingDins);
+            Din din = new Din(line[DIN_COLUMN]);
+            String brandName = line[BRAND_NAME_COLUMN];
+            String descriptor = line[DESCRIPTOR_COLUMN];
 
-            drugs.add(drugBuilt);
+            Drug drugBuilt = drugFactory.create(din, brandName, descriptor);
+
+            drugs.put(din, drugBuilt);
         }
 
         return drugs;
     }
 
-    private Drug hydrate(String[] line, Map<Din, List<Din>> interactingDins) {
-        Din din = new Din(line[DIN_COLUMN]);
-        String brandName = line[BRAND_NAME_COLUMN];
-        String descriptor = line[DESCRIPTOR_COLUMN];
+    private List<Drug> linkInteractingDrugs(Map<Din, Drug> drugs, Map<Din, List<Din>> interactingDins) {
+        List<Drug> drugsLinked = new ArrayList<>();
 
-        if (interactingDins.containsKey(din)) {
-            return drugFactory.create(din, brandName, descriptor, interactingDins.get(din));
-        } else {
-            return drugFactory.create(din, brandName, descriptor);
+        for (Entry<Din, Drug> drugEntry : drugs.entrySet()) {
+            Din currentDin = drugEntry.getKey();
+            Drug currentDrug = drugEntry.getValue();
+
+            linkDrugWithItInteractions(currentDin, currentDrug, drugs, interactingDins);
+
+            drugsLinked.add(currentDrug);
         }
+
+        return drugsLinked;
+    }
+
+    private void linkDrugWithItInteractions(Din din, Drug drug, Map<Din, Drug> allDrugs,
+            Map<Din, List<Din>> interactingDins) {
+        if (interactingDins.containsKey(din)) {
+            List<Din> dins = interactingDins.get(din);
+            Collection<Drug> interactingDrugs = convertDinsIntoDrugs(allDrugs, dins);
+
+            drug.interactWith(interactingDrugs);
+        }
+    }
+
+    private Collection<Drug> convertDinsIntoDrugs(Map<Din, Drug> drugs, List<Din> dins) {
+        Collection<Drug> drugsConverted = new ArrayList<>();
+
+        for (Din din : dins) {
+            Drug drugFound = drugs.get(din);
+
+            drugsConverted.add(drugFound);
+        }
+
+        return drugsConverted;
     }
 
     protected CSVDrugParser(FileReader<String[]> fileReader, DrugFactory drugFactory,
