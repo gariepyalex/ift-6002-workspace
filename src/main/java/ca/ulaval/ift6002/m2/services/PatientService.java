@@ -52,6 +52,8 @@ public class PatientService {
         return prescriptionAssembler.toResponses(patient.getPrescriptions());
     }
 
+    // TODO check if we could use directly Integer in the resource instead of
+    // passing a String then getting the value of
     private Patient getPatient(String patientId) {
         return patientRepository.get(Integer.valueOf(patientId));
     }
