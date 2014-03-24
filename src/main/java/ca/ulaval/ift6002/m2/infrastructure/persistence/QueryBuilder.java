@@ -15,10 +15,11 @@ public abstract class QueryBuilder<E> {
     public abstract List<E> list();
 
     public List<E> list(int limit) {
-        return list(limit);
+        return list(0, limit);
     }
 
     public List<E> list(int startIndex, int limit) {
-        return list().subList(startIndex, limit);
+        int toIndex = startIndex + limit;
+        return list().subList(startIndex, toIndex);
     }
 }
