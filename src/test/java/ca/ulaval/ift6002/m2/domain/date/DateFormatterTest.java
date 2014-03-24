@@ -16,7 +16,15 @@ public class DateFormatterTest {
     private static final String INVALID_DATE_FORMAT = "2002-12-1";
     private static final String VALID_DATE_FORMAT = "2014-01-01T12:30:30";
 
-    private static final Date VALID_DATE = new GregorianCalendar(2014, Calendar.JANUARY, 01, 12, 30, 30).getTime();
+    private static final int MONTH = Calendar.JANUARY;
+    private static final int DAY = 01;
+    private static final int YEAR = 2014;
+
+    private static final int HOUR = 12;
+    private static final int MINUTE = 30;
+    private static final int SECOND = 30;
+
+    private static final Date VALID_DATE = new GregorianCalendar(YEAR, MONTH, DAY, HOUR, MINUTE, SECOND).getTime();
 
     private DateFormatter dateFormatter;
 
