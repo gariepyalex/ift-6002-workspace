@@ -38,6 +38,7 @@ public abstract class HibernateRepository<T> {
     }
 
     protected QueryBuilder<T> getQueryBuilder() {
+        // TODO cant mock this... composition over inheritance?
         return new HibernateQueryBuilder<>(getEntityManager(), classType);
     }
 
