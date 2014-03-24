@@ -31,8 +31,8 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerPro
 public class Main {
 
     public static void main(String[] args) {
-        setupRepositoryLocator();
         setupFactoryLocator();
+        setupRepositoryLocator();
 
         EntityManager entityManager = setUpEntityManager();
         fillDrugRepository();
