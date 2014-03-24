@@ -3,9 +3,6 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
-
-import javax.persistence.TypedQuery;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
@@ -26,17 +23,7 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
 
     @Override
     public Drug get(Din din) {
-        String query = "FROM tbl_drug WHERE din = :din";
-
-        TypedQuery<DrugHibernate> typedQuery = createQuery(query);
-        typedQuery.setParameter("din", din.getValue());
-
-        try {
-            Drug drug = typedQuery.getSingleResult();
-            return drug;
-        } catch (Exception ex) {
-            throw new NoSuchElementException("There is no element with value: " + din.getValue());
-        }
+        return getQueryBuilder().query("FROM tbl_drug WHERE din = :din").parameter("din", din.getValue()).get();
     }
 
     @Override
@@ -47,11 +34,9 @@ public class DrugHibernateRepository extends HibernateRepository<DrugHibernate> 
     @Override
     public Collection<Drug> findBy(String keyword) {
         String query = "FROM tbl_drug WHERE LOWER(brandName) LIKE LOWER(:keyword) OR LOWER(descriptor) LIKE LOWER(:keyword)";
-        TypedQuery<DrugHibernate> typedQuery = createQuery(query);
-        // TODO do wildcard with spaces
-        typedQuery.setParameter("keyword", '%' + keyword + '%');
 
-        List<DrugHibernate> drugs = typedQuery.getResultList();
+        // TODO do wildcard with spaces
+        List<DrugHibernate> drugs = getQueryBuilder().query(query).parameter("keyword", '%' + keyword + '%').list();
 
         return new ArrayList<Drug>(drugs);
     }

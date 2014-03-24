@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.junit.Before;
@@ -93,7 +94,7 @@ public class DrugHibernateRepositoryTest {
     @Test(expected = NoSuchElementException.class)
     public void whenGettingUnknownDrugShouldThowException() {
         willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugHibernate.class));
-        willThrow(new RuntimeException()).given(query).getSingleResult();
+        willThrow(new NoResultException()).given(query).getSingleResult();
 
         drugRepository.get(UNKNOWN_DIN);
     }

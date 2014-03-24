@@ -3,8 +3,8 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
+import ca.ulaval.ift6002.m2.infrastructure.persistence.QueryBuilder;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 public abstract class HibernateRepository<T> {
@@ -37,8 +37,8 @@ public abstract class HibernateRepository<T> {
         }
     }
 
-    protected TypedQuery<T> createQuery(String query) {
-        return getEntityManager().createQuery(query, classType);
+    protected QueryBuilder<T> getQueryBuilder() {
+        return new HibernateQueryBuilder<>(getEntityManager(), classType);
     }
 
     private EntityManager getEntityManager() {
