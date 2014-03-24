@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -25,6 +26,7 @@ public class DrugHibernate extends Drug {
 
     // TODO check if this annotation is ok
     @ManyToMany
+    @JoinTable(name = "tbl_interaction")
     private Collection<DrugHibernate> interactingDrugs;
 
     public DrugHibernate(Din din, String brandName) {
