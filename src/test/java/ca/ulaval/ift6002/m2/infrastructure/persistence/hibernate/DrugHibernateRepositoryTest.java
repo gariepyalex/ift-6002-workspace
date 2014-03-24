@@ -72,7 +72,7 @@ public class DrugHibernateRepositoryTest {
     }
 
     @Test
-    public void whenStoreDrugsNotContainShouldCallEntityManagerPersist() {
+    public void whenStoreUnexistingDrugsShouldPersistDrugs() {
         Collection<Drug> drugs = new ArrayList<Drug>(Arrays.asList(drug));
         willReturn(false).given(entityManager).contains(any(Drug.class));
 
@@ -82,7 +82,7 @@ public class DrugHibernateRepositoryTest {
     }
 
     @Test
-    public void whenStoreDrugsContainShouldNotCallEntityManagerPersist() {
+    public void whenStoreExistingDrugsShouldNotPersist() {
         Collection<Drug> drugs = new ArrayList<Drug>(Arrays.asList(drug));
         willReturn(true).given(entityManager).contains(any(DrugHibernate.class));
 
@@ -92,7 +92,7 @@ public class DrugHibernateRepositoryTest {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void whenGettingUnknownDrugShouldThowException() {
+    public void whenGettingDrugWithUnknownDinShouldThowException() {
         willReturn(query).given(entityManager).createQuery(anyString(), eq(DrugHibernate.class));
         willThrow(new NoResultException()).given(query).getSingleResult();
 
