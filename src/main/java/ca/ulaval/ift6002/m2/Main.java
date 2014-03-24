@@ -35,8 +35,11 @@ public class Main {
         setupRepositoryLocator();
 
         EntityManager entityManager = setUpEntityManager();
+
+        entityManager.getTransaction().begin();
         fillDrugRepository();
         fillPatientRepository();
+        entityManager.getTransaction().commit();
 
         JettyServer server = new JettyServer();
         server.start();
