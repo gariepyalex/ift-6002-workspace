@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
@@ -22,7 +23,8 @@ public class DrugHibernate extends Drug {
     private String brandName;
     private String descriptor;
 
-    // TODO add Hibernate annotation
+    // TODO check if this annotation is ok
+    @ManyToMany
     private Collection<DrugHibernate> interactingDrugs;
 
     public DrugHibernate(Din din, String brandName) {
