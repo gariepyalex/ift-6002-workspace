@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
@@ -32,6 +33,7 @@ public class PrescriptionHibernate extends Prescription {
     private DrugHibernate drug;
     @OneToMany(cascade = { CascadeType.ALL })
     private List<ConsumptionHibernate> consumptions;
+    @Transient
     private DateFormatter dateFormatter;
 
     public PrescriptionHibernate(Practitioner practitioner, Date date, int renewals, Drug drug,
