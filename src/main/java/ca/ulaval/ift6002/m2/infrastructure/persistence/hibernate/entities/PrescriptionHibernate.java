@@ -56,6 +56,11 @@ public class PrescriptionHibernate extends Prescription {
     }
 
     @Override
+    protected int getNumber() {
+        return id;
+    }
+
+    @Override
     public Practitioner getPractioner() {
         return new Practitioner(practitionerName);
     }
@@ -76,13 +81,8 @@ public class PrescriptionHibernate extends Prescription {
     }
 
     @Override
-    public List<Consumption> getConsumptions() {
+    protected List<Consumption> getConsumptions() {
         return new ArrayList<Consumption>(consumptions);
-    }
-
-    @Override
-    public int getNumber() {
-        return id;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class PrescriptionHibernate extends Prescription {
     }
 
     @Override
-    protected Consumption lastConsumption() {
+    protected Consumption getLastConsumption() {
         return consumptions.get(consumptions.size() - 1);
     }
 

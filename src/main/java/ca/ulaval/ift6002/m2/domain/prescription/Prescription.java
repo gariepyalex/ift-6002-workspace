@@ -53,7 +53,7 @@ public abstract class Prescription {
 
     private boolean isLastComsumptionConsumedInPastSixMonths() {
         try {
-            Date dateOfLastConsumption = lastComsumption().getDate();
+            Date dateOfLastConsumption = lastConsumption().getDate();
             Date sixMonthsAgo = sixMonthsAgo();
 
             return dateOfLastConsumption.after(sixMonthsAgo);
@@ -62,12 +62,12 @@ public abstract class Prescription {
         }
     }
 
-    private Consumption lastComsumption() {
+    private Consumption lastConsumption() {
         if (isConsumptionsEmpty()) {
             throw new NoSuchElementException("The prescription has no consumptions yet.");
         }
 
-        return lastConsumption();
+        return getLastConsumption();
     }
 
     private Date sixMonthsAgo() {
@@ -77,7 +77,7 @@ public abstract class Prescription {
         return now.getTime();
     }
 
-    public abstract int getNumber();
+    protected abstract int getNumber();
 
     public abstract Practitioner getPractioner();
 
@@ -87,11 +87,11 @@ public abstract class Prescription {
 
     public abstract Drug getDrug();
 
-    public abstract List<Consumption> getConsumptions();
+    protected abstract List<Consumption> getConsumptions();
 
     protected abstract void addConsumptionInPrescription(Consumption consumption);
 
-    protected abstract Consumption lastConsumption();
+    protected abstract Consumption getLastConsumption();
 
     protected abstract boolean isConsumptionsEmpty();
 }

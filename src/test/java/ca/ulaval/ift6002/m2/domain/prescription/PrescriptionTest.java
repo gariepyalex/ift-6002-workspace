@@ -63,7 +63,7 @@ public class PrescriptionTest {
     public void givenPrescriptionWithOneOldConsumptionShouldBeObsolete() {
         setupPrescriptionWithFiveRenewals();
         setUpConsumptionOfSevenMonthsAgo();
-        willReturn(CONSUMPTION).given(prescription).lastConsumption();
+        willReturn(CONSUMPTION).given(prescription).getLastConsumption();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -74,7 +74,7 @@ public class PrescriptionTest {
     public void givenPrescriptionWithOneRecentConsumptionShouldNotBeObsolete() {
         setupPrescriptionWithFiveRenewals();
         setUpConsumptionOfOneMonthAgo();
-        willReturn(CONSUMPTION).given(prescription).lastConsumption();
+        willReturn(CONSUMPTION).given(prescription).getLastConsumption();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -83,7 +83,7 @@ public class PrescriptionTest {
 
     private void setupPrescription() {
         willReturn(CONSUMPTIONS).given(prescription).getConsumptions();
-        willReturn(CONSUMPTION).given(prescription).lastConsumption();
+        willReturn(CONSUMPTION).given(prescription).getLastConsumption();
         willReturn(false).given(prescription).isConsumptionsEmpty();
     }
 
