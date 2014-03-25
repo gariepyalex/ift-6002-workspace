@@ -14,8 +14,8 @@ import ca.ulaval.ift6002.m2.domain.operation.OperationData;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
-import ca.ulaval.ift6002.m2.domain.operation.room.Room;
 import ca.ulaval.ift6002.m2.domain.operation.surgeon.Surgeon;
+import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.OperationHibernateData;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.PatientHibernate;
 

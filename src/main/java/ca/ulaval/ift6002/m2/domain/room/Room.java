@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.domain.operation.room;
+package ca.ulaval.ift6002.m2.domain.room;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
