@@ -85,28 +85,4 @@ public class OperationTypeTest {
         assertFalse(OperationType.isValid(UNEXISTING_TYPE));
     }
 
-    @Test
-    public void givenEyeTypeWhenIsRestrictedShouldReturnTrue() {
-        assertTrue(OperationType.EYE.isRestricted());
-    }
-
-    @Test
-    public void givenHeartTypeWhenIsRestrictedShouldReturnTrue() {
-        assertTrue(OperationType.MARROW.isRestricted());
-    }
-
-    @Test
-    public void givenMarrowTypeWhenIsRestrictedShouldReturnTrue() {
-        assertTrue(OperationType.HEART.isRestricted());
-    }
-
-    @Test
-    public void givenOncologyTypeWhenIsRestrictedShouldReturnFalse() {
-        assertFalse(OperationType.ONCOLOGY.isRestricted());
-    }
-
-    @Test
-    public void givenOtherTypeWhenIsRestrictedShouldReturnFalse() {
-        assertFalse(OperationType.OTHER.isRestricted());
-    }
 }

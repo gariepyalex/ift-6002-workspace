@@ -15,10 +15,6 @@ public enum OperationType {
         return textValue;
     }
 
-    public boolean isRestricted() {
-        return this == EYE || this == HEART || this == MARROW;
-    }
-
     public static OperationType determineFrom(String type) {
         for (OperationType currentType : values()) {
             if (type.equalsIgnoreCase(currentType.toString())) {
