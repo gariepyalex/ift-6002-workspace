@@ -5,10 +5,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Room {
 
-    public final String value;
+    private final String value;
 
     public Room(String value) {
         this.value = value;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override
