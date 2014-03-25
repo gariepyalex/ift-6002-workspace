@@ -22,29 +22,25 @@ import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
 public class InstrumentAssemblerTest {
 
     private static final Serial SERIAL = new Serial("serial");
-    private static final Typecode TYPECODE = new Typecode("typecode");
-    private static final InstrumentStatus STATUS = InstrumentStatus.SOILED;
 
-    private static final String RESPONSE_TYPECODE = "typecode";
-    private static final String RESPONSE_SERIAL = "serial";
+    private static final InstrumentRequest INSTRUMENT_REQUEST = new InstrumentRequest("typecode",
+            InstrumentStatus.SOILED.toString(), "serial");
 
-    private static final InstrumentRequest INSTRUMENT_REQUEST = new InstrumentRequest(RESPONSE_TYPECODE,
-            STATUS.toString(), RESPONSE_SERIAL);
     private static final InstrumentRequest INSTRUMENT_REQUEST_WITH_UNEXISTING_STATUS = new InstrumentRequest(
-            RESPONSE_TYPECODE, "an unexisting status", RESPONSE_SERIAL);
+            "typecode", "an unexisting status", "serial");
 
     @Mock
-    private static InstrumentFactory instrumentFactory;
+    private InstrumentFactory instrumentFactory;
 
     @Mock
-    private static Instrument instrument;
+    private Instrument instrument;
 
     @InjectMocks
     private InstrumentAssembler instrumentAssembler;
 
     @Before
     public void setUp() {
-        setUpInstrument(TYPECODE, STATUS, SERIAL);
+        willReturn(SERIAL).given(instrument).getSerial();
     }
 
     @Test
@@ -57,11 +53,5 @@ public class InstrumentAssemblerTest {
     @Test(expected = IllegalArgumentException.class)
     public void givenRequestWithUnexistingStatusWhenConvertToInstrumentShouldThrowException() {
         instrumentAssembler.fromRequest(INSTRUMENT_REQUEST_WITH_UNEXISTING_STATUS);
-    }
-
-    private void setUpInstrument(Typecode typecode, InstrumentStatus status, Serial serialNumber) {
-        willReturn(serialNumber).given(instrument).getSerial();
-        willReturn(typecode).given(instrument).getTypecode();
-        willReturn(status).given(instrument).getStatus();
     }
 }

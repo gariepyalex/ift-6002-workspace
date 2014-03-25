@@ -22,11 +22,11 @@ public abstract class Instrument {
         setStatus(status);
     }
 
-    public abstract InstrumentStatus getStatus();
+    protected abstract InstrumentStatus getStatus();
 
     protected abstract void setStatus(InstrumentStatus status);
 
-    public abstract Typecode getTypecode();
+    protected abstract Typecode getTypecode();
 
     public abstract Serial getSerial();
 
