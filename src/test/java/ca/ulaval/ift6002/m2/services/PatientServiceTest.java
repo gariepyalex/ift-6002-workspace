@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class PatientServiceTest {
 
     private static final Prescription PRESCRIPTION = mock(Prescription.class);
     private static final PrescriptionRequest RESPONSE = new PrescriptionRequest("", "", 0, "", "");
-    private static final ArrayList<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
+    private static final Collection<Prescription> PRESCRIPTIONS = new ArrayList<Prescription>();
 
     @Mock
     private Patient patient;
