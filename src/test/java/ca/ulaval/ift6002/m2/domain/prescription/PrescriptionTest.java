@@ -31,6 +31,7 @@ public class PrescriptionTest {
     public void givenZeroRenewalsWhenAddConsumptionShouldThrowException() {
         setUpConsumptionWithCountOne();
         setupPrescriptionWithNoRenewals();
+
         prescription.addConsumption(CONSUMPTION);
     }
 
@@ -38,7 +39,6 @@ public class PrescriptionTest {
     public void givenFiveRenewalsWhenHavingConsumptionWithCountOneShouldHaveFourRemainingRenewals() {
         setUpConsumptionWithCountOne();
         setupPrescriptionWithFiveRenewals();
-        willReturn(Arrays.asList(CONSUMPTION)).given(prescription).getConsumptions();
 
         assertEquals(FOUR_REMAINING_RENEWALS, prescription.remainingRenewals());
     }
@@ -47,7 +47,6 @@ public class PrescriptionTest {
     public void givenFiveRenewalsWhenHavingConsumptionWithCountTwoShouldHaveThreeRemainingRenewals() {
         setUpConsumptionWithCountTwo();
         setupPrescriptionWithFiveRenewals();
-        willReturn(Arrays.asList(CONSUMPTION)).given(prescription).getConsumptions();
 
         assertEquals(THREE_REMAINING_RENEWALS, prescription.remainingRenewals());
     }
@@ -61,9 +60,8 @@ public class PrescriptionTest {
 
     @Test
     public void givenPrescriptionWithOneOldConsumptionShouldBeObsolete() {
-        setupPrescriptionWithFiveRenewals();
         setUpConsumptionOfSevenMonthsAgo();
-        willReturn(CONSUMPTION).given(prescription).getLastConsumption();
+        setupPrescriptionWithFiveRenewals();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -72,9 +70,8 @@ public class PrescriptionTest {
 
     @Test
     public void givenPrescriptionWithOneRecentConsumptionShouldNotBeObsolete() {
-        setupPrescriptionWithFiveRenewals();
         setUpConsumptionOfOneMonthAgo();
-        willReturn(CONSUMPTION).given(prescription).getLastConsumption();
+        setupPrescriptionWithFiveRenewals();
 
         boolean isObsolete = prescription.isObsolete();
 
