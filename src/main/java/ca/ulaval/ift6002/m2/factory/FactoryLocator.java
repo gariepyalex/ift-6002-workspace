@@ -11,6 +11,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.ConsumptionFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
 
 public class FactoryLocator {
+
     private static FactoryLocator instance;
 
     public static void load(FactoryLocator factoryLocator) {

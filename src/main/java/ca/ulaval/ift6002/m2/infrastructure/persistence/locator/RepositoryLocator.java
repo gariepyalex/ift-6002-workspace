@@ -9,10 +9,10 @@ import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 
 public class RepositoryLocator {
 
-    private static RepositoryLocator soleInstance;
+    private static RepositoryLocator instance;
 
-    public static void load(RepositoryLocator instance) {
-        soleInstance = instance;
+    public static void load(RepositoryLocator repositoryLocator) {
+        instance = repositoryLocator;
     }
 
     private final Map<Class<?>, Object> repositories = new HashMap<>();
@@ -22,14 +22,14 @@ public class RepositoryLocator {
     }
 
     public static DrugRepository getDrugRepository() {
-        return (DrugRepository) soleInstance.repositories.get(DrugRepository.class);
+        return (DrugRepository) instance.repositories.get(DrugRepository.class);
     }
 
     public static PatientRepository getPatientRepository() {
-        return (PatientRepository) soleInstance.repositories.get(PatientRepository.class);
+        return (PatientRepository) instance.repositories.get(PatientRepository.class);
     }
 
     public static OperationRepository getOperationRepository() {
-        return (OperationRepository) soleInstance.repositories.get(OperationRepository.class);
+        return (OperationRepository) instance.repositories.get(OperationRepository.class);
     }
 }
