@@ -44,7 +44,7 @@ public class OperationHibernateData implements OperationData {
     public OperationHibernateData(String description, Surgeon surgeon, Date date, Room room, OperationStatus status,
             Patient patient, OperationType operationType) {
         this.description = description;
-        this.surgeonLicense = surgeon.license;
+        this.surgeonLicense = surgeon.getLicense();
         this.date = date;
         this.room = room.value;
         this.operationStatus = status;

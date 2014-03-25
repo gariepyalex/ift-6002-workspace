@@ -5,10 +5,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Surgeon {
 
-    public final int license;
+    private final int license;
 
     public Surgeon(int license) {
         this.license = license;
+    }
+
+    public int getLicense() {
+        return license;
     }
 
     @Override
