@@ -54,11 +54,6 @@ public class PatientHibernate extends Patient {
     }
 
     @Override
-    public int countPrescriptions() {
-        return prescriptions.size();
-    }
-
-    @Override
     public void declareDead() {
         isDead = true;
     }

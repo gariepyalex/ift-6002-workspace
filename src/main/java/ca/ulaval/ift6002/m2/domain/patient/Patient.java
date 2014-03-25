@@ -33,8 +33,6 @@ public abstract class Patient {
 
     protected abstract void addPrescription(Prescription prescription);
 
-    public abstract int countPrescriptions();
-
     public abstract boolean isDead();
 
     public abstract void declareDead();
