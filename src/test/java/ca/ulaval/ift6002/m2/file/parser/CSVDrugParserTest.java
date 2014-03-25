@@ -23,18 +23,9 @@ import ca.ulaval.ift6002.m2.file.FileReader;
 @RunWith(MockitoJUnitRunner.class)
 public class CSVDrugParserTest {
 
-    private static final String DIN_1 = "DIN_1";
-    private static final String DIN_2 = "DIN_2";
-
-    private static final String BRAND_NAME_1 = "BRAND_NAME_1";
-    private static final String BRAND_NAME_2 = "BRAND_NAME_2";
-
-    private static final String DESCRIPTOR_1 = "DESCRIPTOR_1";
-    private static final String DESCRIPTOR_2 = "DESCRIPTOR_2";
-
-    private static final String[] DRUG_DATA_1 = { "", "", "", DIN_1, BRAND_NAME_1, DESCRIPTOR_1 };
-    private static final String[] DRUG_DATA_2 = { "", "", "", DIN_2, BRAND_NAME_2, DESCRIPTOR_2 };
-    private static final List<String[]> ALL_DRUGS_DATA = Arrays.asList(DRUG_DATA_1, DRUG_DATA_2);
+    private static final String[] FIRST_DRUG_DATA = { "", "", "", "DIN_1", "BRAND_NAME_1", "DESCRIPTOR_1" };
+    private static final String[] SECOND_DRUG_DATA = { "", "", "", "DIN_2", "BRAND_NAME_2", "DESCRIPTOR_2" };
+    private static final List<String[]> ALL_DRUGS_DATA = Arrays.asList(FIRST_DRUG_DATA, SECOND_DRUG_DATA);
 
     @Mock
     private DrugFactory drugFactory;

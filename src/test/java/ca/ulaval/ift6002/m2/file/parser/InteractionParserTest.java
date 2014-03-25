@@ -22,9 +22,9 @@ import ca.ulaval.ift6002.m2.file.FileReader;
 @RunWith(MockitoJUnitRunner.class)
 public class InteractionParserTest {
 
-    private static final String LINE_1 = "00000000=>11111111,22222222";
-    private static final String LINE_2 = "11111111=>22222222,33333333";
-    private static final List<String> LINES = Arrays.asList(LINE_1, LINE_2);
+    private static final String FIRST_LINE = "00000000=>11111111,22222222";
+    private static final String SECOND_LINE = "11111111=>22222222,33333333";
+    private static final List<String> LINES = Arrays.asList(FIRST_LINE, SECOND_LINE);
 
     private static final Din FIRST_LINE_DIN = new Din("00000000");
     private static final List<Din> FIRST_LINE_DIN_VALUES = Arrays.asList(new Din("11111111"), new Din("22222222"));
