@@ -21,13 +21,6 @@ public class PrescriptionAssembler {
     private final DrugRepository drugRepository;
     private final PrescriptionFactory prescriptionFactory;
 
-    protected PrescriptionAssembler(DateFormatter dateFormatter, DrugRepository drugRepository,
-            PrescriptionFactory prescriptionFactory) {
-        this.dateFormatter = dateFormatter;
-        this.drugRepository = drugRepository;
-        this.prescriptionFactory = prescriptionFactory;
-    }
-
     public PrescriptionAssembler() {
         this.dateFormatter = new DateFormatter();
         this.drugRepository = RepositoryLocator.getDrugRepository();
@@ -75,6 +68,13 @@ public class PrescriptionAssembler {
 
     private boolean isDinSpecified(PrescriptionRequest request) {
         return !request.din.trim().isEmpty();
+    }
+
+    protected PrescriptionAssembler(DateFormatter dateFormatter, DrugRepository drugRepository,
+            PrescriptionFactory prescriptionFactory) {
+        this.dateFormatter = dateFormatter;
+        this.drugRepository = drugRepository;
+        this.prescriptionFactory = prescriptionFactory;
     }
 
 }
