@@ -10,8 +10,6 @@ import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 
 public abstract class Operation {
 
-    public static final int EMPTY_NUMBER = -1;
-
     private OperationData operationData;
 
     protected Operation(OperationData operationData) {
