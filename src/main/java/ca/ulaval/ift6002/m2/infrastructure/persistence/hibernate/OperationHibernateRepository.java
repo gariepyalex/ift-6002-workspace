@@ -3,8 +3,8 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.OperationHibernateData;
+import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 public class OperationHibernateRepository implements OperationRepository {
 

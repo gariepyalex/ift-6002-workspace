@@ -19,7 +19,7 @@ import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
-import ca.ulaval.ift6002.m2.factory.FactoryLocator;
+import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 @Entity
 @Table(name = "tbl_prescription")

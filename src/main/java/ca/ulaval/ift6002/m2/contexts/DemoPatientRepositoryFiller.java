@@ -2,8 +2,8 @@ package ca.ulaval.ift6002.m2.contexts;
 
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.factory.FactoryLocator;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
+import ca.ulaval.ift6002.m2.locator.FactoryLocator;
+import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class DemoPatientRepositoryFiller {
 

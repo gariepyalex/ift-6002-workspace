@@ -12,8 +12,8 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.room.Room;
 import ca.ulaval.ift6002.m2.domain.surgeon.Surgeon;
-import ca.ulaval.ift6002.m2.factory.FactoryLocator;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
+import ca.ulaval.ift6002.m2.locator.FactoryLocator;
+import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class OperationAssembler {
 

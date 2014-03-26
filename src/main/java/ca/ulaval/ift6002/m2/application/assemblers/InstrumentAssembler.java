@@ -6,7 +6,7 @@ import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.instrument.Typecode;
-import ca.ulaval.ift6002.m2.factory.FactoryLocator;
+import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 public class InstrumentAssembler {
 

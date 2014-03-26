@@ -9,7 +9,7 @@ import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 import ca.ulaval.ift6002.m2.domain.instrument.Serial;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
+import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class OperationService {
 

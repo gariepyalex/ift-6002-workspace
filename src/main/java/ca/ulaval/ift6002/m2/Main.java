@@ -14,19 +14,19 @@ import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.ConsumptionFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
-import ca.ulaval.ift6002.m2.factory.FactoryLocator;
-import ca.ulaval.ift6002.m2.factory.hibernate.ConsumptionHibernateFactory;
-import ca.ulaval.ift6002.m2.factory.hibernate.DrugHibernateFactory;
-import ca.ulaval.ift6002.m2.factory.hibernate.InstrumentHibernateFactory;
-import ca.ulaval.ift6002.m2.factory.hibernate.OperationHibernateFactory;
-import ca.ulaval.ift6002.m2.factory.hibernate.PatientHibernateFactory;
-import ca.ulaval.ift6002.m2.factory.hibernate.PrescriptionHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.DrugHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.OperationHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.PatientHibernateRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.ConsumptionHibernateFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.DrugHibernateFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.InstrumentHibernateFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.OperationHibernateFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.PatientHibernateFactory;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.PrescriptionHibernateFactory;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.locator.FactoryLocator;
+import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class Main {
 

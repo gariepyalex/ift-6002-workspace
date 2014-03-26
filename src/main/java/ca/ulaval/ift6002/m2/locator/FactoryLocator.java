@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.factory;
+package ca.ulaval.ift6002.m2.locator;
 
 import java.util.HashMap;
 import java.util.Map;

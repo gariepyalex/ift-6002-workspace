@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 
 import ca.ulaval.ift6002.m2.application.responses.RecallsResponse;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.locator.RepositoryLocator;
+import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 @Path("/rappels")
 @Produces(MediaType.APPLICATION_JSON)
