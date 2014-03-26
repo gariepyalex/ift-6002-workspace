@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
-import ca.ulaval.ift6002.m2.application.validators.requests.InvalidRequestException;
-import ca.ulaval.ift6002.m2.application.validators.requests.PrescriptionRequestValidator;
 
 public class PrescriptionRequestValidatorTest {
 
@@ -68,8 +66,15 @@ public class PrescriptionRequestValidatorTest {
     }
 
     @Test
-    public void givenValidRequestWhenValidatingShouldNotThrowException() {
+    public void givenValidRequestWithDinWhenValidatingShouldNotThrowException() {
         PrescriptionRequest request = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, VALID_DIN, EMPTY_NAME);
+
+        prescriptionValidator.validate(request);
+    }
+
+    @Test
+    public void givenValidRequestWithNameWhenValidatingShouldNotThrowException() {
+        PrescriptionRequest request = new PrescriptionRequest(PRACTITIONER, DATE, VALID_RENEWALS, EMPTY_DIN, VALID_NAME);
 
         prescriptionValidator.validate(request);
     }
