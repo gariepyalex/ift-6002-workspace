@@ -23,7 +23,7 @@ public class PrescriptionRequestValidator implements RequestValidator<Prescripti
         }
 
         if (!hasValidDateFormat(request)) {
-            throw new InvalidRequestException(ERROR_CODE, "The date format is invalid. (yyyy-MM-dd'T'HH:mm:ss)");
+            throw new InvalidRequestException(ERROR_CODE, "The date format is invalid.");
         }
     }
 

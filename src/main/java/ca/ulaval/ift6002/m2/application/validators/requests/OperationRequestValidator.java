@@ -20,8 +20,7 @@ public class OperationRequestValidator implements RequestValidator<OperationRequ
         }
 
         if (!DateFormatter.isValid(request.date)) {
-            throw new InvalidRequestException(MISSING_INFORMATION,
-                    "The date format is invalid. (yyyy-MM-dd'T'HH:mm:ss)");
+            throw new InvalidRequestException(MISSING_INFORMATION, "The date format is invalid.");
         }
 
         if (request.room.isEmpty()) {

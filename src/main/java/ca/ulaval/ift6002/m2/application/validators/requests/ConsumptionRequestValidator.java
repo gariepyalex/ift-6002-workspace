@@ -10,8 +10,7 @@ public class ConsumptionRequestValidator implements RequestValidator<Consumption
     @Override
     public void validate(ConsumptionRequest request) {
         if (!DateFormatter.isValid(request.date)) {
-            throw new InvalidRequestException(MISSING_INFORMATION,
-                    "The date format is invalid. (yyyy-MM-dd'T'HH:mm:ss)");
+            throw new InvalidRequestException(MISSING_INFORMATION, "The date format is invalid.");
         }
         if (isPharmacyNotSet(request)) {
             throw new InvalidRequestException(MISSING_INFORMATION, "A pharmacy description must be set");
