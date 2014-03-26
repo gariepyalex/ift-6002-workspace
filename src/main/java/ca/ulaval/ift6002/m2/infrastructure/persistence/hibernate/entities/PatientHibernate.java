@@ -25,26 +25,10 @@ public class PatientHibernate extends Patient {
     public Boolean isDead;
 
     public PatientHibernate(Integer number, String healthInsuranceNumber) {
-        this(number, healthInsuranceNumber, new ArrayList<Prescription>());
-    }
-
-    public PatientHibernate(Integer number, String healthInsuranceNumber, Collection<Prescription> prescriptions) {
         this.number = number;
         this.healthInsuranceNumber = healthInsuranceNumber;
         this.isDead = false;
-        this.prescriptions = convertToHibernate(prescriptions);
-    }
-
-    private Collection<PrescriptionHibernate> convertToHibernate(Collection<Prescription> prescriptions) {
-        Collection<PrescriptionHibernate> prescriptionsHibernate = new ArrayList<>();
-
-        for (Prescription prescription : prescriptions) {
-            PrescriptionHibernate prescriptionHibernate = (PrescriptionHibernate) prescription;
-
-            prescriptionsHibernate.add(prescriptionHibernate);
-        }
-
-        return prescriptionsHibernate;
+        this.prescriptions = new ArrayList<>();
     }
 
     @Override
@@ -74,6 +58,6 @@ public class PatientHibernate extends Patient {
     }
 
     protected PatientHibernate() {
-        this(0, "", new ArrayList<Prescription>());
+        this(0, "");
     }
 }
