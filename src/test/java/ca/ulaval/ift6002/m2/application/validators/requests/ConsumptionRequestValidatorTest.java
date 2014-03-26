@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
-import ca.ulaval.ift6002.m2.application.validators.requests.ConsumptionRequestValidator;
-import ca.ulaval.ift6002.m2.application.validators.requests.InvalidRequestException;
 
 public class ConsumptionRequestValidatorTest {
 

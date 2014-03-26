@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
-import ca.ulaval.ift6002.m2.application.validators.requests.InvalidRequestException;
-import ca.ulaval.ift6002.m2.application.validators.requests.OperationRequestValidator;
 
 public class OperationRequestValidatorTest {
 
