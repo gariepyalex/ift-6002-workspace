@@ -5,11 +5,10 @@ import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
 
-public class OperationRequestValidator implements RequestValidator<OperationRequest> {
+public class OperationRequestValidator {
 
     private static final String MISSING_INFORMATION = "INT001";
 
-    @Override
     public void validate(OperationRequest request) {
         if (request.description.isEmpty()) {
             throw new InvalidRequestException(MISSING_INFORMATION, "Description is empty");

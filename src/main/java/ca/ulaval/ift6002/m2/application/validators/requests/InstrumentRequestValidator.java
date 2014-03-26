@@ -3,12 +3,11 @@ package ca.ulaval.ift6002.m2.application.validators.requests;
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
-public class InstrumentRequestValidator implements RequestValidator<InstrumentRequest> {
+public class InstrumentRequestValidator {
 
     private static final String INCOMPLETE_DATA_ERROR = "INT010";
     private static final String MISSING_SERIAL_ERROR = "INT012";
 
-    @Override
     public void validate(InstrumentRequest request) {
         if (request.typecode.isEmpty()) {
             throw new InvalidRequestException(INCOMPLETE_DATA_ERROR, "Typecode must not be empty");

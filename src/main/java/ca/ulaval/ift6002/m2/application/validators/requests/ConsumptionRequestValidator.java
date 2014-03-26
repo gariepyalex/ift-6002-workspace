@@ -3,11 +3,10 @@ package ca.ulaval.ift6002.m2.application.validators.requests;
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 
-public class ConsumptionRequestValidator implements RequestValidator<ConsumptionRequest> {
+public class ConsumptionRequestValidator {
 
     private static final String MISSING_INFORMATION = "PRES013";
 
-    @Override
     public void validate(ConsumptionRequest request) {
         if (!DateFormatter.isValid(request.date)) {
             throw new InvalidRequestException(MISSING_INFORMATION, "The date format is invalid.");

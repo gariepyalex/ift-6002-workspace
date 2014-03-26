@@ -3,11 +3,10 @@ package ca.ulaval.ift6002.m2.application.validators.requests;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 
-public class PrescriptionRequestValidator implements RequestValidator<PrescriptionRequest> {
+public class PrescriptionRequestValidator {
 
     private static final String ERROR_CODE = "PRES001";
 
-    @Override
     public void validate(PrescriptionRequest request) {
         if (!hasEnoughRenewals(request)) {
             throw new InvalidRequestException(ERROR_CODE,
