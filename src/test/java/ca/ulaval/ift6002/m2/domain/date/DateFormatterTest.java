@@ -59,13 +59,13 @@ public class DateFormatterTest {
 
     @Test
     public void givenFormatterWhenIsValidWithValidFormatShouldReturnTrue() {
-        boolean returnValue = DateFormatter.isValid(VALID_DATE_FORMAT);
-        assertTrue(returnValue);
+        boolean isDateFormatValid = DateFormatter.isValid(VALID_DATE_FORMAT);
+        assertTrue(isDateFormatValid);
     }
 
     @Test
     public void givenFormatterWhenIsValidWithInvalidFormatShouldReturnFalse() {
-        boolean returnValue = DateFormatter.isValid(INVALID_DATE_FORMAT);
-        assertFalse(returnValue);
+        boolean isDateFormatValid = DateFormatter.isValid(INVALID_DATE_FORMAT);
+        assertFalse(isDateFormatValid);
     }
 }
