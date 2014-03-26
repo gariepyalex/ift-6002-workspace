@@ -18,15 +18,15 @@ public class DemoDrugRepositoryFiller {
         this.drugParser = new CSVDrugParser();
     }
 
-    public DemoDrugRepositoryFiller(DrugRepository repository, FileParser<Drug> drugParser) {
-        this.drugRepository = repository;
-        this.drugParser = drugParser;
-    }
-
     public void fill() {
         List<Drug> drugs = drugParser.parse();
 
         drugRepository.store(drugs);
+    }
+
+    protected DemoDrugRepositoryFiller(DrugRepository repository, FileParser<Drug> drugParser) {
+        this.drugRepository = repository;
+        this.drugParser = drugParser;
     }
 
 }

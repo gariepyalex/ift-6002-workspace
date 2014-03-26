@@ -15,11 +15,6 @@ public class ConsumptionAssembler {
     private final DateFormatter dateFormatter;
     private final ConsumptionFactory consumptionFactory;
 
-    protected ConsumptionAssembler(DateFormatter dateFormatter, ConsumptionFactory consumptionFactory) {
-        this.dateFormatter = dateFormatter;
-        this.consumptionFactory = consumptionFactory;
-    }
-
     public ConsumptionAssembler() {
         this.dateFormatter = new DateFormatter();
         this.consumptionFactory = FactoryLocator.getConsumptionFactory();
@@ -39,5 +34,10 @@ public class ConsumptionAssembler {
         Integer count = Integer.valueOf(consumption.getCount());
 
         return new ConsumptionResponse(date, pharmacy, count);
+    }
+
+    protected ConsumptionAssembler(DateFormatter dateFormatter, ConsumptionFactory consumptionFactory) {
+        this.dateFormatter = dateFormatter;
+        this.consumptionFactory = consumptionFactory;
     }
 }

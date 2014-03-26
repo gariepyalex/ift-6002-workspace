@@ -21,13 +21,6 @@ public class OperationAssembler {
     private final PatientRepository patientRepository;
     private final DateFormatter formatterDate;
 
-    protected OperationAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
-            DateFormatter formatterDate) {
-        this.operationFactory = operationfactory;
-        this.patientRepository = patientRepository;
-        this.formatterDate = formatterDate;
-    }
-
     public OperationAssembler() {
         this.operationFactory = FactoryLocator.getOperationFactory();
         this.patientRepository = RepositoryLocator.getPatientRepository();
@@ -44,5 +37,12 @@ public class OperationAssembler {
         OperationStatus status = OperationStatus.determineFrom(request.status);
 
         return operationFactory.create(type, description, surgeon, date, room, status, patient);
+    }
+
+    protected OperationAssembler(OperationFactory operationfactory, PatientRepository patientRepository,
+            DateFormatter formatterDate) {
+        this.operationFactory = operationfactory;
+        this.patientRepository = patientRepository;
+        this.formatterDate = formatterDate;
     }
 }

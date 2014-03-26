@@ -16,15 +16,15 @@ public class InstrumentAssembler {
         instrumentFactory = FactoryLocator.getInstrumentFactory();
     }
 
-    public InstrumentAssembler(InstrumentFactory instrumentFactory) {
-        this.instrumentFactory = instrumentFactory;
-    }
-
     public Instrument fromRequest(InstrumentRequest request) {
         InstrumentStatus status = InstrumentStatus.determineFrom(request.status);
         Typecode typecode = new Typecode(request.typecode);
         Serial serial = new Serial(request.serial);
 
         return instrumentFactory.create(typecode, status, serial);
+    }
+
+    protected InstrumentAssembler(InstrumentFactory instrumentFactory) {
+        this.instrumentFactory = instrumentFactory;
     }
 }

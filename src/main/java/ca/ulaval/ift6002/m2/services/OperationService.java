@@ -17,13 +17,6 @@ public class OperationService {
     private final OperationAssembler operationAssembler;
     private final OperationRepository operationRepository;
 
-    protected OperationService(OperationRepository operationRepository, OperationAssembler operationAssembler,
-            InstrumentAssembler instrumentAssembler) {
-        this.operationRepository = operationRepository;
-        this.operationAssembler = operationAssembler;
-        this.instrumentAssembler = instrumentAssembler;
-    }
-
     public OperationService() {
         this.operationRepository = RepositoryLocator.getOperationRepository();
         this.operationAssembler = new OperationAssembler();
@@ -55,5 +48,12 @@ public class OperationService {
         operation.bookmarkInstrumentToStatus(serial, instrumentStatus);
 
         operationRepository.store(operation);
+    }
+
+    protected OperationService(OperationRepository operationRepository, OperationAssembler operationAssembler,
+            InstrumentAssembler instrumentAssembler) {
+        this.operationRepository = operationRepository;
+        this.operationAssembler = operationAssembler;
+        this.instrumentAssembler = instrumentAssembler;
     }
 }

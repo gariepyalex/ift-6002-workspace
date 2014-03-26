@@ -16,15 +16,15 @@ public class DrugService {
         drugRepository = RepositoryLocator.getDrugRepository();
     }
 
-    public DrugService(DrugRepository drugRepository) {
-        this.drugRepository = drugRepository;
-    }
-
     public Collection<Drug> findBy(String keyword) {
         if (keyword.length() < MIN_LENGTH_OF_SEARCH_KEYWORDS) {
             throw new IllegalArgumentException("The minimum character's length is: " + MIN_LENGTH_OF_SEARCH_KEYWORDS);
         }
 
         return drugRepository.findBy(keyword);
+    }
+
+    protected DrugService(DrugRepository drugRepository) {
+        this.drugRepository = drugRepository;
     }
 }

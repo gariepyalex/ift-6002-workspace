@@ -17,11 +17,6 @@ public class OperationHibernateRepository extends HibernateRepository<OperationH
         this.operationFactory = FactoryLocator.getOperationFactory();
     }
 
-    public OperationHibernateRepository(EntityManagerProvider entityManagerProvider, OperationFactory operationFactory) {
-        super(entityManagerProvider, OperationHibernateData.class);
-        this.operationFactory = operationFactory;
-    }
-
     @Override
     public Operation get(int number) {
         OperationHibernateData operationData = find(number);
@@ -34,6 +29,12 @@ public class OperationHibernateRepository extends HibernateRepository<OperationH
         OperationHibernateData operationData = (OperationHibernateData) operation.getData();
 
         storeElement(operationData);
+    }
+
+    protected OperationHibernateRepository(EntityManagerProvider entityManagerProvider,
+            OperationFactory operationFactory) {
+        super(entityManagerProvider, OperationHibernateData.class);
+        this.operationFactory = operationFactory;
     }
 
 }

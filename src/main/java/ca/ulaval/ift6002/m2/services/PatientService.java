@@ -17,13 +17,6 @@ public class PatientService {
     private final PrescriptionAssembler prescriptionAssembler;
     private final ConsumptionAssembler consumptionAssembler;
 
-    public PatientService(PatientRepository patientRepository, PrescriptionAssembler prescriptionAssembler,
-            ConsumptionAssembler consumptionAssembler) {
-        this.patientRepository = patientRepository;
-        this.prescriptionAssembler = prescriptionAssembler;
-        this.consumptionAssembler = consumptionAssembler;
-    }
-
     public PatientService() {
         this.patientRepository = RepositoryLocator.getPatientRepository();
         this.prescriptionAssembler = new PrescriptionAssembler();
@@ -56,5 +49,12 @@ public class PatientService {
     // passing a String then getting the value of
     private Patient getPatient(String patientId) {
         return patientRepository.get(Integer.valueOf(patientId));
+    }
+
+    protected PatientService(PatientRepository patientRepository, PrescriptionAssembler prescriptionAssembler,
+            ConsumptionAssembler consumptionAssembler) {
+        this.patientRepository = patientRepository;
+        this.prescriptionAssembler = prescriptionAssembler;
+        this.consumptionAssembler = consumptionAssembler;
     }
 }
