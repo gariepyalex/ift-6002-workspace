@@ -29,8 +29,8 @@ public class DrugHibernate extends Drug {
     @JoinTable(name = "tbl_interaction")
     private Collection<DrugHibernate> interactingDrugs;
 
-    public DrugHibernate(Din din, String brandName) {
-        this(din, brandName, "");
+    public DrugHibernate(String brandName) {
+        this(new Din(""), brandName, "");
     }
 
     public DrugHibernate(Din din, String brandName, String descriptor) {
