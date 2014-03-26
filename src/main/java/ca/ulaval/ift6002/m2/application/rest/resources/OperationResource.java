@@ -81,7 +81,7 @@ public class OperationResource extends Resource {
             @PathParam("typecode") String typecode, @PathParam("serial") String serial,
             InstrumentRequest instrumentResponse) {
         try {
-            instrumentValidator.validateNewStatus(instrumentResponse);
+            instrumentValidator.validateStatus(instrumentResponse);
 
             operationService.bookmarkInstrumentToStatus(noIntervention, instrumentResponse);
 

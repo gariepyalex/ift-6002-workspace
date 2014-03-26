@@ -19,7 +19,7 @@ public class InstrumentRequestValidator implements RequestValidator<InstrumentRe
         }
     }
 
-    public void validateNewStatus(InstrumentRequest request) {
+    public void validateStatus(InstrumentRequest request) {
         if (request.serial.isEmpty()) {
             throw new InvalidRequestException(MISSING_SERIAL_ERROR, "Serial must not be empty");
         }

@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
-import ca.ulaval.ift6002.m2.application.validators.requests.InstrumentRequestValidator;
-import ca.ulaval.ift6002.m2.application.validators.requests.InvalidRequestException;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
 public class InstrumentRequestValidatorTest {
@@ -58,37 +56,37 @@ public class InstrumentRequestValidatorTest {
     }
 
     @Test
-    public void givenSoiledInstrumentWhenValidatingNewStatusShouldNotThrowAnException() {
+    public void givenSoiledInstrumentWhenValidatingStatusShouldNotThrowAnException() {
         InstrumentRequest soiledInstrument = new InstrumentRequest(VALID_TYPECODE, SOILED_STATUS, VALID_SERIAL);
 
-        instrumentRequestValidator.validateNewStatus(soiledInstrument);
+        instrumentRequestValidator.validateStatus(soiledInstrument);
     }
 
     @Test
-    public void givenUsedInstrumentWhenValidatingNewStatusShouldNotThrowAnException() {
+    public void givenUsedInstrumentWhenValidatingStatusShouldNotThrowAnException() {
         InstrumentRequest usedInstrument = new InstrumentRequest(VALID_TYPECODE, USED_STATUS, VALID_SERIAL);
 
-        instrumentRequestValidator.validateNewStatus(usedInstrument);
+        instrumentRequestValidator.validateStatus(usedInstrument);
     }
 
     @Test(expected = InvalidRequestException.class)
-    public void givenInstrumentWithEmptySerialWhenValidatingNewStatusShouldThrowAnException() {
+    public void givenInstrumentWithEmptySerialWhenValidatingStatusShouldThrowAnException() {
         InstrumentRequest instrument = new InstrumentRequest(VALID_TYPECODE, USED_STATUS, EMPTY_SERIAL);
 
-        instrumentRequestValidator.validateNewStatus(instrument);
+        instrumentRequestValidator.validateStatus(instrument);
     }
 
     @Test
-    public void givenUnusedInstrumentWhenValidatingNewStatusShouldNotThrowAnException() {
+    public void givenUnusedInstrumentWhenValidatingStatusShouldNotThrowAnException() {
         InstrumentRequest unusedInstrument = new InstrumentRequest(VALID_TYPECODE, UNUSED_STATUS, VALID_SERIAL);
 
-        instrumentRequestValidator.validateNewStatus(unusedInstrument);
+        instrumentRequestValidator.validateStatus(unusedInstrument);
     }
 
     @Test(expected = InvalidRequestException.class)
-    public void givenInstrumentWithInvalidStatusWhenValidatingNewStatusShouldThrowAnException() {
+    public void givenInstrumentWithInvalidStatusWhenValidatingStatusShouldThrowAnException() {
         InstrumentRequest invalidInstrument = new InstrumentRequest(VALID_TYPECODE, INVALID_STATUS, VALID_SERIAL);
 
-        instrumentRequestValidator.validateNewStatus(invalidInstrument);
+        instrumentRequestValidator.validateStatus(invalidInstrument);
     }
 }
