@@ -4,6 +4,10 @@ import java.util.Collection;
 
 public abstract class Drug {
 
+    public boolean hasDin() {
+        return !getDin().isEmpty();
+    }
+
     public boolean isInteractingWith(Drug drug) {
         return getInteractingDrugs().contains(drug);
     }
