@@ -6,13 +6,14 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.mock;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class DrugTest {
-
-    private static final Din A_DIN = new Din("A din");
-    private static final Din AN_EMPTY_DIN = new Din("");
 
     private Drug drug;
 
@@ -22,20 +23,23 @@ public class DrugTest {
     }
 
     @Test
-    public void givenDrugWithDinWhenCallingHasDinShouldReturnTrue() {
-        willReturn(A_DIN).given(drug).getDin();
+    public void givenAnInteractingDrugShouldReturnTrueWhenInteractingWithIt() {
+        Drug interactingDrug = mock(Drug.class);
+        Collection<Drug> interactingDrugs = Arrays.asList(interactingDrug);
+        willReturn(interactingDrugs).given(drug).getInteractingDrugs();
 
-        boolean hasDin = drug.hasDin();
+        boolean isInteractingWith = drug.isInteractingWith(interactingDrug);
 
-        assertTrue(hasDin);
+        assertTrue(isInteractingWith);
     }
 
     @Test
-    public void givenDrugWithEmptyDinWhenCallingHasDinShouldReturnFalse() {
-        willReturn(AN_EMPTY_DIN).given(drug).getDin();
+    public void givenAnUninteractingDrugShouldReturnTrueWhenInteractingWithIt() {
+        willReturn(Collections.emptyList()).given(drug).getInteractingDrugs();
+        Drug uninteractingDrug = mock(Drug.class);
 
-        boolean hasDin = drug.hasDin();
+        boolean isInteractingWith = drug.isInteractingWith(uninteractingDrug);
 
-        assertFalse(hasDin);
+        assertFalse(isInteractingWith);
     }
 }
