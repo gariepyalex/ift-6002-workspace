@@ -1,7 +1,6 @@
 package ca.ulaval.ift6002.m2.factory.hibernate;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,19 +27,7 @@ public class InstrumentHibernateFactoryTest {
     @Test
     public void givenInstrumentHibernateFactoryShouldReturnInstrumentWhenCreate() {
         Instrument instrument = instrumentHibernateFactory.create(A_TYPECODE, AN_INSTRUMENT_STATUS, A_SERIAL);
-        assertEquals(instrument.getClass(), InstrumentHibernate.class);
-    }
-
-    @Test
-    public void givenInstrumentHibernateFactoryShouldReturnInstrumentWhenCreateWithNoSerial() {
-        Instrument instrument = instrumentHibernateFactory.create(A_TYPECODE, AN_INSTRUMENT_STATUS);
-        assertEquals(instrument.getClass(), InstrumentHibernate.class);
-    }
-
-    @Test
-    public void givenInstrumentHibernateFactoryShouldReturnAnonymousInstrumentWhenCreateWithNoSerial() {
-        Instrument instrument = instrumentHibernateFactory.create(A_TYPECODE, AN_INSTRUMENT_STATUS);
-        assertTrue(instrument.isAnonymous());
+        assertEquals(InstrumentHibernate.class, instrument.getClass());
     }
 
 }

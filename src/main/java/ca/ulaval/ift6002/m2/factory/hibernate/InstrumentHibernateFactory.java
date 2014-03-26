@@ -10,11 +10,6 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.Instru
 public class InstrumentHibernateFactory implements InstrumentFactory {
 
     @Override
-    public Instrument create(Typecode typecode, InstrumentStatus status) {
-        return create(typecode, status, new Serial(""));
-    }
-
-    @Override
     public Instrument create(Typecode typecode, InstrumentStatus status, Serial serialNumber) {
         return new InstrumentHibernate(typecode, status, serialNumber);
     }
