@@ -3,27 +3,28 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.PatientHibernate;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public class PatientHibernateRepository extends HibernateRepository<PatientHibernate> implements PatientRepository {
+public class PatientHibernateRepository implements PatientRepository {
+
+    private final HibernateRepository<PatientHibernate> hibernateRepository;
 
     public PatientHibernateRepository() {
-        super(PatientHibernate.class);
+        hibernateRepository = new HibernateRepository<>(PatientHibernate.class);
     }
 
     @Override
     public Patient get(int number) {
-        return find(number);
+        return hibernateRepository.find(number);
     }
 
     @Override
     public void store(Patient patient) {
         PatientHibernate patientHibernate = (PatientHibernate) patient;
 
-        storeElement(patientHibernate);
+        hibernateRepository.storeElement(patientHibernate);
     }
 
-    protected PatientHibernateRepository(EntityManagerProvider entityManagerProvider) {
-        super(entityManagerProvider, PatientHibernate.class);
+    protected PatientHibernateRepository(HibernateRepository<PatientHibernate> hibernateRepository) {
+        this.hibernateRepository = hibernateRepository;
     }
 }

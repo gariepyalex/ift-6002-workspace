@@ -5,21 +5,20 @@ import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.factory.FactoryLocator;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.OperationHibernateData;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public class OperationHibernateRepository extends HibernateRepository<OperationHibernateData> implements
-        OperationRepository {
+public class OperationHibernateRepository implements OperationRepository {
 
+    private final HibernateRepository<OperationHibernateData> hibernateRepository;
     private final OperationFactory operationFactory;
 
     public OperationHibernateRepository() {
-        super(OperationHibernateData.class);
-        this.operationFactory = FactoryLocator.getOperationFactory();
+        hibernateRepository = new HibernateRepository<>(OperationHibernateData.class);
+        operationFactory = FactoryLocator.getOperationFactory();
     }
 
     @Override
     public Operation get(int number) {
-        OperationHibernateData operationData = find(number);
+        OperationHibernateData operationData = hibernateRepository.find(number);
 
         return operationFactory.create(operationData.getType(), operationData);
     }
@@ -28,12 +27,12 @@ public class OperationHibernateRepository extends HibernateRepository<OperationH
     public void store(Operation operation) {
         OperationHibernateData operationData = (OperationHibernateData) operation.getData();
 
-        storeElement(operationData);
+        hibernateRepository.storeElement(operationData);
     }
 
-    protected OperationHibernateRepository(EntityManagerProvider entityManagerProvider,
+    protected OperationHibernateRepository(HibernateRepository<OperationHibernateData> hibernateRepository,
             OperationFactory operationFactory) {
-        super(entityManagerProvider, OperationHibernateData.class);
+        this.hibernateRepository = hibernateRepository;
         this.operationFactory = operationFactory;
     }
 
