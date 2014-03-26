@@ -16,11 +16,6 @@ public class HibernateRepository<T> {
         this(new EntityManagerProvider(), classType);
     }
 
-    public HibernateRepository(EntityManagerProvider entityManagerProvider, Class<T> classType) {
-        this.entityManagerProvider = entityManagerProvider;
-        this.classType = classType;
-    }
-
     public T find(Object value) {
         T element = getEntityManager().find(classType, value);
 
@@ -43,6 +38,11 @@ public class HibernateRepository<T> {
 
     private EntityManager getEntityManager() {
         return entityManagerProvider.getEntityManager();
+    }
+
+    protected HibernateRepository(EntityManagerProvider entityManagerProvider, Class<T> classType) {
+        this.entityManagerProvider = entityManagerProvider;
+        this.classType = classType;
     }
 
 }
