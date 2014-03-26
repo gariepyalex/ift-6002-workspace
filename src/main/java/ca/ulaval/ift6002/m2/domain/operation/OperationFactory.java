@@ -22,6 +22,7 @@ public abstract class OperationFactory {
         } else if (type == OperationType.ONCOLOGY) {
             return new OncologicalOperation(operationData);
         }
+        // TODO handle OperationType.OTHER
 
         throw new IllegalArgumentException("Operation type is not defined");
     }
