@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
-import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
@@ -62,12 +61,6 @@ public abstract class Operation {
         }
 
         operationData.addInstrument(instrument);
-    }
-
-    public void add(Collection<Instrument> instruments) {
-        for (Instrument instrument : instruments) {
-            add(instrument);
-        }
     }
 
     public int getNumber() {
