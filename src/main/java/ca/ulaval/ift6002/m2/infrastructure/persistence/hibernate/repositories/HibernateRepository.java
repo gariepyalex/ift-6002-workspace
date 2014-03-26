@@ -1,10 +1,11 @@
-package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
+package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
 
 import ca.ulaval.ift6002.m2.infrastructure.persistence.QueryBuilder;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.HibernateQueryBuilder;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 public class HibernateRepository<T> {

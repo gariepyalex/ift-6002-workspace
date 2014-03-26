@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
+package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;

@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
+package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;

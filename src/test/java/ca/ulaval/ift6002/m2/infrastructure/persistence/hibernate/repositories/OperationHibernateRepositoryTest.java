@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
+package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;

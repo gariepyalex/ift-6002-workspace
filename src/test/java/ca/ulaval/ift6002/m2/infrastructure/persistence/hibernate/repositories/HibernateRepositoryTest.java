@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
+package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.infrastructure.persistence.QueryBuilder;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.HibernateQueryBuilder;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
 @RunWith(MockitoJUnitRunner.class)
