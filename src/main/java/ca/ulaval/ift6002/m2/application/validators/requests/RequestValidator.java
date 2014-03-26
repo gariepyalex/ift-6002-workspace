@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.application.validator.request;
+package ca.ulaval.ift6002.m2.application.validators.requests;
 
 public interface RequestValidator<T> {
 

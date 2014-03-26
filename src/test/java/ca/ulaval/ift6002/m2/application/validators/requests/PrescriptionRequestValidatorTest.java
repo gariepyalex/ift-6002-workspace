@@ -1,9 +1,11 @@
-package ca.ulaval.ift6002.m2.application.validator.request;
+package ca.ulaval.ift6002.m2.application.validators.requests;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.validators.requests.InvalidRequestException;
+import ca.ulaval.ift6002.m2.application.validators.requests.PrescriptionRequestValidator;
 
 public class PrescriptionRequestValidatorTest {
 

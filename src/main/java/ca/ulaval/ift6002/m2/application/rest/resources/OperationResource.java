@@ -15,9 +15,9 @@ import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
-import ca.ulaval.ift6002.m2.application.validator.request.InstrumentRequestValidator;
-import ca.ulaval.ift6002.m2.application.validator.request.InvalidRequestException;
-import ca.ulaval.ift6002.m2.application.validator.request.OperationRequestValidator;
+import ca.ulaval.ift6002.m2.application.validators.requests.InstrumentRequestValidator;
+import ca.ulaval.ift6002.m2.application.validators.requests.InvalidRequestException;
+import ca.ulaval.ift6002.m2.application.validators.requests.OperationRequestValidator;
 import ca.ulaval.ift6002.m2.domain.instrument.InvalidInstrumentException;
 import ca.ulaval.ift6002.m2.services.OperationService;
 

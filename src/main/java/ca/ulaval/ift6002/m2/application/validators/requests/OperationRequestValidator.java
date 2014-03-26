@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.application.validator.request;
+package ca.ulaval.ift6002.m2.application.validators.requests;
 
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
