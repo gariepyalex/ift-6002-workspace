@@ -1,13 +1,14 @@
-package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate;
+package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
 
 import ca.ulaval.ift6002.m2.infrastructure.persistence.QueryBuilder;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.HibernateQueryBuilder;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 
-public abstract class HibernateRepository<T> {
+public class HibernateRepository<T> {
 
     private final EntityManagerProvider entityManagerProvider;
     private final Class<T> classType;
@@ -16,12 +17,7 @@ public abstract class HibernateRepository<T> {
         this(new EntityManagerProvider(), classType);
     }
 
-    public HibernateRepository(EntityManagerProvider entityManagerProvider, Class<T> classType) {
-        this.entityManagerProvider = entityManagerProvider;
-        this.classType = classType;
-    }
-
-    protected T find(Object value) {
+    public T find(Object value) {
         T element = getEntityManager().find(classType, value);
 
         if (element == null) {
@@ -31,19 +27,23 @@ public abstract class HibernateRepository<T> {
         return element;
     }
 
-    protected void storeElement(T element) {
+    public void storeElement(T element) {
         if (!getEntityManager().contains(element)) {
             getEntityManager().persist(element);
         }
     }
 
-    protected QueryBuilder<T> getQueryBuilder() {
-        // TODO cant mock this... composition over inheritance?
+    public QueryBuilder<T> getQueryBuilder() {
         return new HibernateQueryBuilder<>(getEntityManager(), classType);
     }
 
     private EntityManager getEntityManager() {
         return entityManagerProvider.getEntityManager();
+    }
+
+    protected HibernateRepository(EntityManagerProvider entityManagerProvider, Class<T> classType) {
+        this.entityManagerProvider = entityManagerProvider;
+        this.classType = classType;
     }
 
 }

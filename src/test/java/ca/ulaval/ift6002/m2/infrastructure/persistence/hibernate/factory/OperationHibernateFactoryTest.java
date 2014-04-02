@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.factory.hibernate;
+package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory;
 
 import static org.junit.Assert.assertEquals;
 

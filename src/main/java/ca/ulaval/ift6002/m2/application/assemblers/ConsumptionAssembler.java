@@ -8,7 +8,7 @@ import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.ConsumptionFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.Pharmacy;
-import ca.ulaval.ift6002.m2.factory.FactoryLocator;
+import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 public class ConsumptionAssembler {
 

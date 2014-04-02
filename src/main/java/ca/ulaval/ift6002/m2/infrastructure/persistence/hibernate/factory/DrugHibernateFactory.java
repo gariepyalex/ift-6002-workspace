@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.factory.hibernate;
+package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;

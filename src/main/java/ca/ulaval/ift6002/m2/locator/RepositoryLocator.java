@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.infrastructure.persistence.locator;
+package ca.ulaval.ift6002.m2.locator;
 
 import java.util.HashMap;
 import java.util.Map;
