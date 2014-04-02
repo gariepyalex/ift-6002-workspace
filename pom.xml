@@ -61,6 +61,11 @@
 		  <version>4.0-beta-5</version>
 		  <type>pom</type>
 		</dependency>
+		<dependency>
+		  <groupId>org.jbehave</groupId>
+		  <artifactId>jbehave-core</artifactId>
+		  <version>4.0-beta-5</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
