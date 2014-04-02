@@ -55,6 +55,12 @@
 			<artifactId>equalsverifier</artifactId>
 			<version>1.4</version>
 		</dependency>
+		<dependency>
+		  <groupId>org.jbehave</groupId>
+		  <artifactId>jbehave</artifactId>
+		  <version>4.0-beta-5</version>
+		  <type>pom</type>
+		</dependency>
 	</dependencies>
 
 	<properties>
