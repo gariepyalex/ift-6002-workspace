@@ -3,8 +3,9 @@ package ca.ulaval.ift6002.m2.acceptance;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.jbehave.core.steps.Steps;
 
-public class PrescriptionSteps {
+public class PrescriptionSteps extends Steps {
 
     @Given("a valid prescription with missing data")
     public void validPrescriptionWithMissingData() {
