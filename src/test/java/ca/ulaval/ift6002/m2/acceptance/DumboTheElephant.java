@@ -4,12 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.jbehave.core.junit.JUnitStories;
+import org.junit.runner.RunWith;
 
+import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
+
+@RunWith(JUnitReportingRunner.class)
 public class DumboTheElephant extends JUnitStories {
 
     public DumboTheElephant() {
         super();
         this.configuredEmbedder().candidateSteps().add(new PrescriptionSteps());
+        this.configuredEmbedder().candidateSteps().add(new PatientSteps());
     }
 
     @Override

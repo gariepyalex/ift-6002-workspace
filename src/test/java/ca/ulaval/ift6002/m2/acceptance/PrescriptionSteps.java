@@ -14,12 +14,10 @@ public class PrescriptionSteps extends Steps {
 
     @When("adding a prescription to the patient")
     public void addingPrescriptions() {
-
     }
 
     @Then("an error is reported")
     public void errorIsReported() {
-
     }
 
     @Then("this error has code 'PRES001'")
