@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.acceptance;
+package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;

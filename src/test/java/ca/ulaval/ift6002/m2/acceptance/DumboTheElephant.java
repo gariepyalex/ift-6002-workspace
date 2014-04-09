@@ -6,6 +6,8 @@ import java.util.List;
 import org.jbehave.core.junit.JUnitStories;
 import org.junit.runner.RunWith;
 
+import ca.ulaval.ift6002.m2.acceptance.steps.PatientSteps;
+import ca.ulaval.ift6002.m2.acceptance.steps.PrescriptionSteps;
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 
 @RunWith(JUnitReportingRunner.class)
