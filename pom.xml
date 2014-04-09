@@ -56,20 +56,20 @@
 			<version>1.4</version>
 		</dependency>
 		<dependency>
-		  <groupId>org.jbehave</groupId>
-		  <artifactId>jbehave</artifactId>
-		  <version>4.0-beta-5</version>
-		  <type>pom</type>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave</artifactId>
+			<version>4.0-beta-5</version>
+			<type>pom</type>
 		</dependency>
 		<dependency>
-		  <groupId>org.jbehave</groupId>
-		  <artifactId>jbehave-core</artifactId>
-		  <version>4.0-beta-5</version>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-core</artifactId>
+			<version>4.0-beta-5</version>
 		</dependency>
 		<dependency>
-		  <groupId>de.codecentric</groupId>
-		  <artifactId>jbehave-junit-runner</artifactId>
-		  <version>1.1.0</version>
+			<groupId>de.codecentric</groupId>
+			<artifactId>jbehave-junit-runner</artifactId>
+			<version>1.1.0</version>
 		</dependency>
 	</dependencies>
 
@@ -86,6 +86,26 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jbehave</groupId>
+				<artifactId>jbehave-maven-plugin</artifactId>
+				<version>4.0-beta-5</version>
+				<executions>
+					<execution>
+						<id>run-stories-as-embeddables</id>
+						<phase>integration-test</phase>
+						<configuration>
+							<includes>
+								<include>**/*Stories.java</include>
+							</includes>
+							<scope>test</scope>
+						</configuration>
+						<goals>
+							<goal>run-stories-as-embeddables</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
