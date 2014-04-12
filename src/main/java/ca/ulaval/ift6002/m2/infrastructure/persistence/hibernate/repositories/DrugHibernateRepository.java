@@ -24,7 +24,7 @@ public class DrugHibernateRepository implements DrugRepository {
 
     @Override
     public Drug get(Din din) {
-        return hibernateRepository.getQueryBuilder().query("FROM tbl_drug WHERE din = :din")
+        return hibernateRepository.getQueryBuilder().query("FROM " + table + " WHERE din = :din")
                 .parameter("din", din.getValue()).get();
     }
 
