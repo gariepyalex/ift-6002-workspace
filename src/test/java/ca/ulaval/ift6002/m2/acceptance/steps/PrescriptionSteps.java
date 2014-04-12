@@ -7,20 +7,25 @@ import org.jbehave.core.steps.Steps;
 
 public class PrescriptionSteps extends Steps {
 
-    @Given("a valid prescription with missing data")
+    @Given("une prescription valide")
+    public void validPrescriptio() {
+
+    }
+
+    @Given("avec des données manquantes")
     public void validPrescriptionWithMissingData() {
 
     }
 
-    @When("adding a prescription to the patient")
+    @When("j'ajoute cette prescription au dossier du patient")
     public void addingPrescriptions() {
     }
 
-    @Then("an error is reported")
+    @Then("une erreur est retournée")
     public void errorIsReported() {
     }
 
-    @Then("this error has code 'PRES001'")
+    @Then("cette erreur a le code 'PRES001'")
     public void errorCodeIsPRES001() {
 
     }
