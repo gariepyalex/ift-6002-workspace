@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
+import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.DrugHibernateRepository;
@@ -30,6 +32,9 @@ public class DrugHibernateRepositoryITest {
     private static final String INVALID_KEYWORD = "123" + SEARCH_PATTERN_WILDCARD + "123";
     private static final String EXISTING_BRANDNAME_CAMELCASE_SEARCH_PATTERN = "AdViL";
     private static final String EXISTING_DESCRIPTOR_CAMELCASE_SEARCH_PATTERN = "DeScRiPtOr";
+
+    private static final Din A_VALID_DIN = new Din("11111111");
+    private static final Din UNEXISTING_DIN = new Din("-1");
 
     private IntegrationDrugRepositoryFiller drugRepositoryFiller;
 
@@ -58,6 +63,17 @@ public class DrugHibernateRepositoryITest {
         EntityManagerProvider.clearEntityManager();
         entityManager.close();
         EntityManagerFactoryProvider.closeFactory();
+    }
+
+    @Test
+    public void whenGettingDrugWithValidDinShouldReturnDrug() {
+        Drug drug = drugRepository.get(A_VALID_DIN);
+        assertEquals(A_VALID_DIN, drug.getDin());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenGettingDrugWithUnexistingDinShouldThrowException() {
+        drugRepository.get(UNEXISTING_DIN);
     }
 
     @Test
