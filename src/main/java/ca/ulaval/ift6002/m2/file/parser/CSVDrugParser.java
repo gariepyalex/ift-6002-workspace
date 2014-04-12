@@ -16,8 +16,6 @@ import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 public class CSVDrugParser implements FileParser<Drug> {
 
-    private static final String DATA_FILE_PATH = "/drug.txt";
-
     private static final int DIN_COLUMN = 3;
     private static final int BRAND_NAME_COLUMN = 4;
     private static final int DESCRIPTOR_COLUMN = 5;
@@ -25,16 +23,18 @@ public class CSVDrugParser implements FileParser<Drug> {
     private final FileReader<String[]> fileReader;
     private final DrugFactory drugFactory;
     private final InteractionParser interactionParser;
+    private final String dataFilePath; // = "/drug.txt";
 
-    public CSVDrugParser() {
+    public CSVDrugParser(String dataFilePath) {
         this.fileReader = new CSVFileReader();
         this.drugFactory = FactoryLocator.getDrugFactory();
         this.interactionParser = new InteractionParser();
+        this.dataFilePath = dataFilePath;
     }
 
     @Override
     public List<Drug> parse() {
-        List<String[]> allLinesFromFile = fileReader.readAll(DATA_FILE_PATH);
+        List<String[]> allLinesFromFile = fileReader.readAll(dataFilePath);
 
         Map<Din, List<Din>> interactingDins = interactionParser.parse();
         Map<Din, Drug> filledDrugs = fillDrugsFromLines(allLinesFromFile);
@@ -97,10 +97,11 @@ public class CSVDrugParser implements FileParser<Drug> {
     }
 
     protected CSVDrugParser(FileReader<String[]> fileReader, DrugFactory drugFactory,
-            InteractionParser interactionParser) {
+            InteractionParser interactionParser, String dataFilePath) {
         this.fileReader = fileReader;
         this.drugFactory = drugFactory;
         this.interactionParser = interactionParser;
+        this.dataFilePath = dataFilePath;
     }
 
 }

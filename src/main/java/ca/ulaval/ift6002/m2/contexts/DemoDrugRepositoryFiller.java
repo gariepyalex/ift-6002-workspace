@@ -12,10 +12,11 @@ public class DemoDrugRepositoryFiller {
 
     private final DrugRepository drugRepository;
     private final FileParser<Drug> drugParser;
+    private final String dataFilePath = "/drug.txt";
 
     public DemoDrugRepositoryFiller() {
         this.drugRepository = RepositoryLocator.getDrugRepository();
-        this.drugParser = new CSVDrugParser();
+        this.drugParser = new CSVDrugParser(dataFilePath);
     }
 
     public void fill() {
