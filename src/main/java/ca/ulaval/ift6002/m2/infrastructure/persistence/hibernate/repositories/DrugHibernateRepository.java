@@ -15,6 +15,7 @@ public class DrugHibernateRepository implements DrugRepository {
 
     private final HibernateRepository<DrugHibernate> hibernateRepository;
     private final DrugFactory drugFactory;
+    private final String table = "DrugHibernate";
 
     public DrugHibernateRepository() {
         hibernateRepository = new HibernateRepository<>(DrugHibernate.class);
@@ -34,7 +35,8 @@ public class DrugHibernateRepository implements DrugRepository {
 
     @Override
     public Collection<Drug> findBy(String keyword) {
-        String query = "FROM tbl_drug WHERE LOWER(brandName) LIKE LOWER(:keyword) OR LOWER(descriptor) LIKE LOWER(:keyword)";
+        String query = "FROM " + table
+                + " WHERE LOWER(brandName) LIKE LOWER(:keyword) OR LOWER(descriptor) LIKE LOWER(:keyword)";
 
         // TODO test if this work for wildcard
         String keywordWildCard = '%' + keyword.replace(" ", "%") + '%';
