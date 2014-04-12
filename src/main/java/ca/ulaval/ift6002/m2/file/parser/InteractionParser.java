@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
-import ca.ulaval.ift6002.m2.file.ByLineFileReader;
-import ca.ulaval.ift6002.m2.file.FileReader;
+import ca.ulaval.ift6002.m2.file.reader.ByLineFileReader;
+import ca.ulaval.ift6002.m2.file.reader.FileReader;
 
 public class InteractionParser {
 

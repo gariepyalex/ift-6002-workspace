@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.drug.Din;
-import ca.ulaval.ift6002.m2.file.FileReader;
+import ca.ulaval.ift6002.m2.file.reader.FileReader;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InteractionParserTest {
