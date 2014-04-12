@@ -15,13 +15,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
+import ca.ulaval.ift6002.m2.contexts.IntegrationDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.DrugHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
-import ca.ulaval.ift6002.m2.integration.contexts.IntegrationDrugRepositoryFiller;
 
 public class DrugHibernateRepositoryITest {
 

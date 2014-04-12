@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.integration.contexts;
+package ca.ulaval.ift6002.m2.contexts;
 
 import java.util.List;
 
@@ -8,13 +8,15 @@ import ca.ulaval.ift6002.m2.file.parser.CSVDrugParser;
 import ca.ulaval.ift6002.m2.file.parser.FileParser;
 
 public class IntegrationDrugRepositoryFiller {
+
+    private static final String DRUG_FILE_PATH = "/IntegrationDrug.txt";
+
     private final DrugRepository drugRepository;
     private final FileParser<Drug> drugParser;
-    private final String dataFilePath = "/IntegrationDrug.txt";
 
     public IntegrationDrugRepositoryFiller(DrugRepository drugRepository) {
         this.drugRepository = drugRepository;
-        this.drugParser = new CSVDrugParser(dataFilePath);
+        this.drugParser = new CSVDrugParser(DRUG_FILE_PATH);
     }
 
     public void fill() {
