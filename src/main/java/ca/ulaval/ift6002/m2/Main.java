@@ -48,7 +48,7 @@ public class Main {
     private static void closeEntityManager(EntityManager entityManager) {
         EntityManagerProvider.clearEntityManager();
         entityManager.close();
-        EntityManagerFactoryProvider.getFactory().close();
+        EntityManagerFactoryProvider.closeFactory();
     }
 
 }
