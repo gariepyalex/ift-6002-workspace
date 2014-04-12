@@ -9,7 +9,7 @@ public class PatientSteps extends Steps {
 
     private Patient patient;
 
-    @Given("an existing patient")
+    @Given("un patient existant")
     public void anExistingPatient() {
     }
 
