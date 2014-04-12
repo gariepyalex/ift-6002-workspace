@@ -21,6 +21,7 @@ import org.jbehave.core.steps.InstanceStepsFactory;
 import org.junit.runner.RunWith;
 
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
+import ca.ulaval.ift6002.m2.acceptance.steps.DrugSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.PatientSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.PrescriptionSteps;
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
@@ -28,7 +29,7 @@ import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 @RunWith(JUnitReportingRunner.class)
 public class DumboTheElephantStories extends JUnitStories {
 
-    private static final LocalizedKeywords KEYWORDS = new LocalizedKeywords(Locale.ENGLISH);
+    private static final LocalizedKeywords KEYWORDS = new LocalizedKeywords(Locale.FRENCH);
 
     @Override
     public Configuration configuration() {
@@ -38,12 +39,13 @@ public class DumboTheElephantStories extends JUnitStories {
 
         return new MostUsefulConfiguration().useKeywords(KEYWORDS).usePendingStepStrategy(new FailingUponPendingStep())
                 .useStoryParser(new RegexStoryParser(KEYWORDS))
-                .useStoryLoader(new LoadFromClasspath(DumboTheElephantStories.class)).useStoryReporterBuilder(reporterBuilder);
+                .useStoryLoader(new LoadFromClasspath(DumboTheElephantStories.class))
+                .useStoryReporterBuilder(reporterBuilder);
     }
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new PatientSteps(), new PrescriptionSteps(),
+        return new InstanceStepsFactory(configuration(), new PatientSteps(), new PrescriptionSteps(), new DrugSteps(),
                 new JettyTestRunner());
     }
 
