@@ -23,18 +23,18 @@ public class CSVDrugParser implements FileParser<Drug> {
     private final FileReader<String[]> fileReader;
     private final DrugFactory drugFactory;
     private final InteractionParser interactionParser;
-    private final String dataFilePath;
+    private final String filePath;
 
-    public CSVDrugParser(String dataFilePath) {
+    public CSVDrugParser(String filePath) {
         this.fileReader = new CSVFileReader();
         this.drugFactory = FactoryLocator.getDrugFactory();
         this.interactionParser = new InteractionParser();
-        this.dataFilePath = dataFilePath;
+        this.filePath = filePath;
     }
 
     @Override
     public List<Drug> parse() {
-        List<String[]> allLinesFromFile = fileReader.readAll(dataFilePath);
+        List<String[]> allLinesFromFile = fileReader.readAll(filePath);
 
         Map<Din, List<Din>> interactingDins = interactionParser.parse();
         Map<Din, Drug> filledDrugs = fillDrugsFromLines(allLinesFromFile);
@@ -97,11 +97,11 @@ public class CSVDrugParser implements FileParser<Drug> {
     }
 
     protected CSVDrugParser(FileReader<String[]> fileReader, DrugFactory drugFactory,
-            InteractionParser interactionParser, String dataFilePath) {
+            InteractionParser interactionParser, String filePath) {
         this.fileReader = fileReader;
         this.drugFactory = drugFactory;
         this.interactionParser = interactionParser;
-        this.dataFilePath = dataFilePath;
+        this.filePath = filePath;
     }
 
 }
