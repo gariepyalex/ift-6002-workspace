@@ -36,9 +36,10 @@ public class DrugHibernateRepository implements DrugRepository {
     public Collection<Drug> findBy(String keyword) {
         String query = "FROM tbl_drug WHERE LOWER(brandName) LIKE LOWER(:keyword) OR LOWER(descriptor) LIKE LOWER(:keyword)";
 
-        // TODO do wildcard with spaces
+        // TODO test if this work for wildcard
+        String keywordWildCard = '%' + keyword.replace(" ", "%") + '%';
         List<DrugHibernate> drugs = hibernateRepository.getQueryBuilder().query(query)
-                .parameter("keyword", '%' + keyword + '%').list();
+                .parameter("keyword", keywordWildCard).list();
 
         return new ArrayList<Drug>(drugs);
     }
