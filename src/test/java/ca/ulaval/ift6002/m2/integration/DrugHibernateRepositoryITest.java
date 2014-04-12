@@ -10,8 +10,8 @@ import java.util.NoSuchElementException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
@@ -36,14 +36,14 @@ public class DrugHibernateRepositoryITest {
     private static final Din A_VALID_DIN = new Din("11111111");
     private static final Din UNEXISTING_DIN = new Din("-1");
 
-    private IntegrationDrugRepositoryFiller drugRepositoryFiller;
+    private static IntegrationDrugRepositoryFiller drugRepositoryFiller;
 
-    private DrugRepository drugRepository;
+    private static DrugRepository drugRepository;
 
-    private EntityManager entityManager;
+    private static EntityManager entityManager;
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void oneTimeSetUp() {
         setupFactoryLocator();
         setUpEntityManager();
 
@@ -55,8 +55,8 @@ public class DrugHibernateRepositoryITest {
         drugRepositoryFiller.fill();
     }
 
-    @After
-    public void closeEntityManager() {
+    @AfterClass
+    public static void closeEntityManager() {
 
         entityManager.getTransaction().rollback();
 
@@ -132,11 +132,11 @@ public class DrugHibernateRepositoryITest {
         assertFalse(result);
     }
 
-    private void setupFactoryLocator() {
+    private static void setupFactoryLocator() {
         new HibernateFactoryConfiguration().configure();
     }
 
-    private void setUpEntityManager() {
+    private static void setUpEntityManager() {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         entityManager = entityManagerFactory.createEntityManager();
         EntityManagerProvider.setEntityManager(entityManager);
