@@ -66,67 +66,67 @@ public class DrugHibernateRepositoryITest {
     }
 
     @Test
-    public void whenGettingDrugWithValidDinShouldReturnDrug() {
+    public void givenValidDinWhenGettingDrugShouldReturnDrug() {
         Drug drug = drugRepository.get(A_VALID_DIN);
         assertEquals(A_VALID_DIN, drug.getDin());
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void whenGettingDrugWithUnexistingDinShouldThrowException() {
+    public void givenUnexistingDinWhenGettingDrugShouldThrowException() {
         drugRepository.get(UNEXISTING_DIN);
     }
 
     @Test
-    public void findByWithExistingBrandNameShouldNotBeEmpty() {
+    public void givenExistingBrandNameWhenFindByKeywordShouldNotBeEmpty() {
         Collection<Drug> drugsFound = drugRepository.findBy(EXISTING_BRANDNAME_SEARCH_PATTERN);
         boolean result = drugsFound.isEmpty();
         assertFalse(result);
     }
 
     @Test
-    public void findByWithExistingDescriptorShouldNotBeEmpty() {
+    public void givenExistingDescriptorWhenFindByShouldNotBeEmpty() {
         Collection<Drug> drugsFound = drugRepository.findBy(EXISTING_DESCRIPTOR_SEARCH_PATTERN);
         boolean result = drugsFound.isEmpty();
         assertFalse(result);
     }
 
     @Test
-    public void findByWithUnexistingKeyWordShouldReturnEmptyCollectionOfDrug() {
+    public void givenUnexistingKeyWordWhenFindByKeywordShouldReturnEmptyCollectionOfDrug() {
         Collection<Drug> drugsFound = drugRepository.findBy(INVALID_KEYWORD);
         boolean result = drugsFound.isEmpty();
         assertTrue(result);
     }
 
     @Test
-    public void findByWhenUsingValidPatternShouldReturnTwoDrugs() {
+    public void givenValidPatternWhenFindByKeywordShouldReturnTwoDrugs() {
         Collection<Drug> drugsFound = drugRepository.findBy(SIMPLE_SEARCH_PATTERN);
         int result = drugsFound.size();
         assertEquals(2, result);
     }
 
     @Test
-    public void findByWhenUsingPatternWithTwoWordsShouldReturnDrugs() {
+    public void givenPatternWithTwoWordsWhenFindByKeywordShouldReturnDrugs() {
         Collection<Drug> drugsFound = drugRepository.findBy(SEARCH_PATTERN_WILDCARD);
         boolean result = drugsFound.isEmpty();
         assertFalse(result);
     }
 
     @Test
-    public void findByWhenUsingPatternWithMoreThanThreeWordsShouldReturnDrugs() {
+    public void givenPatternWithMoreThanThreeWordsWhenFindByKeywordShouldReturnDrugs() {
         Collection<Drug> drugsFound = drugRepository.findBy(PATTERN_WITH_MULTIPLE_WORDS);
         boolean result = drugsFound.isEmpty();
         assertFalse(result);
     }
 
     @Test
-    public void findByWithCamelCaseBrandNameKeywordShouldReturnDrugs() {
+    public void givenCamelCaseBrandNameWhenFindByKeywordShouldReturnDrugs() {
         Collection<Drug> drugsFound = drugRepository.findBy(EXISTING_BRANDNAME_CAMELCASE_SEARCH_PATTERN);
         boolean result = drugsFound.isEmpty();
         assertFalse(result);
     }
 
     @Test
-    public void findByWithCamelCaseDescriptorKeywordShouldReturnDrugs() {
+    public void givenCamelCaseDescriptorWhenFindByKeywordShouldReturnDrugs() {
         Collection<Drug> drugsFound = drugRepository.findBy(EXISTING_DESCRIPTOR_CAMELCASE_SEARCH_PATTERN);
         boolean result = drugsFound.isEmpty();
         assertFalse(result);

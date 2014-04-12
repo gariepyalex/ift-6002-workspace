@@ -15,7 +15,7 @@ public class DrugHibernateRepository implements DrugRepository {
 
     private final HibernateRepository<DrugHibernate> hibernateRepository;
     private final DrugFactory drugFactory;
-    private final String table = "DrugHibernate";
+    private final String tableName = "DrugHibernate";
 
     public DrugHibernateRepository() {
         hibernateRepository = new HibernateRepository<>(DrugHibernate.class);
@@ -24,7 +24,7 @@ public class DrugHibernateRepository implements DrugRepository {
 
     @Override
     public Drug get(Din din) {
-        return hibernateRepository.getQueryBuilder().query("FROM " + table + " WHERE din = :din")
+        return hibernateRepository.getQueryBuilder().query("FROM " + tableName + " WHERE din = :din")
                 .parameter("din", din.getValue()).get();
     }
 
@@ -35,7 +35,7 @@ public class DrugHibernateRepository implements DrugRepository {
 
     @Override
     public Collection<Drug> findBy(String keyword) {
-        String query = "FROM " + table
+        String query = "FROM " + tableName
                 + " WHERE LOWER(brandName) LIKE LOWER(:keyword) OR LOWER(descriptor) LIKE LOWER(:keyword)";
 
         String keywordWildCard = '%' + keyword.replace(" ", "%") + '%';
