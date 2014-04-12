@@ -38,7 +38,6 @@ public class DrugHibernateRepository implements DrugRepository {
         String query = "FROM " + table
                 + " WHERE LOWER(brandName) LIKE LOWER(:keyword) OR LOWER(descriptor) LIKE LOWER(:keyword)";
 
-        // TODO test if this work for wildcard
         String keywordWildCard = '%' + keyword.replace(" ", "%") + '%';
         List<DrugHibernate> drugs = hibernateRepository.getQueryBuilder().query(query)
                 .parameter("keyword", keywordWildCard).list();
