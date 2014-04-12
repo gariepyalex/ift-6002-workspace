@@ -15,21 +15,25 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
+import ca.ulaval.ift6002.m2.contexts.IntegrationDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.DrugHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
-import ca.ulaval.ift6002.m2.integration.contexts.IntegrationDrugRepositoryFiller;
 
 public class DrugHibernateRepositoryITest {
+
     private static final String EXISTING_BRANDNAME_SEARCH_PATTERN = "advil";
     private static final String EXISTING_DESCRIPTOR_SEARCH_PATTERN = "descriptor";
+
     private static final String SIMPLE_SEARCH_PATTERN = "adv";
-    private static final String SEARCH_PATTERN_WILDCARD = "adv gel";
+    private static final String WILDCARD_SEARCH_PATTERN = "adv gel";
     private static final String PATTERN_WITH_MULTIPLE_WORDS = "adv liq ge";
-    private static final String INVALID_KEYWORD = "123" + SEARCH_PATTERN_WILDCARD + "123";
+
+    private static final String INVALID_KEYWORD = "123" + WILDCARD_SEARCH_PATTERN + "123";
+
     private static final String EXISTING_BRANDNAME_CAMELCASE_SEARCH_PATTERN = "AdViL";
     private static final String EXISTING_DESCRIPTOR_CAMELCASE_SEARCH_PATTERN = "DeScRiPtOr";
 
@@ -106,7 +110,7 @@ public class DrugHibernateRepositoryITest {
 
     @Test
     public void givenPatternWithTwoWordsWhenFindByKeywordShouldReturnDrugs() {
-        Collection<Drug> drugsFound = drugRepository.findBy(SEARCH_PATTERN_WILDCARD);
+        Collection<Drug> drugsFound = drugRepository.findBy(WILDCARD_SEARCH_PATTERN);
         boolean result = drugsFound.isEmpty();
         assertFalse(result);
     }

@@ -10,13 +10,14 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class DemoDrugRepositoryFiller {
 
+    private static final String DRUG_FILE_PATH = "/drug.txt";
+
     private final DrugRepository drugRepository;
     private final FileParser<Drug> drugParser;
-    private final String dataFilePath = "/drug.txt";
 
     public DemoDrugRepositoryFiller() {
         this.drugRepository = RepositoryLocator.getDrugRepository();
-        this.drugParser = new CSVDrugParser(dataFilePath);
+        this.drugParser = new CSVDrugParser(DRUG_FILE_PATH);
     }
 
     public void fill() {

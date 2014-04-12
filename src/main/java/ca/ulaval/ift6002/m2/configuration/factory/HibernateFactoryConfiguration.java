@@ -1,6 +1,6 @@
 package ca.ulaval.ift6002.m2.configuration.factory;
 
-import ca.ulaval.ift6002.m2.configuration.Configuration;
+import ca.ulaval.ift6002.m2.configuration.Configurable;
 import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
@@ -15,7 +15,7 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.Patient
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.PrescriptionHibernateFactory;
 import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
-public class HibernateFactoryConfiguration implements Configuration {
+public class HibernateFactoryConfiguration implements Configurable {
 
     @Override
     public void configure() {
