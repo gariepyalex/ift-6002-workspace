@@ -3,36 +3,18 @@ package ca.ulaval.ift6002.m2;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
+import ca.ulaval.ift6002.m2.configuration.persistence.HibernatePersistanceConfiguration;
 import ca.ulaval.ift6002.m2.contexts.DemoDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
-import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
-import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
-import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
-import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
-import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
-import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
-import ca.ulaval.ift6002.m2.domain.prescription.ConsumptionFactory;
-import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.ConsumptionHibernateFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.DrugHibernateFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.InstrumentHibernateFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.OperationHibernateFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.PatientHibernateFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.factory.PrescriptionHibernateFactory;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.DrugHibernateRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.OperationHibernateRepository;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.PatientHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
-import ca.ulaval.ift6002.m2.locator.FactoryLocator;
-import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class Main {
 
     public static void main(String[] args) {
-        setupFactoryLocator();
-        setupRepositoryLocator();
+        new HibernateFactoryConfiguration().configure();
+        new HibernatePersistanceConfiguration().configure();
 
         EntityManager entityManager = setUpEntityManager();
 
@@ -45,29 +27,6 @@ public class Main {
         server.start();
 
         closeEntityManager(entityManager);
-    }
-
-    private static void setupRepositoryLocator() {
-        RepositoryLocator repositoryLocator = new RepositoryLocator();
-
-        repositoryLocator.register(DrugRepository.class, new DrugHibernateRepository());
-        repositoryLocator.register(PatientRepository.class, new PatientHibernateRepository());
-        repositoryLocator.register(OperationRepository.class, new OperationHibernateRepository());
-
-        RepositoryLocator.load(repositoryLocator);
-    }
-
-    private static void setupFactoryLocator() {
-        FactoryLocator factoryLocator = new FactoryLocator();
-
-        factoryLocator.register(ConsumptionFactory.class, new ConsumptionHibernateFactory());
-        factoryLocator.register(DrugFactory.class, new DrugHibernateFactory());
-        factoryLocator.register(InstrumentFactory.class, new InstrumentHibernateFactory());
-        factoryLocator.register(OperationFactory.class, new OperationHibernateFactory());
-        factoryLocator.register(PatientFactory.class, new PatientHibernateFactory());
-        factoryLocator.register(PrescriptionFactory.class, new PrescriptionHibernateFactory());
-
-        FactoryLocator.load(factoryLocator);
     }
 
     private static EntityManager setUpEntityManager() {
