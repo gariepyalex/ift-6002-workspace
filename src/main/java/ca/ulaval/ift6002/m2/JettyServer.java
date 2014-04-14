@@ -14,11 +14,10 @@ import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 public class JettyServer {
 
-    private static final int HTTP_PORT = 8080;
     private final Server server;
 
-    public JettyServer() {
-        server = new Server(HTTP_PORT);
+    public JettyServer(int port) {
+        server = new Server(port);
         ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
         servletContextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 
@@ -39,10 +38,16 @@ public class JettyServer {
     public void start() {
         try {
             server.start();
-            server.join();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void join() {
+        try {
+            server.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

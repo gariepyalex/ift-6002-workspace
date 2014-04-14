@@ -12,6 +12,8 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerPro
 
 public class Main {
 
+    private static final int HTTP_PORT = 8080;
+
     public static void main(String[] args) {
         new HibernateFactoryConfiguration().configure();
         new HibernatePersistanceConfiguration().configure();
@@ -23,9 +25,9 @@ public class Main {
         fillPatientRepository();
         entityManager.getTransaction().commit();
 
-        JettyServer server = new JettyServer();
+        JettyServer server = new JettyServer(HTTP_PORT);
         server.start();
-
+        server.join();
         closeEntityManager(entityManager);
     }
 
