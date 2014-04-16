@@ -49,6 +49,13 @@
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<version>2.0.1</version>
+			 <exclusions>
+        <!-- Exclude Groovy because of classpath issue -->
+        <exclusion>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+        </exclusion>
+    </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
@@ -71,6 +78,13 @@
 			<artifactId>jbehave-junit-runner</artifactId>
 			<version>1.1.0</version>
 		</dependency>
+		<dependency>
+    <groupId>org.codehaus.groovy</groupId>
+    <artifactId>groovy-all</artifactId>
+    <!-- Needs to be the same version that REST Assured depends on -->
+    <version>2.2.1</version>
+    <scope>test</scope>
+</dependency>
 	</dependencies>
 
 	<properties>
