@@ -1,9 +1,7 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -18,8 +16,6 @@ import com.jayway.restassured.response.Response;
 
 public class DrugSteps extends Steps {
 
-    private static final String KEYWORD_PARAMETER = "keyword";
-
     private static final String KEYWORD_SHORTER_THAN_THE_LIMIT = "aa";
 
     private static final String INVALID_SEARCH_ERROR_CODE = "DIN001";
@@ -31,12 +27,12 @@ public class DrugSteps extends Steps {
         response = null;
     }
 
-    @When("je cherche un médicaments avec moins de caractères que la limite requise")
+    @When("je cherche un medicaments avec moins de caracteres que la limite requise")
     public void findDrugsWithLessCharatersThanLimitRequired() {
         findDrug(KEYWORD_SHORTER_THAN_THE_LIMIT);
     }
 
-    @Then("une erreur est retournée")
+    @Then("une erreur est retournee")
     public void anErrorIsReported() {
         response.then().statusCode(Status.BAD_REQUEST.getStatusCode()).body(not(isEmptyOrNullString()));
     }
@@ -47,8 +43,8 @@ public class DrugSteps extends Steps {
     }
 
     private void findDrug(String drugNameWithLessCharacters) {
-        response = given().port(JettyTestRunner.JETTY_TEST_PORT)
-                .pathParam(KEYWORD_PARAMETER, KEYWORD_SHORTER_THAN_THE_LIMIT).when().get("/medicaments/dins/{keyword}");
+        response = given().port(JettyTestRunner.JETTY_TEST_PORT).when()
+                .get("/medicaments/dins/" + KEYWORD_SHORTER_THAN_THE_LIMIT);
     }
 
 }
