@@ -6,6 +6,7 @@ import static org.jbehave.core.reporters.Format.CONSOLE;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
@@ -33,9 +34,12 @@ public class DumboTheElephantStories extends JUnitStories {
 
     @Override
     public Configuration configuration() {
+        Properties properties = new Properties();
+        properties.setProperty("encoding", "UTF-8");
         StoryReporterBuilder reporterBuilder = new StoryReporterBuilder().withKeywords(KEYWORDS)
                 .withCodeLocation(codeLocationFromClass(DumboTheElephantStories.class)).withFailureTrace(true)
-                .withFailureTraceCompression(true).withDefaultFormats().withFormats(CONSOLE);
+                .withFailureTraceCompression(true).withDefaultFormats().withFormats(CONSOLE)
+                .withViewResources(properties);
 
         return new MostUsefulConfiguration().useKeywords(KEYWORDS).usePendingStepStrategy(new FailingUponPendingStep())
                 .useStoryParser(new RegexStoryParser(KEYWORDS))
