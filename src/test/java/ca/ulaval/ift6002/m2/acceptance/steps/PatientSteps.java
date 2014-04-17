@@ -11,6 +11,7 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
+import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 
 import com.jayway.restassured.http.ContentType;
@@ -31,24 +32,24 @@ public class PatientSteps extends Steps {
         prescriptionToPost = null;
     }
 
-    @Given("un patient existant")
+    @Given("un patient est existant")
     public void anExistingPatient() {
         patientId = 1;
     }
 
-    @Given("une prescription avec des données manquantes")
+    @Given("une prescription a des données manquantes")
     public void aPrescriptionWithMissingData() {
         prescriptionToPost = getPrescriptionWithMissingData();
     }
 
     private PrescriptionRequest getPrescriptionWithMissingData() {
-        return new PrescriptionRequest("", "2001-07-04T12:08:56", 0, "11111", "");
+        return new PrescriptionRequest("0asd139", "2001-07-04T12:08:56", 0, "", "");
     }
 
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
-        response = given().pathParam("patientId", patientId).body(prescriptionToPost).contentType(ContentType.JSON)
-                .post("/patient/{patientId}/prescriptions");
+        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(prescriptionToPost).contentType(ContentType.JSON)
+                .post("/patient/{patientId}/prescriptions", patientId);
     }
 
     @Then("une erreur est retournée")
