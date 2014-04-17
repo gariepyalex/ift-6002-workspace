@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.acceptance.steps.DrugSteps;
-import ca.ulaval.ift6002.m2.acceptance.steps.PatientSteps;
+import ca.ulaval.ift6002.m2.acceptance.steps.PrescriptionSteps;
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 
 @RunWith(JUnitReportingRunner.class)
@@ -44,7 +44,7 @@ public class DumboTheElephantStories extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new PatientSteps(), new DrugSteps(), new JettyTestRunner());
+        return new InstanceStepsFactory(configuration(), new PrescriptionSteps(), new DrugSteps(), new JettyTestRunner());
     }
 
     @Override
