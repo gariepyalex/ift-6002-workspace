@@ -22,7 +22,7 @@ public class PatientSteps extends Steps {
     private PrescriptionRequest prescriptionToPost;
     private Response response;
 
-    private final static String INVALID_PRESCRIPTION_ERROR_CODE = "PRES001";
+    private final String INVALID_PRESCRIPTION_ERROR_CODE = "PRES001";
 
     @BeforeScenario
     public void clearResults() {
