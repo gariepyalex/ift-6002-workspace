@@ -23,8 +23,8 @@ public class OperationService {
         this.instrumentAssembler = new InstrumentAssembler();
     }
 
-    public Integer saveOperation(OperationRequest operationResponse) {
-        Operation operation = operationAssembler.fromRequest(operationResponse);
+    public Integer saveOperation(OperationRequest operationRequest) {
+        Operation operation = operationAssembler.fromRequest(operationRequest);
 
         operationRepository.store(operation);
 
