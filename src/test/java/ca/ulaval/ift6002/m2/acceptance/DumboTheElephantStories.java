@@ -6,7 +6,6 @@ import static org.jbehave.core.reporters.Format.CONSOLE;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
 
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
@@ -23,7 +22,6 @@ import org.junit.runner.RunWith;
 
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.acceptance.steps.DrugSteps;
-import ca.ulaval.ift6002.m2.acceptance.steps.PatientSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.PrescriptionSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.SurgerySteps;
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
@@ -35,12 +33,9 @@ public class DumboTheElephantStories extends JUnitStories {
 
     @Override
     public Configuration configuration() {
-        Properties properties = new Properties();
-        properties.setProperty("encoding", "UTF-8");
         StoryReporterBuilder reporterBuilder = new StoryReporterBuilder().withKeywords(KEYWORDS)
                 .withCodeLocation(codeLocationFromClass(DumboTheElephantStories.class)).withFailureTrace(true)
-                .withFailureTraceCompression(true).withDefaultFormats().withFormats(CONSOLE)
-                .withViewResources(properties);
+                .withFailureTraceCompression(true).withDefaultFormats().withFormats(CONSOLE);
 
         return new MostUsefulConfiguration().useKeywords(KEYWORDS).usePendingStepStrategy(new FailingUponPendingStep())
                 .useStoryParser(new RegexStoryParser(KEYWORDS))
@@ -50,8 +45,10 @@ public class DumboTheElephantStories extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new SurgerySteps(), new PatientSteps(),
-                new PrescriptionSteps(), new DrugSteps(), new JettyTestRunner());
+
+        return new InstanceStepsFactory(configuration(), new SurgerySteps(), new PrescriptionSteps(), new DrugSteps(),
+                new JettyTestRunner());
+
     }
 
     @Override
