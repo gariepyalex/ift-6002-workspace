@@ -9,14 +9,13 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
+import ca.ulaval.ift6002.m2.acceptance.DumboTheElephantStories;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 
@@ -29,7 +28,6 @@ public class SurgerySteps extends Steps {
     private static final int PATIENT_NUMBER = 1;
     private Response response;
     private int operationNumber;
-    private ObjectMapper mapper;
     private OperationRequest operationToPost;
     private InstrumentRequest instrumentToPost;
 
@@ -41,9 +39,6 @@ public class SurgerySteps extends Steps {
 
     @BeforeStory
     public void setUpStories() {
-        mapper = new ObjectMapper();
-        JaxbAnnotationModule module = new JaxbAnnotationModule();
-        mapper.registerModule(module);
         addValidOperation();
     }
 
@@ -57,7 +52,8 @@ public class SurgerySteps extends Steps {
         operationToPost = getValidOperation();
 
         try {
-            response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(mapper.writeValueAsString(operationToPost))
+            response = given().port(JettyTestRunner.JETTY_TEST_PORT)
+                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(operationToPost))
                     .contentType(ContentType.JSON).post("/interventions");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -81,7 +77,7 @@ public class SurgerySteps extends Steps {
         instrumentToPost = getValidInstrument();
         try {
             response = given().contentType(ContentType.JSON).port(JettyTestRunner.JETTY_TEST_PORT)
-                    .body(mapper.writeValueAsString(instrumentToPost)).when()
+                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(instrumentToPost)).when()
                     .post("/interventions/{operationNumber}/instruments", operationNumber);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
