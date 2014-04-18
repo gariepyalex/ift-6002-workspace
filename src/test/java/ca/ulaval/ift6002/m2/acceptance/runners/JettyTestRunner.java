@@ -29,7 +29,7 @@ public class JettyTestRunner {
 
         entityManager.getTransaction().begin();
         // fillDrugRepository();
-        // fillPatientRepository();
+        fillPatientRepository();
         entityManager.getTransaction().commit();
 
         server = new JettyServer(JETTY_TEST_PORT);
