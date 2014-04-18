@@ -40,6 +40,7 @@ public class SurgerySteps extends Steps {
     }
 
     private void addValidOperation() {
+
         Response response = given()
                 .port(JettyTestRunner.JETTY_TEST_PORT)
                 .body("{ \"chirurgien\" : 101224," + "\"description\" : \"operation\","
@@ -65,8 +66,12 @@ public class SurgerySteps extends Steps {
                         + "\" }").when().post("/interventions/{operationNumber}/instruments", operationNumber);
     }
 
-    @Then("cette instrument est conservé")
+    @Then("cette instrument a été ajouté à l'opération")
     public void instrumentIsLinkedWithOperation() {
+        String expectedLocation = "http://localhost:" + JettyTestRunner.JETTY_TEST_PORT + "/interventions/"
+                + operationNumber + "/instruments/" + INSTRUMENT_TYPE_CODE + "/" + INSTRUMENT_SERIAL_NUMBER;
+
         response.then().statusCode(CREATED_HTTP_CODE);
+        response.then().header("location", expectedLocation);
     }
 }
