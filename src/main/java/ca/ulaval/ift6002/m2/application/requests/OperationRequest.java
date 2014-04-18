@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OperationRequest {
     public String description;
-
     @XmlElement(name = "chirurgien")
     public Integer surgeon;
 
