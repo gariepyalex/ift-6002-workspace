@@ -11,9 +11,11 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
+import ca.ulaval.ift6002.m2.acceptance.DumboTheElephantStories;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 
@@ -48,8 +50,13 @@ public class PrescriptionSteps extends Steps {
 
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
-        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(prescriptionToPost).contentType(ContentType.JSON)
-                .post("/patient/{patientId}/prescriptions", patientId);
+        try {
+            response = given().port(JettyTestRunner.JETTY_TEST_PORT)
+                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(prescriptionToPost))
+                    .contentType(ContentType.JSON).post("/patient/{patientId}/prescriptions", patientId);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Then("une erreur est retournée")
