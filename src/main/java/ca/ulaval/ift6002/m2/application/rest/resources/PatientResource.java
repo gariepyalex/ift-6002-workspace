@@ -41,11 +41,11 @@ public class PatientResource extends Resource {
 
     @POST
     public Response createPrescription(@PathParam("patientId") String patientId, @Context UriInfo uri,
-            PrescriptionRequest response) {
+            PrescriptionRequest request) {
         try {
-            prescriptionValidator.validate(response);
+            prescriptionValidator.validate(request);
 
-            patientService.savePrescription(patientId, response);
+            patientService.savePrescription(patientId, request);
 
             return success();
         } catch (InvalidRequestException e) {
@@ -71,11 +71,11 @@ public class PatientResource extends Resource {
     @POST
     @Path("{patientId}/prescriptions/{prescriptionId}/consommations")
     public Response addConsumption(@PathParam("patientId") String patientId,
-            @PathParam("prescriptionId") String prescriptionId, @Context UriInfo uri, ConsumptionRequest response) {
+            @PathParam("prescriptionId") String prescriptionId, @Context UriInfo uri, ConsumptionRequest request) {
         try {
-            consumptionValidator.validate(response);
+            consumptionValidator.validate(request);
 
-            patientService.addConsumption(patientId, prescriptionId, response);
+            patientService.addConsumption(patientId, prescriptionId, request);
 
             return success();
         } catch (InvalidRequestException e) {
