@@ -6,4 +6,4 @@ Afin d'assurer une traçabilité des instruments.
 Scénario: Ajouter un instrument à une intervention
 Etant donné que une intervention valide est existante
 Quand j'ajoute l'instrument à l'intervention
-Alors cette instrument est conservé
+Alors cette instrument a été ajouté à l'opération
