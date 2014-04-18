@@ -3,16 +3,14 @@ package ca.ulaval.ift6002.m2.acceptance.steps;
 import static com.jayway.restassured.RestAssured.given;
 
 import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.BeforeStory;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
-import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
-import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
-import ca.ulaval.ift6002.m2.domain.operation.OperationData;
 
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
@@ -25,39 +23,32 @@ public class SurgerySteps extends Steps {
     private static final int PATIENT_NUMBER = 1;
     private Response response;
     private int operationNumber;
-    private OperationData data;
-    private InstrumentRequest instrumentToPost;
-    private OperationRequest operationToPost;
 
     @BeforeScenario
     public void clearResult() {
+        response = null;
+    }
 
+    @BeforeStory
+    public void setUpStories() {
+        addValidOperation();
     }
 
     @Given("une intervention valide est existante")
     public void aValidOperationExists() {
-        addValidOperation();
+
     }
 
     private void addValidOperation() {
-
-        operationToPost = getValidOperation();
-        String json = given()
+        Response response = given()
                 .port(JettyTestRunner.JETTY_TEST_PORT)
                 .body("{ \"chirurgien\" : 101224," + "\"description\" : \"operation\","
                         + "\"date\" : \"0000-00-00T24:01:00\"," + "\"salle\" :\"blocB\"," + "\"type\" : \"OEIL\","
-                        + "\"statut\" : \"EN_COURS\"," + "\"patient\" : 1}").contentType(ContentType.JSON)
-                .post("/interventions").body().asString();
+                        + "\"statut\" : \"EN_COURS\"," + "\"patient\" : " + PATIENT_NUMBER + "}")
+                .contentType(ContentType.JSON).post("/interventions");
 
-        System.out.println(json);
-        // String location = from(json).get("location");
-        String location = json;
-        operationNumber = Integer.parseInt(location.replaceAll("(/interventions)/(.*)", "$2"));
-    }
-
-    private OperationRequest getValidOperation() {
-        return new OperationRequest("operation", 101224, "0000-00-00T24:01:00", "blocB", "OEIL", "EN_COURS",
-                PATIENT_NUMBER);
+        String location = response.header("location");
+        operationNumber = Integer.parseInt(location.replaceAll("(.*/interventions)/(.*)", "$2"));
     }
 
     @When("je cree une intervention")
@@ -66,17 +57,16 @@ public class SurgerySteps extends Steps {
 
     @When("j'ajoute l'instrument à l'intervention")
     public void addInstrumentToOperation() {
-        response = given().contentType(ContentType.JSON).port(JettyTestRunner.JETTY_TEST_PORT)
-                .param("typecode", INSTRUMENT_TYPE_CODE).param("statut", InstrumentStatus.SOILED.toString())
-                .param("noserie", INSTRUMENT_SERIAL_NUMBER).when()
-                .post("/interventions/" + operationNumber + "/instruments");
+        response = given()
+                .contentType(ContentType.JSON)
+                .port(JettyTestRunner.JETTY_TEST_PORT)
+                .body("{\"typecode\" : \"" + INSTRUMENT_TYPE_CODE + "\" , \"statut\" : \""
+                        + InstrumentStatus.SOILED.toString() + "\" , \"noserie\" : \"" + INSTRUMENT_SERIAL_NUMBER
+                        + "\" }").when().post("/interventions/{operationNumber}/instruments", operationNumber);
     }
 
     @Then("cette instrument est conservé")
     public void instrumentIsLinkedWithOperation() {
         response.then().statusCode(CREATED_HTTP_CODE);
-        // "/intervention/" + operationNumber + "/instruments/" +
-        // INSTRUMENT_TYPE_CODE + "/"
-        // + INSTRUMENT_SERIAL_NUMBER
     }
 }
