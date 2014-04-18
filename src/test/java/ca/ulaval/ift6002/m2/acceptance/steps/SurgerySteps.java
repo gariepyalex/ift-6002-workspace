@@ -10,27 +10,40 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
+import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
+import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 
 public class SurgerySteps extends Steps {
 
+    private static final int SURGEON_NUMBER = 101224;
     private static final int CREATED_HTTP_CODE = 201;
     private static final String INSTRUMENT_SERIAL_NUMBER = "231-654-65465";
     private static final String INSTRUMENT_TYPE_CODE = "IT72353";
     private static final int PATIENT_NUMBER = 1;
     private Response response;
     private int operationNumber;
+    private ObjectMapper mapper;
+    private OperationRequest operationToPost;
+    private InstrumentRequest instrumentToPost;
 
     @BeforeScenario
     public void clearResult() {
         response = null;
+
     }
 
     @BeforeStory
     public void setUpStories() {
+        mapper = new ObjectMapper();
+        JaxbAnnotationModule module = new JaxbAnnotationModule();
+        mapper.registerModule(module);
         addValidOperation();
     }
 
@@ -41,15 +54,22 @@ public class SurgerySteps extends Steps {
 
     private void addValidOperation() {
 
-        Response response = given()
-                .port(JettyTestRunner.JETTY_TEST_PORT)
-                .body("{ \"chirurgien\" : 101224," + "\"description\" : \"operation\","
-                        + "\"date\" : \"0000-00-00T24:01:00\"," + "\"salle\" :\"blocB\"," + "\"type\" : \"OEIL\","
-                        + "\"statut\" : \"EN_COURS\"," + "\"patient\" : " + PATIENT_NUMBER + "}")
-                .contentType(ContentType.JSON).post("/interventions");
+        operationToPost = getValidOperation();
+
+        try {
+            response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(mapper.writeValueAsString(operationToPost))
+                    .contentType(ContentType.JSON).post("/interventions");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         String location = response.header("location");
         operationNumber = Integer.parseInt(location.replaceAll("(.*/interventions)/(.*)", "$2"));
+    }
+
+    private OperationRequest getValidOperation() {
+        return new OperationRequest("description", SURGEON_NUMBER, "0000-00-00T24:01:00", "blocB", "OEIL", "EN_COURS",
+                PATIENT_NUMBER);
     }
 
     @When("je cree une intervention")
@@ -58,12 +78,18 @@ public class SurgerySteps extends Steps {
 
     @When("j'ajoute l'instrument à l'intervention")
     public void addInstrumentToOperation() {
-        response = given()
-                .contentType(ContentType.JSON)
-                .port(JettyTestRunner.JETTY_TEST_PORT)
-                .body("{\"typecode\" : \"" + INSTRUMENT_TYPE_CODE + "\" , \"statut\" : \""
-                        + InstrumentStatus.SOILED.toString() + "\" , \"noserie\" : \"" + INSTRUMENT_SERIAL_NUMBER
-                        + "\" }").when().post("/interventions/{operationNumber}/instruments", operationNumber);
+        instrumentToPost = getValidInstrument();
+        try {
+            response = given().contentType(ContentType.JSON).port(JettyTestRunner.JETTY_TEST_PORT)
+                    .body(mapper.writeValueAsString(instrumentToPost)).when()
+                    .post("/interventions/{operationNumber}/instruments", operationNumber);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private InstrumentRequest getValidInstrument() {
+        return new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.SOILED.toString(), INSTRUMENT_SERIAL_NUMBER);
     }
 
     @Then("cette instrument a été ajouté à l'opération")
