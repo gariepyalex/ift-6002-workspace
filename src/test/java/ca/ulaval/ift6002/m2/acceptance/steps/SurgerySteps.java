@@ -2,6 +2,8 @@ package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import static com.jayway.restassured.RestAssured.given;
 
+import javax.ws.rs.core.Response.Status;
+
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.BeforeStory;
 import org.jbehave.core.annotations.Given;
@@ -22,7 +24,6 @@ import com.jayway.restassured.response.Response;
 public class SurgerySteps extends Steps {
 
     private static final int SURGEON_NUMBER = 101224;
-    private static final int CREATED_HTTP_CODE = 201;
     private static final String INSTRUMENT_SERIAL_NUMBER = "231-654-65465";
     private static final String INSTRUMENT_TYPE_CODE = "IT72353";
     private static final int PATIENT_NUMBER = 1;
@@ -42,13 +43,7 @@ public class SurgerySteps extends Steps {
         addValidOperation();
     }
 
-    @Given("une intervention valide est existante")
-    public void aValidOperationExists() {
-
-    }
-
     private void addValidOperation() {
-
         operationToPost = getValidOperation();
 
         try {
@@ -68,24 +63,48 @@ public class SurgerySteps extends Steps {
                 PATIENT_NUMBER);
     }
 
+    @Given("une intervention est existante")
+    public void anExistingOperation() {
+
+    }
+
+    @Given("un instrument est existant")
+    public void anExistingInstrument() {
+
+    }
+
     @When("je cree une intervention")
     public void createSurgery() {
+
     }
 
     @When("j'ajoute l'instrument à l'intervention")
     public void addInstrumentToOperation() {
-        instrumentToPost = getValidInstrument();
+        instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.SOILED.toString(),
+                INSTRUMENT_SERIAL_NUMBER);
         try {
             response = given().contentType(ContentType.JSON).port(JettyTestRunner.JETTY_TEST_PORT)
-                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(instrumentToPost)).when()
+                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(instrumentToPost))
                     .post("/interventions/{operationNumber}/instruments", operationNumber);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
 
-    private InstrumentRequest getValidInstrument() {
-        return new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.SOILED.toString(), INSTRUMENT_SERIAL_NUMBER);
+    @When("je modifie le statut d'un instrument")
+    public void modifyingInstrumentStatus() {
+        instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.UNUSED.toString(),
+                INSTRUMENT_SERIAL_NUMBER);
+        try {
+            response = given()
+                    .contentType(ContentType.JSON)
+                    .port(JettyTestRunner.JETTY_TEST_PORT)
+                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(instrumentToPost))
+                    .put("/interventions/{operationNumber}/instruments/" + INSTRUMENT_TYPE_CODE + "/"
+                            + INSTRUMENT_SERIAL_NUMBER, operationNumber);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Then("cette instrument a été ajouté à l'opération")
@@ -93,7 +112,12 @@ public class SurgerySteps extends Steps {
         String expectedLocation = "http://localhost:" + JettyTestRunner.JETTY_TEST_PORT + "/interventions/"
                 + operationNumber + "/instruments/" + INSTRUMENT_TYPE_CODE + "/" + INSTRUMENT_SERIAL_NUMBER;
 
-        response.then().statusCode(CREATED_HTTP_CODE);
+        response.then().statusCode(Status.CREATED.getStatusCode());
         response.then().header("location", expectedLocation);
+    }
+
+    @Then("cette instrument a été modifié")
+    public void instrumentHasBeenModified() {
+        response.then().statusCode(Status.OK.getStatusCode());
     }
 }
