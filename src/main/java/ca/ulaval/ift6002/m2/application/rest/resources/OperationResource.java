@@ -38,11 +38,11 @@ public class OperationResource extends Resource {
     private final OperationService operationService = new OperationService();
 
     @POST
-    public Response createOperation(@Context UriInfo uri, OperationRequest operationResponse) {
+    public Response createOperation(@Context UriInfo uri, OperationRequest operationRequest) {
         try {
-            operationValidator.validate(operationResponse);
+            operationValidator.validate(operationRequest);
 
-            Integer generatedNumber = operationService.saveOperation(operationResponse);
+            Integer generatedNumber = operationService.saveOperation(operationRequest);
 
             return redirectTo(uri, "/" + generatedNumber);
         } catch (InvalidRequestException e) {
