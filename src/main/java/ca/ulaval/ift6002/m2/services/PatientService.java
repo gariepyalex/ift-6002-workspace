@@ -23,13 +23,15 @@ public class PatientService {
         this.consumptionAssembler = new ConsumptionAssembler();
     }
 
-    public void savePrescription(String patientId, PrescriptionRequest response) {
+    public Integer savePrescription(String patientId, PrescriptionRequest response) {
         Prescription prescription = prescriptionAssembler.fromRequest(response);
         Patient patient = getPatient(patientId);
 
         patient.receivesPrescription(prescription);
 
         patientRepository.store(patient);
+
+        return 0; // TODO how do i get the id?
     }
 
     public void addConsumption(String patientId, String prescriptionId, ConsumptionRequest response) {

@@ -54,7 +54,7 @@ public class PrescriptionSteps extends Steps {
     }
 
     private PrescriptionRequest getValidPrescriptionWithDin() {
-        return new PrescriptionRequest("1233sdsd", "2007-09-12T06:08:06", 4, "", "Advil");
+        return new PrescriptionRequest("1233sdsd", "2007-09-12T06:08:06", 4, "11111111", "");
     }
 
     @When("j'ajoute cette prescription au dossier du patient")

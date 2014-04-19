@@ -45,7 +45,7 @@ public class PatientResource extends Resource {
         try {
             prescriptionValidator.validate(request);
 
-            patientService.savePrescription(patientId, request);
+            Integer generatedNumber = patientService.savePrescription(patientId, request);
 
             return success();
         } catch (InvalidRequestException e) {
