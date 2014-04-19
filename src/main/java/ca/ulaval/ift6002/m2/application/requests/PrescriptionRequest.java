@@ -12,11 +12,13 @@ public class PrescriptionRequest {
     @XmlElement(name = "intervenant")
     public final String practitioner;
 
+    @XmlElement(name = "date")
     public final String date;
 
     @XmlElement(name = "renouvellements")
     public final Integer renewals;
 
+    @XmlElement(name = "din")
     public final String din;
 
     @XmlElement(name = "nom")

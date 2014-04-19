@@ -48,15 +48,19 @@ public class PrescriptionSteps extends Steps {
         return new PrescriptionRequest("0asd139", "2001-07-04T12:08:56", 0, "", "");
     }
 
+    @Given("une prescription valide avec DIN")
+    public void aValidPrescriptionWithDin() {
+        prescriptionToPost = getValidPrescriptionWithDin();
+    }
+
+    private PrescriptionRequest getValidPrescriptionWithDin() {
+        return new PrescriptionRequest("1233sdsd", "2007-09-12T06:08:06", 4, "", "Advil");
+    }
+
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
-        try {
-            response = given().port(JettyTestRunner.JETTY_TEST_PORT)
-                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(prescriptionToPost))
-                    .contentType(ContentType.JSON).post("/patient/{patientId}/prescriptions", patientId);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(prescriptionRequestToJson(prescriptionToPost))
+                .contentType(ContentType.JSON).post("/patient/{patientId}/prescriptions", patientId);
     }
 
     @Then("une erreur est retournée")
@@ -67,5 +71,20 @@ public class PrescriptionSteps extends Steps {
     @Then("cette erreur a le code \"PRES001\"")
     public void thisErrorHasCodeDIN001() {
         response.then().body("code", equalTo(INVALID_PRESCRIPTION_ERROR_CODE));
+    }
+
+    @Then("cette prescription est conservée")
+    public void presciptionIsSaved() {
+        response.then().statusCode(Status.CREATED.getStatusCode());
+    }
+
+    private String prescriptionRequestToJson(PrescriptionRequest request) {
+        String json = "";
+        try {
+            json = DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(prescriptionToPost);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }

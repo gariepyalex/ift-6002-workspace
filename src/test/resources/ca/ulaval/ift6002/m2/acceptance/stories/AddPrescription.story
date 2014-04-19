@@ -11,3 +11,9 @@ Et une prescription a des données manquantes
 Quand j'ajoute cette prescription au dossier du patient
 Alors une erreur est retournée
 Et cette erreur a le code "PRES001"
+
+Scénario: Ajouter une prescription avec un médicament connu
+Etant donné que un patient est existant
+Et une prescription valide avec DIN
+Quand j'ajoute cette prescription au dossier du patient
+Alors cette prescription est conservée

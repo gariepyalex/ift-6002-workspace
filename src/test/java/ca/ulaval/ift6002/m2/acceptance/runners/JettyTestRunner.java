@@ -9,10 +9,11 @@ import org.jbehave.core.annotations.BeforeStories;
 import ca.ulaval.ift6002.m2.JettyServer;
 import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
 import ca.ulaval.ift6002.m2.configuration.persistence.HibernatePersistanceConfiguration;
-import ca.ulaval.ift6002.m2.contexts.DemoDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
+import ca.ulaval.ift6002.m2.contexts.IntegrationDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class JettyTestRunner {
 
@@ -28,7 +29,7 @@ public class JettyTestRunner {
         entityManager = setUpEntityManager();
 
         entityManager.getTransaction().begin();
-        // fillDrugRepository();
+        fillDrugRepository();
         fillPatientRepository();
         entityManager.getTransaction().commit();
 
@@ -50,7 +51,7 @@ public class JettyTestRunner {
     }
 
     private void fillDrugRepository() {
-        new DemoDrugRepositoryFiller().fill();
+        new IntegrationDrugRepositoryFiller(RepositoryLocator.getDrugRepository()).fill();
     }
 
     private void fillPatientRepository() {
