@@ -30,6 +30,7 @@ import ca.ulaval.ift6002.m2.services.PatientService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PatientResource extends Resource {
 
+    private static final String INVALID_PRESCRIPTION_CODE = "PRES001";
     private static final String DEAD_PATIENT_CODE = "PATDCD";
     private static final String NO_PATIENT_FOUND_CODE = "PRES010";
     private static final String NO_PRESCRIPTION_FOUND_CODE = "PRES011";
@@ -51,7 +52,7 @@ public class PatientResource extends Resource {
         } catch (InvalidRequestException e) {
             return badRequest(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
-            return badRequest(NO_ELEMENT_FOUND_CODE, e.getMessage());
+            return badRequest(INVALID_PRESCRIPTION_CODE, e.getMessage());
         } catch (DeadPatientException e) {
             return error(DEAD_PATIENT_CODE, e.getMessage(), Status.GONE);
         }

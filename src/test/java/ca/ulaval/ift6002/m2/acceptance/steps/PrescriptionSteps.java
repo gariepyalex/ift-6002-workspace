@@ -57,6 +57,15 @@ public class PrescriptionSteps extends Steps {
         return new PrescriptionRequest("1233sdsd", "2007-09-12T06:08:06", 4, "11111111", "");
     }
 
+    @Given("une prescription valide a un DIN inexistant")
+    public void aPrescriptionWithInexistantDin() {
+        prescriptionToPost = getValidPrescriptionWithInexistantDin();
+    }
+
+    private PrescriptionRequest getValidPrescriptionWithInexistantDin() {
+        return new PrescriptionRequest("tomtom", "2011-05-14T12:08:56", 1, "INEXISTANT", "");
+    }
+
     @Given("une prescription avec nom de médicament est valide")
     public void aValidPrescriptionWithDrugName() {
         prescriptionToPost = getValidPrescriptionWithDrugName();
@@ -64,6 +73,24 @@ public class PrescriptionSteps extends Steps {
 
     private PrescriptionRequest getValidPrescriptionWithDrugName() {
         return new PrescriptionRequest("1asd", "2014-01-12T00:08:06", 1, "", "Advil turbo");
+    }
+
+    @Given("une prescription avec un DIN et un nom est invalide")
+    public void anInvalidPrescriptionWithBothNameAndDin() {
+        prescriptionToPost = getValidPrescriptionWithBothDinAndName();
+    }
+
+    private PrescriptionRequest getValidPrescriptionWithBothDinAndName() {
+        return new PrescriptionRequest("toto", "2014-01-12T00:08:06", 8, "11111111", "Advil turbo");
+    }
+
+    @Given("une prescription a un nombre de renouvellements invalide")
+    public void aPrescriptionWithInvalidRenewals() {
+        prescriptionToPost = getPrescriptionWithInvalidRenewals();
+    }
+
+    private PrescriptionRequest getPrescriptionWithInvalidRenewals() {
+        return new PrescriptionRequest("23jjks", "2004-11-12T00:38:06", -1, "", "Super flu counter");
     }
 
     @When("j'ajoute cette prescription au dossier du patient")

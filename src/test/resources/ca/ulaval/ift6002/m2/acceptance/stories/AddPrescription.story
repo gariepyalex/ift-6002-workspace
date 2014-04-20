@@ -23,3 +23,24 @@ Etant donné que un patient est existant
 Et une prescription avec nom de médicament est valide
 Quand j'ajoute cette prescription au dossier du patient
 Alors cette prescription est conservée
+
+Scénario: Ajouter une prescription avec un médicament par DIN et par NOM
+Etant donné que un patient est existant
+Et une prescription avec un DIN et un nom est invalide
+Quand j'ajoute cette prescription au dossier du patient
+Alors une erreur est retournée
+Et cette erreur a le code "PRES001"
+
+Scénario: Ajouter une prescription avec un médicament inconnu
+Etant donné que un patient est existant
+Et une prescription valide a un DIN inexistant
+Quand j'ajoute cette prescription au dossier du patient
+Alors une erreur est retournée
+Et cette erreur a le code "PRES001"
+
+Scénario: Ajouter une prescription avec un nombre de renouvellements invalide 
+Etant donné que un patient est existant
+Et une prescription a un nombre de renouvellements invalide 
+Quand j'ajoute cette prescription au dossier du patient
+Alors une erreur est retournée
+Et cette erreur a le code "PRES001"
