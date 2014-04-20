@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -14,7 +15,7 @@ public class ErrorSteps extends Steps {
 
     @Then("une erreur est retournée")
     public void anErrorIsReported() {
-        ResponseContext.getResponse().then().statusCode(Status.BAD_REQUEST.getStatusCode());
+        ResponseContext.getResponse().then().statusCode(not(Status.OK.getStatusCode()));
     }
 
     @Then("cette erreur a le code \"$errorCode\"")
