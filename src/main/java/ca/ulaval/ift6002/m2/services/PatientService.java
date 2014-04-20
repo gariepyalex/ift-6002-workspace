@@ -31,7 +31,7 @@ public class PatientService {
 
         patientRepository.store(patient);
 
-        return 0; // TODO how do i get the id?
+        return prescription.getNumber();
     }
 
     public void addConsumption(String patientId, String prescriptionId, ConsumptionRequest response) {

@@ -47,7 +47,7 @@ public class PatientResource extends Resource {
 
             Integer generatedNumber = patientService.savePrescription(patientId, request);
 
-            return success();
+            return redirectTo(uri, "/" + generatedNumber);
         } catch (InvalidRequestException e) {
             return badRequest(e.getCode(), e.getMessage());
         } catch (NoSuchElementException e) {
