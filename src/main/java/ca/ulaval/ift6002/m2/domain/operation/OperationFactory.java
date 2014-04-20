@@ -3,6 +3,7 @@ package ca.ulaval.ift6002.m2.domain.operation;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.domain.operation.regular.OncologicalOperation;
+import ca.ulaval.ift6002.m2.domain.operation.regular.OtherOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.EyeOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.HeartOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.MarrowOperation;
@@ -21,8 +22,9 @@ public abstract class OperationFactory {
             return new MarrowOperation(operationData);
         } else if (type == OperationType.ONCOLOGY) {
             return new OncologicalOperation(operationData);
+        } else if (type == OperationType.OTHER) {
+            return new OtherOperation(operationData);
         }
-        // TODO handle OperationType.OTHER
 
         throw new IllegalArgumentException("Operation type is not defined");
     }
