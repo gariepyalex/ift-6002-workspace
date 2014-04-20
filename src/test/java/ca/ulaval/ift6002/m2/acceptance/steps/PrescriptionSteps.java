@@ -1,7 +1,6 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -12,6 +11,7 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
 import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionBuilder;
+import ca.ulaval.ift6002.m2.acceptance.context.ResponseContext;
 import ca.ulaval.ift6002.m2.acceptance.fixture.JsonFixture;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
@@ -23,10 +23,7 @@ public class PrescriptionSteps extends Steps {
 
     private Integer patientId;
     private PrescriptionRequest prescriptionRequest;
-    private Response response;
     private JsonFixture jsonFixture = new JsonFixture();
-
-    private static final String INVALID_PRESCRIPTION_ERROR_CODE = "PRES001";
 
     private static final String ADVIL_DIN = "11111111";
     private static final String INVALID_DIN = "Invalid";
@@ -34,8 +31,8 @@ public class PrescriptionSteps extends Steps {
     @BeforeScenario
     public void clearResults() {
         patientId = null;
-        response = null;
         prescriptionRequest = null;
+        ResponseContext.reset();
     }
 
     @Given("un patient est existant")
@@ -75,22 +72,14 @@ public class PrescriptionSteps extends Steps {
 
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
-        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(jsonFixture.convertToJson(prescriptionRequest))
-                .contentType(ContentType.JSON).post("/patient/{patientId}/prescriptions", patientId);
-    }
-
-    @Then("une erreur est retournée")
-    public void anErrorIsReported() {
-        response.then().statusCode(Status.BAD_REQUEST.getStatusCode());
-    }
-
-    @Then("cette erreur a le code \"PRES001\"")
-    public void thisErrorHasCodeDIN001() {
-        response.then().body("code", equalTo(INVALID_PRESCRIPTION_ERROR_CODE));
+        Response response = given().port(JettyTestRunner.JETTY_TEST_PORT)
+                .body(jsonFixture.convertToJson(prescriptionRequest)).contentType(ContentType.JSON)
+                .post("/patient/{patientId}/prescriptions", patientId);
+        ResponseContext.init(response);
     }
 
     @Then("cette prescription est conservée")
     public void presciptionIsSaved() {
-        response.then().statusCode(Status.CREATED.getStatusCode());
+        ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
 }

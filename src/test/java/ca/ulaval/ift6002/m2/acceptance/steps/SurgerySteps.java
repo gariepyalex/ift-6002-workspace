@@ -11,6 +11,7 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
+import ca.ulaval.ift6002.m2.acceptance.context.ResponseContext;
 import ca.ulaval.ift6002.m2.acceptance.fixture.JsonFixture;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
@@ -26,7 +27,6 @@ public class SurgerySteps extends Steps {
     private static final String INSTRUMENT_SERIAL_NUMBER = "231-654-65465";
     private static final String INSTRUMENT_TYPE_CODE = "IT72353";
     private static final int PATIENT_NUMBER = 1;
-    private Response response;
     private int operationNumber;
     private OperationRequest operationToPost;
     private InstrumentRequest instrumentToPost;
@@ -35,7 +35,7 @@ public class SurgerySteps extends Steps {
 
     @BeforeScenario
     public void clearResult() {
-        response = null;
+        ResponseContext.reset();
 
     }
 
@@ -47,8 +47,10 @@ public class SurgerySteps extends Steps {
     private void addValidOperation() {
         operationToPost = getValidOperation();
 
-        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(jsonFixture.convertToJson(operationToPost))
-                .contentType(ContentType.JSON).post("/interventions");
+        Response response = given().port(JettyTestRunner.JETTY_TEST_PORT)
+                .body(jsonFixture.convertToJson(operationToPost)).contentType(ContentType.JSON).post("/interventions");
+
+        ResponseContext.init(response);
 
         String location = response.header("location");
         operationNumber = Integer.parseInt(location.replaceAll("(.*/interventions)/(.*)", "$2"));
@@ -79,9 +81,11 @@ public class SurgerySteps extends Steps {
         instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.SOILED.toString(),
                 INSTRUMENT_SERIAL_NUMBER);
 
-        response = given().contentType(ContentType.JSON).port(JettyTestRunner.JETTY_TEST_PORT)
+        Response response = given().contentType(ContentType.JSON).port(JettyTestRunner.JETTY_TEST_PORT)
                 .body(jsonFixture.convertToJson(instrumentToPost))
                 .post("/interventions/{operationNumber}/instruments", operationNumber);
+
+        ResponseContext.init(response);
 
     }
 
@@ -90,12 +94,14 @@ public class SurgerySteps extends Steps {
         instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.UNUSED.toString(),
                 INSTRUMENT_SERIAL_NUMBER);
 
-        response = given()
+        Response response = given()
                 .contentType(ContentType.JSON)
                 .port(JettyTestRunner.JETTY_TEST_PORT)
                 .body(jsonFixture.convertToJson(instrumentToPost))
                 .put("/interventions/{operationNumber}/instruments/" + INSTRUMENT_TYPE_CODE + "/"
                         + INSTRUMENT_SERIAL_NUMBER, operationNumber);
+
+        ResponseContext.init(response);
 
     }
 
@@ -104,12 +110,12 @@ public class SurgerySteps extends Steps {
         String expectedLocation = "http://localhost:" + JettyTestRunner.JETTY_TEST_PORT + "/interventions/"
                 + operationNumber + "/instruments/" + INSTRUMENT_TYPE_CODE + "/" + INSTRUMENT_SERIAL_NUMBER;
 
-        response.then().statusCode(Status.CREATED.getStatusCode());
-        response.then().header("location", expectedLocation);
+        ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
+        ResponseContext.getResponse().then().header("location", expectedLocation);
     }
 
     @Then("cette instrument a été modifié")
     public void instrumentHasBeenModified() {
-        response.then().statusCode(Status.OK.getStatusCode());
+        ResponseContext.getResponse().then().statusCode(Status.OK.getStatusCode());
     }
 }

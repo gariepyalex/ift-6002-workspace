@@ -7,5 +7,5 @@ Afin de pouvoir trouver le DIN dans le cas d'une prescription manuscrite par un 
 
 Scénario: Recherche avec trop peu de caractères
 Quand je cherche un medicaments avec moins de caracteres que la limite requise
-Alors une erreur est retournee
+Alors une erreur est retournée
 Et cette erreur a le code "DIN001"
