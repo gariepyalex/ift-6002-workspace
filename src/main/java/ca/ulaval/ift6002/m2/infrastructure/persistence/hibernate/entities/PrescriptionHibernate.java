@@ -92,10 +92,11 @@ public class PrescriptionHibernate extends Prescription {
 
     @Override
     public Drug getDrug() {
-        if (drugName.isEmpty())
+        if (drugName.isEmpty()) {
             return drug;
-        else
+        } else {
             return drugFactory.create(drugName);
+        }
     }
 
     @Override

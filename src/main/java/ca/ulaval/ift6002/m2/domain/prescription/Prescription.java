@@ -16,9 +16,10 @@ public abstract class Prescription {
     }
 
     public void addConsumption(Consumption consumption) {
-        if (!hasEnoughRenewalsFor(consumption))
+        if (!hasEnoughRenewalsFor(consumption)) {
             throw new NotEnoughRenewalsException("Consumption request: " + consumption.getCount()
                     + ", but remaining renewals: " + remainingRenewals());
+        }
 
         addConsumptionInPrescription(consumption);
     }
@@ -62,8 +63,9 @@ public abstract class Prescription {
     }
 
     private Consumption lastConsumption() {
-        if (isConsumptionsEmpty())
+        if (isConsumptionsEmpty()) {
             throw new NoSuchElementException("The prescription has no consumptions yet.");
+        }
         return getLastConsumption();
     }
 
