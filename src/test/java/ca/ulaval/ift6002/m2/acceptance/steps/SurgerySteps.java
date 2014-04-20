@@ -71,11 +71,6 @@ public class SurgerySteps extends Steps {
 
     }
 
-    @When("je cree une intervention")
-    public void createSurgery() {
-
-    }
-
     @When("j'ajoute l'instrument à l'intervention")
     public void addInstrumentToOperation() {
         instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.SOILED.toString(),
@@ -105,7 +100,7 @@ public class SurgerySteps extends Steps {
 
     }
 
-    @Then("cette instrument a été ajouté à l'opération")
+    @Then("cet instrument a été ajouté à l'opération")
     public void instrumentIsLinkedWithOperation() {
         String expectedLocation = "http://localhost:" + JettyTestRunner.JETTY_TEST_PORT + "/interventions/"
                 + operationNumber + "/instruments/" + INSTRUMENT_TYPE_CODE + "/" + INSTRUMENT_SERIAL_NUMBER;
@@ -114,7 +109,7 @@ public class SurgerySteps extends Steps {
         ResponseContext.getResponse().then().header("location", expectedLocation);
     }
 
-    @Then("cette instrument a été modifié")
+    @Then("cet instrument a été modifié")
     public void instrumentHasBeenModified() {
         ResponseContext.getResponse().then().statusCode(Status.OK.getStatusCode());
     }
