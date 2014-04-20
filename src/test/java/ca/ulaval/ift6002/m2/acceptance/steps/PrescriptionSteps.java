@@ -39,7 +39,7 @@ public class PrescriptionSteps extends Steps {
         patientId = 1;
     }
 
-    @Given("une prescription a des données manquantes")
+    @Given("une prescription avec des données manquantes")
     public void aPrescriptionWithMissingData() {
         prescriptionToPost = getPrescriptionWithMissingData();
     }
@@ -48,7 +48,7 @@ public class PrescriptionSteps extends Steps {
         return new PrescriptionRequest("0asd139", "2001-07-04T12:08:56", 0, "", "");
     }
 
-    @Given("une prescription avec DIN est valide")
+    @Given("une prescription avec DIN")
     public void aValidPrescriptionWithDin() {
         prescriptionToPost = getValidPrescriptionWithDin();
     }
@@ -57,7 +57,7 @@ public class PrescriptionSteps extends Steps {
         return new PrescriptionRequest("1233sdsd", "2007-09-12T06:08:06", 4, "11111111", "");
     }
 
-    @Given("une prescription valide a un DIN inexistant")
+    @Given("une prescription avec un DIN inexistant")
     public void aPrescriptionWithInexistantDin() {
         prescriptionToPost = getValidPrescriptionWithInexistantDin();
     }
@@ -66,7 +66,7 @@ public class PrescriptionSteps extends Steps {
         return new PrescriptionRequest("tomtom", "2011-05-14T12:08:56", 1, "INEXISTANT", "");
     }
 
-    @Given("une prescription avec nom de médicament est valide")
+    @Given("une prescription avec nom de médicament")
     public void aValidPrescriptionWithDrugName() {
         prescriptionToPost = getValidPrescriptionWithDrugName();
     }
@@ -75,7 +75,7 @@ public class PrescriptionSteps extends Steps {
         return new PrescriptionRequest("1asd", "2014-01-12T00:08:06", 1, "", "Advil turbo");
     }
 
-    @Given("une prescription avec un DIN et un nom est invalide")
+    @Given("une prescription avec un DIN et un nom de médicament")
     public void anInvalidPrescriptionWithBothNameAndDin() {
         prescriptionToPost = getValidPrescriptionWithBothDinAndName();
     }
@@ -84,7 +84,7 @@ public class PrescriptionSteps extends Steps {
         return new PrescriptionRequest("toto", "2014-01-12T00:08:06", 8, "11111111", "Advil turbo");
     }
 
-    @Given("une prescription a un nombre de renouvellements invalide")
+    @Given("une prescription avec un nombre de renouvellements invalide")
     public void aPrescriptionWithInvalidRenewals() {
         prescriptionToPost = getPrescriptionWithInvalidRenewals();
     }
