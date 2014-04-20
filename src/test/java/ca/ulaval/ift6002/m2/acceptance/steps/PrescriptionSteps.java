@@ -21,12 +21,12 @@ import com.jayway.restassured.response.Response;
 
 public class PrescriptionSteps extends Steps {
 
+    private static final String ADVIL_DIN = "11111111";
+    private static final String INVALID_DIN = "Invalid";
+
     private Integer patientId;
     private PrescriptionRequest prescriptionRequest;
     private JsonFixture jsonFixture = new JsonFixture();
-
-    private static final String ADVIL_DIN = "11111111";
-    private static final String INVALID_DIN = "Invalid";
 
     @BeforeScenario
     public void clearResults() {

@@ -31,9 +31,3 @@ public class DrugSteps extends Steps {
     }
 
 }
-
-// Scénario: Recherche avec trop peu de caractères
-// Lorsque je cherche un médicaments avec moins de caractères que la limite
-// requise
-// Alors une erreur est retournée
-// Et cette erreur a le code "DIN001"

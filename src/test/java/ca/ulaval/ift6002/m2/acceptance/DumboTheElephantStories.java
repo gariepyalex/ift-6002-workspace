@@ -34,7 +34,6 @@ public class DumboTheElephantStories extends JUnitStories {
 
     @Override
     public Configuration configuration() {
-
         StoryReporterBuilder reporterBuilder = new StoryReporterBuilder().withKeywords(KEYWORDS)
                 .withCodeLocation(codeLocationFromClass(DumboTheElephantStories.class)).withFailureTrace(true)
                 .withFailureTraceCompression(true).withDefaultFormats().withFormats(CONSOLE);
@@ -47,7 +46,6 @@ public class DumboTheElephantStories extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-
         return new InstanceStepsFactory(configuration(), new ErrorSteps(), new SurgerySteps(), new PrescriptionSteps(),
                 new DrugSteps(), new JettyTestRunner());
 

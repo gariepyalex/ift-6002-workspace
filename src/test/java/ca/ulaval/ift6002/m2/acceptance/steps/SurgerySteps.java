@@ -27,6 +27,7 @@ public class SurgerySteps extends Steps {
     private static final String INSTRUMENT_SERIAL_NUMBER = "231-654-65465";
     private static final String INSTRUMENT_TYPE_CODE = "IT72353";
     private static final int PATIENT_NUMBER = 1;
+
     private int operationNumber;
     private OperationRequest operationToPost;
     private InstrumentRequest instrumentToPost;
@@ -36,7 +37,6 @@ public class SurgerySteps extends Steps {
     @BeforeScenario
     public void clearResult() {
         ResponseContext.reset();
-
     }
 
     @BeforeStory
