@@ -22,11 +22,9 @@ public abstract class OperationFactory {
             return new MarrowOperation(operationData);
         } else if (type == OperationType.ONCOLOGY) {
             return new OncologicalOperation(operationData);
-        } else if (type == OperationType.OTHER) {
+        } else {
             return new OtherOperation(operationData);
         }
-
-        throw new IllegalArgumentException("Operation type is not defined");
     }
 
     public Operation create(OperationType type, String description, Surgeon surgeon, Date date, Room room,

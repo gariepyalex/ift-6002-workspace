@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.domain.operation.regular.OncologicalOperation;
+import ca.ulaval.ift6002.m2.domain.operation.regular.OtherOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.EyeOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.HeartOperation;
 import ca.ulaval.ift6002.m2.domain.operation.restricted.MarrowOperation;
@@ -71,9 +72,11 @@ public class OperationFactoryTest {
         assertEquals(OncologicalOperation.class, operation.getClass());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void whenCreateWithUnknownTypeShouldThrowException() {
-        operationFactory.create(OperationType.OTHER, operationData);
+    @Test
+    public void whenTypeIsOtherShouldReturnOtherOperation() {
+        Operation operation = operationFactory.create(OperationType.OTHER, operationData);
+
+        assertEquals(OtherOperation.class, operation.getClass());
     }
 
     @Test
