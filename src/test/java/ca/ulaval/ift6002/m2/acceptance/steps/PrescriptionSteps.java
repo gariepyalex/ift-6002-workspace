@@ -48,13 +48,22 @@ public class PrescriptionSteps extends Steps {
         return new PrescriptionRequest("0asd139", "2001-07-04T12:08:56", 0, "", "");
     }
 
-    @Given("une prescription valide avec DIN")
+    @Given("une prescription avec DIN est valide")
     public void aValidPrescriptionWithDin() {
         prescriptionToPost = getValidPrescriptionWithDin();
     }
 
     private PrescriptionRequest getValidPrescriptionWithDin() {
         return new PrescriptionRequest("1233sdsd", "2007-09-12T06:08:06", 4, "11111111", "");
+    }
+
+    @Given("une prescription avec nom de médicament est valide")
+    public void aValidPrescriptionWithDrugName() {
+        prescriptionToPost = getValidPrescriptionWithDrugName();
+    }
+
+    private PrescriptionRequest getValidPrescriptionWithDrugName() {
+        return new PrescriptionRequest("1asd", "2014-01-12T00:08:06", 1, "", "Advil turbo");
     }
 
     @When("j'ajoute cette prescription au dossier du patient")
