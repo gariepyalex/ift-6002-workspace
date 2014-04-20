@@ -11,6 +11,7 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
+import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionBuilder;
 import ca.ulaval.ift6002.m2.acceptance.fixture.JsonFixture;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
@@ -21,17 +22,20 @@ import com.jayway.restassured.response.Response;
 public class PrescriptionSteps extends Steps {
 
     private Integer patientId;
-    private PrescriptionRequest prescriptionToPost;
+    private PrescriptionRequest prescriptionRequest;
     private Response response;
     private JsonFixture jsonFixture = new JsonFixture();
 
     private static final String INVALID_PRESCRIPTION_ERROR_CODE = "PRES001";
 
+    private static final String ADVIL_DIN = "11111111";
+    private static final String INVALID_DIN = "Invalid";
+
     @BeforeScenario
     public void clearResults() {
         patientId = null;
         response = null;
-        prescriptionToPost = null;
+        prescriptionRequest = null;
     }
 
     @Given("un patient est existant")
@@ -41,61 +45,37 @@ public class PrescriptionSteps extends Steps {
 
     @Given("une prescription avec des données manquantes")
     public void aPrescriptionWithMissingData() {
-        prescriptionToPost = getPrescriptionWithMissingData();
-    }
-
-    private PrescriptionRequest getPrescriptionWithMissingData() {
-        return new PrescriptionRequest("0asd139", "2001-07-04T12:08:56", 0, "", "");
+        prescriptionRequest = new PrescriptionBuilder().buildRequest();
     }
 
     @Given("une prescription avec DIN")
     public void aValidPrescriptionWithDin() {
-        prescriptionToPost = getValidPrescriptionWithDin();
-    }
-
-    private PrescriptionRequest getValidPrescriptionWithDin() {
-        return new PrescriptionRequest("1233sdsd", "2007-09-12T06:08:06", 4, "11111111", "");
+        prescriptionRequest = new PrescriptionBuilder().din(ADVIL_DIN).buildRequest();
     }
 
     @Given("une prescription avec un DIN inexistant")
     public void aPrescriptionWithInexistantDin() {
-        prescriptionToPost = getValidPrescriptionWithInexistantDin();
-    }
-
-    private PrescriptionRequest getValidPrescriptionWithInexistantDin() {
-        return new PrescriptionRequest("tomtom", "2011-05-14T12:08:56", 1, "INEXISTANT", "");
+        prescriptionRequest = new PrescriptionBuilder().din(INVALID_DIN).buildRequest();
     }
 
     @Given("une prescription avec nom de médicament")
     public void aValidPrescriptionWithDrugName() {
-        prescriptionToPost = getValidPrescriptionWithDrugName();
-    }
-
-    private PrescriptionRequest getValidPrescriptionWithDrugName() {
-        return new PrescriptionRequest("1asd", "2014-01-12T00:08:06", 1, "", "Advil turbo");
+        prescriptionRequest = new PrescriptionBuilder().name("Advil turbo").buildRequest();
     }
 
     @Given("une prescription avec un DIN et un nom de médicament")
     public void anInvalidPrescriptionWithBothNameAndDin() {
-        prescriptionToPost = getValidPrescriptionWithBothDinAndName();
-    }
-
-    private PrescriptionRequest getValidPrescriptionWithBothDinAndName() {
-        return new PrescriptionRequest("toto", "2014-01-12T00:08:06", 8, "11111111", "Advil turbo");
+        prescriptionRequest = new PrescriptionBuilder().din(ADVIL_DIN).name("Advil turbo").buildRequest();
     }
 
     @Given("une prescription avec un nombre de renouvellements invalide")
     public void aPrescriptionWithInvalidRenewals() {
-        prescriptionToPost = getPrescriptionWithInvalidRenewals();
-    }
-
-    private PrescriptionRequest getPrescriptionWithInvalidRenewals() {
-        return new PrescriptionRequest("23jjks", "2004-11-12T00:38:06", -1, "", "Super flu counter");
+        prescriptionRequest = new PrescriptionBuilder().renewals(-1).din(ADVIL_DIN).buildRequest();
     }
 
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
-        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(jsonFixture.convertToJson(prescriptionToPost))
+        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(jsonFixture.convertToJson(prescriptionRequest))
                 .contentType(ContentType.JSON).post("/patient/{patientId}/prescriptions", patientId);
     }
 
