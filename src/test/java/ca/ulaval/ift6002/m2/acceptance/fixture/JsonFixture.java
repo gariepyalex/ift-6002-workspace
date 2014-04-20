@@ -9,7 +9,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 public class JsonFixture {
     private ObjectMapper jsonMapper;
 
-    public void JsonFixture() {
+    public JsonFixture() {
         jsonMapper = new ObjectMapper();
         JaxbAnnotationModule module = new JaxbAnnotationModule();
         jsonMapper.registerModule(module);
