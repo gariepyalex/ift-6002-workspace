@@ -24,23 +24,15 @@ import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.acceptance.steps.DrugSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.PrescriptionSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.SurgerySteps;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
-
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 
 @RunWith(JUnitReportingRunner.class)
 public class DumboTheElephantStories extends JUnitStories {
 
-    public static ObjectMapper OBJECT_MAPPER;
     private static final LocalizedKeywords KEYWORDS = new LocalizedKeywords(Locale.FRENCH);
 
     @Override
     public Configuration configuration() {
-        OBJECT_MAPPER = new ObjectMapper();
-        JaxbAnnotationModule module = new JaxbAnnotationModule();
-        OBJECT_MAPPER.registerModule(module);
 
         StoryReporterBuilder reporterBuilder = new StoryReporterBuilder().withKeywords(KEYWORDS)
                 .withCodeLocation(codeLocationFromClass(DumboTheElephantStories.class)).withFailureTrace(true)

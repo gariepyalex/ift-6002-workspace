@@ -11,13 +11,12 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
-import ca.ulaval.ift6002.m2.acceptance.DumboTheElephantStories;
+import ca.ulaval.ift6002.m2.acceptance.fixture.JsonFixture;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 
@@ -31,6 +30,8 @@ public class SurgerySteps extends Steps {
     private int operationNumber;
     private OperationRequest operationToPost;
     private InstrumentRequest instrumentToPost;
+
+    private JsonFixture jsonFixture = new JsonFixture();
 
     @BeforeScenario
     public void clearResult() {
@@ -46,13 +47,8 @@ public class SurgerySteps extends Steps {
     private void addValidOperation() {
         operationToPost = getValidOperation();
 
-        try {
-            response = given().port(JettyTestRunner.JETTY_TEST_PORT)
-                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(operationToPost))
-                    .contentType(ContentType.JSON).post("/interventions");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(jsonFixture.convertToJson(operationToPost))
+                .contentType(ContentType.JSON).post("/interventions");
 
         String location = response.header("location");
         operationNumber = Integer.parseInt(location.replaceAll("(.*/interventions)/(.*)", "$2"));
@@ -82,29 +78,25 @@ public class SurgerySteps extends Steps {
     public void addInstrumentToOperation() {
         instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.SOILED.toString(),
                 INSTRUMENT_SERIAL_NUMBER);
-        try {
-            response = given().contentType(ContentType.JSON).port(JettyTestRunner.JETTY_TEST_PORT)
-                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(instrumentToPost))
-                    .post("/interventions/{operationNumber}/instruments", operationNumber);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+
+        response = given().contentType(ContentType.JSON).port(JettyTestRunner.JETTY_TEST_PORT)
+                .body(jsonFixture.convertToJson(instrumentToPost))
+                .post("/interventions/{operationNumber}/instruments", operationNumber);
+
     }
 
     @When("je modifie le statut d'un instrument")
     public void modifyingInstrumentStatus() {
         instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.UNUSED.toString(),
                 INSTRUMENT_SERIAL_NUMBER);
-        try {
-            response = given()
-                    .contentType(ContentType.JSON)
-                    .port(JettyTestRunner.JETTY_TEST_PORT)
-                    .body(DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(instrumentToPost))
-                    .put("/interventions/{operationNumber}/instruments/" + INSTRUMENT_TYPE_CODE + "/"
-                            + INSTRUMENT_SERIAL_NUMBER, operationNumber);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+
+        response = given()
+                .contentType(ContentType.JSON)
+                .port(JettyTestRunner.JETTY_TEST_PORT)
+                .body(jsonFixture.convertToJson(instrumentToPost))
+                .put("/interventions/{operationNumber}/instruments/" + INSTRUMENT_TYPE_CODE + "/"
+                        + INSTRUMENT_SERIAL_NUMBER, operationNumber);
+
     }
 
     @Then("cette instrument a été ajouté à l'opération")

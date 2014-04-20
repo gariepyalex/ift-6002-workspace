@@ -11,11 +11,10 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
-import ca.ulaval.ift6002.m2.acceptance.DumboTheElephantStories;
+import ca.ulaval.ift6002.m2.acceptance.fixture.JsonFixture;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 
@@ -24,8 +23,9 @@ public class PrescriptionSteps extends Steps {
     private Integer patientId;
     private PrescriptionRequest prescriptionToPost;
     private Response response;
+    private JsonFixture jsonFixture = new JsonFixture();
 
-    private final String INVALID_PRESCRIPTION_ERROR_CODE = "PRES001";
+    private static final String INVALID_PRESCRIPTION_ERROR_CODE = "PRES001";
 
     @BeforeScenario
     public void clearResults() {
@@ -95,7 +95,7 @@ public class PrescriptionSteps extends Steps {
 
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
-        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(prescriptionRequestToJson(prescriptionToPost))
+        response = given().port(JettyTestRunner.JETTY_TEST_PORT).body(jsonFixture.convertToJson(prescriptionToPost))
                 .contentType(ContentType.JSON).post("/patient/{patientId}/prescriptions", patientId);
     }
 
@@ -112,15 +112,5 @@ public class PrescriptionSteps extends Steps {
     @Then("cette prescription est conservée")
     public void presciptionIsSaved() {
         response.then().statusCode(Status.CREATED.getStatusCode());
-    }
-
-    private String prescriptionRequestToJson(PrescriptionRequest request) {
-        String json = "";
-        try {
-            json = DumboTheElephantStories.OBJECT_MAPPER.writeValueAsString(prescriptionToPost);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return json;
     }
 }
