@@ -12,7 +12,7 @@ import org.jbehave.core.steps.Steps;
 
 import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionBuilder;
 import ca.ulaval.ift6002.m2.acceptance.context.ResponseContext;
-import ca.ulaval.ift6002.m2.acceptance.fixture.JsonFixture;
+import ca.ulaval.ift6002.m2.acceptance.fixtures.JsonFixture;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 

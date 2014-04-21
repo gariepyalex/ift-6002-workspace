@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.acceptance.fixture;
+package ca.ulaval.ift6002.m2.acceptance.fixtures;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
