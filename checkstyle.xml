@@ -83,7 +83,9 @@
     <module name="UnnecessaryParentheses"/>
     <module name="OneStatementPerLine"/>
   </module>
-  <module name="NewlineAtEndOfFile"/>
+  <module name="NewlineAtEndOfFile">
+        <property name="severity" value="ignore" />
+    </module>
   <module name="Translation"/>
   <module name="FileLength">
     <property name="max" value="16000"/>
