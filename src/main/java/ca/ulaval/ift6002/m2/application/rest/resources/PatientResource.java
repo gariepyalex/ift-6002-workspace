@@ -70,7 +70,7 @@ public class PatientResource extends Resource {
     }
 
     @POST
-    @Path("{patientId}/prescriptions/{prescriptionId}/consommations")
+    @Path("/{prescriptionId}/consommations")
     public Response addConsumption(@PathParam("patientId") String patientId,
             @PathParam("prescriptionId") String prescriptionId, @Context UriInfo uri, ConsumptionRequest request) {
         try {
