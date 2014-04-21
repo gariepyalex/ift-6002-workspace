@@ -87,6 +87,12 @@ public class SurgerySteps extends Steps {
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
 
+    @Then("cette intervention est associée au dossier du patient")
+    public void operationIsLinkedToPatient() {
+        // TODO We must validate this criteria as well.. I'm confused on how to
+        // do it
+    }
+
     @Then("le statut de cette intervention est à \"PLANIFIEE\"")
     public void operationStatusIsSetToPlanified() {
         // TODO We must validate this criteria as well... see how to do it

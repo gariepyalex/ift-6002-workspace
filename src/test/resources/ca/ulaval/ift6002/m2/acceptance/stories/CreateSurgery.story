@@ -31,3 +31,4 @@ Etant donné que un patient est existant
 Et une intervention valide
 Quand j'ajoute cette intervention au dossier du patient
 Alors cette intervention est conservée
+Et cette intervention est associée au dossier du patient
