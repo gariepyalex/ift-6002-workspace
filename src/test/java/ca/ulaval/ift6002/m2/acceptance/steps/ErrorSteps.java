@@ -19,7 +19,7 @@ public class ErrorSteps extends Steps {
     }
 
     @Then("cette erreur a le code \"$errorCode\"")
-    public void thisErrorHasCodeDIN001(@Named("errorCode") String errorCode) {
+    public void thisErrorHasAnErrorCode(@Named("errorCode") String errorCode) {
         ResponseContext.getResponse().then().body("code", equalTo(errorCode));
     }
 }

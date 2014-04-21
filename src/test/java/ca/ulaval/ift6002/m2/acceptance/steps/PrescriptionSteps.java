@@ -43,7 +43,7 @@ public class PrescriptionSteps extends Steps {
         prescriptionRequest = new PrescriptionRequestBuilder().build();
     }
 
-    @Given("une prescription avec DIN")
+    @Given("une prescription valide avec DIN")
     public void aValidPrescriptionWithDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
     }
@@ -77,7 +77,8 @@ public class PrescriptionSteps extends Steps {
     }
 
     @Then("cette prescription est conservée")
-    public void presciptionIsSaved() {
+    public void prescriptionIsSaved() {
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
+
 }
