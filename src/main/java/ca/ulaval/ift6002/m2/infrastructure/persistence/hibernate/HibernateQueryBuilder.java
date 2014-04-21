@@ -64,12 +64,10 @@ public class HibernateQueryBuilder<E> extends QueryBuilder<E> {
         return typedQuery.getResultList();
     }
 
-    private TypedQuery<E> assignParametersTo(TypedQuery<E> typedQuery) {
+    private void assignParametersTo(TypedQuery<E> typedQuery) {
         for (Entry<String, Object> parameter : parameters.entrySet()) {
             typedQuery.setParameter(parameter.getKey(), parameter.getValue());
         }
-
-        return typedQuery;
     }
 
 }
