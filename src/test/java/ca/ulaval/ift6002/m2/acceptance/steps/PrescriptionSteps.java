@@ -73,7 +73,7 @@ public class PrescriptionSteps extends Steps {
         Response response = new RequestBuilder().withContent(prescriptionRequest).doPost(
                 "/patient/{patientId}/prescriptions", patientId);
 
-        ResponseContext.init(response);
+        ResponseContext.setResponse(response);
     }
 
     @Then("cette prescription est conservée")

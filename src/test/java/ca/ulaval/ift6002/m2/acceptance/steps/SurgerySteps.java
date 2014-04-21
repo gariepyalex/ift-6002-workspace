@@ -43,7 +43,7 @@ public class SurgerySteps extends Steps {
         operationToPost = getValidOperation();
 
         Response response = new RequestBuilder().withContent(operationToPost).doPost("/interventions");
-        ResponseContext.init(response);
+        ResponseContext.setResponse(response);
 
         String location = response.header("location");
         operationNumber = Integer.parseInt(location.replaceAll("(.*/interventions)/(.*)", "$2"));
@@ -72,7 +72,7 @@ public class SurgerySteps extends Steps {
         Response response = new RequestBuilder().withContent(instrumentToPost).doPost(
                 "/interventions/{operationNumber}/instruments", operationNumber);
 
-        ResponseContext.init(response);
+        ResponseContext.setResponse(response);
 
     }
 
@@ -84,7 +84,7 @@ public class SurgerySteps extends Steps {
         Response response = new RequestBuilder().withContent(instrumentToPost)
                 .doPut("/interventions/{operationNumber}/instruments/" + INSTRUMENT_TYPE_CODE + "/"
                         + INSTRUMENT_SERIAL_NUMBER, operationNumber);
-        ResponseContext.init(response);
+        ResponseContext.setResponse(response);
 
     }
 

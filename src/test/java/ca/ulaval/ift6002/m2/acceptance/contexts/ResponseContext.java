@@ -6,7 +6,7 @@ public class ResponseContext {
 
     private static Response response;
 
-    public static void init(Response responseInit) {
+    public static void setResponse(Response responseInit) {
         response = responseInit;
     }
 

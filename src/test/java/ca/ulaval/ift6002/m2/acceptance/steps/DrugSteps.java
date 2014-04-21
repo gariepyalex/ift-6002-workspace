@@ -26,7 +26,7 @@ public class DrugSteps extends Steps {
     private void findDrug(String drugName) {
         Response response = new RequestBuilder().doGet("/medicaments/dins/" + drugName);
 
-        ResponseContext.init(response);
+        ResponseContext.setResponse(response);
     }
 
 }
