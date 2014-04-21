@@ -26,7 +26,7 @@ public class DrugSteps extends Steps {
     }
 
     private void findDrug(String drugName) {
-        Response response = given().port(JettyTestRunner.JETTY_TEST_PORT).when().get("/medicaments/dins/" + drugName);
+        Response response = given().port(JettyTestRunner.JETTY_TEST_PORT).get("/medicaments/dins/" + drugName);
         ResponseContext.init(response);
     }
 
