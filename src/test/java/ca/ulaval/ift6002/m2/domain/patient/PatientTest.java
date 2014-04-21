@@ -3,9 +3,11 @@ package ca.ulaval.ift6002.m2.domain.patient;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,9 +33,12 @@ public class PatientTest {
 
     private Patient patient;
 
+    private Collection<Prescription> prescriptions;
+
     @Before
     public void setUp() {
         patient = mock(Patient.class, CALLS_REAL_METHODS);
+        prescriptions = Arrays.asList(prescription);
     }
 
     @Test(expected = DeadPatientException.class)
@@ -54,7 +59,9 @@ public class PatientTest {
 
     @Test
     public void whenConsumingAnExistingPrescriptionShouldConsumeAConsumption() {
-        willReturn(prescription).given(patient).findPrescription(EXISTING_PRESCRIPTION_NUMBER);
+        willReturn(prescriptions).given(patient).getPrescriptions();
+        willReturn(true).given(prescription).hasNumber(EXISTING_PRESCRIPTION_NUMBER);
+
         patient.consumesPrescription(EXISTING_PRESCRIPTION_NUMBER, consumption);
 
         verify(prescription).addConsumption(consumption);
@@ -62,7 +69,9 @@ public class PatientTest {
 
     @Test(expected = PrescriptionNotFoundException.class)
     public void whenConsumingAnUnexistingPrescriptionShouldThrowException() {
-        doThrow(new PrescriptionNotFoundException("")).when(patient).findPrescription(NOT_EXISTING_PRESCRIPTION_NUMBER);
+        willReturn(prescriptions).given(patient).getPrescriptions();
+        willReturn(false).given(prescription).hasNumber(EXISTING_PRESCRIPTION_NUMBER);
+
         patient.consumesPrescription(NOT_EXISTING_PRESCRIPTION_NUMBER, consumption);
     }
 }
