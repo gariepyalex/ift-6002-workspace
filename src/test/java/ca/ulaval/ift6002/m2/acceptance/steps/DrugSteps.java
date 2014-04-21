@@ -1,13 +1,11 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
-import static com.jayway.restassured.RestAssured.given;
-
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
+import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
-import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 
 import com.jayway.restassured.response.Response;
 
@@ -26,7 +24,8 @@ public class DrugSteps extends Steps {
     }
 
     private void findDrug(String drugName) {
-        Response response = given().port(JettyTestRunner.JETTY_TEST_PORT).get("/medicaments/dins/" + drugName);
+        Response response = new RequestBuilder().doGet("/medicaments/dins/" + drugName);
+
         ResponseContext.init(response);
     }
 

@@ -1,7 +1,5 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
-import static com.jayway.restassured.RestAssured.given;
-
 import javax.ws.rs.core.Response.Status;
 
 import org.jbehave.core.annotations.BeforeScenario;
@@ -11,12 +9,10 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
 import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionBuilder;
+import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
-import ca.ulaval.ift6002.m2.acceptance.fixtures.JsonFixture;
-import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 
-import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 
 public class PrescriptionSteps extends Steps {
@@ -26,7 +22,6 @@ public class PrescriptionSteps extends Steps {
 
     private Integer patientId;
     private PrescriptionRequest prescriptionRequest;
-    private JsonFixture jsonFixture = new JsonFixture();
 
     @BeforeScenario
     public void clearResults() {
@@ -72,9 +67,9 @@ public class PrescriptionSteps extends Steps {
 
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
-        Response response = given().port(JettyTestRunner.JETTY_TEST_PORT)
-                .body(jsonFixture.convertToJson(prescriptionRequest)).contentType(ContentType.JSON)
-                .post("/patient/{patientId}/prescriptions", patientId);
+        Response response = new RequestBuilder().withContent(prescriptionRequest).doPost(
+                "/patient/{patientId}/prescriptions", patientId);
+
         ResponseContext.init(response);
     }
 
