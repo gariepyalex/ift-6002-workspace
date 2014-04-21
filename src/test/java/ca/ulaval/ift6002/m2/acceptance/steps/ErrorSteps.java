@@ -9,7 +9,7 @@ import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.steps.Steps;
 
-import ca.ulaval.ift6002.m2.acceptance.context.ResponseContext;
+import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 
 public class ErrorSteps extends Steps {
 

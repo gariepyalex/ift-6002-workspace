@@ -1,4 +1,4 @@
-package ca.ulaval.ift6002.m2.acceptance.context;
+package ca.ulaval.ift6002.m2.acceptance.contexts;
 
 import com.jayway.restassured.response.Response;
 
