@@ -8,7 +8,7 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
-import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionBuilder;
+import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionRequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
@@ -18,7 +18,10 @@ import com.jayway.restassured.response.Response;
 public class PrescriptionSteps extends Steps {
 
     private static final String ADVIL_DIN = "11111111";
+    private static final String ADVIL_NAME = "Advil turbo";
+
     private static final String INVALID_DIN = "Invalid";
+    private static final int INVALID_RENEWALS = -1;
 
     private Integer patientId;
     private PrescriptionRequest prescriptionRequest;
@@ -37,32 +40,32 @@ public class PrescriptionSteps extends Steps {
 
     @Given("une prescription avec des données manquantes")
     public void aPrescriptionWithMissingData() {
-        prescriptionRequest = new PrescriptionBuilder().buildRequest();
+        prescriptionRequest = new PrescriptionRequestBuilder().build();
     }
 
     @Given("une prescription avec DIN")
     public void aValidPrescriptionWithDin() {
-        prescriptionRequest = new PrescriptionBuilder().din(ADVIL_DIN).buildRequest();
+        prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
     }
 
     @Given("une prescription avec un DIN inexistant")
     public void aPrescriptionWithInexistantDin() {
-        prescriptionRequest = new PrescriptionBuilder().din(INVALID_DIN).buildRequest();
+        prescriptionRequest = new PrescriptionRequestBuilder().din(INVALID_DIN).build();
     }
 
     @Given("une prescription avec nom de médicament")
     public void aValidPrescriptionWithDrugName() {
-        prescriptionRequest = new PrescriptionBuilder().name("Advil turbo").buildRequest();
+        prescriptionRequest = new PrescriptionRequestBuilder().name(ADVIL_NAME).build();
     }
 
     @Given("une prescription avec un DIN et un nom de médicament")
     public void anInvalidPrescriptionWithBothNameAndDin() {
-        prescriptionRequest = new PrescriptionBuilder().din(ADVIL_DIN).name("Advil turbo").buildRequest();
+        prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).name(ADVIL_NAME).build();
     }
 
     @Given("une prescription avec un nombre de renouvellements invalide")
     public void aPrescriptionWithInvalidRenewals() {
-        prescriptionRequest = new PrescriptionBuilder().renewals(-1).din(ADVIL_DIN).buildRequest();
+        prescriptionRequest = new PrescriptionRequestBuilder().renewals(INVALID_RENEWALS).din(ADVIL_DIN).build();
     }
 
     @When("j'ajoute cette prescription au dossier du patient")
