@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class JsonFixture {
+
     private ObjectMapper jsonMapper;
 
     public JsonFixture() {
