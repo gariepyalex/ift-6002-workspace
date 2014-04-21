@@ -20,6 +20,7 @@ import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PrescriptionHibernateFactoryTest {
+
     private static final Practitioner PRACTITIONER = new Practitioner("a practitionner");
     private static final Date DATE = new Date();
     private static final int RENEWALS = 1;
@@ -43,7 +44,7 @@ public class PrescriptionHibernateFactoryTest {
     }
 
     @Test
-    public void givenPrescriptionHibernateFactoryWhenCreateShouldReturnPrescriptionHibernate() {
+    public void whenCreatingPrescriptionShouldReturnPrescriptionHibernate() {
         Prescription prescription = prescriptionHibernateFactory.create(PRACTITIONER, DATE, RENEWALS, drug);
         assertEquals(PrescriptionHibernate.class, prescription.getClass());
     }

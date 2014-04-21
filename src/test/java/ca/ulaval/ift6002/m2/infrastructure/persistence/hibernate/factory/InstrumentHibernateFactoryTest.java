@@ -25,7 +25,7 @@ public class InstrumentHibernateFactoryTest {
     }
 
     @Test
-    public void givenInstrumentHibernateFactoryWhenCreateShouldReturnInstrumentHibernate() {
+    public void whenCreatingInstrumentShouldReturnInstrumentHibernate() {
         Instrument instrument = instrumentHibernateFactory.create(A_TYPECODE, AN_INSTRUMENT_STATUS, A_SERIAL);
         assertEquals(InstrumentHibernate.class, instrument.getClass());
     }

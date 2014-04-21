@@ -21,7 +21,7 @@ public class PatientHibernateFactoryTest {
     }
 
     @Test
-    public void givenPatientHibernateFactoryWhenCreateShouldReturnPatientHibernate() {
+    public void whenCreatingPatientShouldReturnPatientHibernate() {
         Patient patient = patientHibernateFactory.create(PATIENT_NUMBER, HEALT_INSURANCE_NUMBER);
         assertEquals(PatientHibernate.class, patient.getClass());
     }

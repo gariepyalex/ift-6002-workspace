@@ -10,6 +10,7 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.DrugHibernate;
 
 public class DrugHibernateFactoryTest {
+
     private static final Din DIN = new Din("a din");
     private static final String BRAND_NAME = "a brand name";
     private static final String DESCRIPTOR = "A descriptor";
@@ -22,13 +23,13 @@ public class DrugHibernateFactoryTest {
     }
 
     @Test
-    public void givenDrugHibernateFactoryWhenCreateWithDinShouldReturnDrugHibernate() {
+    public void whenCreatingDrugWithDinShouldReturnDrugHibernate() {
         Drug drug = drugHibernateFactory.create(DIN, BRAND_NAME, DESCRIPTOR);
         assertEquals(DrugHibernate.class, drug.getClass());
     }
 
     @Test
-    public void givenDrugHibernateFactoryWhenCreateWithNameShouldReturnDrugHibernate() {
+    public void whenCreatingDrugWithNameShouldReturnDrugHibernate() {
         Drug drug = drugHibernateFactory.create(BRAND_NAME);
         assertEquals(DrugHibernate.class, drug.getClass());
     }

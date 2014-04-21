@@ -12,6 +12,7 @@ import ca.ulaval.ift6002.m2.domain.prescription.Pharmacy;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.ConsumptionHibernate;
 
 public class ConsumptionHibernateFactoryTest {
+
     private static final Date DATE = new Date();
     private static final Pharmacy PHARMACY = new Pharmacy("description");
     private static final int COUNT = 1;
@@ -24,7 +25,7 @@ public class ConsumptionHibernateFactoryTest {
     }
 
     @Test
-    public void givenDrugHibernateFactoryWhenCreateWithDinShouldReturnDrugHibernate() {
+    public void whenCreatingConsumptionShouldReturnConsumptionHibernate() {
         Consumption consumption = consumptionHibernateFactory.create(DATE, PHARMACY, COUNT);
         assertEquals(ConsumptionHibernate.class, consumption.getClass());
     }
