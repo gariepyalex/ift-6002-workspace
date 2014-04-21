@@ -43,9 +43,14 @@ public class PatientSteps {
         PatientContext.setPatientId(UNEXISTING_PATIENT_ID);
     }
 
-    @When("je consomme cette prescription")
-    public void consumePrescription() {
+    @Given("une consommation valide")
+    public void aValidConsumption() {
         consumptionRequest = new ConsumptionRequest(DATE, PHARMACY, CONSUMPTIONS_COUNT);
+    }
+
+    @When("j'ajoute cette consommation")
+    public void consumePrescription() {
+
         Response response = new RequestBuilder().withContent(consumptionRequest).doPost(
                 "/patient/{patientId}/prescriptions/{prescriptionId}/consommations", PatientContext.getPatientId(),
                 PrescriptionContext.getPrescriptionId());
