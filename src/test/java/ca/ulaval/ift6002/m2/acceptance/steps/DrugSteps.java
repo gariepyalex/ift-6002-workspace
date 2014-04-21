@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
@@ -13,20 +14,55 @@ public class DrugSteps extends Steps {
 
     private static final String KEYWORD_SHORTER_THAN_THE_LIMIT = "aa";
 
+    private static final String EXISTING_KEYWORD = "Advil";
+
+    private static final String WILDCARD_KEYWORD = "Advil liqui";
+
     @BeforeScenario
     public void clearResults() {
         ResponseContext.reset();
     }
 
-    @When("je cherche un medicaments avec moins de caracteres que la limite requise")
+    @When("je cherche un médicament avec moins de caractères que la limite requise")
     public void findDrugsWithLessCharatersThanLimitRequired() {
-        findDrug(KEYWORD_SHORTER_THAN_THE_LIMIT);
+        findDrugs(KEYWORD_SHORTER_THAN_THE_LIMIT);
     }
 
-    private void findDrug(String drugName) {
-        Response response = new RequestBuilder().doGet("/medicaments/dins/" + drugName);
+    @When("je cherche des médicaments avec un mot-clé qui se retrouve dans quelques noms de médicaments")
+    public void findDrugsWithNameKeyword() {
+        findDrugs(EXISTING_KEYWORD);
+    }
 
+    @When("je cherche des médicaments avec un mot-clé qui se retrouve dans quelques descriptions de médicaments")
+    public void findDrugsWithDescriptionKeyword() {
+        findDrugs(EXISTING_KEYWORD);
+    }
+
+    @When("je cherche des médicaments avec un mot-clé qui contient un patron générique")
+    public void findDrugsWithWildCard() {
+        findDrugs(WILDCARD_KEYWORD);
+    }
+
+    @Then("la liste de médicaments retournée contient ceux-ci")
+    public void drugsListCorrespondsToTheKeyword() {
+        // TODO assert something... non empty list? success?? ask teacher...
+    }
+
+    private void findDrugs(String keyword) {
+        Response response = new RequestBuilder().doGet("/medicaments/dins/" + keyword);
         ResponseContext.setResponse(response);
     }
+
+    // TODO see if we remove this crap
+    // private Collection<DrugResponse> getDrugs() {
+    // Object responseContent =
+    // ResponseContext.getResponse().getBody().as(Object.class);
+    //
+    // @SuppressWarnings("unchecked")
+    // Map<Integer, DrugResponse> drugs = (Map<Integer, DrugResponse>)
+    // responseContent;
+    //
+    // return drugs.values();
+    // }
 
 }
