@@ -40,11 +40,9 @@ public class DrugHibernateRepositoryITest {
     private static final Din A_VALID_DIN = new Din("11111111");
     private static final Din UNEXISTING_DIN = new Din("-1");
 
-    private static IntegrationDrugRepositoryFiller drugRepositoryFiller;
+    private static EntityManager entityManager;
 
     private static DrugRepository drugRepository;
-
-    private static EntityManager entityManager;
 
     @BeforeClass
     public static void oneTimeSetUp() {
@@ -55,8 +53,7 @@ public class DrugHibernateRepositoryITest {
 
         entityManager.getTransaction().begin();
 
-        drugRepositoryFiller = new IntegrationDrugRepositoryFiller(drugRepository);
-        drugRepositoryFiller.fill();
+        new IntegrationDrugRepositoryFiller(drugRepository).fill();
     }
 
     @AfterClass

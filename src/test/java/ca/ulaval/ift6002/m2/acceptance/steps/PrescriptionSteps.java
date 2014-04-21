@@ -10,6 +10,7 @@ import org.jbehave.core.steps.Steps;
 
 import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionRequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
+import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 
@@ -23,19 +24,12 @@ public class PrescriptionSteps extends Steps {
     private static final String INVALID_DIN = "Invalid";
     private static final int INVALID_RENEWALS = -1;
 
-    private Integer patientId;
     private PrescriptionRequest prescriptionRequest;
 
     @BeforeScenario
     public void clearResults() {
-        patientId = null;
         prescriptionRequest = null;
         ResponseContext.reset();
-    }
-
-    @Given("un patient est existant")
-    public void anExistingPatient() {
-        patientId = 1;
     }
 
     @Given("une prescription avec des données manquantes")
@@ -43,7 +37,7 @@ public class PrescriptionSteps extends Steps {
         prescriptionRequest = new PrescriptionRequestBuilder().build();
     }
 
-    @Given("une prescription avec DIN")
+    @Given("une prescription valide avec DIN")
     public void aValidPrescriptionWithDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
     }
@@ -71,13 +65,14 @@ public class PrescriptionSteps extends Steps {
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
         Response response = new RequestBuilder().withContent(prescriptionRequest).doPost(
-                "/patient/{patientId}/prescriptions", patientId);
+                "/patient/{patientId}/prescriptions", PatientContext.getPatientId());
 
         ResponseContext.setResponse(response);
     }
 
     @Then("cette prescription est conservée")
-    public void presciptionIsSaved() {
+    public void prescriptionIsSaved() {
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
+
 }

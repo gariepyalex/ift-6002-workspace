@@ -14,7 +14,7 @@ Et cette erreur a le code "PRES001"
 
 Scénario: Ajouter une prescription avec un médicament connu
 Etant donné que un patient est existant
-Et une prescription avec DIN
+Et une prescription valide avec DIN
 Quand j'ajoute cette prescription au dossier du patient
 Alors cette prescription est conservée
 
