@@ -53,6 +53,7 @@ public class PrescriptionHibernate extends Prescription {
 
         if (drug.hasDin()) {
             this.drug = (DrugHibernate) drug;
+            this.drugName = "";
         } else {
             this.drugName = drug.getBrandName();
         }

@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.acceptance.contexts;
 
-
 public class PatientContext {
 
     private static Integer patientId;

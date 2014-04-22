@@ -21,6 +21,7 @@ import ca.ulaval.ift6002.m2.application.validators.requests.ConsumptionRequestVa
 import ca.ulaval.ift6002.m2.application.validators.requests.InvalidRequestException;
 import ca.ulaval.ift6002.m2.application.validators.requests.PrescriptionRequestValidator;
 import ca.ulaval.ift6002.m2.domain.patient.DeadPatientException;
+import ca.ulaval.ift6002.m2.domain.patient.OccuringInteractionException;
 import ca.ulaval.ift6002.m2.domain.prescription.NotEnoughRenewalsException;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 import ca.ulaval.ift6002.m2.services.PatientService;
@@ -35,6 +36,7 @@ public class PatientResource extends Resource {
     private static final String NO_PATIENT_FOUND_CODE = "PRES010";
     private static final String NO_PRESCRIPTION_FOUND_CODE = "PRES011";
     private static final String NOT_ENOUGH_RENEWALS_CODE = "PRES012";
+    private static final String INTERACTION_CODE = "PRES002";
 
     private final PatientService patientService = new PatientService();
     private final PrescriptionRequestValidator prescriptionValidator = new PrescriptionRequestValidator();
@@ -55,6 +57,8 @@ public class PatientResource extends Resource {
             return badRequest(INVALID_PRESCRIPTION_CODE, e.getMessage());
         } catch (DeadPatientException e) {
             return error(DEAD_PATIENT_CODE, e.getMessage(), Status.GONE);
+        } catch (OccuringInteractionException e) {
+            return badRequest(INTERACTION_CODE, e.getMessage());
         }
     }
 

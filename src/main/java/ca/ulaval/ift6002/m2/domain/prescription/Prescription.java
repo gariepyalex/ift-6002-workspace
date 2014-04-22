@@ -47,6 +47,11 @@ public abstract class Prescription {
         return !hasRemainingRenewals() || !isLastComsumptionConsumedInPastSixMonths();
     }
 
+    public boolean isInteractingWith(Prescription newPrescription) {
+        Drug newDrug = newPrescription.getDrug();
+        return getDrug().isInteractingWith(newDrug);
+    }
+
     private boolean hasRemainingRenewals() {
         return remainingRenewals() > 0;
     }

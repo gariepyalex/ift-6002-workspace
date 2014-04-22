@@ -18,6 +18,8 @@ import com.jayway.restassured.response.Response;
 
 public class PrescriptionSteps extends Steps {
 
+    private static final String INTERACTING_DIN_1 = "02229682";
+    private static final String INTERACTING_DIN_2 = "02363321";
     private static final String ADVIL_DIN = "11111111";
     private static final String ADVIL_NAME = "Advil turbo";
 
@@ -62,9 +64,31 @@ public class PrescriptionSteps extends Steps {
         prescriptionRequest = new PrescriptionRequestBuilder().renewals(INVALID_RENEWALS).din(ADVIL_DIN).build();
     }
 
+    @Given("une prescription comportant des interactions associée à ce patient")
+    public void aPrescriptionInPatientFiles() {
+
+        PrescriptionRequest interactingPrescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN_1)
+                .build();
+
+        new RequestBuilder().withContent(interactingPrescriptionRequest).doPost("/patient/{patientId}/prescriptions",
+                PatientContext.getPatientId());
+    }
+
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
         Response response = new RequestBuilder().withContent(prescriptionRequest).doPost(
+                "/patient/{patientId}/prescriptions", PatientContext.getPatientId());
+
+        ResponseContext.setResponse(response);
+    }
+
+    @When("j'ajoute une prescription pour laquelle il y a une interaction au dossier du patient")
+    public void addingTheInteractingPrescription() {
+
+        PrescriptionRequest interactingPrescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN_2)
+                .build();
+
+        Response response = new RequestBuilder().withContent(interactingPrescriptionRequest).doPost(
                 "/patient/{patientId}/prescriptions", PatientContext.getPatientId());
 
         ResponseContext.setResponse(response);
@@ -74,5 +98,4 @@ public class PrescriptionSteps extends Steps {
     public void prescriptionIsSaved() {
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
-
 }

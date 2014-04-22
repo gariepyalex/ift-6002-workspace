@@ -1,13 +1,10 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.*;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,19 +35,32 @@ public class PatientTest {
     @Before
     public void setUp() {
         patient = mock(Patient.class, CALLS_REAL_METHODS);
+
         prescriptions = Arrays.asList(prescription);
+    }
+
+    @Test(expected = OccuringInteractionException.class)
+    public void givenPatientWithAPrescriptionWhenAddingInteractingPrescriptionShouldThrowException() {
+        willReturn(false).given(patient).isDead();
+        willReturn(prescriptions).given(patient).getPrescriptions();
+
+        Prescription interactingPrescription = mock(Prescription.class, CALLS_REAL_METHODS);
+        willReturn(true).given(prescription).isInteractingWith(interactingPrescription);
+        doNothing().when(patient).addPrescription(interactingPrescription);
+
+        patient.receivesPrescription(interactingPrescription);
     }
 
     @Test(expected = DeadPatientException.class)
     public void givenDeadPatientWhenAddingPrescriptionShouldThrowException() {
         willReturn(true).given(patient).isDead();
-
         patient.receivesPrescription(prescription);
     }
 
     @Test
     public void whenReceivesPrescriptionShouldAddPrescription() {
         willReturn(false).given(patient).isDead();
+        willReturn(Collections.emptyList()).given(patient).getPrescriptions();
         doNothing().when(patient).addPrescription(prescription);
         patient.receivesPrescription(prescription);
 
@@ -74,4 +84,5 @@ public class PatientTest {
 
         patient.consumesPrescription(NOT_EXISTING_PRESCRIPTION_NUMBER, consumption);
     }
+
 }

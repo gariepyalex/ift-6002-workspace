@@ -10,10 +10,21 @@ public abstract class Patient {
 
     public void receivesPrescription(Prescription prescription) {
         if (isDead()) {
-            throw new DeadPatientException("A dead patient cannot receives a prescription.");
+            throw new DeadPatientException("A dead patient cannot receive a prescription.");
         }
 
+        checkForInteraction(prescription);
+
         addPrescription(prescription);
+    }
+
+    private void checkForInteraction(Prescription nouvellePrescription) {
+        Collection<Prescription> prescriptions = getPrescriptions();
+        for (Prescription p : prescriptions) {
+            if (p.isInteractingWith(nouvellePrescription)) {
+                throw new OccuringInteractionException();
+            }
+        }
     }
 
     public void consumesPrescription(int prescriptionNumber, Consumption consumption) {
