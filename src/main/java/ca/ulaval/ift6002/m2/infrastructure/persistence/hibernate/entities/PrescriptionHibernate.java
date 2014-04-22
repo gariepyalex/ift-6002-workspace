@@ -116,8 +116,8 @@ public class PrescriptionHibernate extends Prescription {
     }
 
     @Override
-    protected boolean isConsumptionsEmpty() {
-        return consumptions.isEmpty();
+    protected boolean hasConsumptions() {
+        return !consumptions.isEmpty();
     }
 
 }
