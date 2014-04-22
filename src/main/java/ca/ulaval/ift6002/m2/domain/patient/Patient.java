@@ -21,7 +21,7 @@ public abstract class Patient {
     private void checkForInteraction(Prescription nouvellePrescription) {
         Collection<Prescription> prescriptions = getPrescriptions();
         for (Prescription p : prescriptions) {
-            if (!p.isObsolete() && p.isInteractingWith(nouvellePrescription)) {
+            if (p.isInteractingWith(nouvellePrescription)) {
                 throw new OccuringInteractionException();
             }
         }
