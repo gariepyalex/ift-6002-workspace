@@ -72,7 +72,6 @@ public class PrescriptionSteps extends Steps {
 
         new RequestBuilder().withContent(interactingPrescriptionRequest).doPost("/patient/{patientId}/prescriptions",
                 PatientContext.getPatientId());
-
     }
 
     @When("j'ajoute cette prescription au dossier du patient")
