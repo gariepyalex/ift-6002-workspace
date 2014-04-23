@@ -18,10 +18,10 @@ public abstract class Patient {
         addPrescription(prescription);
     }
 
-    private void checkForInteraction(Prescription nouvellePrescription) {
+    private void checkForInteraction(Prescription newPrescription) {
         Collection<Prescription> prescriptions = getPrescriptions();
         for (Prescription prescription : prescriptions) {
-            if (prescription.isInteractingWith(nouvellePrescription)) {
+            if (prescription.isInteractingWith(newPrescription)) {
                 throw new OccuringInteractionException();
             }
         }

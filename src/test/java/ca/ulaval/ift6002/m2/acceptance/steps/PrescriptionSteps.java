@@ -64,7 +64,7 @@ public class PrescriptionSteps extends Steps {
         prescriptionRequest = new PrescriptionRequestBuilder().renewals(INVALID_RENEWALS).din(ADVIL_DIN).build();
     }
 
-    @Given("une prescription comportant des interactions associée à ce patient")
+    @Given("une prescription non-obsolete comportant des interactions associée à ce patient")
     public void aPrescriptionInPatientFiles() {
 
         PrescriptionRequest interactingPrescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN_1)
@@ -72,6 +72,7 @@ public class PrescriptionSteps extends Steps {
 
         new RequestBuilder().withContent(interactingPrescriptionRequest).doPost("/patient/{patientId}/prescriptions",
                 PatientContext.getPatientId());
+
     }
 
     @When("j'ajoute cette prescription au dossier du patient")

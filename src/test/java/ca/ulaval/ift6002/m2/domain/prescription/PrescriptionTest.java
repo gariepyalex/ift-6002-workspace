@@ -76,14 +76,7 @@ public class PrescriptionTest {
     @Test
     public void givenPrescriptionWithNoRemainingRenewalsShouldBeObsolete() {
         setupPrescriptionWithNoRenewals();
-        boolean isObsolete = prescription.isObsolete();
-        assertTrue(isObsolete);
-    }
-
-    @Test
-    public void givenPrescriptionWithOneOldConsumptionShouldBeObsolete() {
         setUpConsumptionOfSevenMonthsAgo();
-        setupPrescriptionWithFiveRenewals();
         willReturn(false).given(prescription).isConsumptionsEmpty();
 
         boolean isObsolete = prescription.isObsolete();
@@ -92,7 +85,18 @@ public class PrescriptionTest {
     }
 
     @Test
-    public void givenPrescriptionWithOneRecentConsumptionShouldNotBeObsolete() {
+    public void givenPrescriptionWithOneOldConsumptionAndRenewalsShouldNotBeObsolete() {
+        setUpConsumptionOfSevenMonthsAgo();
+        setupPrescriptionWithFiveRenewals();
+        willReturn(false).given(prescription).isConsumptionsEmpty();
+
+        boolean isObsolete = prescription.isObsolete();
+
+        assertFalse(isObsolete);
+    }
+
+    @Test
+    public void givenPrescriptionWithOneRecentConsumptionAndNoRenewalsShouldNotBeObsolete() {
         setUpConsumptionOfOneMonthAgo();
         setupPrescriptionWithFiveRenewals();
         willReturn(false).given(prescription).isConsumptionsEmpty();
@@ -103,13 +107,13 @@ public class PrescriptionTest {
     }
 
     @Test
-    public void givenPrescriptionWithNoConsumptionShouldBeObsolete() {
+    public void givenPrescriptionWithNoConsumptionAndRenewalsShouldNotBeObsolete() {
         setupPrescriptionWithFiveRenewals();
         willReturn(true).given(prescription).isConsumptionsEmpty();
 
         boolean isObsolete = prescription.isObsolete();
 
-        assertTrue(isObsolete);
+        assertFalse(isObsolete);
     }
 
     private void setupPrescription() {

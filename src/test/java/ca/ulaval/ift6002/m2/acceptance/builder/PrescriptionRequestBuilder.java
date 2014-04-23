@@ -46,6 +46,8 @@ public class PrescriptionRequestBuilder {
     }
 
     public PrescriptionRequest build() {
-        return new PrescriptionRequest(practitionner, date, renewals, din, name);
+        PrescriptionRequest prescriptionRequest = new PrescriptionRequest(practitionner, date, renewals, din, name);
+
+        return prescriptionRequest;
     }
 }

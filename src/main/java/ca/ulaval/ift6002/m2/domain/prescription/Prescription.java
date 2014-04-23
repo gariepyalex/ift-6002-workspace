@@ -44,15 +44,16 @@ public abstract class Prescription {
 
     public boolean isObsolete() {
         // TODO à plugger avec la story Détection des interactions
-        return !hasRemainingRenewals() || !isLastComsumptionConsumedInPastSixMonths();
+        return !hasRemainingRenewals() && !isLastComsumptionConsumedInPastSixMonths();
     }
 
     public boolean isInteractingWith(Prescription newPrescription) {
-        if (!isObsolete()) {
-            Drug newDrug = newPrescription.getDrug();
-            return getDrug().isInteractingWith(newDrug);
+        if (isObsolete()) {
+            return false;
         }
-        return false;
+
+        Drug newDrug = newPrescription.getDrug();
+        return getDrug().isInteractingWith(newDrug);
     }
 
     private boolean hasRemainingRenewals() {
