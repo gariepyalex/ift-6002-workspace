@@ -76,6 +76,10 @@ public class PrescriptionSteps extends Steps {
 
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
+        // this cause problem with the Scénario: Ajouter une prescription avec
+        // un médicament par nom
+        // FIXME it's the doPost in that scenario that causes the bug with the
+        // bug in checkInteraction making DrugFactory = null
         Response response = new RequestBuilder().withContent(prescriptionRequest).doPost(
                 "/patient/{patientId}/prescriptions", PatientContext.getPatientId());
 
