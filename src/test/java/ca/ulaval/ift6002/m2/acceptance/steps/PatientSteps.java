@@ -29,8 +29,6 @@ public class PatientSteps {
     @BeforeScenario
     public void clearResults() {
         consumptionRequest = null;
-        ResponseContext.reset();
-        PatientContext.reset();
     }
 
     @Given("un patient est existant")

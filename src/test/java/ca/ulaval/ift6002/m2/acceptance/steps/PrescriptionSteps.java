@@ -34,8 +34,6 @@ public class PrescriptionSteps extends Steps {
     @BeforeScenario
     public void clearResults() {
         prescriptionRequest = null;
-        ResponseContext.reset();
-        PrescriptionContext.reset();
     }
 
     @Given("une prescription avec des données manquantes")
@@ -43,8 +41,8 @@ public class PrescriptionSteps extends Steps {
         prescriptionRequest = new PrescriptionRequestBuilder().build();
     }
 
-    @Alias("une prescription valide")
     @Given("une prescription valide avec DIN")
+    @Alias("une prescription valide")
     public void aValidPrescriptionWithDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
         PrescriptionContext.setPrescriptionId(EXISTING_PATIENT_PRESCRIPTION);

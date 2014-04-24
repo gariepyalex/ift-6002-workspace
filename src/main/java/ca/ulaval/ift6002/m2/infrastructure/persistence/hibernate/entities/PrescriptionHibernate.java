@@ -96,7 +96,6 @@ public class PrescriptionHibernate extends Prescription {
         if (drugName.isEmpty()) {
             return drug;
         } else {
-            System.out.println("durgFactory: " + drugFactory);
             return drugFactory.create(drugName);
         }
     }

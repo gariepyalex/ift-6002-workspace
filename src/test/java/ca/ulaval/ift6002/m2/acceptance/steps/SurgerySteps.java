@@ -2,7 +2,6 @@ package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import javax.ws.rs.core.Response.Status;
 
-import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -35,11 +34,6 @@ public class SurgerySteps extends Steps {
     private InstrumentRequest instrumentToPost;
 
     private OperationRequest operationRequest;
-
-    @BeforeScenario
-    public void clearResult() {
-        ResponseContext.reset();
-    }
 
     // TODO is all this crap really useful?!
     // @BeforeStory

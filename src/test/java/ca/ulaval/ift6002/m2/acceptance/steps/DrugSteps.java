@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
-import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
@@ -17,11 +16,6 @@ public class DrugSteps extends Steps {
     private static final String EXISTING_KEYWORD = "Advil";
 
     private static final String WILDCARD_KEYWORD = "Advil liqui";
-
-    @BeforeScenario
-    public void clearResults() {
-        ResponseContext.reset();
-    }
 
     @When("je cherche un médicament avec moins de caractères que la limite requise")
     public void findDrugsWithLessCharatersThanLimitRequired() {
