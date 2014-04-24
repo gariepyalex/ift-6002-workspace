@@ -27,6 +27,8 @@ public class DrugTest {
     public void setUp() {
         drug = mock(Drug.class, CALLS_REAL_METHODS);
         interactingDrug = mock(Drug.class);
+
+        willReturn(A_DIN).given(interactingDrug).getDin();
     }
 
     @Test

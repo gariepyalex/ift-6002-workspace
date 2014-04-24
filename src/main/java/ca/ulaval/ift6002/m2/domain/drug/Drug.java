@@ -8,8 +8,17 @@ public abstract class Drug {
         return !getDin().isEmpty();
     }
 
-    public boolean isInteractingWith(Drug drug) {
-        return getInteractingDrugs().contains(drug);
+    public boolean isInteractingWith(Drug otherDrug) {
+        for (Drug interactingDrug : getInteractingDrugs()) {
+            if (interactingDrug.hasSameDin(otherDrug)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasSameDin(Drug otherDrug) {
+        return getDin().equals(otherDrug.getDin());
     }
 
     public abstract void interactWith(Collection<Drug> drugs);
