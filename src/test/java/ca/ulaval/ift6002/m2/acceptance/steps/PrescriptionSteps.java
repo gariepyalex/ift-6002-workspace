@@ -20,7 +20,7 @@ import com.jayway.restassured.response.Response;
 
 public class PrescriptionSteps extends Steps {
 
-    private static final String INTERACTING_DIN_1 = "02229682";
+    private static final String INTERACTING_DIN = "11111111";
 
     private static final String ADVIL_DIN = "11111111";
     private static final String ADVIL_NAME = "Advil turbo";
@@ -70,7 +70,7 @@ public class PrescriptionSteps extends Steps {
 
     @Given("une prescription non-obsolete comportant des interactions associée à ce patient")
     public void aPrescriptionInPatientFiles() {
-        PrescriptionRequest prescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN_1)
+        PrescriptionRequest prescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN)
                 .withRecentDate().build();
 
         new RequestBuilder().withContent(prescriptionRequest).doPost("/patient/{patientId}/prescriptions",

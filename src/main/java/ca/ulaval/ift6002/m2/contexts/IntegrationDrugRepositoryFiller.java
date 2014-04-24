@@ -10,8 +10,7 @@ import ca.ulaval.ift6002.m2.file.parser.FileParser;
 public class IntegrationDrugRepositoryFiller {
 
     private static final String DRUG_FILE_PATH = "/IntegrationDrug.txt";
-    // TODO create a new file for IntegrationTest
-    private static final String DRUG_INTERACTIONS_FILE_PATH = "/interactions.txt";
+    private static final String DRUG_INTERACTIONS_FILE_PATH = "/IntegrationInteractions.txt";
 
     private final DrugRepository drugRepository;
     private final FileParser<Drug> drugParser;

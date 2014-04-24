@@ -42,17 +42,16 @@ public abstract class Prescription {
         return count;
     }
 
-    public boolean isObsolete() {
-        // TODO à plugger avec la story Détection des interactions
-        return !hasRemainingRenewals() && !isLastComsumptionConsumedInPastSixMonths();
-    }
-
-    public boolean isInteractingWith(Prescription prescription) {
+    public boolean isInteractingWith(Prescription otherPrescription) {
         if (isObsolete()) {
             return false;
         }
 
-        return getDrug().isInteractingWith(prescription.getDrug());
+        return getDrug().isInteractingWith(otherPrescription.getDrug());
+    }
+
+    public boolean isObsolete() {
+        return !hasRemainingRenewals() && !isLastComsumptionConsumedInPastSixMonths();
     }
 
     private boolean hasRemainingRenewals() {
