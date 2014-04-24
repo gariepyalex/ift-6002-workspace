@@ -11,7 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
@@ -56,9 +55,9 @@ public class PatientResource extends Resource {
         } catch (NoSuchElementException e) {
             return badRequest(INVALID_PRESCRIPTION_CODE, e.getMessage());
         } catch (DeadPatientException e) {
-            return error(DEAD_PATIENT_CODE, e.getMessage(), Status.GONE);
+            return gone(DEAD_PATIENT_CODE, e.getMessage());
         } catch (InteractionDetectionException e) {
-            return badRequest(INTERACTION_CODE, e.getMessage());
+            return conflict(INTERACTION_CODE, e.getMessage());
         }
     }
 

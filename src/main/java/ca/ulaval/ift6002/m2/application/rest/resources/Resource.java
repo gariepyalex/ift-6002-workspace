@@ -20,7 +20,15 @@ public abstract class Resource {
         return error(code, message, Status.NOT_FOUND);
     }
 
-    protected Response error(String code, String message, Status status) {
+    protected Response conflict(String code, String message) {
+        return error(code, message, Status.CONFLICT);
+    }
+
+    protected Response gone(String code, String message) {
+        return error(code, message, Status.GONE);
+    }
+
+    private Response error(String code, String message, Status status) {
         ExceptionResponse exception = new ExceptionResponse(code, message);
 
         return Response.status(status).entity(exception).build();
