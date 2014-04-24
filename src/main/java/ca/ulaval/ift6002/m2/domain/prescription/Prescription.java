@@ -71,7 +71,7 @@ public abstract class Prescription {
     }
 
     private Consumption lastConsumption() {
-        if (isConsumptionsEmpty()) {
+        if (!hasConsumptions()) {
             throw new NoSuchElementException("The prescription has no consumptions yet.");
         }
         return getLastConsumption();
@@ -100,5 +100,5 @@ public abstract class Prescription {
 
     protected abstract Consumption getLastConsumption();
 
-    protected abstract boolean isConsumptionsEmpty();
+    protected abstract boolean hasConsumptions();
 }

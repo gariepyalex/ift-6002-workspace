@@ -26,14 +26,14 @@ public class PrescriptionTest {
 
     @Test
     public void givenPrescriptionWithNumberWhenHasNumberShouldReturnTrue() {
-        setupPrescriptionWithNumber();
+        setupPrescription();
         boolean hasNumber = prescription.hasNumber(PRESCRIPTION_NUMBER);
         assertTrue(hasNumber);
     }
 
     @Test
     public void givenPrescriptionWithNumberWhenHasAnotherNumberShouldReturnFalse() {
-        setupPrescriptionWithNumber();
+        setupPrescription();
         boolean hasNumber = prescription.hasNumber(OTHER_PRESCRIPTION_NUMBER);
         assertFalse(hasNumber);
     }
@@ -88,7 +88,7 @@ public class PrescriptionTest {
     public void givenPrescriptionWithOneOldConsumptionAndRenewalsShouldNotBeObsolete() {
         setUpConsumptionOfSevenMonthsAgo();
         setupPrescriptionWithFiveRenewals();
-        willReturn(false).given(prescription).isConsumptionsEmpty();
+        willReturn(true).given(prescription).hasConsumptions();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -99,7 +99,7 @@ public class PrescriptionTest {
     public void givenPrescriptionWithOneRecentConsumptionAndNoRenewalsShouldNotBeObsolete() {
         setUpConsumptionOfOneMonthAgo();
         setupPrescriptionWithFiveRenewals();
-        willReturn(false).given(prescription).isConsumptionsEmpty();
+        willReturn(true).given(prescription).hasConsumptions();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -109,7 +109,7 @@ public class PrescriptionTest {
     @Test
     public void givenPrescriptionWithNoConsumptionAndRenewalsShouldNotBeObsolete() {
         setupPrescriptionWithFiveRenewals();
-        willReturn(true).given(prescription).isConsumptionsEmpty();
+        willReturn(false).given(prescription).hasConsumptions();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -117,23 +117,19 @@ public class PrescriptionTest {
     }
 
     private void setupPrescription() {
+        prescription = mock(Prescription.class, CALLS_REAL_METHODS);
+
         willReturn(CONSUMPTIONS).given(prescription).getConsumptions();
         willReturn(CONSUMPTION).given(prescription).getLastConsumption();
+        willReturn(PRESCRIPTION_NUMBER).given(prescription).getNumber();
     }
 
     private void setupPrescriptionWithFiveRenewals() {
-        prescription = mock(Prescription.class, CALLS_REAL_METHODS);
         setupPrescription();
         willReturn(FIVE_RENEWALS).given(prescription).getRenewals();
     }
 
-    private void setupPrescriptionWithNumber() {
-        prescription = mock(Prescription.class, CALLS_REAL_METHODS);
-        willReturn(PRESCRIPTION_NUMBER).given(prescription).getNumber();
-    }
-
     private void setupPrescriptionWithNoRenewals() {
-        prescription = mock(Prescription.class, CALLS_REAL_METHODS);
         setupPrescription();
         willReturn(ZERO_RENEWALS).given(prescription).getRenewals();
     }
