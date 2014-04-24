@@ -1,7 +1,14 @@
 package ca.ulaval.ift6002.m2.domain.prescription;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -74,10 +81,9 @@ public class PrescriptionTest {
     }
 
     @Test
-    public void givenPrescriptionWithNoRemainingRenewalsShouldBeObsolete() {
+    public void givenPrescriptionWithNoRemainingRenewalsAndOldConsumptionShouldBeObsolete() {
         setupPrescriptionWithNoRenewals();
         setUpConsumptionOfSevenMonthsAgo();
-        willReturn(false).given(prescription).isConsumptionsEmpty();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -88,7 +94,6 @@ public class PrescriptionTest {
     public void givenPrescriptionWithOneOldConsumptionAndRenewalsShouldNotBeObsolete() {
         setUpConsumptionOfSevenMonthsAgo();
         setupPrescriptionWithFiveRenewals();
-        willReturn(true).given(prescription).hasConsumptions();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -98,8 +103,7 @@ public class PrescriptionTest {
     @Test
     public void givenPrescriptionWithOneRecentConsumptionAndNoRenewalsShouldNotBeObsolete() {
         setUpConsumptionOfOneMonthAgo();
-        setupPrescriptionWithFiveRenewals();
-        willReturn(true).given(prescription).hasConsumptions();
+        setupPrescriptionWithNoRenewals();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -107,9 +111,9 @@ public class PrescriptionTest {
     }
 
     @Test
-    public void givenPrescriptionWithNoConsumptionAndRenewalsShouldNotBeObsolete() {
+    public void givenPrescriptionWithOneRecentConsumptionAndRenewalsShouldNotBeObsolete() {
+        setUpConsumptionOfSevenMonthsAgo();
         setupPrescriptionWithFiveRenewals();
-        willReturn(false).given(prescription).hasConsumptions();
 
         boolean isObsolete = prescription.isObsolete();
 
@@ -120,6 +124,7 @@ public class PrescriptionTest {
         prescription = mock(Prescription.class, CALLS_REAL_METHODS);
 
         willReturn(CONSUMPTIONS).given(prescription).getConsumptions();
+        willReturn(true).given(prescription).hasConsumptions();
         willReturn(CONSUMPTION).given(prescription).getLastConsumption();
         willReturn(PRESCRIPTION_NUMBER).given(prescription).getNumber();
     }
@@ -142,10 +147,10 @@ public class PrescriptionTest {
     }
 
     private void setUpConsumptionOfOneMonthAgo() {
-        Date oneMonthsAgo = mock(Date.class);
-        willReturn(true).given(oneMonthsAgo).after(any(Date.class));
+        Date oneMonthAgo = mock(Date.class);
+        willReturn(true).given(oneMonthAgo).after(any(Date.class));
 
-        willReturn(oneMonthsAgo).given(CONSUMPTION).getDate();
+        willReturn(oneMonthAgo).given(CONSUMPTION).getDate();
     }
 
     private void setUpConsumptionWithCountOne() {
