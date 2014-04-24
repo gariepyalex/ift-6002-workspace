@@ -13,18 +13,21 @@ public abstract class Patient {
             throw new DeadPatientException("A dead patient cannot receive a prescription.");
         }
 
-        checkForInteraction(prescription);
+        if (isPrescriptionInteractingWithCurrentPrescriptions(prescription)) {
+            throw new OccuringInteractionException();
+        }
 
         addPrescription(prescription);
     }
 
-    private void checkForInteraction(Prescription newPrescription) {
-        Collection<Prescription> prescriptions = getPrescriptions();
-        for (Prescription prescription : prescriptions) {
-            if (prescription.isInteractingWith(newPrescription)) {
-                throw new OccuringInteractionException();
+    private boolean isPrescriptionInteractingWithCurrentPrescriptions(Prescription otherPrescription) {
+        for (Prescription prescription : getPrescriptions()) {
+            if (prescription.isInteractingWith(otherPrescription)) {
+                return true;
             }
         }
+
+        return false;
     }
 
     public void consumesPrescription(int prescriptionNumber, Consumption consumption) {
