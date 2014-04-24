@@ -11,13 +11,14 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 public class DemoDrugRepositoryFiller {
 
     private static final String DRUG_FILE_PATH = "/drug.txt";
+    private static final String DRUG_INTERACTIONS_FILE_PATH = "/interactions.txt";
 
     private final DrugRepository drugRepository;
     private final FileParser<Drug> drugParser;
 
     public DemoDrugRepositoryFiller() {
         this.drugRepository = RepositoryLocator.getDrugRepository();
-        this.drugParser = new CSVDrugParser(DRUG_FILE_PATH);
+        this.drugParser = new CSVDrugParser(DRUG_FILE_PATH, DRUG_INTERACTIONS_FILE_PATH);
     }
 
     public void fill() {

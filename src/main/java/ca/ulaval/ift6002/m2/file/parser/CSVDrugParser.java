@@ -25,10 +25,10 @@ public class CSVDrugParser implements FileParser<Drug> {
     private final InteractionParser interactionParser;
     private final String filePath;
 
-    public CSVDrugParser(String filePath) {
+    public CSVDrugParser(String filePath, String interactionFilePath) {
         this.fileReader = new CSVFileReader();
         this.drugFactory = FactoryLocator.getDrugFactory();
-        this.interactionParser = new InteractionParser();
+        this.interactionParser = new InteractionParser(interactionFilePath);
         this.filePath = filePath;
     }
 

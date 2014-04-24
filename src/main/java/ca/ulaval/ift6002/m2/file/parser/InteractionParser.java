@@ -11,19 +11,19 @@ import ca.ulaval.ift6002.m2.file.reader.FileReader;
 
 public class InteractionParser {
 
-    private static final String DATA_FILE_PATH = "/interactions.txt";
-
     private static final String KEY_REGEX_SEPARATOR = "=>";
     private static final String VALUE_REGEX_SEPARATOR = ",";
 
     private final FileReader<String> fileReader;
+    private final String filePath;
 
-    public InteractionParser() {
+    public InteractionParser(String filePath) {
         this.fileReader = new ByLineFileReader();
+        this.filePath = filePath;
     }
 
     public Map<Din, List<Din>> parse() {
-        List<String> lines = fileReader.readAll(DATA_FILE_PATH);
+        List<String> lines = fileReader.readAll(filePath);
 
         return fillInteractions(lines);
     }
@@ -55,7 +55,8 @@ public class InteractionParser {
         return interactingDins;
     }
 
-    protected InteractionParser(FileReader<String> interactionFileReader) {
+    protected InteractionParser(FileReader<String> interactionFileReader, String filePath) {
         this.fileReader = interactionFileReader;
+        this.filePath = filePath;
     }
 }
