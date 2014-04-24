@@ -48,7 +48,6 @@ public class PatientSteps {
 
     @When("j'ajoute cette consommation")
     public void consumePrescription() {
-
         Response response = new RequestBuilder().withContent(consumptionRequest).doPost(
                 "/patient/{patientId}/prescriptions/{prescriptionId}/consommations", PatientContext.getPatientId(),
                 PrescriptionContext.getPrescriptionId());
