@@ -1,6 +1,9 @@
 package ca.ulaval.ift6002.m2.acceptance.builder;
 
+import java.util.Date;
+
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 
 public class PrescriptionRequestBuilder {
 
@@ -17,7 +20,7 @@ public class PrescriptionRequestBuilder {
     }
 
     public PrescriptionRequestBuilder fillMeaninglessData() {
-        return practitionner("Practitionner").renewals(1).date("2014-01-12T00:08:06");
+        return practitionner("Practitionner").withRecentDate().withRenewals();
     }
 
     public PrescriptionRequestBuilder practitionner(String practitionner) {
@@ -28,6 +31,13 @@ public class PrescriptionRequestBuilder {
     public PrescriptionRequestBuilder date(String date) {
         this.date = date;
         return this;
+    }
+
+    public PrescriptionRequestBuilder withRecentDate() {
+        Date today = new Date();
+        String dateAsString = new DateFormatter().dateToString(today);
+
+        return date(dateAsString);
     }
 
     public PrescriptionRequestBuilder din(String din) {
@@ -43,6 +53,10 @@ public class PrescriptionRequestBuilder {
     public PrescriptionRequestBuilder renewals(Integer renewals) {
         this.renewals = renewals;
         return this;
+    }
+
+    public PrescriptionRequestBuilder withRenewals() {
+        return renewals(1);
     }
 
     public PrescriptionRequest build() {
