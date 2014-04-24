@@ -14,7 +14,7 @@ public abstract class Patient {
         }
 
         if (isPrescriptionInteractingWithCurrentPrescriptions(prescription)) {
-            throw new OccuringInteractionException();
+            throw new InteractionDetectionException("An interaction occured with " + prescription + ".");
         }
 
         addPrescription(prescription);

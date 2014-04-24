@@ -39,7 +39,7 @@ public class PatientTest {
         prescriptions = Arrays.asList(prescription);
     }
 
-    @Test(expected = OccuringInteractionException.class)
+    @Test(expected = InteractionDetectionException.class)
     public void givenPatientWithAPrescriptionWhenAddingInteractingPrescriptionShouldThrowException() {
         willReturn(false).given(patient).isDead();
         willReturn(prescriptions).given(patient).getPrescriptions();
