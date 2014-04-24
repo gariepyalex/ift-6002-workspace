@@ -20,6 +20,8 @@ public abstract class Patient {
         addPrescription(prescription);
     }
 
+    protected abstract void addPrescription(Prescription prescription);
+
     private boolean isPrescriptionInteractingWithCurrentPrescriptions(Prescription otherPrescription) {
         for (Prescription prescription : getPrescriptions()) {
             if (prescription.isInteractingWith(otherPrescription)) {
@@ -44,8 +46,6 @@ public abstract class Patient {
 
         throw new PrescriptionNotFoundException("No prescription found for number: " + prescriptionNumber);
     }
-
-    protected abstract void addPrescription(Prescription prescription);
 
     public abstract boolean isDead();
 

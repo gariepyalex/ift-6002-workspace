@@ -1,6 +1,10 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,13 +44,12 @@ public class PatientTest {
     }
 
     @Test(expected = InteractionDetectionException.class)
-    public void givenPatientWithAPrescriptionWhenAddingInteractingPrescriptionShouldThrowException() {
+    public void givenNonDeadPatientWhenAddingAnInteractingPrescriptionShouldThrowException() {
         willReturn(false).given(patient).isDead();
         willReturn(prescriptions).given(patient).getPrescriptions();
 
-        Prescription interactingPrescription = mock(Prescription.class, CALLS_REAL_METHODS);
+        Prescription interactingPrescription = mock(Prescription.class);
         willReturn(true).given(prescription).isInteractingWith(interactingPrescription);
-        doNothing().when(patient).addPrescription(interactingPrescription);
 
         patient.receivesPrescription(interactingPrescription);
     }
@@ -62,6 +65,7 @@ public class PatientTest {
         willReturn(false).given(patient).isDead();
         willReturn(Collections.emptyList()).given(patient).getPrescriptions();
         doNothing().when(patient).addPrescription(prescription);
+
         patient.receivesPrescription(prescription);
 
         verify(patient).addPrescription(prescription);
