@@ -48,7 +48,7 @@ public class PatientSteps {
     @Given("un patient avec une prescription")
     public void aPatientWithPrescription() {
         patientFixture.setupExistingPatientWithPrescription();
-        prescriptionFixture.setupPrescriptionContext(PatientContext.getPatient());
+        prescriptionFixture.setupPrescriptionWithinCurrentPatient();
     }
 
     @Given("une consommation valide")
