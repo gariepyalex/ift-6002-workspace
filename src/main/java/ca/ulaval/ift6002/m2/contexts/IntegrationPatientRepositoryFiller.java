@@ -16,7 +16,6 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class IntegrationPatientRepositoryFiller {
 
-    public static final int PATIENT_ID_WITH_RECENT_PRESCRIPTION = 3;
     private static final Din EXISTING_DIN = new Din("11111111");
     private static final Practitioner A_PRACTITIONER = new Practitioner("A random name");
 
@@ -47,8 +46,7 @@ public class IntegrationPatientRepositoryFiller {
                 existingDrug);
         Prescription oldPrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, RENEWALS, existingDrug);
 
-        Patient patientWithRecentPrescription = patientFactory.create(PATIENT_ID_WITH_RECENT_PRESCRIPTION,
-                "ABCD 4512 1213");
+        Patient patientWithRecentPrescription = patientFactory.create(3, "ABCD 4512 1213");
         patientWithRecentPrescription.receivesPrescription(recentPrescription);
 
         Patient patientWithOldPrescription = patientFactory.create(4, "ABCD 4512 1213");

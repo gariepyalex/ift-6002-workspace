@@ -12,16 +12,18 @@ import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
-import ca.ulaval.ift6002.m2.contexts.IntegrationPatientRepositoryFiller;
 
 import com.jayway.restassured.response.Response;
 
 public class PatientSteps {
 
+    private static final int PATIENT_ID_WITH_RECENT_PRESCRIPTION = 3;
     private static final Integer EXISTING_PATIENT_ID = 1;
     private static final Integer UNEXISTING_PATIENT_ID = -999;
+
     private static final String DATE = "2001-07-04T12:08:56";
     private static final String PHARMACY = "Pharmacie ABC de Portneuf";
+
     private static final Integer CONSUMPTIONS_COUNT = 2;
     private static final Integer MANY_CONSUMPTIONS_COUNT = 100;
 
@@ -46,7 +48,7 @@ public class PatientSteps {
 
     @Given("un patient avec une prescription")
     public void aPatientWithPrescription() {
-        PatientContext.setPatientId(IntegrationPatientRepositoryFiller.PATIENT_ID_WITH_RECENT_PRESCRIPTION);
+        PatientContext.setPatientId(PATIENT_ID_WITH_RECENT_PRESCRIPTION);
     }
 
     @Given("une consommation valide")
