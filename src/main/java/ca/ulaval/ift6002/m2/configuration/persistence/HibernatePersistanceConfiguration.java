@@ -7,6 +7,7 @@ import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.DrugHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.OperationHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.PatientHibernateRepository;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProviderThreadSafe;
 import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
@@ -15,7 +16,7 @@ public class HibernatePersistanceConfiguration implements Configurable {
     @Override
     public void configure() {
         RepositoryLocator repositoryLocator = new RepositoryLocator();
-        EntityManagerProviderThreadSafe entityManagerProvider = new EntityManagerProviderThreadSafe();
+        EntityManagerProvider entityManagerProvider = new EntityManagerProviderThreadSafe();
         repositoryLocator.register(DrugRepository.class, new DrugHibernateRepository(entityManagerProvider));
         repositoryLocator.register(PatientRepository.class, new PatientHibernateRepository(entityManagerProvider));
         repositoryLocator.register(OperationRepository.class, new OperationHibernateRepository(entityManagerProvider));
