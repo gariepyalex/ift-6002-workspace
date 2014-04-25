@@ -53,6 +53,4 @@ public abstract class Patient {
 
     public abstract Collection<Prescription> getPrescriptions();
 
-    public abstract String getHealthInsuranceNumber();
-
 }

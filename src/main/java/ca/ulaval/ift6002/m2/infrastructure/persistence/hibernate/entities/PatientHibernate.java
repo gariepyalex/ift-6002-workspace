@@ -21,12 +21,10 @@ public class PatientHibernate extends Patient {
 
     @OneToMany(cascade = { CascadeType.ALL })
     public Collection<PrescriptionHibernate> prescriptions;
-    public String healthInsuranceNumber;
     public Boolean isDead;
 
-    public PatientHibernate(Integer number, String healthInsuranceNumber) {
+    public PatientHibernate(Integer number) {
         this.number = number;
-        this.healthInsuranceNumber = healthInsuranceNumber;
         this.isDead = false;
         this.prescriptions = new ArrayList<>();
     }
@@ -48,16 +46,11 @@ public class PatientHibernate extends Patient {
     }
 
     @Override
-    public String getHealthInsuranceNumber() {
-        return healthInsuranceNumber;
-    }
-
-    @Override
     public boolean isDead() {
         return isDead;
     }
 
     protected PatientHibernate() {
-        this(0, "");
+        this(0);
     }
 }

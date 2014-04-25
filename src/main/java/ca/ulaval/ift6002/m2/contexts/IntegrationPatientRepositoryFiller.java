@@ -38,21 +38,21 @@ public class IntegrationPatientRepositoryFiller {
     }
 
     public void fill() {
-        patientRepository.store(patientFactory.create(1, "ABCD 4512 1213"));
-        patientRepository.store(patientFactory.create(2, "ABCD 4512 1213"));
+        patientRepository.store(patientFactory.create(1));
+        patientRepository.store(patientFactory.create(2));
 
         Drug existingDrug = drugRepository.get(EXISTING_DIN);
         Prescription recentPrescription = prescriptionFactory.create(A_PRACTITIONER, RECENT_DATE, RENEWALS,
                 existingDrug);
         Prescription oldPrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, RENEWALS, existingDrug);
 
-        Patient patientWithRecentPrescription = patientFactory.create(3, "ABCD 4512 1213");
+        Patient patientWithRecentPrescription = patientFactory.create(3);
         patientWithRecentPrescription.receivesPrescription(recentPrescription);
 
-        Patient patientWithOldPrescription = patientFactory.create(4, "ABCD 4512 1213");
+        Patient patientWithOldPrescription = patientFactory.create(4);
         patientWithOldPrescription.receivesPrescription(oldPrescription);
 
-        Patient deadPatient = patientFactory.create(5, "ABCD 4512 1213");
+        Patient deadPatient = patientFactory.create(5);
         deadPatient.declareDead();
 
         patientRepository.store(patientWithRecentPrescription);

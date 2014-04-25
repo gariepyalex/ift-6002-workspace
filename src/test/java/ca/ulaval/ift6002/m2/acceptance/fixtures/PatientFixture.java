@@ -44,7 +44,7 @@ public class PatientFixture {
 
     public Patient getUnexistingPatient() {
         PatientFactory patientFactory = FactoryLocator.getPatientFactory();
-        return patientFactory.create(UNEXISTING_PATIENT_ID, "AAA AAA AAA");
+        return patientFactory.create(UNEXISTING_PATIENT_ID);
     }
 
     public Patient getDeadPatient() {

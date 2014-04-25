@@ -11,7 +11,6 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.Patien
 public class PatientHibernateFactoryTest {
 
     private static final int PATIENT_NUMBER = 1;
-    private static final String HEALT_INSURANCE_NUMBER = "AAA AAA";
 
     private PatientHibernateFactory patientHibernateFactory;
 
@@ -22,7 +21,7 @@ public class PatientHibernateFactoryTest {
 
     @Test
     public void whenCreatingPatientShouldReturnPatientHibernate() {
-        Patient patient = patientHibernateFactory.create(PATIENT_NUMBER, HEALT_INSURANCE_NUMBER);
+        Patient patient = patientHibernateFactory.create(PATIENT_NUMBER);
         assertEquals(PatientHibernate.class, patient.getClass());
     }
 }

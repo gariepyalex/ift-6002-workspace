@@ -16,8 +16,8 @@ public class DemoPatientRepositoryFiller {
     }
 
     public void fill() {
-        patientRepository.store(patientFactory.create(1, "ABCD 4512 1213"));
-        patientRepository.store(patientFactory.create(2, "QWER 7894 8798"));
+        patientRepository.store(patientFactory.create(1));
+        patientRepository.store(patientFactory.create(2));
     }
 
     protected DemoPatientRepositoryFiller(PatientRepository patientRepository, PatientFactory patientFactory) {

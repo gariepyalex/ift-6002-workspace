@@ -7,8 +7,8 @@ import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.Patien
 public class PatientHibernateFactory implements PatientFactory {
 
     @Override
-    public Patient create(int number, String healthInsuranceNumber) {
-        return new PatientHibernate(number, healthInsuranceNumber);
+    public Patient create(int number) {
+        return new PatientHibernate(number);
     }
 
 }
