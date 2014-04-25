@@ -69,7 +69,7 @@ public class PrescriptionTest {
         setUpConsumptionWithCountOne();
         setupPrescriptionWithFiveRenewals();
 
-        assertEquals(FOUR_REMAINING_RENEWALS, prescription.remainingRenewals());
+        assertEquals(FOUR_REMAINING_RENEWALS, prescription.countRemainingRenewals());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class PrescriptionTest {
         setUpConsumptionWithCountTwo();
         setupPrescriptionWithFiveRenewals();
 
-        assertEquals(THREE_REMAINING_RENEWALS, prescription.remainingRenewals());
+        assertEquals(THREE_REMAINING_RENEWALS, prescription.countRemainingRenewals());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class PrescriptionTest {
         setUpConsumptionWithCountFive();
         setupPrescriptionWithFiveRenewals();
 
-        assertEquals(ZERO_RENEWALS, prescription.remainingRenewals());
+        assertEquals(ZERO_RENEWALS, prescription.countRemainingRenewals());
     }
 
     @Test

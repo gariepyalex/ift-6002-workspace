@@ -30,7 +30,7 @@ public class PrescriptionAssembler {
     public PrescriptionResponse toResponse(Prescription prescription) {
         String formattedDate = dateFormatter.dateToString(prescription.getDate());
         String practitioner = prescription.getPractioner().toString();
-        Integer remainingRenewals = Integer.valueOf(prescription.remainingRenewals());
+        Integer remainingRenewals = Integer.valueOf(prescription.countRemainingRenewals());
         Integer authorizedRenewals = Integer.valueOf(prescription.getRenewals());
         String brandName = prescription.getDrug().getBrandName();
 

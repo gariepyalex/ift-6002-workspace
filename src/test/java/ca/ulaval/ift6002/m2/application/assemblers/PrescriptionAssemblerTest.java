@@ -140,7 +140,7 @@ public class PrescriptionAssemblerTest {
         willReturn(A_DATE).given(PRESCRIPTION).getDate();
         willReturn(A_PRACTITIONER).given(PRESCRIPTION).getPractioner();
         willReturn(A_RENEWALS).given(PRESCRIPTION).getRenewals();
-        willReturn(A_REMAINING_RENEWALS).given(PRESCRIPTION).remainingRenewals();
+        willReturn(A_REMAINING_RENEWALS).given(PRESCRIPTION).countRemainingRenewals();
         willReturn(DRUG).given(PRESCRIPTION).getDrug();
     }
 }

@@ -18,17 +18,17 @@ public abstract class Prescription {
     public void addConsumption(Consumption consumption) {
         if (!hasEnoughRenewalsFor(consumption)) {
             throw new NotEnoughRenewalsException("Consumption request: " + consumption.getCount()
-                    + ", but remaining renewals: " + remainingRenewals());
+                    + ", but remaining renewals: " + countRemainingRenewals());
         }
 
         addConsumptionInPrescription(consumption);
     }
 
     private boolean hasEnoughRenewalsFor(Consumption consumption) {
-        return remainingRenewals() >= consumption.getCount();
+        return countRemainingRenewals() >= consumption.getCount();
     }
 
-    public int remainingRenewals() {
+    public int countRemainingRenewals() {
         return getRenewals() - consumptionsCount();
     }
 
@@ -55,7 +55,7 @@ public abstract class Prescription {
     }
 
     private boolean hasRemainingRenewals() {
-        return remainingRenewals() > 0;
+        return countRemainingRenewals() > 0;
     }
 
     private boolean isLastComsumptionConsumedInPastSixMonths() {
