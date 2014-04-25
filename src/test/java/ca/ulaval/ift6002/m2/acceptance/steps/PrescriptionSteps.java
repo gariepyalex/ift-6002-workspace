@@ -26,7 +26,6 @@ public class PrescriptionSteps extends Steps {
 
     private static final String INVALID_DIN = "Invalid";
     private static final int INVALID_RENEWALS = -1;
-    private static final Integer EXISTING_PATIENT_PRESCRIPTION = 1;
 
     private PrescriptionRequest prescriptionRequest;
 
@@ -44,8 +43,6 @@ public class PrescriptionSteps extends Steps {
     @Alias("une prescription valide")
     public void aValidPrescriptionWithDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
-        // TODO seems to be useless but not sure
-        // PrescriptionContext.setPrescriptionId(EXISTING_PATIENT_PRESCRIPTION);
     }
 
     @Given("une prescription avec un DIN inexistant")
