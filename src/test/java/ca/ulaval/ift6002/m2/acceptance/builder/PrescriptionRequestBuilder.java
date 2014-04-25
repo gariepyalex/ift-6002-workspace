@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.acceptance.builder;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 public class PrescriptionRequestBuilder {
 
@@ -42,6 +43,14 @@ public class PrescriptionRequestBuilder {
 
     public PrescriptionRequestBuilder renewals(Integer renewals) {
         this.renewals = renewals;
+        return this;
+    }
+
+    public PrescriptionRequestBuilder prescription(Prescription prescription) {
+        this.date = prescription.getDate().toString();
+        this.din = prescription.getDrug().getDin().toString();
+        this.name = prescription.getDrug().getBrandName();
+        this.renewals = prescription.getRenewals();
         return this;
     }
 

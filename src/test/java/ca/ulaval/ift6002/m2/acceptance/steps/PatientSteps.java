@@ -9,20 +9,18 @@ import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
+import ca.ulaval.ift6002.m2.contexts.IntegrationPatientRepositoryFiller;
 
 import com.jayway.restassured.response.Response;
 
 public class PatientSteps {
 
     private static final Integer EXISTING_PATIENT_ID = 1;
-
     private static final Integer UNEXISTING_PATIENT_ID = -999;
-
     private static final String DATE = "2001-07-04T12:08:56";
-
     private static final String PHARMACY = "Pharmacie ABC de Portneuf";
-
     private static final Integer CONSUMPTIONS_COUNT = 2;
+    private static final Integer MANY_CONSUMPTIONS_COUNT = 100;
 
     private ConsumptionRequest consumptionRequest;
 
@@ -43,9 +41,19 @@ public class PatientSteps {
         PatientContext.setPatientId(UNEXISTING_PATIENT_ID);
     }
 
+    @Given("un patient avec une prescription")
+    public void aPatientWithPrescription() {
+        PatientContext.setPatientId(IntegrationPatientRepositoryFiller.PATIENT_ID_WITH_RECENT_PRESCRIPTION);
+    }
+
     @Given("une consommation valide")
     public void aValidConsumption() {
         consumptionRequest = new ConsumptionRequest(DATE, PHARMACY, CONSUMPTIONS_COUNT);
+    }
+
+    @Given("une consommation excédant le nombre de renouvellement restants")
+    public void aConsumptionWithManyConsumptionsCount() {
+        consumptionRequest = new ConsumptionRequest(DATE, PHARMACY, MANY_CONSUMPTIONS_COUNT);
     }
 
     @When("j'ajoute cette consommation")
