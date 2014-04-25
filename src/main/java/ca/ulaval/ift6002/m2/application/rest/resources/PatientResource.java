@@ -68,7 +68,7 @@ public class PatientResource extends Resource {
 
             return success(responses);
         } catch (NoSuchElementException e) {
-            return badRequest(NO_PATIENT_FOUND_CODE, e.getMessage());
+            return notFound(NO_PATIENT_FOUND_CODE, e.getMessage());
         }
     }
 

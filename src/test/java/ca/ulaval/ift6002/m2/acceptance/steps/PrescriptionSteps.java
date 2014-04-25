@@ -78,6 +78,14 @@ public class PrescriptionSteps extends Steps {
         ResponseContext.setResponse(response);
     }
 
+    @When("je demande le sommaire des prescriptions de ce patient")
+    public void getPrescriptionsSummary() {
+        Response response = new RequestBuilder().doGet("/patient/{patientId}/prescriptions",
+                PatientContext.getPatientNumber());
+
+        ResponseContext.setResponse(response);
+    }
+
     @Then("cette prescription est conservée")
     public void prescriptionIsSaved() {
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
