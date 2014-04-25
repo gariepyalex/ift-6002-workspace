@@ -62,3 +62,10 @@ Et un instrument valide
 Quand j'ajoute cet instrument à l'intervention
 Alors cet instrument a été ajouté à l'intervention
 Et le protocole HTTP retourné est le 201
+
+Scénario: Ajouter un instrument sans numéro de série à une intervention dangereuse
+Etant donné que une intervention existante dangereuse
+Et un instrument sans numéro de série
+Quand j'ajoute cet instrument à l'intervention
+Alors une erreur est retournée
+Et le protocole HTTP retourné est le 400
