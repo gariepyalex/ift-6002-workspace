@@ -64,7 +64,8 @@ public class PrescriptionHibernate extends Prescription {
     }
 
     protected PrescriptionHibernate() {
-        // For hibernate
+        this.dateFormatter = new DateFormatter();
+        this.drugFactory = FactoryLocator.getDrugFactory();
     }
 
     public String getDrugName() {

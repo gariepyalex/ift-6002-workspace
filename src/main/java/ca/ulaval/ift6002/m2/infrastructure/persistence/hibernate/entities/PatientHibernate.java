@@ -51,6 +51,6 @@ public class PatientHibernate extends Patient {
     }
 
     protected PatientHibernate() {
-        this(0);
+        // for hibernate
     }
 }
