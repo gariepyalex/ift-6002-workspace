@@ -10,10 +10,7 @@ import org.jbehave.core.steps.Steps;
 import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
-import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
-import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
-import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
 import com.jayway.restassured.response.Response;
 
@@ -26,31 +23,7 @@ public class SurgerySteps extends Steps {
     private static final String A_VALID_TYPE = "OEIL";
     private static final String A_VALID_STATUS = "EN_COURS";
 
-    private static final String INSTRUMENT_SERIAL_NUMBER = "231-654-65465";
-    private static final String INSTRUMENT_TYPE_CODE = "IT72353";
-
-    private int operationNumber;
-    private InstrumentRequest instrumentToPost;
-
     private OperationRequest operationRequest;
-
-    // TODO is all this crap really useful?!
-    // @BeforeStory
-    // public void setUpStories() {
-    // addValidOperation();
-    // }
-    //
-    // private void addValidOperation() {
-    // aValidOperation();
-    //
-    // Response response = new
-    // RequestBuilder().withContent(operationRequest).doPost("/interventions");
-    // ResponseContext.setResponse(response);
-    //
-    // String location = response.header("location");
-    // operationNumber =
-    // Integer.parseInt(location.replaceAll("(.*/interventions)/(.*)", "$2"));
-    // }
 
     @Given("une intervention avec des informations manquantes")
     public void anOperationWithMissingData() {
@@ -67,6 +40,11 @@ public class SurgerySteps extends Steps {
     public void aValidOperationWithoutStatus() {
         aValidOperation();
         operationRequest.status = "";
+    }
+
+    @Given("une intervention existante")
+    public void anExistingOperation() {
+        // TODO have real number, OperationFixture
     }
 
     @When("j'ajoute cette intervention au dossier du patient")
@@ -88,57 +66,9 @@ public class SurgerySteps extends Steps {
 
     @Then("le statut de cette intervention est à \"PLANIFIEE\"")
     public void operationStatusIsSetToPlanified() {
+        // TODO review if this is necessary also...
         // TODO We must validate this criteria as well... see how to do it
         // Assert.assertEquals("PLANIFIEE", operationRequest.status); // stupid
         // try
-    }
-
-    // TODO Remove all this crap related to instrument...
-    @Given("une intervention est existante")
-    public void anExistingOperation() {
-
-    }
-
-    @Given("un instrument est existant")
-    public void anExistingInstrument() {
-
-    }
-
-    @When("j'ajoute l'instrument à l'intervention")
-    public void addInstrumentToOperation() {
-        instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.SOILED.toString(),
-                INSTRUMENT_SERIAL_NUMBER);
-
-        Response response = new RequestBuilder().withContent(instrumentToPost).doPost(
-                "/interventions/{operationNumber}/instruments", operationNumber);
-
-        ResponseContext.setResponse(response);
-
-    }
-
-    @When("je modifie le statut d'un instrument")
-    public void modifyingInstrumentStatus() {
-        instrumentToPost = new InstrumentRequest(INSTRUMENT_TYPE_CODE, InstrumentStatus.UNUSED.toString(),
-                INSTRUMENT_SERIAL_NUMBER);
-
-        Response response = new RequestBuilder().withContent(instrumentToPost)
-                .doPut("/interventions/{operationNumber}/instruments/" + INSTRUMENT_TYPE_CODE + "/"
-                        + INSTRUMENT_SERIAL_NUMBER, operationNumber);
-        ResponseContext.setResponse(response);
-
-    }
-
-    @Then("cet instrument a été ajouté à l'opération")
-    public void instrumentIsLinkedWithOperation() {
-        String expectedLocation = "http://localhost:" + JettyTestRunner.JETTY_TEST_PORT + "/interventions/"
-                + operationNumber + "/instruments/" + INSTRUMENT_TYPE_CODE + "/" + INSTRUMENT_SERIAL_NUMBER;
-
-        ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
-        ResponseContext.getResponse().then().header("location", expectedLocation);
-    }
-
-    @Then("cet instrument a été modifié")
-    public void instrumentHasBeenModified() {
-        ResponseContext.getResponse().then().statusCode(Status.OK.getStatusCode());
     }
 }

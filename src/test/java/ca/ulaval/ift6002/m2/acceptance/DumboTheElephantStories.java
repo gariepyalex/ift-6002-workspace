@@ -27,6 +27,7 @@ import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.acceptance.steps.DrugSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.ErrorSteps;
+import ca.ulaval.ift6002.m2.acceptance.steps.InstrumentSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.PatientSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.PrescriptionSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.SurgerySteps;
@@ -59,7 +60,7 @@ public class DumboTheElephantStories extends JUnitStories {
     @Override
     public InjectableStepsFactory stepsFactory() {
         return new InstanceStepsFactory(configuration(), new ErrorSteps(), new SurgerySteps(), new PrescriptionSteps(),
-                new DrugSteps(), new PatientSteps(), new JettyTestRunner());
+                new DrugSteps(), new PatientSteps(), new InstrumentSteps(), new JettyTestRunner());
 
     }
 
