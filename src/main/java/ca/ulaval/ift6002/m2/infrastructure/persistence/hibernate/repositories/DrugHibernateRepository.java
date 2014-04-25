@@ -9,6 +9,7 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.DrugHibernate;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 public class DrugHibernateRepository implements DrugRepository {
@@ -17,8 +18,8 @@ public class DrugHibernateRepository implements DrugRepository {
     private final DrugFactory drugFactory;
     private final String tableName = "DrugHibernate";
 
-    public DrugHibernateRepository() {
-        hibernateRepository = new HibernateRepository<>(DrugHibernate.class);
+    public DrugHibernateRepository(EntityManagerProvider entityManagerProvider) {
+        hibernateRepository = new HibernateRepository<>(entityManagerProvider, DrugHibernate.class);
         this.drugFactory = FactoryLocator.getDrugFactory();
     }
 

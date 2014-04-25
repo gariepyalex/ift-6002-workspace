@@ -4,6 +4,7 @@ import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.entities.OperationHibernateData;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
 import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 public class OperationHibernateRepository implements OperationRepository {
@@ -11,8 +12,8 @@ public class OperationHibernateRepository implements OperationRepository {
     private final HibernateRepository<OperationHibernateData> hibernateRepository;
     private final OperationFactory operationFactory;
 
-    public OperationHibernateRepository() {
-        hibernateRepository = new HibernateRepository<>(OperationHibernateData.class);
+    public OperationHibernateRepository(EntityManagerProvider entityManagerProvider) {
+        hibernateRepository = new HibernateRepository<>(entityManagerProvider, OperationHibernateData.class);
         operationFactory = FactoryLocator.getOperationFactory();
     }
 

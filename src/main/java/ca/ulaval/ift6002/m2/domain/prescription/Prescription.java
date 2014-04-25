@@ -25,7 +25,7 @@ public abstract class Prescription {
     }
 
     private boolean hasEnoughRenewalsFor(Consumption consumption) {
-        return remainingRenewals() > consumption.getCount();
+        return remainingRenewals() >= consumption.getCount();
     }
 
     public int remainingRenewals() {

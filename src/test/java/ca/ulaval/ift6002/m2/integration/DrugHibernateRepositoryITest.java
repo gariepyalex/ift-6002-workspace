@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -18,10 +19,12 @@ import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
 import ca.ulaval.ift6002.m2.contexts.IntegrationDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
+import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.DrugHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProviderThreadSafe;
+import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 public class DrugHibernateRepositoryITest {
 
@@ -37,44 +40,63 @@ public class DrugHibernateRepositoryITest {
     private static final String EXISTING_BRANDNAME_CAMELCASE_SEARCH_PATTERN = "AdViL";
     private static final String EXISTING_DESCRIPTOR_CAMELCASE_SEARCH_PATTERN = "DeScRiPtOr";
 
-    private static final Din A_VALID_DIN = new Din("11111111");
+    private static final String A_BRANDNAME = "A brand name";
+    private static final String A_DESCRIPTOR = "A descripor";
+
+    private static final Din AN_EXISTING_DIN = new Din("11111111");
     private static final Din UNEXISTING_DIN = new Din("-1");
+    private static final Din A_NEW_DIN = new Din("StoringDin");
 
     private static EntityManager entityManager;
 
     private static DrugRepository drugRepository;
+
+    private static DrugFactory drugFactory;
 
     @BeforeClass
     public static void oneTimeSetUp() {
         setupFactoryLocator();
         setUpEntityManager();
 
-        drugRepository = new DrugHibernateRepository();
+        drugFactory = FactoryLocator.getDrugFactory();
+        drugRepository = new DrugHibernateRepository(new EntityManagerProviderThreadSafe());
 
-        entityManager.getTransaction().begin();
+        beginTransaction();
 
         new IntegrationDrugRepositoryFiller(drugRepository).fill();
+
+        commitTransaction();
     }
 
     @AfterClass
     public static void closeEntityManager() {
-
-        entityManager.getTransaction().rollback();
-
-        EntityManagerProvider.clearEntityManager();
+        EntityManagerProviderThreadSafe.clearEntityManager();
         entityManager.close();
         EntityManagerFactoryProvider.closeFactory();
     }
 
     @Test
     public void givenValidDinWhenGettingDrugShouldReturnDrug() {
-        Drug drug = drugRepository.get(A_VALID_DIN);
-        assertEquals(A_VALID_DIN, drug.getDin());
+        Drug drug = drugRepository.get(AN_EXISTING_DIN);
+        assertEquals(AN_EXISTING_DIN, drug.getDin());
     }
 
     @Test(expected = NoSuchElementException.class)
     public void givenUnexistingDinWhenGettingDrugShouldThrowException() {
         drugRepository.get(UNEXISTING_DIN);
+    }
+
+    @Test
+    public void givenNewDrugWhenStoringShouldBeStored() {
+        Drug newDrug = drugFactory.create(A_NEW_DIN, A_BRANDNAME, A_DESCRIPTOR);
+        Collection<Drug> newDrugs = Arrays.asList(newDrug);
+
+        beginTransaction();
+        drugRepository.store(newDrugs);
+        commitTransaction();
+
+        Drug drugRetrieved = drugRepository.get(A_NEW_DIN);
+        assertEquals(A_NEW_DIN, drugRetrieved.getDin());
     }
 
     @Test
@@ -140,7 +162,15 @@ public class DrugHibernateRepositoryITest {
     private static void setUpEntityManager() {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
+        EntityManagerProviderThreadSafe.setEntityManager(entityManager);
 
+    }
+
+    private static void beginTransaction() {
+        entityManager.getTransaction().begin();
+    }
+
+    private static void commitTransaction() {
+        entityManager.getTransaction().commit();
     }
 }

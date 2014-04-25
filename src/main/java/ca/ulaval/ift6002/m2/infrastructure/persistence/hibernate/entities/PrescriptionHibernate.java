@@ -50,6 +50,7 @@ public class PrescriptionHibernate extends Prescription {
         this.renewals = renewals;
         this.consumptions = new ArrayList<>();
         this.drugFactory = FactoryLocator.getDrugFactory();
+        this.drugName = "";
 
         if (drug.hasDin()) {
             this.drug = (DrugHibernate) drug;

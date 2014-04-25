@@ -4,6 +4,7 @@ import java.util.Date;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
+import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 public class PrescriptionRequestBuilder {
 
@@ -57,6 +58,14 @@ public class PrescriptionRequestBuilder {
 
     public PrescriptionRequestBuilder withRenewals() {
         return renewals(1);
+    }
+
+    public PrescriptionRequestBuilder fromPrescription(Prescription prescription) {
+        this.date = prescription.getDate().toString();
+        this.din = prescription.getDrug().getDin().toString();
+        this.name = prescription.getDrug().getBrandName();
+        this.renewals = prescription.getRenewals();
+        return this;
     }
 
     public PrescriptionRequest build() {
