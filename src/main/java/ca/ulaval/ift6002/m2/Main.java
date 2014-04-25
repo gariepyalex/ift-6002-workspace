@@ -8,7 +8,7 @@ import ca.ulaval.ift6002.m2.configuration.persistence.HibernatePersistanceConfig
 import ca.ulaval.ift6002.m2.contexts.DemoDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.DemoPatientRepositoryFiller;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProviderThreadSafe;
 
 public class Main {
 
@@ -34,7 +34,7 @@ public class Main {
     private static EntityManager setUpEntityManager() {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
+        EntityManagerProviderThreadSafe.setEntityManager(entityManager);
 
         return entityManager;
     }
@@ -48,7 +48,7 @@ public class Main {
     }
 
     private static void closeEntityManager(EntityManager entityManager) {
-        EntityManagerProvider.clearEntityManager();
+        EntityManagerProviderThreadSafe.clearEntityManager();
         entityManager.close();
         EntityManagerFactoryProvider.closeFactory();
     }

@@ -18,7 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.infrastructure.persistence.QueryBuilder;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.HibernateQueryBuilder;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProviderThreadSafe;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HibernateRepositoryTest {
@@ -36,7 +36,7 @@ public class HibernateRepositoryTest {
     private EntityManager entityManager;
 
     @Mock
-    private EntityManagerProvider entityManagerProvider;
+    private EntityManagerProviderThreadSafe entityManagerProvider;
 
     @InjectMocks
     private HibernateRepository<Integer> hibernateRepository;

@@ -23,7 +23,7 @@ import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories.DrugHibernateRepository;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProviderThreadSafe;
 import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 
 public class DrugHibernateRepositoryITest {
@@ -59,7 +59,7 @@ public class DrugHibernateRepositoryITest {
         setUpEntityManager();
 
         drugFactory = FactoryLocator.getDrugFactory();
-        drugRepository = new DrugHibernateRepository();
+        drugRepository = new DrugHibernateRepository(new EntityManagerProviderThreadSafe());
 
         beginTransaction();
 
@@ -70,7 +70,7 @@ public class DrugHibernateRepositoryITest {
 
     @AfterClass
     public static void closeEntityManager() {
-        EntityManagerProvider.clearEntityManager();
+        EntityManagerProviderThreadSafe.clearEntityManager();
         entityManager.close();
         EntityManagerFactoryProvider.closeFactory();
     }
@@ -162,7 +162,7 @@ public class DrugHibernateRepositoryITest {
     private static void setUpEntityManager() {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
+        EntityManagerProviderThreadSafe.setEntityManager(entityManager);
 
     }
 
