@@ -20,3 +20,11 @@ Etant donné que une consommation valide
 Quand j'ajoute cette consommation
 Alors une erreur est retournée
 Et cette erreur a le code "PRES011"
+
+Scénario: Consommer un nombre de prescriptions excédant le nombre de renoullement restants
+Etant donné que un patient avec une prescription
+Et cette prescription assignée au patient
+Etant donné que une consommation excédant le nombre de renouvellement restants
+Quand j'ajoute cette consommation
+Alors une erreur est retournée
+Et cette erreur a le code "PRES012"
