@@ -90,4 +90,9 @@ public class PrescriptionSteps extends Steps {
     public void prescriptionIsSaved() {
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
+
+    @Then("toutes les prescriptions sont affichées")
+    public void allPrescriptionsAreShown() {
+        // TODO assert
+    }
 }

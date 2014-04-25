@@ -10,3 +10,9 @@ Quand je demande le sommaire des prescriptions de ce patient
 Alors une erreur est retournée
 Alors cette erreur a le code "PRES010"
 Et le protocole HTTP retourné est le 404
+
+Scénario: Retrouver le sommaire des prescriptions d'un patient existant
+Etant donné que un patient avec une prescription
+Quand je demande le sommaire des prescriptions de ce patient
+Alors toutes les prescriptions sont affichées
+Et le protocole HTTP retourné est le 200
