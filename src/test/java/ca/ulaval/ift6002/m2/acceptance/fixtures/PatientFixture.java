@@ -10,6 +10,8 @@ public class PatientFixture {
 
     private static final int PATIENT_NUMBER = 1;
     private static final int PATIENT_ID_WITH_RECENT_PRESCRIPTION = 3;
+    private static final int DEAD_PATIENT_NUMBER = 5;
+
     private static final Integer UNEXISTING_PATIENT_ID = -999;
 
     public void setupExistingPatient() {
@@ -27,6 +29,11 @@ public class PatientFixture {
         PatientContext.setPatientNumber(UNEXISTING_PATIENT_ID);
     }
 
+    public void setupDeadPatient() {
+        PatientContext.setPatient(getDeadPatient());
+        PatientContext.setPatientNumber(DEAD_PATIENT_NUMBER);
+    }
+
     public Patient getExistingPatient() {
         return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER);
     }
@@ -38,5 +45,9 @@ public class PatientFixture {
     public Patient getUnexistingPatient() {
         PatientFactory patientFactory = FactoryLocator.getPatientFactory();
         return patientFactory.create(UNEXISTING_PATIENT_ID, "AAA AAA AAA");
+    }
+
+    public Patient getDeadPatient() {
+        return RepositoryLocator.getPatientRepository().get(DEAD_PATIENT_NUMBER);
     }
 }

@@ -51,6 +51,11 @@ public class PatientSteps {
         prescriptionFixture.setupPrescriptionWithinCurrentPatient();
     }
 
+    @Given("un patient est mort")
+    public void aDeadPatient() {
+        patientFixture.setupDeadPatient();
+    }
+
     @Given("une consommation valide")
     public void aValidConsumption() {
         consumptionRequest = new ConsumptionRequest(DATE, PHARMACY, CONSUMPTIONS_COUNT);

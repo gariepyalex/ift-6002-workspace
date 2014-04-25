@@ -52,7 +52,11 @@ public class IntegrationPatientRepositoryFiller {
         Patient patientWithOldPrescription = patientFactory.create(4, "ABCD 4512 1213");
         patientWithOldPrescription.receivesPrescription(oldPrescription);
 
+        Patient deadPatient = patientFactory.create(5, "ABCD 4512 1213");
+        deadPatient.declareDead();
+
         patientRepository.store(patientWithRecentPrescription);
         patientRepository.store(patientWithOldPrescription);
+        patientRepository.store(deadPatient);
     }
 }
