@@ -10,14 +10,16 @@ Etant donné que un patient est existant
 Et une intervention avec des informations manquantes
 Quand j'ajoute cette intervention au dossier du patient
 Alors une erreur est retournée
-Et cette erreur a le code "INT001"
+Alors cette erreur a le code "INT001"
+Et le protocole HTTP retourné est le 400
 
 Scénario: Créer une intervention avec un patient inexistant
 Etant donné que un patient est inexistant
 Et une intervention valide
 Quand j'ajoute cette intervention au dossier du patient
 Alors une erreur est retournée
-Et cette erreur a le code "INT002"
+Alors cette erreur a le code "INT002"
+Et le protocole HTTP retourné est le 400
 
 Scénario: Créer une intervention sans statut
 Etant donné que un patient est existant
@@ -31,4 +33,5 @@ Etant donné que un patient est existant
 Et une intervention valide
 Quand j'ajoute cette intervention au dossier du patient
 Alors cette intervention est conservée
-Et cette intervention est associée au dossier du patient
+Alors cette intervention est associée au dossier du patient
+Et le protocole HTTP retourné est le 201

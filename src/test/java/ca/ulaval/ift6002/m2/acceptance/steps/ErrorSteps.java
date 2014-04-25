@@ -22,4 +22,10 @@ public class ErrorSteps extends Steps {
     public void thisErrorHasAnErrorCode(@Named("errorCode") String errorCode) {
         ResponseContext.getResponse().then().body("code", equalTo(errorCode));
     }
+
+    @Then("le protocole HTTP retourné est le $httpProtocol")
+    public void httpCode(@Named("httpProtocol") Integer httpCode) {
+        ResponseContext.getResponse().then().assertThat().statusCode(httpCode);
+    }
+
 }
