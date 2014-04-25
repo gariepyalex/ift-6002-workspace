@@ -1,6 +1,6 @@
 CheckInteractions
 
-Narrative: étecter les interactions
+Narrative: Détecter les interactions
 Comme intervenant,
 Je veux que le système m'aide à détecter des interactions médicamenteuses,
 Afin de prévenir une réaction grave du patient pouvant causer la mort.
