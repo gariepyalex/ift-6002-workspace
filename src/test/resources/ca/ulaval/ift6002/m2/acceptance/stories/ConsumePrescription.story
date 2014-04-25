@@ -36,3 +36,10 @@ Etant donné que une consommation invalide
 Quand j'ajoute cette consommation
 Alors une erreur est retournée
 Et cette erreur a le code "PRES013"
+
+Scénario: Consommer une prescription correctement
+Etant donné que un patient avec une prescription
+Et cette prescription assignée au patient
+Etant donné que une consommation valide
+Quand j'ajoute cette consommation
+Alors cette consommation est effectuée
