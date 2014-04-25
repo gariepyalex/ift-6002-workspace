@@ -25,6 +25,7 @@ public class JettyTestRunner {
 
     @BeforeStories
     public void startJetty() throws Exception {
+        // TODO CHANGE THIS TO MOCK
         new HibernateFactoryConfiguration().configure();
         new TestHibernatePersistanceConfiguration().configure();
 
