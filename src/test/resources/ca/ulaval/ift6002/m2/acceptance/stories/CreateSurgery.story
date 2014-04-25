@@ -21,6 +21,13 @@ Alors une erreur est retournée
 Alors cette erreur a le code "INT002"
 Et le protocole HTTP retourné est le 400
 
+Scénario: Créer une intervention sans statut
+Etant donné que un patient est existant
+Et une intervention valide sans statut
+Quand j'ajoute cette intervention au dossier du patient
+Alors cette intervention est conservée
+Et le statut de cette intervention est à "PLANIFIEE"
+
 Scénario: Créer une intervention chirurgicale valide
 Etant donné que un patient est existant
 Et une intervention valide
