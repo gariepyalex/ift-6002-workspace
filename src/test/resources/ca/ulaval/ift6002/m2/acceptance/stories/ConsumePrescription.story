@@ -28,3 +28,11 @@ Etant donné que une consommation excédant le nombre de renouvellement restants
 Quand j'ajoute cette consommation
 Alors une erreur est retournée
 Et cette erreur a le code "PRES012"
+
+Scénario: Consommer avec des informations manquantes une prescription
+Etant donné que un patient avec une prescription
+Et cette prescription assignée au patient
+Etant donné que une consommation invalide
+Quand j'ajoute cette consommation
+Alors une erreur est retournée
+Et cette erreur a le code "PRES013"

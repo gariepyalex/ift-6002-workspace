@@ -51,6 +51,11 @@ public class PatientSteps {
         consumptionRequest = new ConsumptionRequest(DATE, PHARMACY, CONSUMPTIONS_COUNT);
     }
 
+    @Given("une consommation invalide")
+    public void anInvalidConsumption() {
+        consumptionRequest = new ConsumptionRequest(null, null, null);
+    }
+
     @Given("une consommation excédant le nombre de renouvellement restants")
     public void aConsumptionWithManyConsumptionsCount() {
         consumptionRequest = new ConsumptionRequest(DATE, PHARMACY, MANY_CONSUMPTIONS_COUNT);
