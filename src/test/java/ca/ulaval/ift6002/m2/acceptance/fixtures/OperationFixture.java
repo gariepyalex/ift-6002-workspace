@@ -2,6 +2,7 @@ package ca.ulaval.ift6002.m2.acceptance.fixtures;
 
 import java.util.Date;
 
+import ca.ulaval.ift6002.m2.acceptance.contexts.OperationContext;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
@@ -14,6 +15,10 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 public class OperationFixture {
 
     private PatientFixture patientFixture = new PatientFixture();
+
+    public void setupOperationContext() {
+        OperationContext.setOperation(getExistingOperation());
+    }
 
     public Operation getExistingOperation() {
 

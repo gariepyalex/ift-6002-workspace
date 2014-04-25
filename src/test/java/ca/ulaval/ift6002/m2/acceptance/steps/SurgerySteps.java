@@ -10,6 +10,7 @@ import org.jbehave.core.steps.Steps;
 import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
+import ca.ulaval.ift6002.m2.acceptance.fixtures.OperationFixture;
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 
 import com.jayway.restassured.response.Response;
@@ -24,6 +25,8 @@ public class SurgerySteps extends Steps {
     private static final String A_VALID_STATUS = "EN_COURS";
 
     private OperationRequest operationRequest;
+
+    private OperationFixture operationFixture = new OperationFixture();
 
     @Given("une intervention avec des informations manquantes")
     public void anOperationWithMissingData() {
@@ -44,7 +47,7 @@ public class SurgerySteps extends Steps {
 
     @Given("une intervention existante")
     public void anExistingOperation() {
-        // TODO have real number, OperationFixture
+        operationFixture.setupOperationContext();
     }
 
     @When("j'ajoute cette intervention au dossier du patient")
