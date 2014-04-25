@@ -34,4 +34,9 @@ public enum OperationType {
 
         return false;
     }
+
+    public static OperationType getRandomRestrictedOperation() {
+        OperationType[] restrictedOperationArray = { EYE, HEART, MARROW };
+        return restrictedOperationArray[(int) (Math.random() * restrictedOperationArray.length)];
+    }
 }

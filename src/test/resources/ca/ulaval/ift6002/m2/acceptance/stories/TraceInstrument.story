@@ -49,9 +49,16 @@ Alors une erreur est retournée
 Alors cette erreur a le code "INT011"
 Et le protocole HTTP retourné est le 400
 
-Scénario: Ajouter deux fois un instrument avec le même typecode
+Scénario: Ajouter deux fois un instrument anonyme avec le même typecode
 Etant donné que une intervention existante
 Et un instrument valide anonyme associé à cette intervention
+Quand j'ajoute cet instrument à l'intervention
+Alors cet instrument a été ajouté à l'intervention
+Et le protocole HTTP retourné est le 201
+
+Scénario: Ajouter un instrument avec numéro de série à une intervention dangereuse
+Etant donné que une intervention existante dangereuse
+Et un instrument valide
 Quand j'ajoute cet instrument à l'intervention
 Alors cet instrument a été ajouté à l'intervention
 Et le protocole HTTP retourné est le 201

@@ -44,6 +44,11 @@ public class OperationSteps extends Steps {
         operationFixture.setupExistingOperation();
     }
 
+    @Given("une intervention existante dangereuse")
+    public void anExistingDangerousOperation() {
+        operationFixture.setupExistingDangerousOperation();
+    }
+
     @When("j'ajoute cette intervention au dossier du patient")
     public void createSurgery() {
         Response response = new RequestBuilder().withContent(operationRequest).doPost("/interventions/");

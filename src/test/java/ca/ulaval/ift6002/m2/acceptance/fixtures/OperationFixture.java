@@ -32,6 +32,12 @@ public class OperationFixture {
         OperationContext.setOperation(operation);
     }
 
+    public void setupExistingDangerousOperation() {
+        Operation operation = createRandomDangerousOperation();
+
+        OperationContext.setOperation(operation);
+    }
+
     public Operation getExistingOperation() {
         return OperationContext.getOperation();
     }
@@ -47,6 +53,17 @@ public class OperationFixture {
         return operation;
     }
 
+    private Operation createRandomDangerousOperation() {
+        Patient patient = patientFixture.getExistingPatient();
+
+        Operation operation = FactoryLocator.getOperationFactory().create(OperationType.getRandomRestrictedOperation(),
+                A_DESCRIPTION, A_SURGEON, A_DATE, A_ROOM, AN_OPERATION_STATUS, patient);
+
+        RepositoryLocator.getOperationRepository().store(operation);
+
+        return operation;
+    }
+
     public void addInstrumentToExistingOperation(InstrumentRequest instrumentRequest) {
         InstrumentAssembler instrumentAssembler = new InstrumentAssembler();
 
@@ -54,5 +71,4 @@ public class OperationFixture {
 
         getExistingOperation().add(instrument);
     }
-
 }
