@@ -1,5 +1,7 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
+import static org.hamcrest.Matchers.containsString;
+
 import javax.ws.rs.core.Response.Status;
 
 import org.jbehave.core.annotations.BeforeScenario;
@@ -12,7 +14,6 @@ import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.OperationContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.acceptance.fixtures.OperationFixture;
-import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
@@ -45,6 +46,11 @@ public class InstrumentSteps extends Steps {
         operationFixture.addInstrumentToExistingOperation(instrumentRequest);
     }
 
+    @Given("un instrument sans numéro de série")
+    public void anInstrumentWithoutSerialNumber() {
+        instrumentRequest = new InstrumentRequest(TYPECODE, STATUS, "");
+    }
+
     @Given("un instrument sans statut")
     public void anInstrumentWithoutStatut() {
         instrumentRequest = new InstrumentRequest(TYPECODE, "", SERIAL_NUMBER);
@@ -62,27 +68,24 @@ public class InstrumentSteps extends Steps {
     public void modifiyInstrumentStatus() {
         Response response = new RequestBuilder().withContent(instrumentRequest).doPut(
                 "/interventions/{operationNumber}/instruments/{typecode}/{no_serie}",
-                OperationContext.getOperationNumber(), instrumentRequest.typecode, instrumentRequest.serial);
+                OperationContext.getOperationNumber(), TYPECODE, SERIAL_NUMBER);
 
         ResponseContext.setResponse(response);
     }
 
     @Then("cet instrument a été ajouté à l'intervention")
     public void instrumentBindedToOperation() {
-        ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode())
-                .header("location", getValidLocationHeader(TYPECODE, SERIAL_NUMBER));
+        ResponseContext
+                .getResponse()
+                .then()
+                .statusCode(Status.CREATED.getStatusCode())
+                .header("location",
+                        containsString("/interventions/" + OperationContext.getOperationNumber().toString()
+                                + "/instruments/" + TYPECODE + "/" + SERIAL_NUMBER));
     }
 
     @Then("cet instrument a été modifié")
     public void instrumentHasBeenModified() {
         ResponseContext.getResponse().then().statusCode(Status.OK.getStatusCode());
-    }
-
-    private String getValidLocationHeader(String instrumentTypecode, String instrumentSerialNumber) {
-        String validHeader = "http://localhost:" + JettyTestRunner.JETTY_TEST_PORT;
-        validHeader += "/interventions/" + OperationContext.getOperationNumber().toString();
-        validHeader += "/instruments/" + instrumentTypecode + "/" + instrumentSerialNumber;
-
-        return validHeader;
     }
 }

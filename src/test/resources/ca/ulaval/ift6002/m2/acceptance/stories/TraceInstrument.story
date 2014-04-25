@@ -33,6 +33,14 @@ Alors une erreur est retournée
 Alors cette erreur a le code "INT010"
 Et le protocole HTTP retourné est le 400
 
+Scénario: Modifier un instrument sans numéro de série
+Etant donné que une intervention existante
+Et un instrument sans numéro de série
+Quand je modifie le statut de cet instrument
+Alors une erreur est retournée
+Alors cette erreur a le code "INT012"
+Et le protocole HTTP retourné est le 400
+
 Scénario: Ajouter deux fois un instrument avec le même numéro de série
 Etant donné que une intervention existante
 Et un instrument valide associé à cette intervention
