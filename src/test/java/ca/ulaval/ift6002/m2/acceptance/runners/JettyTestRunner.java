@@ -9,7 +9,7 @@ import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.BeforeStories;
 
 import ca.ulaval.ift6002.m2.JettyServer;
-import ca.ulaval.ift6002.m2.acceptance.configuration.TestHibernatePersistanceConfiguration;
+import ca.ulaval.ift6002.m2.acceptance.configuration.TestPersistanceConfiguration;
 import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
 import ca.ulaval.ift6002.m2.contexts.IntegrationDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.IntegrationPatientRepositoryFiller;
@@ -25,9 +25,8 @@ public class JettyTestRunner {
 
     @BeforeStories
     public void startJetty() throws Exception {
-        // TODO CHANGE THIS TO MOCK
         new HibernateFactoryConfiguration().configure();
-        new TestHibernatePersistanceConfiguration().configure();
+        new TestPersistanceConfiguration().configure();
 
         entityManager = setUpEntityManager();
 
