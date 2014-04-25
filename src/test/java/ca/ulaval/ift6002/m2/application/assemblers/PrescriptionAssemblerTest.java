@@ -1,6 +1,5 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
@@ -129,8 +128,6 @@ public class PrescriptionAssemblerTest {
         assertEquals(expectedResponse.remainingRenewals, responseBuilt.remainingRenewals);
         assertEquals(expectedResponse.autorizedRenewals, responseBuilt.autorizedRenewals);
         assertEquals(expectedResponse.name, responseBuilt.name);
-        assertEquals(expectedResponse.din, responseBuilt.din);
-        assertArrayEquals(expectedResponse.consumptionResponses, responseBuilt.consumptionResponses);
     }
 
     private void setupDrugWithDin() {
