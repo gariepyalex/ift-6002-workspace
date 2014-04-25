@@ -1,16 +1,10 @@
 package ca.ulaval.ift6002.m2.acceptance.builder;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.mock;
-
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
-import ca.ulaval.ift6002.m2.domain.drug.Din;
-import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
-import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class PrescriptionRequestBuilder {
 
@@ -75,9 +69,6 @@ public class PrescriptionRequestBuilder {
     }
 
     public PrescriptionRequest build() {
-        Drug drug = mock(Drug.class);
-        willReturn(drug).given(RepositoryLocator.getDrugRepository()).get(new Din(din));
-
         PrescriptionRequest prescriptionRequest = new PrescriptionRequest(practitionner, date, renewals, din, name);
 
         return prescriptionRequest;
