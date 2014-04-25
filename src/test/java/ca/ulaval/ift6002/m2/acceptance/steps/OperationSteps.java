@@ -15,7 +15,7 @@ import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
 
 import com.jayway.restassured.response.Response;
 
-public class SurgerySteps extends Steps {
+public class OperationSteps extends Steps {
 
     private static final String A_DESCRIPTION = "description";
     private static final int A_SURGEON_NUMBER = 101224;
