@@ -20,8 +20,8 @@ public class PrescriptionRequestBuilder {
         fillMeaninglessData();
     }
 
-    public PrescriptionRequestBuilder fillMeaninglessData() {
-        return practitionner("Practitionner").withRecentDate().withRenewals();
+    private void fillMeaninglessData() {
+        practitionner("Practitionner").withRecentDate().withRenewals();
     }
 
     public PrescriptionRequestBuilder practitionner(String practitionner) {
