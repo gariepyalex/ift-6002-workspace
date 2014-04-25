@@ -11,15 +11,13 @@ import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
+import ca.ulaval.ift6002.m2.acceptance.fixtures.PatientFixture;
+import ca.ulaval.ift6002.m2.acceptance.fixtures.PrescriptionFixture;
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
 
 import com.jayway.restassured.response.Response;
 
 public class PatientSteps {
-
-    private static final int PATIENT_ID_WITH_RECENT_PRESCRIPTION = 3;
-    private static final Integer EXISTING_PATIENT_ID = 1;
-    private static final Integer UNEXISTING_PATIENT_ID = -999;
 
     private static final String DATE = "2001-07-04T12:08:56";
     private static final String PHARMACY = "Pharmacie ABC de Portneuf";
@@ -29,6 +27,9 @@ public class PatientSteps {
 
     private ConsumptionRequest consumptionRequest;
 
+    private PatientFixture patientFixture = new PatientFixture();
+    private PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
+
     @BeforeScenario
     public void clearResults() {
         consumptionRequest = null;
@@ -36,18 +37,18 @@ public class PatientSteps {
 
     @Given("un patient est existant")
     public void anExistingPatient() {
-        PatientContext.setPatientId(EXISTING_PATIENT_ID);
+        patientFixture.setupExistingPatient();
     }
 
     @Given("un patient est inexistant")
     public void anUnexistingPatient() {
-        PatientContext.setPatientId(UNEXISTING_PATIENT_ID);
+        patientFixture.setupUnexistingPatient();
     }
 
     @Given("un patient avec une prescription")
     public void aPatientWithPrescription() {
-        PatientContext.setPatientId(PATIENT_ID_WITH_RECENT_PRESCRIPTION);
-        PrescriptionContext.setPrescriptionIdWithinCurrentPatient();
+        patientFixture.setupExistingPatientWithPrescription();
+        prescriptionFixture.setupPrescriptionContext(PatientContext.getPatient());
     }
 
     @Given("une consommation valide")
@@ -68,7 +69,7 @@ public class PatientSteps {
     @When("j'ajoute cette consommation")
     public void consumePrescription() {
         Response response = new RequestBuilder().withContent(consumptionRequest).doPost(
-                "/patient/{patientId}/prescriptions/{prescriptionId}/consommations", PatientContext.getPatientId(),
+                "/patient/{patientId}/prescriptions/{prescriptionId}/consommations", PatientContext.getPatientNumber(),
                 PrescriptionContext.getPrescriptionId());
 
         ResponseContext.setResponse(response);

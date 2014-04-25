@@ -12,7 +12,6 @@ import org.jbehave.core.steps.Steps;
 import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionRequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
-import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 
@@ -45,7 +44,8 @@ public class PrescriptionSteps extends Steps {
     @Alias("une prescription valide")
     public void aValidPrescriptionWithDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
-        PrescriptionContext.setPrescriptionId(EXISTING_PATIENT_PRESCRIPTION);
+        // TODO seems to be useless but not sure
+        // PrescriptionContext.setPrescriptionId(EXISTING_PATIENT_PRESCRIPTION);
     }
 
     @Given("une prescription avec un DIN inexistant")
@@ -76,7 +76,7 @@ public class PrescriptionSteps extends Steps {
     @When("j'ajoute cette prescription au dossier du patient")
     public void addingThePrescriptionWithMissingData() {
         Response response = new RequestBuilder().withContent(prescriptionRequest).doPost(
-                "/patient/{patientId}/prescriptions", PatientContext.getPatientId());
+                "/patient/{patientId}/prescriptions", PatientContext.getPatientNumber());
 
         ResponseContext.setResponse(response);
     }

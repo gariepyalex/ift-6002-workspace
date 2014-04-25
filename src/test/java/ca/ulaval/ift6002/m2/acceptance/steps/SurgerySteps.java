@@ -54,13 +54,13 @@ public class SurgerySteps extends Steps {
 
     @Given("une intervention avec des informations manquantes")
     public void anOperationWithMissingData() {
-        operationRequest = new OperationRequest("", 0, "", "", "", "", PatientContext.getPatientId());
+        operationRequest = new OperationRequest("", 0, "", "", "", "", PatientContext.getPatientNumber());
     }
 
     @Given("une intervention valide")
     public void aValidOperation() {
         operationRequest = new OperationRequest(A_DESCRIPTION, A_SURGEON_NUMBER, A_DATE, A_ROOM, A_VALID_TYPE,
-                A_VALID_STATUS, PatientContext.getPatientId());
+                A_VALID_STATUS, PatientContext.getPatientNumber());
     }
 
     @Given("une intervention valide sans statut")

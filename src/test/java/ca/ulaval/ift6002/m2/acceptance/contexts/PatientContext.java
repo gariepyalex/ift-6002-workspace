@@ -1,25 +1,29 @@
 package ca.ulaval.ift6002.m2.acceptance.contexts;
 
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
-import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class PatientContext {
 
-    private static Integer patientId;
+    private static Patient patientInstance;
+    private static int patientNumber;
 
-    public static void setPatientId(Integer aPatientId) {
-        patientId = aPatientId;
+    public static void setPatient(Patient patient) {
+        patientInstance = patient;
     }
 
-    public static Integer getPatientId() {
-        return patientId;
+    public static Patient getPatient() {
+        return patientInstance;
+    }
+
+    public static void setPatientNumber(int number) {
+        patientNumber = number;
+    }
+
+    public static int getPatientNumber() {
+        return patientNumber;
     }
 
     public static void reset() {
-        patientId = null;
-    }
-
-    public static Patient getCurrentPatient() {
-        return RepositoryLocator.getPatientRepository().get(patientId);
+        patientInstance = null;
     }
 }
