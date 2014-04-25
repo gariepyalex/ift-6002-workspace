@@ -6,17 +6,16 @@ import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class PrescriptionFixture {
 
-    PatientRepository patientRepository;
-
     public PrescriptionFixture() {
-        // TODO uncomment when the thread fix will be done
-        // patientRepository = RepositoryLocator.getPatientRepository();
+
     }
 
     public Prescription getFirstPrescriptionOfCurrentPatient() {
+        PatientRepository patientRepository = RepositoryLocator.getPatientRepository();
         Patient patient = patientRepository.get(PatientContext.getPatientId());
         Iterator<Prescription> iterator = patient.getPrescriptions().iterator();
         Prescription prescription = iterator.next();
