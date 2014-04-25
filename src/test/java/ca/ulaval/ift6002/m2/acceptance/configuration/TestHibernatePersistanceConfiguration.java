@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.acceptance.configuration;
 
+import static org.mockito.Mockito.spy;
 import ca.ulaval.ift6002.m2.configuration.Configurable;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
@@ -15,13 +16,17 @@ public class TestHibernatePersistanceConfiguration implements Configurable {
 
     @Override
     public void configure() {
-        RepositoryLocator repositoryLocator = new RepositoryLocator();
         EntityManagerProvider entityManagerProvider = new EntityManagerProviderGlobal();
-        repositoryLocator.register(DrugRepository.class, new DrugHibernateRepository(entityManagerProvider));
-        repositoryLocator.register(PatientRepository.class, new PatientHibernateRepository(entityManagerProvider));
-        repositoryLocator.register(OperationRepository.class, new OperationHibernateRepository(entityManagerProvider));
+        DrugRepository drugRepository = new DrugHibernateRepository(entityManagerProvider);
+        PatientRepository patientRepository = new PatientHibernateRepository(entityManagerProvider);
+        OperationRepository operationRepository = new OperationHibernateRepository(entityManagerProvider);
+
+        RepositoryLocator repositoryLocator = new RepositoryLocator();
+
+        repositoryLocator.register(DrugRepository.class, spy(drugRepository));
+        repositoryLocator.register(PatientRepository.class, spy(patientRepository));
+        repositoryLocator.register(OperationRepository.class, spy(operationRepository));
 
         RepositoryLocator.load(repositoryLocator);
-
     }
 }

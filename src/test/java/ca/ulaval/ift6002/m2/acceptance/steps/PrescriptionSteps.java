@@ -1,10 +1,7 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.mock;
-
-import java.util.NoSuchElementException;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -20,8 +17,7 @@ import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
-import ca.ulaval.ift6002.m2.domain.drug.Din;
-import ca.ulaval.ift6002.m2.domain.drug.Drug;
+import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 import com.jayway.restassured.response.Response;
@@ -52,22 +48,16 @@ public class PrescriptionSteps extends Steps {
     @Alias("une prescription valide")
     public void aValidPrescriptionWithDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
-
-        willReturn(mock(Drug.class)).given(RepositoryLocator.getDrugRepository()).get(new Din(ADVIL_DIN));
     }
 
     @Given("une prescription avec un DIN inexistant")
     public void aPrescriptionWithInexistantDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(INVALID_DIN).build();
-
-        willThrow(new NoSuchElementException()).given(RepositoryLocator.getDrugRepository()).get(new Din(INVALID_DIN));
     }
 
     @Given("une prescription avec nom de médicament")
     public void aValidPrescriptionWithDrugName() {
         prescriptionRequest = new PrescriptionRequestBuilder().name(ADVIL_NAME).build();
-
-        willReturn(mock(Drug.class)).given(RepositoryLocator.getDrugRepository()).get(ADVIL_NAME);
     }
 
     @Given("une prescription avec un DIN et un nom de médicament")
@@ -83,8 +73,6 @@ public class PrescriptionSteps extends Steps {
     @Given("une prescription récente qui interagit avec tous les médicaments")
     public void aPrescriptionInPatientFiles() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN).withRecentDate().build();
-
-        willReturn(mock(Drug.class)).given(RepositoryLocator.getDrugRepository()).get(new Din(INTERACTING_DIN));
     }
 
     @When("j'ajoute cette prescription au dossier du patient")
@@ -105,6 +93,8 @@ public class PrescriptionSteps extends Steps {
 
     @Then("cette prescription est conservée")
     public void prescriptionIsSaved() {
+        verify(RepositoryLocator.getPatientRepository()).store(any(Patient.class));
+
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
 
