@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.acceptance.fixtures;
 
+import static org.mockito.BDDMockito.willReturn;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
@@ -15,7 +16,10 @@ public class PatientFixture {
     private static final Integer UNEXISTING_PATIENT_ID = -999;
 
     public void setupExistingPatient() {
-        PatientContext.setPatient(getExistingPatient());
+        Patient patient = FactoryLocator.getPatientFactory().create(PATIENT_NUMBER);
+        willReturn(patient).given(RepositoryLocator.getPatientRepository()).get(PATIENT_NUMBER);
+
+        PatientContext.setPatient(patient);
         PatientContext.setPatientNumber(PATIENT_NUMBER);
     }
 
