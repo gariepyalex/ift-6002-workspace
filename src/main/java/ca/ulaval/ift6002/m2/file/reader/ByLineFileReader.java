@@ -21,7 +21,6 @@ public class ByLineFileReader implements FileReader<String> {
 
             return Files.readAllLines(path, StandardCharsets.UTF_8);
         } catch (IOException | InvalidPathException | URISyntaxException e) {
-            // TODO should we stop the program?
             return Collections.emptyList();
         }
     }

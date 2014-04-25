@@ -24,7 +24,6 @@ public class DrugHibernate extends Drug {
     private String brandName;
     private String descriptor;
 
-    // TODO check if this annotation is ok
     @ManyToMany
     @JoinTable(name = "tbl_interaction")
     private Collection<DrugHibernate> interactingDrugs;

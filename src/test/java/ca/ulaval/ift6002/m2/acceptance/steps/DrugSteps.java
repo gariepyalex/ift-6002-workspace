@@ -47,16 +47,4 @@ public class DrugSteps extends Steps {
         ResponseContext.setResponse(response);
     }
 
-    // TODO see if we remove this crap
-    // private Collection<DrugResponse> getDrugs() {
-    // Object responseContent =
-    // ResponseContext.getResponse().getBody().as(Object.class);
-    //
-    // @SuppressWarnings("unchecked")
-    // Map<Integer, DrugResponse> drugs = (Map<Integer, DrugResponse>)
-    // responseContent;
-    //
-    // return drugs.values();
-    // }
-
 }
