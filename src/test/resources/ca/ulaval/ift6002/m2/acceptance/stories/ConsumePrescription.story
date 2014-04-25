@@ -21,25 +21,22 @@ Quand j'ajoute cette consommation
 Alors une erreur est retournée
 Et cette erreur a le code "PRES011"
 
-Scénario: Consommer un nombre de prescriptions excédant le nombre de renoullement restants
+Scénario: Consommer un nombre de prescriptions excédant le nombre de renouvellements restants
 Etant donné que un patient avec une prescription
-Et cette prescription assignée au patient
-Etant donné que une consommation excédant le nombre de renouvellement restants
+Et une consommation excédant le nombre de renouvellements restants
 Quand j'ajoute cette consommation
 Alors une erreur est retournée
 Et cette erreur a le code "PRES012"
 
 Scénario: Consommer avec des informations manquantes une prescription
 Etant donné que un patient avec une prescription
-Et cette prescription assignée au patient
-Etant donné que une consommation invalide
+Et une consommation invalide
 Quand j'ajoute cette consommation
 Alors une erreur est retournée
 Et cette erreur a le code "PRES013"
 
 Scénario: Consommer une prescription correctement
 Etant donné que un patient avec une prescription
-Et cette prescription assignée au patient
-Etant donné que une consommation valide
+Et une consommation valide
 Quand j'ajoute cette consommation
 Alors cette consommation est effectuée

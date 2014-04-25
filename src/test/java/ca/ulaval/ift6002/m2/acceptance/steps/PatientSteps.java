@@ -47,6 +47,7 @@ public class PatientSteps {
     @Given("un patient avec une prescription")
     public void aPatientWithPrescription() {
         PatientContext.setPatientId(PATIENT_ID_WITH_RECENT_PRESCRIPTION);
+        PrescriptionContext.setPrescriptionIdWithinCurrentPatient();
     }
 
     @Given("une consommation valide")
@@ -59,7 +60,7 @@ public class PatientSteps {
         consumptionRequest = new ConsumptionRequest(null, null, null);
     }
 
-    @Given("une consommation excédant le nombre de renouvellement restants")
+    @Given("une consommation excédant le nombre de renouvellements restants")
     public void aConsumptionWithManyConsumptionsCount() {
         consumptionRequest = new ConsumptionRequest(DATE, PHARMACY, MANY_CONSUMPTIONS_COUNT);
     }

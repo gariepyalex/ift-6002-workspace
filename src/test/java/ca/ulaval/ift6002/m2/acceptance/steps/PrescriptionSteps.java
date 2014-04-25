@@ -14,9 +14,7 @@ import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
-import ca.ulaval.ift6002.m2.acceptance.fixtures.PrescriptionFixture;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
-import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 
 import com.jayway.restassured.response.Response;
 
@@ -32,7 +30,6 @@ public class PrescriptionSteps extends Steps {
     private static final Integer EXISTING_PATIENT_PRESCRIPTION = 1;
 
     private PrescriptionRequest prescriptionRequest;
-    private PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
 
     @BeforeScenario
     public void clearResults() {
@@ -49,13 +46,6 @@ public class PrescriptionSteps extends Steps {
     public void aValidPrescriptionWithDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
         PrescriptionContext.setPrescriptionId(EXISTING_PATIENT_PRESCRIPTION);
-    }
-
-    @Given("cette prescription assignée au patient")
-    public void aValidPrescriptionAssignedToPatient() {
-        Prescription prescription = prescriptionFixture.getFirstPrescriptionOfCurrentPatient();
-        prescriptionRequest = new PrescriptionRequestBuilder().fromPrescription(prescription).build();
-        PrescriptionContext.setPrescriptionId(prescription.getNumber());
     }
 
     @Given("une prescription avec un DIN inexistant")
