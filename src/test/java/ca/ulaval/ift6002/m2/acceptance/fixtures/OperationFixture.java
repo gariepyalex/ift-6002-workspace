@@ -17,7 +17,7 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class OperationFixture {
 
-    private static final OperationType AN_OPERATION_TYPE = OperationType.EYE;
+    private static final OperationType AN_OPERATION_TYPE = OperationType.ONCOLOGY;
     private static final String A_DESCRIPTION = "An operation description";
     private static final Surgeon A_SURGEON = new Surgeon(1);
     private static final Date A_DATE = new Date();
@@ -28,6 +28,12 @@ public class OperationFixture {
 
     public void setupExistingOperation() {
         Operation operation = createOperation();
+
+        OperationContext.setOperation(operation);
+    }
+
+    public void setupExistingDangerousOperation() {
+        Operation operation = createRandomDangerousOperation();
 
         OperationContext.setOperation(operation);
     }
@@ -47,6 +53,17 @@ public class OperationFixture {
         return operation;
     }
 
+    private Operation createRandomDangerousOperation() {
+        Patient patient = patientFixture.getExistingPatient();
+
+        Operation operation = FactoryLocator.getOperationFactory().create(OperationType.getRandomRestrictedOperation(),
+                A_DESCRIPTION, A_SURGEON, A_DATE, A_ROOM, AN_OPERATION_STATUS, patient);
+
+        RepositoryLocator.getOperationRepository().store(operation);
+
+        return operation;
+    }
+
     public void addInstrumentToExistingOperation(InstrumentRequest instrumentRequest) {
         InstrumentAssembler instrumentAssembler = new InstrumentAssembler();
 
@@ -54,5 +71,4 @@ public class OperationFixture {
 
         getExistingOperation().add(instrument);
     }
-
 }

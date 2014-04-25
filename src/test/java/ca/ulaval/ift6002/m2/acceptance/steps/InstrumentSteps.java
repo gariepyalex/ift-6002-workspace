@@ -46,6 +46,14 @@ public class InstrumentSteps extends Steps {
         operationFixture.addInstrumentToExistingOperation(instrumentRequest);
     }
 
+    @Given("un instrument valide anonyme associé à cette intervention")
+    public void anExistingAnonymousInstrument() {
+        anInstrumentWithoutSerialNumber();
+
+        // TODO Review if this is the right way to do it...
+        operationFixture.addInstrumentToExistingOperation(instrumentRequest);
+    }
+
     @Given("un instrument sans numéro de série")
     public void anInstrumentWithoutSerialNumber() {
         instrumentRequest = new InstrumentRequest(TYPECODE, STATUS, "");
@@ -81,7 +89,7 @@ public class InstrumentSteps extends Steps {
                 .statusCode(Status.CREATED.getStatusCode())
                 .header("location",
                         containsString("/interventions/" + OperationContext.getOperationNumber().toString()
-                                + "/instruments/" + TYPECODE + "/" + SERIAL_NUMBER));
+                                + "/instruments/" + instrumentRequest.typecode + "/" + instrumentRequest.serial));
     }
 
     @Then("cet instrument a été modifié")
