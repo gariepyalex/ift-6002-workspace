@@ -11,7 +11,7 @@ Alors cet instrument a été ajouté à l'intervention
 
 Scénario: Modifier le statut d'un instrument d'une intervention
 Etant donné que une intervention existante
-Et un instrument existant
+Et un instrument valide associé à cette intervention
 Quand je modifie le statut de cet instrument
 Alors cet instrument a été modifié
 

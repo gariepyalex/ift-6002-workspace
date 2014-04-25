@@ -11,6 +11,7 @@ import org.jbehave.core.steps.Steps;
 import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.OperationContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
+import ca.ulaval.ift6002.m2.acceptance.fixtures.OperationFixture;
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
@@ -18,12 +19,11 @@ import com.jayway.restassured.response.Response;
 
 public class InstrumentSteps extends Steps {
 
-    private static final String AN_EXISTING_SERIAL_NUMBER = "231-654-65465";
-
     private static final String SERIAL_NUMBER = "231-654-65465";
     private static final String TYPECODE = "IT72353";
     private static final String STATUS = InstrumentStatus.SOILED.toString();
 
+    private OperationFixture operationFixture = new OperationFixture();
     private InstrumentRequest instrumentRequest;
 
     @BeforeScenario
@@ -36,10 +36,12 @@ public class InstrumentSteps extends Steps {
         instrumentRequest = new InstrumentRequest(TYPECODE, STATUS, SERIAL_NUMBER);
     }
 
-    @Given("un instrument existant")
+    @Given("un instrument valide associé à cette intervention")
     public void anExistingInstrument() {
-        // TODO see how to have an existing instrument also
-        instrumentRequest = new InstrumentRequest(TYPECODE, STATUS, AN_EXISTING_SERIAL_NUMBER);
+        aValidInstrument();
+
+        // TODO Review if this is the right way to do it...
+        operationFixture.addInstrumentToExistingOperation(instrumentRequest);
     }
 
     @Given("un instrument sans statut")

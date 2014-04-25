@@ -10,6 +10,10 @@ public class OperationContext {
         operationInstance = operation;
     }
 
+    public static Operation getOperation() {
+        return operationInstance;
+    }
+
     public static Integer getOperationNumber() {
         return operationInstance.getNumber();
     }

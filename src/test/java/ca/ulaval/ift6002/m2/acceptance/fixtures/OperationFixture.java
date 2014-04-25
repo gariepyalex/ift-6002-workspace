@@ -3,6 +3,9 @@ package ca.ulaval.ift6002.m2.acceptance.fixtures;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.acceptance.contexts.OperationContext;
+import ca.ulaval.ift6002.m2.application.assemblers.InstrumentAssembler;
+import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
+import ca.ulaval.ift6002.m2.domain.instrument.Instrument;
 import ca.ulaval.ift6002.m2.domain.operation.Operation;
 import ca.ulaval.ift6002.m2.domain.operation.OperationStatus;
 import ca.ulaval.ift6002.m2.domain.operation.OperationType;
@@ -21,26 +24,35 @@ public class OperationFixture {
     private static final Room A_ROOM = new Room("A1");
     private static final OperationStatus AN_OPERATION_STATUS = OperationStatus.IN_PROGRESS;
 
-    private PatientFixture patientFixture = new PatientFixture();
+    private final PatientFixture patientFixture = new PatientFixture();
 
     public void setupExistingOperation() {
-        OperationContext.setOperation(getExistingOperation());
+        Operation operation = createOperation();
+
+        OperationContext.setOperation(operation);
     }
 
     public Operation getExistingOperation() {
-
-        return createOperation();
+        return OperationContext.getOperation();
     }
 
     private Operation createOperation() {
         Patient patient = patientFixture.getExistingPatient();
 
-        Operation operation = FactoryLocator.getOperationFactory().create(AN_OPERATION_TYPE, A_DESCRIPTION,
-                A_SURGEON, A_DATE, A_ROOM, AN_OPERATION_STATUS, patient);
+        Operation operation = FactoryLocator.getOperationFactory().create(AN_OPERATION_TYPE, A_DESCRIPTION, A_SURGEON,
+                A_DATE, A_ROOM, AN_OPERATION_STATUS, patient);
 
         RepositoryLocator.getOperationRepository().store(operation);
 
         return operation;
+    }
+
+    public void addInstrumentToExistingOperation(InstrumentRequest instrumentRequest) {
+        InstrumentAssembler instrumentAssembler = new InstrumentAssembler();
+
+        Instrument instrument = instrumentAssembler.fromRequest(instrumentRequest);
+
+        getExistingOperation().add(instrument);
     }
 
 }
