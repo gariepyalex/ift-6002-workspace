@@ -12,6 +12,7 @@ import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.OperationContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.acceptance.fixtures.OperationFixture;
+import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.application.requests.InstrumentRequest;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentStatus;
 
@@ -68,8 +69,8 @@ public class InstrumentSteps extends Steps {
 
     @Then("cet instrument a été ajouté à l'intervention")
     public void instrumentBindedToOperation() {
-        ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
-        // TODO assert header
+        ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode())
+                .header("location", getValidLocationHeader(TYPECODE, SERIAL_NUMBER));
     }
 
     @Then("cet instrument a été modifié")
@@ -77,4 +78,11 @@ public class InstrumentSteps extends Steps {
         ResponseContext.getResponse().then().statusCode(Status.OK.getStatusCode());
     }
 
+    private String getValidLocationHeader(String instrumentTypecode, String instrumentSerialNumber) {
+        String validHeader = "http://localhost:" + JettyTestRunner.JETTY_TEST_PORT;
+        validHeader += "/interventions/" + OperationContext.getOperationNumber().toString();
+        validHeader += "/instruments/" + instrumentTypecode + "/" + instrumentSerialNumber;
+
+        return validHeader;
+    }
 }
