@@ -78,13 +78,9 @@ public class PrescriptionSteps extends Steps {
         prescriptionRequest = new PrescriptionRequestBuilder().renewals(INVALID_RENEWALS).din(ADVIL_DIN).build();
     }
 
-    @Given("une prescription non-obsolete comportant des interactions associée à ce patient")
+    @Given("une prescription récente qui interagit avec tous les médicaments")
     public void aPrescriptionInPatientFiles() {
-        PrescriptionRequest prescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN)
-                .withRecentDate().build();
-
-        new RequestBuilder().withContent(prescriptionRequest).doPost("/patient/{patientId}/prescriptions",
-                PatientContext.getPatientId());
+        prescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN).withRecentDate().build();
     }
 
     @When("j'ajoute cette prescription au dossier du patient")

@@ -16,7 +16,7 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class IntegrationPatientRepositoryFiller {
 
-    private static final Din EXISTING_DIN = new Din("11111111");
+    private static final Din EXISTING_DIN = new Din("02229682");
     private static final Practitioner A_PRACTITIONER = new Practitioner("A random name");
 
     private static final Date RECENT_DATE = new Date();
