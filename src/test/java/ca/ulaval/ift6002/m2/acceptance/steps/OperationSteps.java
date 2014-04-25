@@ -47,7 +47,7 @@ public class OperationSteps extends Steps {
 
     @Given("une intervention existante")
     public void anExistingOperation() {
-        operationFixture.setupOperationContext();
+        operationFixture.setupExistingOperation();
     }
 
     @When("j'ajoute cette intervention au dossier du patient")

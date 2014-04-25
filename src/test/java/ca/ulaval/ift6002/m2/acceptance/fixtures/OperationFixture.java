@@ -14,9 +14,16 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class OperationFixture {
 
+    private static final OperationType EYE_OPERATION = OperationType.EYE;
+    private static final String OPERATION_DESCRIPTION = "An operation description";
+    private static final Surgeon SURGEON = new Surgeon(1);
+    private static final Date OPERATION_DATE = new Date();
+    private static final Room OPERATION_ROOM = new Room("A1");
+    private static final OperationStatus OPERATION_STATUS = OperationStatus.IN_PROGRESS;
+
     private PatientFixture patientFixture = new PatientFixture();
 
-    public void setupOperationContext() {
+    public void setupExistingOperation() {
         OperationContext.setOperation(getExistingOperation());
     }
 
@@ -28,8 +35,8 @@ public class OperationFixture {
     private Operation createOperation() {
         Patient patient = patientFixture.getExistingPatient();
 
-        Operation operation = FactoryLocator.getOperationFactory().create(OperationType.EYE, "Yeux", new Surgeon(1),
-                new Date(), new Room("A1"), OperationStatus.IN_PROGRESS, patient);
+        Operation operation = FactoryLocator.getOperationFactory().create(EYE_OPERATION, OPERATION_DESCRIPTION,
+                SURGEON, OPERATION_DATE, OPERATION_ROOM, OPERATION_STATUS, patient);
 
         RepositoryLocator.getOperationRepository().store(operation);
 
