@@ -7,7 +7,6 @@ import static org.jbehave.core.reporters.Format.CONSOLE;
 import java.util.List;
 import java.util.Locale;
 
-import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.failures.FailingUponPendingStep;
@@ -21,10 +20,6 @@ import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.junit.runner.RunWith;
 
-import ca.ulaval.ift6002.m2.acceptance.contexts.OperationContext;
-import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
-import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
-import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.acceptance.runners.JettyTestRunner;
 import ca.ulaval.ift6002.m2.acceptance.steps.DrugSteps;
 import ca.ulaval.ift6002.m2.acceptance.steps.ErrorSteps;
@@ -38,14 +33,6 @@ import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 public class DumboTheElephantStories extends JUnitStories {
 
     private static final LocalizedKeywords KEYWORDS = new LocalizedKeywords(Locale.FRENCH);
-
-    @BeforeScenario
-    public void clearResults() {
-        ResponseContext.reset();
-        PatientContext.reset();
-        PrescriptionContext.reset();
-        OperationContext.reset();
-    }
 
     @Override
     public Configuration configuration() {

@@ -7,9 +7,14 @@ import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.AfterStories;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.BeforeStories;
+import org.mockito.Mockito;
 
 import ca.ulaval.ift6002.m2.JettyServer;
 import ca.ulaval.ift6002.m2.acceptance.configuration.TestHibernatePersistanceConfiguration;
+import ca.ulaval.ift6002.m2.acceptance.contexts.OperationContext;
+import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
+import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
+import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
 import ca.ulaval.ift6002.m2.contexts.IntegrationDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.IntegrationPatientRepositoryFiller;
@@ -43,6 +48,21 @@ public class JettyTestRunner {
     @AfterStories
     public void stopJetty() throws Exception {
         closeEntityManager(entityManager);
+    }
+
+    @BeforeScenario
+    public void clearResults() {
+        ResponseContext.reset();
+        PatientContext.reset();
+        PrescriptionContext.reset();
+        OperationContext.reset();
+    }
+
+    @BeforeScenario
+    public void resetSpy() {
+        Mockito.reset(RepositoryLocator.getDrugRepository());
+        Mockito.reset(RepositoryLocator.getOperationRepository());
+        Mockito.reset(RepositoryLocator.getPatientRepository());
     }
 
     @BeforeScenario
