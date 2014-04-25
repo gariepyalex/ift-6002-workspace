@@ -17,7 +17,7 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class OperationFixture {
 
-    private static final OperationType AN_OPERATION_TYPE = OperationType.EYE;
+    private static final OperationType AN_OPERATION_TYPE = OperationType.ONCOLOGY;
     private static final String A_DESCRIPTION = "An operation description";
     private static final Surgeon A_SURGEON = new Surgeon(1);
     private static final Date A_DATE = new Date();
