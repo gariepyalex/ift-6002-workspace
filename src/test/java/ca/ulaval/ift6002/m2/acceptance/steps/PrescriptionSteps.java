@@ -54,7 +54,7 @@ public class PrescriptionSteps extends Steps {
     @Given("cette prescription assignée au patient")
     public void aValidPrescriptionAssignedToPatient() {
         Prescription prescription = prescriptionFixture.getFirstPrescriptionOfCurrentPatient();
-        prescriptionRequest = new PrescriptionRequestBuilder().prescription(prescription).build();
+        prescriptionRequest = new PrescriptionRequestBuilder().fromPrescription(prescription).build();
         PrescriptionContext.setPrescriptionId(prescription.getNumber());
     }
 

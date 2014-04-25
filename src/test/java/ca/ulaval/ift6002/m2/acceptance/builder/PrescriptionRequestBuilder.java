@@ -46,7 +46,7 @@ public class PrescriptionRequestBuilder {
         return this;
     }
 
-    public PrescriptionRequestBuilder prescription(Prescription prescription) {
+    public PrescriptionRequestBuilder fromPrescription(Prescription prescription) {
         this.date = prescription.getDate().toString();
         this.din = prescription.getDrug().getDin().toString();
         this.name = prescription.getDrug().getBrandName();
