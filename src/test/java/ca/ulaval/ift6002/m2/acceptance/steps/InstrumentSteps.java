@@ -37,7 +37,13 @@ public class InstrumentSteps extends Steps {
 
     @Given("un instrument existant")
     public void anExistingInstrument() {
+        // TODO see how to have an existing instrument also
         instrumentRequest = new InstrumentRequest(TYPECODE, STATUS, AN_EXISTING_SERIAL_NUMBER);
+    }
+
+    @Given("un instrument sans statut")
+    public void anInstrumentWithoutStatut() {
+        instrumentRequest = new InstrumentRequest(TYPECODE, "", SERIAL_NUMBER);
     }
 
     @When("j'ajoute cet instrument à l'intervention")
