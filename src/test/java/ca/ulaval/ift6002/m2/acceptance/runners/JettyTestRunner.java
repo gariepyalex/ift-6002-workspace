@@ -12,7 +12,7 @@ import ca.ulaval.ift6002.m2.configuration.factory.HibernateFactoryConfiguration;
 import ca.ulaval.ift6002.m2.contexts.IntegrationDrugRepositoryFiller;
 import ca.ulaval.ift6002.m2.contexts.IntegrationPatientRepositoryFiller;
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProviderThreadSafe;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProviderGlobal;
 import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class JettyTestRunner {
@@ -45,7 +45,7 @@ public class JettyTestRunner {
     private EntityManager setUpEntityManager() {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProviderThreadSafe.setEntityManager(entityManager);
+        EntityManagerProviderGlobal.setEntityManager(entityManager);
 
         return entityManager;
     }
@@ -59,7 +59,7 @@ public class JettyTestRunner {
     }
 
     private void closeEntityManager(EntityManager entityManager) {
-        EntityManagerProviderThreadSafe.clearEntityManager();
+        EntityManagerProviderGlobal.clearEntityManager();
         entityManager.close();
         EntityManagerFactoryProvider.closeFactory();
     }
