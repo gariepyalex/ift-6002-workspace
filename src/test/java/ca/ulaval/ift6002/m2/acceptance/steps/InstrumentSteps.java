@@ -42,7 +42,6 @@ public class InstrumentSteps extends Steps {
     public void anExistingInstrument() {
         aValidInstrument();
 
-        // TODO Review if this is the right way to do it...
         operationFixture.addInstrumentToExistingOperation(instrumentRequest);
     }
 
@@ -50,7 +49,6 @@ public class InstrumentSteps extends Steps {
     public void anExistingAnonymousInstrument() {
         anInstrumentWithoutSerialNumber();
 
-        // TODO Review if this is the right way to do it...
         operationFixture.addInstrumentToExistingOperation(instrumentRequest);
     }
 

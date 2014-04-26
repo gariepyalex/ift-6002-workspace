@@ -66,9 +66,11 @@ public class OperationFixture {
 
     public void addInstrumentToExistingOperation(InstrumentRequest instrumentRequest) {
         InstrumentAssembler instrumentAssembler = new InstrumentAssembler();
-
         Instrument instrument = instrumentAssembler.fromRequest(instrumentRequest);
 
-        getExistingOperation().add(instrument);
+        Operation operation = OperationContext.getOperation();
+        operation.add(instrument);
+
+        RepositoryLocator.getOperationRepository().store(operation);
     }
 }
