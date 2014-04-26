@@ -110,7 +110,7 @@ public class PrescriptionSteps extends Steps {
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
 
-    @Then("toutes les prescriptions sont affichées")
+    @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
     public void allPrescriptionsAreShown() {
         // TODO assert
     }
