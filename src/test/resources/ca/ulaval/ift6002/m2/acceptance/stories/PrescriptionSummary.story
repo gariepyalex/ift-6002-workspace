@@ -1,6 +1,7 @@
 Summary of prescriptions
 
-Narrative: Comme intervenant
+Narrative: Obtenir le sommaire des prescriptions d'un patient
+En tant qu'intervenant
 Je veux obtenir un sommaire de l'historique des prescriptions d'un patient
 Afin de pouvoir faire un suivi auprès du patient
 
@@ -14,6 +15,5 @@ Et le protocole HTTP retourné est le 404
 Scénario: Retrouver le sommaire des prescriptions d'un patient existant
 Etant donné que un patient avec une prescription
 Quand je demande le sommaire des prescriptions de ce patient
-Alors toutes les prescriptions sont affichées 
-Et classés en ordre décroissant de date
+Alors toutes les prescriptions sont affichées en ordre décroissant de date
 Et le protocole HTTP retourné est le 200
