@@ -16,6 +16,7 @@ import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionRequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
+import ca.ulaval.ift6002.m2.acceptance.fixtures.PrescriptionFixture;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
@@ -33,6 +34,7 @@ public class PrescriptionSteps extends Steps {
     private static final int INVALID_RENEWALS = -1;
 
     private PrescriptionRequest prescriptionRequest;
+    private PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
 
     @BeforeScenario
     public void clearResults() {
@@ -48,6 +50,16 @@ public class PrescriptionSteps extends Steps {
     @Alias("une prescription valide")
     public void aValidPrescriptionWithDin() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(ADVIL_DIN).build();
+    }
+
+    @Given("une prescription existante")
+    public void existingPrescription() {
+        prescriptionFixture.setupExistingPrescription();
+    }
+
+    @Given("une prescription inexistante")
+    public void unexistingPrescription() {
+        prescriptionFixture.setupUnexistingPrescription();
     }
 
     @Given("une prescription avec un DIN inexistant")

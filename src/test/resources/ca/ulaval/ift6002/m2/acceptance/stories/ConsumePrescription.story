@@ -7,7 +7,7 @@ Afin de déterminer lorsqu'une prescription est terminée.
  
 Scénario: Consommer les prescriptions d'un patient inexistant
 Etant donné que un patient est inexistant
-Et une prescription valide
+Et une prescription existante
 Etant donné que une consommation valide
 Quand j'ajoute cette consommation
 Alors une erreur est retournée
@@ -16,7 +16,7 @@ Et le protocole HTTP retourné est le 404
 
 Scénario: Consommer une prescription non-assignée au patient existant
 Etant donné que un patient est existant
-Et une prescription valide
+Et une prescription inexistante
 Etant donné que une consommation valide
 Quand j'ajoute cette consommation
 Alors une erreur est retournée
