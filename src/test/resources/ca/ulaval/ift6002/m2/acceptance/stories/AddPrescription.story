@@ -19,3 +19,34 @@ Et une prescription valide avec DIN
 Quand j'ajoute cette prescription au dossier du patient
 Alors cette prescription est conservée
 Et le protocole HTTP retourné est le 201
+
+Scénario: Ajouter une prescription avec un médicament par nom
+Etant donné que un patient est existant
+Et une prescription avec nom de médicament
+Quand j'ajoute cette prescription au dossier du patient
+Alors cette prescription est conservée
+Et le protocole HTTP retourné est le 201
+
+Scénario: Ajouter une prescription avec un médicament par DIN et par NOM
+Etant donné que un patient est existant
+Et une prescription avec un DIN et un nom de médicament
+Quand j'ajoute cette prescription au dossier du patient
+Alors une erreur est retournée
+Alors cette erreur a le code "PRES001"
+Et le protocole HTTP retourné est le 400
+
+Scénario: Ajouter une prescription avec un médicament inconnu
+Etant donné que un patient est existant
+Et une prescription avec un DIN inexistant
+Quand j'ajoute cette prescription au dossier du patient
+Alors une erreur est retournée
+Alors cette erreur a le code "PRES001"
+Et le protocole HTTP retourné est le 400
+
+Scénario: Ajouter une prescription avec un nombre de renouvellements invalide 
+Etant donné que un patient est existant
+Et une prescription avec un nombre de renouvellements invalide 
+Quand j'ajoute cette prescription au dossier du patient
+Alors une erreur est retournée
+Alors cette erreur a le code "PRES001"
+Et le protocole HTTP retourné est le 400
