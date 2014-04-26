@@ -1,5 +1,8 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+
 import javax.ws.rs.core.Response.Status;
 
 import org.jbehave.core.annotations.Given;
@@ -12,6 +15,8 @@ import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.acceptance.fixtures.OperationFixture;
 import ca.ulaval.ift6002.m2.application.requests.OperationRequest;
+import ca.ulaval.ift6002.m2.domain.operation.Operation;
+import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 import com.jayway.restassured.response.Response;
 
@@ -57,12 +62,8 @@ public class OperationSteps extends Steps {
 
     @Then("cette intervention est conservée")
     public void anOperationIsSaved() {
-        ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
-    }
+        verify(RepositoryLocator.getOperationRepository()).store(any(Operation.class));
 
-    @Then("cette intervention est associée au dossier du patient")
-    public void operationIsLinkedToPatient() {
-        // TODO We must validate this criteria as well.. I'm confused on how to
-        // do it
+        ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
     }
 }
