@@ -16,6 +16,8 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import ca.ulaval.ift6002.m2.domain.drug.Drug;
+
 public class PrescriptionTest {
 
     private static final int FIVE_RENEWALS = 5;
@@ -136,6 +138,39 @@ public class PrescriptionTest {
         boolean isObsolete = prescription.isObsolete();
 
         assertFalse(isObsolete);
+    }
+
+    @Test
+    public void givenPrescriptionIteractingWithAnotherPrescriptionShouldBeInteractingWith() {
+        setUpConsumptionOfSevenMonthsAgo();
+        setupPrescriptionWithFiveRenewals();
+
+        Prescription otherPrescription = mock(Prescription.class, CALLS_REAL_METHODS);
+        setupDrugMock(otherPrescription);
+
+        boolean isInteractingWith = prescription.isInteractingWith(otherPrescription);
+
+        assertTrue(isInteractingWith);
+    }
+
+    @Test
+    public void givenPrescriptionInteractingWithAnotherPrescriptionButObsoleteShouldNotBeInteractingWith() {
+        setupPrescriptionWithNoRenewals();
+        setUpConsumptionOfSevenMonthsAgo();
+
+        Prescription otherPrescription = mock(Prescription.class, CALLS_REAL_METHODS);
+        setupDrugMock(otherPrescription);
+
+        boolean isInteractingWith = prescription.isInteractingWith(otherPrescription);
+
+        assertFalse(isInteractingWith);
+    }
+
+    private void setupDrugMock(Prescription otherPrescription) {
+        Drug drugMock = mock(Drug.class);
+        willReturn(true).given(drugMock).isInteractingWith(drugMock);
+        willReturn(drugMock).given(otherPrescription).getDrug();
+        willReturn(drugMock).given(prescription).getDrug();
     }
 
     private void setupPrescription() {
