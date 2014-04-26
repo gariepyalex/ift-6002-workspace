@@ -13,7 +13,7 @@ Alors cette erreur a le code "PRES010"
 Et le protocole HTTP retourné est le 404
 
 Scénario: Retrouver le sommaire des prescriptions d'un patient existant
-Etant donné que un patient avec une prescription
+Etant donné que un patient avec plusieurs prescriptions
 Quand je demande le sommaire des prescriptions de ce patient
 Alors toutes les prescriptions sont affichées en ordre décroissant de date
 Et le protocole HTTP retourné est le 200

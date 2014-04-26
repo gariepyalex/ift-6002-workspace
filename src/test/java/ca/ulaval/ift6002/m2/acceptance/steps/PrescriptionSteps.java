@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
+import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -36,8 +37,11 @@ public class PrescriptionSteps extends Steps {
     private PrescriptionRequest prescriptionRequest;
     private PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
 
+    private String[] expectedDate;
+
     @BeforeScenario
     public void clearResults() {
+        expectedDate = null;
         prescriptionRequest = null;
     }
 
@@ -100,6 +104,8 @@ public class PrescriptionSteps extends Steps {
         Response response = new RequestBuilder().doGet("/patient/{patientId}/prescriptions",
                 PatientContext.getPatientNumber());
 
+        expectedDate("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+
         ResponseContext.setResponse(response);
     }
 
@@ -112,6 +118,10 @@ public class PrescriptionSteps extends Steps {
 
     @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
     public void allPrescriptionsAreShown() {
-        // TODO assert
+        ResponseContext.getResponse().then().assertThat().body("prescription.date", hasItems(expectedDate));
+    }
+
+    private void expectedDate(String... date) {
+        expectedDate = date;
     }
 }

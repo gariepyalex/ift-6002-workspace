@@ -9,8 +9,9 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 public class PatientFixture {
 
     private static final int PATIENT_NUMBER = 1;
-    private static final int PATIENT_ID_WITH_RECENT_PRESCRIPTION = 3;
+    private static final int PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION = 3;
     private static final int DEAD_PATIENT_NUMBER = 5;
+    private static final int PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS = 6;
 
     private static final Integer UNEXISTING_PATIENT_ID = -999;
 
@@ -21,7 +22,12 @@ public class PatientFixture {
 
     public void setupExistingPatientWithPrescription() {
         PatientContext.setPatient(getExistingPatientWithPrescription());
-        PatientContext.setPatientNumber(PATIENT_ID_WITH_RECENT_PRESCRIPTION);
+        PatientContext.setPatientNumber(PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION);
+    }
+
+    public void setupExistingPatientWithMultiplePrescriptions() {
+        PatientContext.setPatient(getExistingPatientWithMultiplePrescriptions());
+        PatientContext.setPatientNumber(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS);
     }
 
     public void setupUnexistingPatient() {
@@ -39,7 +45,11 @@ public class PatientFixture {
     }
 
     public Patient getExistingPatientWithPrescription() {
-        return RepositoryLocator.getPatientRepository().get(PATIENT_ID_WITH_RECENT_PRESCRIPTION);
+        return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION);
+    }
+
+    public Patient getExistingPatientWithMultiplePrescriptions() {
+        return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS);
     }
 
     public Patient getUnexistingPatient() {

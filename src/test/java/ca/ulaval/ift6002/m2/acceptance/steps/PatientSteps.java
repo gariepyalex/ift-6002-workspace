@@ -51,6 +51,12 @@ public class PatientSteps {
         prescriptionFixture.setupPrescriptionWithinCurrentPatient();
     }
 
+    @Given("un patient avec plusieurs prescriptions")
+    public void aPatientWithMultiplePrescriptions() {
+        patientFixture.setupExistingPatientWithMultiplePrescriptions();
+        prescriptionFixture.setupPrescriptionWithinCurrentPatient();
+    }
+
     @Given("un patient est mort")
     public void aDeadPatient() {
         patientFixture.setupDeadPatient();
