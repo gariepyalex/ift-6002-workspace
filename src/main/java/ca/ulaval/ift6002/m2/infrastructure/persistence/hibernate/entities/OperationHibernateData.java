@@ -98,6 +98,7 @@ public class OperationHibernateData implements OperationData {
         return description;
     }
 
+    @Override
     public OperationStatus getStatus() {
         return operationStatus;
     }

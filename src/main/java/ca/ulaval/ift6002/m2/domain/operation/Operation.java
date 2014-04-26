@@ -75,5 +75,9 @@ public abstract class Operation {
         return operationData.hasInstruments();
     }
 
+    public boolean hasStatus(OperationStatus status) {
+        return operationData.getStatus().equals(status);
+    }
+
     protected abstract boolean isInstrumentElligible(Instrument instrument);
 }

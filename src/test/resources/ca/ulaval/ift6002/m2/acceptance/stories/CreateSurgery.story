@@ -27,3 +27,11 @@ Et une intervention valide
 Quand j'ajoute cette intervention au dossier du patient
 Alors cette intervention est conservée
 Et le protocole HTTP retourné est le 201
+
+Scénario: Créer une intervention sans statut
+Etant donné que un patient est existant
+Et une intervention valide sans statut
+Quand j'ajoute cette intervention sans statut au dossier du patient
+Alors cette intervention est conservée
+Et le statut de cette intervention est à "PLANIFIEE"
+

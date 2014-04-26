@@ -13,4 +13,6 @@ public interface OperationData {
     void addInstrument(Instrument instrument);
 
     boolean hasInstruments();
+
+    OperationStatus getStatus();
 }
