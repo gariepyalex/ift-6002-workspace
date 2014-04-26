@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
@@ -20,6 +21,7 @@ public class PatientHibernate extends Patient {
     public Integer number;
 
     @OneToMany(cascade = { CascadeType.ALL })
+    @OrderBy("date DESC")
     public Collection<PrescriptionHibernate> prescriptions;
     public Boolean isDead;
 
