@@ -43,8 +43,6 @@ public class PatientService {
 
     public PrescriptionResponse[] getPrescriptions(String patientId) {
         Patient patient = getPatient(patientId);
-        // TODO SUMMARY SCenario is not finish !!! Prescription are not ordered
-        // by date !
         return prescriptionAssembler.toResponses(patient.getPrescriptions());
     }
 
