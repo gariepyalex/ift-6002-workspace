@@ -83,14 +83,6 @@ public class PrescriptionTest {
     }
 
     @Test
-    public void givenFiveRenewalsWhenHavingConsumptionWithCountFiveShouldHaveZeroRemainingRenewal() {
-        setUpConsumptionWithCountFive();
-        setupPrescriptionWithFiveRenewals();
-
-        assertEquals(ZERO_RENEWALS, prescription.countRemainingRenewals());
-    }
-
-    @Test
     public void givenPrescriptionWithNoRemainingRenewalsAndOldConsumptionShouldBeObsolete() {
         setupPrescriptionWithNoRenewals();
         setUpConsumptionOfSevenMonthsAgo();
@@ -217,9 +209,5 @@ public class PrescriptionTest {
 
     private void setUpConsumptionWithCountTwo() {
         willReturn(2).given(CONSUMPTION).getCount();
-    }
-
-    private void setUpConsumptionWithCountFive() {
-        willReturn(5).given(CONSUMPTION).getCount();
     }
 }
