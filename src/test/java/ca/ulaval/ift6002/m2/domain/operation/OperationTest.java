@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.domain.operation;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.verify;
 
@@ -118,6 +119,26 @@ public class OperationTest {
         buildAnOperationWhereInstrumentsAreNotElligible();
 
         operation.add(instrument);
+    }
+
+    @Test
+    public void givenOperationWithPlannedStatusWhenCheckingIfHasPlannedStatusShouldReturnTrue() {
+        buildAnOperation();
+        willReturn(OperationStatus.PLANNED).given(operationData).getStatus();
+
+        boolean hasStatusPlanned = operation.hasStatus(OperationStatus.PLANNED);
+
+        assertTrue(hasStatusPlanned);
+    }
+
+    @Test
+    public void givenOperationWithPlannedStatusWhenCheckingIfHasAnotherStatusShouldReturnFalse() {
+        buildAnOperation();
+        willReturn(OperationStatus.PLANNED).given(operationData).getStatus();
+
+        boolean hasStatusFinish = operation.hasStatus(OperationStatus.FINISH);
+
+        assertFalse(hasStatusFinish);
     }
 
     private void buildAnOperation() {
