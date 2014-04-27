@@ -22,11 +22,11 @@ public class IntegrationPatientRepositoryFiller {
 
     private static final Date RECENT_DATE = new Date();
     private static final Date OLD_DATE = new Date(0);
-    private static final DateFormatter dateFormatter = new DateFormatter();
-    private static final Date DATE1 = dateFormatter.parse("2009-01-04T12:08:56");
-    private static final Date DATE2 = dateFormatter.parse("2010-02-04T12:08:56");
-    private static final Date DATE3 = dateFormatter.parse("2007-03-04T12:08:56");
-    private static final Date DATE4 = dateFormatter.parse("2012-04-04T12:08:56");
+    private static final DateFormatter DATE_FORMATTER = new DateFormatter();
+    private static final Date DATE1 = DATE_FORMATTER.parse("2009-01-04T12:08:56");
+    private static final Date DATE2 = DATE_FORMATTER.parse("2010-02-04T12:08:56");
+    private static final Date DATE3 = DATE_FORMATTER.parse("2007-03-04T12:08:56");
+    private static final Date DATE4 = DATE_FORMATTER.parse("2012-04-04T12:08:56");
 
     private static final int RENEWALS = 2;
 
