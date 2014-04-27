@@ -17,6 +17,11 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class IntegrationPatientRepositoryFiller {
 
+    private static final int PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION = 3;
+    private static final int PATIENT_NUMBER_WITH_OLD_PRESCRIPTION = 4;
+    private static final int DEAD_PATIENT_NUMBER = 5;
+    private static final int PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS = 6;
+
     private static final Din EXISTING_DIN = new Din("02229682");
     private static final Practitioner A_PRACTITIONER = new Practitioner("A random name");
 
@@ -52,16 +57,16 @@ public class IntegrationPatientRepositoryFiller {
                 existingDrug);
         Prescription oldPrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, RENEWALS, existingDrug);
 
-        Patient patientWithRecentPrescription = patientFactory.create(3);
+        Patient patientWithRecentPrescription = patientFactory.create(PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION);
         patientWithRecentPrescription.receivesPrescription(recentPrescription);
 
-        Patient patientWithOldPrescription = patientFactory.create(4);
+        Patient patientWithOldPrescription = patientFactory.create(PATIENT_NUMBER_WITH_OLD_PRESCRIPTION);
         patientWithOldPrescription.receivesPrescription(oldPrescription);
 
-        Patient deadPatient = patientFactory.create(5);
+        Patient deadPatient = patientFactory.create(DEAD_PATIENT_NUMBER);
         deadPatient.declareDead();
 
-        Patient patientWithMultiplePrescriptions = patientFactory.create(6);
+        Patient patientWithMultiplePrescriptions = patientFactory.create(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS);
         Prescription prescription1 = prescriptionFactory.create(A_PRACTITIONER, DATE1, RENEWALS, existingDrug);
         Prescription prescription2 = prescriptionFactory.create(A_PRACTITIONER, DATE2, RENEWALS, existingDrug);
         Prescription prescription3 = prescriptionFactory.create(A_PRACTITIONER, DATE3, RENEWALS, existingDrug);
