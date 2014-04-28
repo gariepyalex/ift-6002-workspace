@@ -20,6 +20,9 @@ import ca.ulaval.ift6002.m2.domain.drug.Drug;
 
 public class PrescriptionTest {
 
+    private static final int ONE_CONSUMPTION = 1;
+    private static final int TWO_CONSUMPTIONS = 2;
+    private static final int FIVE_CONSUMPTIONS = 5;
     private static final int FIVE_RENEWALS = 5;
     private static final int ZERO_RENEWALS = 0;
     private static final int FOUR_REMAINING_RENEWALS = 4;
@@ -212,14 +215,14 @@ public class PrescriptionTest {
     }
 
     private void setUpConsumptionWithCountOne() {
-        willReturn(1).given(CONSUMPTION).getCount();
+        willReturn(ONE_CONSUMPTION).given(CONSUMPTION).getCount();
     }
 
     private void setUpConsumptionWithCountTwo() {
-        willReturn(2).given(CONSUMPTION).getCount();
+        willReturn(TWO_CONSUMPTIONS).given(CONSUMPTION).getCount();
     }
 
     private void setUpConsumptionWithCountFive() {
-        willReturn(5).given(CONSUMPTION).getCount();
+        willReturn(FIVE_CONSUMPTIONS).given(CONSUMPTION).getCount();
     }
 }
