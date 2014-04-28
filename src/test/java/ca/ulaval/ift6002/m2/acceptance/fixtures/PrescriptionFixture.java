@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
+import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionAssembler;
+import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
@@ -17,7 +19,8 @@ public class PrescriptionFixture {
     private static final Date DATE = new Date();
     private static final Practitioner PRACTITIONER = new Practitioner("a Practitionner");
     private static final String A_DRUG_NAME = "a drug";
-    private PatientFixture patientFixture = new PatientFixture();
+    private final PatientFixture patientFixture = new PatientFixture();
+    private final PrescriptionAssembler prescriptionAssembler = new PrescriptionAssembler();
 
     public void setupPrescriptionWithinCurrentPatient() {
         setupPrescriptionContextWith(PatientContext.getPatient());
@@ -32,6 +35,12 @@ public class PrescriptionFixture {
         Iterator<Prescription> iterator = patient.getPrescriptions().iterator();
 
         return iterator.next();
+    }
+
+    public void setupExistingPrescription(PrescriptionRequest request) {
+        Prescription prescription = prescriptionAssembler.fromRequest(request);
+        patientFixture.setupExistingPrescription(prescription);
+        PrescriptionContext.setPrescription(prescription);
     }
 
     public void setupExistingPrescription() {

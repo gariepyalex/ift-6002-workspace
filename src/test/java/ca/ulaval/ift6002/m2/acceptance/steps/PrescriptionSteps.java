@@ -28,14 +28,15 @@ public class PrescriptionSteps extends Steps {
 
     private static final String INTERACTING_DIN = "11111111";
 
-    private static final String ADVIL_DIN = "11111111";
+    private static final String ADVIL_DIN = "02229682";
     private static final String ADVIL_NAME = "Advil turbo";
 
     private static final String INVALID_DIN = "Invalid";
     private static final int INVALID_RENEWALS = -1;
+    private static final int NO_RENEWALS = 0;
 
     private PrescriptionRequest prescriptionRequest;
-    private PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
+    private final PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
 
     private String[] expectedDate;
 
@@ -89,6 +90,12 @@ public class PrescriptionSteps extends Steps {
     @Given("une prescription récente qui interagit avec tous les médicaments")
     public void aPrescriptionInPatientFiles() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN).withRecentDate().build();
+    }
+
+    @Given("le patient a une prescription sans renouvellement")
+    public void aPrescriptionWithoutRenewalsInPatientFile() {
+        PrescriptionRequest request = new PrescriptionRequestBuilder().renewals(NO_RENEWALS).name(ADVIL_NAME).build();
+        prescriptionFixture.setupExistingPrescription(request);
     }
 
     @When("j'ajoute cette prescription au dossier du patient")

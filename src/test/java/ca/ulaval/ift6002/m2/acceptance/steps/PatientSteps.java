@@ -27,8 +27,8 @@ public class PatientSteps {
 
     private ConsumptionRequest consumptionRequest;
 
-    private PatientFixture patientFixture = new PatientFixture();
-    private PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
+    private final PatientFixture patientFixture = new PatientFixture();
+    private final PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
 
     @BeforeScenario
     public void clearResults() {
