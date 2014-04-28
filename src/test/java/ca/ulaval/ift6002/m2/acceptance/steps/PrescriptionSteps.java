@@ -1,6 +1,9 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -114,6 +117,15 @@ public class PrescriptionSteps extends Steps {
         verify(RepositoryLocator.getPatientRepository()).store(any(Patient.class));
 
         ResponseContext.getResponse().then().statusCode(Status.CREATED.getStatusCode());
+    }
+
+    @Then("toutes les informations du sommaire sont affichées")
+    public void allSummaryInformationsAreShown() {
+        ResponseContext.getResponse().then().assertThat().body("prescription.date", not(hasItem(nullValue())))
+                .body("prescription.intervenant", not(hasItem(nullValue())))
+                .body("prescription.nom", not(hasItem(nullValue())))
+                .body("prescription.renouvellements_restants", not(hasItem(nullValue())))
+                .body("prescription.renouvellements_autorises", not(hasItem(nullValue())));
     }
 
     @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
