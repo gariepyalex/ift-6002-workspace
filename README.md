@@ -1,7 +1,7 @@
 ##Remise 2
 Numéro d'équipe : M2
 
-Pour la remise 2, voir le tag *remise2* sur la branche *master*.
+Pour la remise 3, voir le tag *remise3* sur la branche *master*.
 
 ###Membres :
 
@@ -21,14 +21,15 @@ Pour la remise 2, voir le tag *remise2* sur la branche *master*.
 * Créer une intervention chirurgicale
 * Marquer l'utilisation d'un instrument
 * Recherche de médicaments
-
-####Non commencé :
 * Détection des interactions
 * Consommer les prescriptions
 * Ignorer les prescriptions obsolétes pour les intéractions
-* Obtenir le commaire des prescriptions d'un patient
+* Obtenir le sommaire des prescriptions d'un patient
 * Obtenir le détail et l'historique des prescriptions
 * Ajouter une prescription à un patient mort
+
+
+####Non commencé :
 * Rappeler les patients ayant eu un instrument contaminé
 
 ###Utilisation de l'application
@@ -36,9 +37,4 @@ Le port utilisé est 8080.
 
 Le Main est dans le package ca.ulaval.ift6002.m2
 
-###Notes quelconques
-Nous sommes conscient d'un petit bug en hibernate où qu'on ne peut pas stocker plusieurs 
-fois un même instrument anonyme. Ne considérant pas ceci, la story serait complétée et testée.
-
-Il faut comprendre que nous n'avons pas encore vu les tests d'intégrations, 
-alors nous avons seulement des tests unitaires. 
+Pour les tests d'acceptation, il faut faire mvn integration-test.
