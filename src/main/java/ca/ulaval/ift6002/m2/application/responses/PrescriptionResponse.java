@@ -39,6 +39,11 @@ public class PrescriptionResponse {
     }
 
     public PrescriptionResponse(String practitioner, String name, String date, Integer remainingRenewals,
+            Integer autorizedRenewals) {
+        this(practitioner, name, date, remainingRenewals, autorizedRenewals, null, "");
+    }
+
+    public PrescriptionResponse(String practitioner, String name, String date, Integer remainingRenewals,
             Integer autorizedRenewals, ConsumptionResponse[] consumptions, String din) {
         this.practitioner = practitioner;
         this.name = name;

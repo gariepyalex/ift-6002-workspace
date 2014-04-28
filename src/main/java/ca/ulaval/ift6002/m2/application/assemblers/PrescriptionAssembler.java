@@ -37,8 +37,7 @@ public class PrescriptionAssembler {
         Integer authorizedRenewals = Integer.valueOf(prescription.getRenewals());
         String brandName = prescription.getDrug().getBrandName();
 
-        return new PrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals, authorizedRenewals,
-                null, null);
+        return new PrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals, authorizedRenewals);
     }
 
     public PrescriptionResponse toDetailedResponse(Prescription prescription) {
