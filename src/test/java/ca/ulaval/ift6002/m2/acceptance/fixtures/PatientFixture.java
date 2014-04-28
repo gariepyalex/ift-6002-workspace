@@ -10,7 +10,7 @@ public class PatientFixture {
 
     private static final int PATIENT_NUMBER = 1;
     private static final int PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION = 3;
-    private static final int PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION = 3;
+    private static final int PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION = 4;
     private static final int DEAD_PATIENT_NUMBER = 5;
     private static final int PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS = 6;
 
