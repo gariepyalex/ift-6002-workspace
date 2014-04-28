@@ -102,7 +102,7 @@ public class PrescriptionHibernate extends Prescription {
     }
 
     @Override
-    protected List<Consumption> getConsumptions() {
+    public List<Consumption> getConsumptions() {
         return new ArrayList<Consumption>(consumptions);
     }
 

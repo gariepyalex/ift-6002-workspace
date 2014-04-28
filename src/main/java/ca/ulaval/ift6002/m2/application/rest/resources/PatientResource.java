@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -62,9 +63,15 @@ public class PatientResource extends Resource {
     }
 
     @GET
-    public Response findPrescriptions(@PathParam("patientId") String patientId) {
+    public Response findPrescriptions(@QueryParam("view") String viewType, @PathParam("patientId") String patientId) {
         try {
-            PrescriptionResponse[] responses = patientService.getPrescriptions(patientId);
+            PrescriptionResponse[] responses;
+
+            if (isDetailedViewType(viewType)) {
+                responses = patientService.getDetailedPrescriptions(patientId);
+            } else {
+                responses = patientService.getPrescriptions(patientId);
+            }
 
             return success(responses);
         } catch (NoSuchElementException e) {
@@ -91,7 +98,9 @@ public class PatientResource extends Resource {
         } catch (NotEnoughRenewalsException e) {
             return badRequest(NOT_ENOUGH_RENEWALS_CODE, e.getMessage());
         }
-
     }
 
+    private boolean isDetailedViewType(String viewType) {
+        return viewType != null && viewType.equals("details");
+    }
 }

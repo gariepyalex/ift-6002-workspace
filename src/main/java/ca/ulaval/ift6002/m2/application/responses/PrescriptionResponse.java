@@ -23,21 +23,29 @@ public class PrescriptionResponse {
     @XmlElement(name = "renouvellements_autorises")
     public final Integer autorizedRenewals;
 
+    @XmlElement(name = "consommations")
+    public final ConsumptionResponse[] consumptions;
+
+    public final String din;
+
     protected PrescriptionResponse() {
         this.practitioner = "";
         this.date = "";
         this.remainingRenewals = 0;
         this.autorizedRenewals = 0;
         this.name = "";
+        this.consumptions = null;
+        this.din = "";
     }
 
-    public PrescriptionResponse(String name, String practitioner, String date, Integer remainingRenewals,
-            Integer autorizedRenewals) {
-        this.name = name;
+    public PrescriptionResponse(String practitioner, String name, String date, Integer remainingRenewals,
+            Integer autorizedRenewals, ConsumptionResponse[] consumptions, String din) {
         this.practitioner = practitioner;
+        this.name = name;
         this.date = date;
         this.remainingRenewals = remainingRenewals;
         this.autorizedRenewals = autorizedRenewals;
+        this.consumptions = consumptions;
+        this.din = din;
     }
-
 }

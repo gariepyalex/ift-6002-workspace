@@ -46,6 +46,11 @@ public class PatientService {
         return prescriptionAssembler.toResponses(patient.getPrescriptions());
     }
 
+    public PrescriptionResponse[] getDetailedPrescriptions(String patientId) {
+        Patient patient = getPatient(patientId);
+        return prescriptionAssembler.toDetailedResponses(patient.getPrescriptions());
+    }
+
     private Patient getPatient(String patientId) {
         return patientRepository.get(Integer.valueOf(patientId));
     }

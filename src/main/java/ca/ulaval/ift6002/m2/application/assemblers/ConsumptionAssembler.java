@@ -1,6 +1,7 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
 import java.util.Date;
+import java.util.List;
 
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
 import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
@@ -34,6 +35,15 @@ public class ConsumptionAssembler {
         Integer count = Integer.valueOf(consumption.getCount());
 
         return new ConsumptionResponse(date, pharmacy, count);
+    }
+
+    public ConsumptionResponse[] toResponses(List<Consumption> consumptions) {
+        ConsumptionResponse[] responses = new ConsumptionResponse[consumptions.size()];
+
+        for (int i = 0; i < consumptions.size(); i++) {
+            responses[i] = toResponse(consumptions.get(i));
+        }
+        return responses;
     }
 
     protected ConsumptionAssembler(DateFormatter dateFormatter, ConsumptionFactory consumptionFactory) {

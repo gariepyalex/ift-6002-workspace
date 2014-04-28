@@ -93,7 +93,7 @@ public abstract class Prescription {
 
     public abstract Drug getDrug();
 
-    protected abstract List<Consumption> getConsumptions();
+    public abstract List<Consumption> getConsumptions();
 
     protected abstract void addConsumptionInPrescription(Consumption consumption);
 
