@@ -77,6 +77,11 @@ public class PatientSteps {
         consumptionRequest = new ConsumptionRequest(DATE, PHARMACY, MANY_CONSUMPTIONS_COUNT);
     }
 
+    @Given("un patient existant ayant une prescription obselete")
+    public void anExistingPatientWithOsoletePrescription() {
+        patientFixture.setupExistingPatientWithObsoletePrescription();
+    }
+
     @When("j'ajoute cette consommation")
     public void consumePrescription() {
         Response response = new RequestBuilder().withContent(consumptionRequest).doPost(

@@ -9,6 +9,8 @@ import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
+import ca.ulaval.ift6002.m2.domain.prescription.Pharmacy;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
@@ -18,7 +20,7 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 public class IntegrationPatientRepositoryFiller {
 
     private static final int PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION = 3;
-    private static final int PATIENT_NUMBER_WITH_OLD_PRESCRIPTION = 4;
+    private static final int PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION = 4;
     private static final int DEAD_PATIENT_NUMBER = 5;
     private static final int PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS = 6;
 
@@ -55,13 +57,13 @@ public class IntegrationPatientRepositoryFiller {
         Drug existingDrug = drugRepository.get(EXISTING_DIN);
         Prescription recentPrescription = prescriptionFactory.create(A_PRACTITIONER, RECENT_DATE, RENEWALS,
                 existingDrug);
-        Prescription oldPrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, RENEWALS, existingDrug);
+        Prescription obsolePrescription = getObsoletePrescription(existingDrug);
 
         Patient patientWithRecentPrescription = patientFactory.create(PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION);
         patientWithRecentPrescription.receivesPrescription(recentPrescription);
 
-        Patient patientWithOldPrescription = patientFactory.create(PATIENT_NUMBER_WITH_OLD_PRESCRIPTION);
-        patientWithOldPrescription.receivesPrescription(oldPrescription);
+        Patient patientWithObsoletePrescription = patientFactory.create(PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION);
+        patientWithObsoletePrescription.receivesPrescription(obsolePrescription);
 
         Patient deadPatient = patientFactory.create(DEAD_PATIENT_NUMBER);
         deadPatient.declareDead();
@@ -77,8 +79,16 @@ public class IntegrationPatientRepositoryFiller {
         patientWithMultiplePrescriptions.receivesPrescription(prescription4);
 
         patientRepository.store(patientWithRecentPrescription);
-        patientRepository.store(patientWithOldPrescription);
+        patientRepository.store(patientWithObsoletePrescription);
         patientRepository.store(deadPatient);
         patientRepository.store(patientWithMultiplePrescriptions);
+    }
+
+    private Prescription getObsoletePrescription(Drug drug) {
+        Prescription obsoletePrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, RENEWALS, drug);
+        Consumption consumption = FactoryLocator.getConsumptionFactory().create(OLD_DATE, new Pharmacy("Jean Coutu"),
+                RENEWALS);
+        obsoletePrescription.addConsumption(consumption);
+        return obsoletePrescription;
     }
 }

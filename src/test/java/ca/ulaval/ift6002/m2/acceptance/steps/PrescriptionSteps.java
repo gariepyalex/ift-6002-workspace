@@ -33,7 +33,6 @@ public class PrescriptionSteps extends Steps {
 
     private static final String INVALID_DIN = "Invalid";
     private static final int INVALID_RENEWALS = -1;
-    private static final int NO_RENEWALS = 0;
 
     private PrescriptionRequest prescriptionRequest;
     private final PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
@@ -90,12 +89,6 @@ public class PrescriptionSteps extends Steps {
     @Given("une prescription récente qui interagit avec tous les médicaments")
     public void aPrescriptionInPatientFiles() {
         prescriptionRequest = new PrescriptionRequestBuilder().din(INTERACTING_DIN).withRecentDate().build();
-    }
-
-    @Given("le patient a une prescription sans renouvellement")
-    public void aPrescriptionWithoutRenewalsInPatientFile() {
-        PrescriptionRequest request = new PrescriptionRequestBuilder().renewals(NO_RENEWALS).name(ADVIL_NAME).build();
-        prescriptionFixture.setupExistingPrescription(request);
     }
 
     @When("j'ajoute cette prescription au dossier du patient")

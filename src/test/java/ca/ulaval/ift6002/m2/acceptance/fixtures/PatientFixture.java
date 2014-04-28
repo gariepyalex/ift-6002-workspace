@@ -3,7 +3,6 @@ package ca.ulaval.ift6002.m2.acceptance.fixtures;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
-import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.locator.FactoryLocator;
 import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
@@ -11,6 +10,7 @@ public class PatientFixture {
 
     private static final int PATIENT_NUMBER = 1;
     private static final int PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION = 3;
+    private static final int PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION = 3;
     private static final int DEAD_PATIENT_NUMBER = 5;
     private static final int PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS = 6;
 
@@ -41,6 +41,11 @@ public class PatientFixture {
         PatientContext.setPatientNumber(DEAD_PATIENT_NUMBER);
     }
 
+    public void setupExistingPatientWithObsoletePrescription() {
+        PatientContext.setPatient(getPatientWithObsoletePrescription());
+        PatientContext.setPatientNumber(PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION);
+    }
+
     public Patient getExistingPatient() {
         return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER);
     }
@@ -62,9 +67,8 @@ public class PatientFixture {
         return RepositoryLocator.getPatientRepository().get(DEAD_PATIENT_NUMBER);
     }
 
-    public void setupExistingPrescription(Prescription prescription) {
-        Patient patient = PatientContext.getPatient();
-        patient.receivesPrescription(prescription);
-        RepositoryLocator.getPatientRepository().store(patient);
+    private Patient getPatientWithObsoletePrescription() {
+        return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION);
     }
+
 }

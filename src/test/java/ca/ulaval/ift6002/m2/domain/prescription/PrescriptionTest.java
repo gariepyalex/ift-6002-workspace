@@ -104,7 +104,7 @@ public class PrescriptionTest {
     }
 
     @Test
-    public void givenPrescriptionWithNoConsumptionsWhenVerifyingIsObsoleteShouldShouldBeObsolete() {
+    public void givenPrescriptionWithNoConsumptionsWhenVerifyingIsObsoleteShouldBeObsolete() {
         setUpConsumptionOfSevenMonthsAgo();
         setupPrescriptionWithNoConsumptionsAndNoRenewals();
 
