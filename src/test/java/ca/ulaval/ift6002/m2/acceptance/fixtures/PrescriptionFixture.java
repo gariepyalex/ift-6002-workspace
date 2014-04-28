@@ -20,7 +20,6 @@ public class PrescriptionFixture {
     private static final Practitioner PRACTITIONER = new Practitioner("a Practitionner");
     private static final String A_DRUG_NAME = "a drug";
     private final PatientFixture patientFixture = new PatientFixture();
-    private final PrescriptionAssembler prescriptionAssembler = new PrescriptionAssembler();
 
     public void setupPrescriptionWithinCurrentPatient() {
         setupPrescriptionContextWith(PatientContext.getPatient());
@@ -38,7 +37,7 @@ public class PrescriptionFixture {
     }
 
     public void setupExistingPrescription(PrescriptionRequest request) {
-        Prescription prescription = prescriptionAssembler.fromRequest(request);
+        Prescription prescription = new PrescriptionAssembler().fromRequest(request);
         patientFixture.setupExistingPrescription(prescription);
         PrescriptionContext.setPrescription(prescription);
     }
