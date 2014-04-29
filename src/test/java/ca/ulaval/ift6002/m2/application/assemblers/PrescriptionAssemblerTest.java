@@ -1,6 +1,8 @@
 package ca.ulaval.ift6002.m2.application.assemblers;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -20,11 +22,13 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
 import ca.ulaval.ift6002.m2.domain.drug.Drug;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
+import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
@@ -42,8 +46,10 @@ public class PrescriptionAssemblerTest {
     private static final Din A_DIN = new Din("A valid din");
     private static final String A_BRAND_NAME = "A random brand name";;
 
-    private static final Drug DRUG = mock(Drug.class);
+    private static final Drug A_DRUG = mock(Drug.class);
     private static final Prescription PRESCRIPTION = mock(Prescription.class);
+    private static final Consumption CONSUMPTION = mock(Consumption.class);
+    private static final ConsumptionResponse[] CONSUMPTIONS = { mock(ConsumptionResponse.class) };
 
     private static final PrescriptionRequest PRESCRIPTION_REQUEST = new PrescriptionRequest(A_PRACTITIONER.toString(),
             A_DATE_AS_STRING, A_RENEWALS, A_DIN.toString(), A_BRAND_NAME);
@@ -52,10 +58,18 @@ public class PrescriptionAssemblerTest {
             A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_RENEWALS, "", A_BRAND_NAME);
 
     private static final PrescriptionResponse PRESCRIPTION_RESPONSE = new PrescriptionResponse(A_BRAND_NAME,
-            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_REMAINING_RENEWALS, AN_AUTHORIZED_RENEWALS, null, null);
+            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_REMAINING_RENEWALS, AN_AUTHORIZED_RENEWALS);
+
+    private static final PrescriptionResponse DETAILED_PRESCRIPTION_RESPONSE = new PrescriptionResponse(A_BRAND_NAME,
+            A_PRACTITIONER.toString(), A_DATE_AS_STRING, A_REMAINING_RENEWALS, AN_AUTHORIZED_RENEWALS, CONSUMPTIONS,
+            A_DIN.toString());
 
     private static final Collection<Prescription> PRESCRIPTIONS = Arrays.asList(PRESCRIPTION);
     private static final PrescriptionResponse[] PRESCRIPTION_RESPONSES = { PRESCRIPTION_RESPONSE };
+    private static final PrescriptionResponse[] DETAILED_PRESCRIPTION_RESPONSES = { DETAILED_PRESCRIPTION_RESPONSE };
+
+    @Mock
+    private ConsumptionAssembler consumptionAssembler;
 
     @Mock
     private DrugRepository drugRepository;
@@ -76,13 +90,24 @@ public class PrescriptionAssemblerTest {
     }
 
     @Test
-    public void givenPrescriptionWhenConvertToResponseShouldReturnGivenResponse() {
+    public void givenPrescriptionWhenConvertToResponseShouldReturnGivenDetailedResponse() {
         setupDrugWithDin();
         setupPrescription();
 
         PrescriptionResponse responseBuilt = prescriptionAssembler.toResponse(PRESCRIPTION);
 
         assertResponseEquals(PRESCRIPTION_RESPONSE, responseBuilt);
+    }
+
+    @Test
+    public void givenPrescriptionWhenConvertToDetailedResponseShouldReturnGivenResponse() {
+        setupDrugWithDin();
+        setupPrescription();
+        willReturn(CONSUMPTIONS).given(consumptionAssembler).toResponses(Arrays.asList(CONSUMPTION));
+
+        PrescriptionResponse responseBuilt = prescriptionAssembler.toDetailedResponse(PRESCRIPTION);
+
+        assertDetailedResponseEquals(DETAILED_PRESCRIPTION_RESPONSE, responseBuilt);
     }
 
     @Test
@@ -116,13 +141,43 @@ public class PrescriptionAssemblerTest {
         assertResponsesEquals(PRESCRIPTION_RESPONSES, prescriptionsResponseBuilt);
     }
 
+    @Test
+    public void givenCollectionOfPrescriptionsWhenToDetailedResponsesShouldConvertToCollectionOfDetailedPrescriptionResponse() {
+        setupDrugWithDin();
+        setupPrescription();
+        willReturn(CONSUMPTIONS).given(consumptionAssembler).toResponses(Arrays.asList(CONSUMPTION));
+
+        PrescriptionResponse[] prescriptionsResponseBuilt = prescriptionAssembler.toDetailedResponses(PRESCRIPTIONS);
+
+        assertDetailedResponsesEquals(DETAILED_PRESCRIPTION_RESPONSES, prescriptionsResponseBuilt);
+    }
+
     private void assertResponsesEquals(PrescriptionResponse[] expected, PrescriptionResponse[] actual) {
         for (int i = 0; i < expected.length; i++) {
             assertResponseEquals(expected[i], actual[i]);
         }
     }
 
+    private void assertDetailedResponsesEquals(PrescriptionResponse[] expected, PrescriptionResponse[] actual) {
+        for (int i = 0; i < expected.length; i++) {
+            assertDetailedResponseEquals(expected[i], actual[i]);
+        }
+    }
+
     private void assertResponseEquals(PrescriptionResponse expectedResponse, PrescriptionResponse responseBuilt) {
+        assertResponseAttributsEquals(expectedResponse, responseBuilt);
+        assertNull(responseBuilt.consumptions);
+        assertNull(responseBuilt.din);
+    }
+
+    private void assertDetailedResponseEquals(PrescriptionResponse prescriptionResponse,
+            PrescriptionResponse prescriptionsResponseBuilt) {
+        assertResponseAttributsEquals(prescriptionResponse, prescriptionsResponseBuilt);
+        assertArrayEquals(prescriptionResponse.consumptions, prescriptionsResponseBuilt.consumptions);
+        assertEquals(prescriptionResponse.din, prescriptionsResponseBuilt.din);
+    }
+
+    private void assertResponseAttributsEquals(PrescriptionResponse expectedResponse, PrescriptionResponse responseBuilt) {
         assertEquals(expectedResponse.practitioner, responseBuilt.practitioner);
         assertEquals(expectedResponse.date, responseBuilt.date);
         assertEquals(expectedResponse.remainingRenewals, responseBuilt.remainingRenewals);
@@ -131,16 +186,16 @@ public class PrescriptionAssemblerTest {
     }
 
     private void setupDrugWithDin() {
-        willReturn(A_BRAND_NAME).given(DRUG).getBrandName();
-        willReturn(A_DIN).given(DRUG).getDin();
+        willReturn(A_BRAND_NAME).given(A_DRUG).getBrandName();
+        willReturn(A_DIN).given(A_DRUG).getDin();
     }
 
     private void setupPrescription() {
-
         willReturn(A_DATE).given(PRESCRIPTION).getDate();
         willReturn(A_PRACTITIONER).given(PRESCRIPTION).getPractioner();
         willReturn(A_RENEWALS).given(PRESCRIPTION).getRenewals();
         willReturn(A_REMAINING_RENEWALS).given(PRESCRIPTION).countRemainingRenewals();
-        willReturn(DRUG).given(PRESCRIPTION).getDrug();
+        willReturn(A_DRUG).given(PRESCRIPTION).getDrug();
+        willReturn(Arrays.asList(CONSUMPTION)).given(PRESCRIPTION).getConsumptions();
     }
 }

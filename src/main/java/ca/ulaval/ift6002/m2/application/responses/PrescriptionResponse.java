@@ -40,7 +40,7 @@ public class PrescriptionResponse {
 
     public PrescriptionResponse(String practitioner, String name, String date, Integer remainingRenewals,
             Integer autorizedRenewals) {
-        this(practitioner, name, date, remainingRenewals, autorizedRenewals, null, "");
+        this(practitioner, name, date, remainingRenewals, autorizedRenewals, null, null);
     }
 
     public PrescriptionResponse(String practitioner, String name, String date, Integer remainingRenewals,
