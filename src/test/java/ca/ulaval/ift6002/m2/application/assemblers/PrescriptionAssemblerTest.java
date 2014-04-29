@@ -85,21 +85,6 @@ public class PrescriptionAssemblerTest {
         assertResponseEquals(PRESCRIPTION_RESPONSE, responseBuilt);
     }
 
-    // @Test
-    // public void
-    // givenPrescriptionWhenConvertToDetailedResponseShouldReturnGivenResponse()
-    // {
-    // setupDrugWithDin();
-    // setupPrescription();
-    // willReturn(CONSUMPTIONS).given(consumptionAssembler).toResponses(Arrays.asList(CONSUMPTION));
-    //
-    // PrescriptionResponse responseBuilt =
-    // prescriptionAssembler.toDetailedResponse(PRESCRIPTION);
-    //
-    // assertDetailedResponseEquals(DETAILED_PRESCRIPTION_RESPONSE,
-    // responseBuilt);
-    // }
-
     @Test
     public void givenRequestWhenConvertToPrescriptionShouldCallPrescriptionFactoryCreate() {
         prescriptionAssembler.fromRequest(PRESCRIPTION_REQUEST);
@@ -131,50 +116,13 @@ public class PrescriptionAssemblerTest {
         assertResponsesEquals(PRESCRIPTION_RESPONSES, prescriptionsResponseBuilt);
     }
 
-    // @Test
-    // public void
-    // givenCollectionOfPrescriptionsWhenToDetailedResponsesShouldConvertToCollectionOfDetailedPrescriptionResponse()
-    // {
-    // setupDrugWithDin();
-    // setupPrescription();
-    // willReturn(CONSUMPTIONS).given(consumptionAssembler).toResponses(Arrays.asList(CONSUMPTION));
-    //
-    // PrescriptionResponse[] prescriptionsResponseBuilt =
-    // prescriptionAssembler.toDetailedResponses(PRESCRIPTIONS);
-    //
-    // assertDetailedResponsesEquals(DETAILED_PRESCRIPTION_RESPONSES,
-    // prescriptionsResponseBuilt);
-    // }
-
     private void assertResponsesEquals(PrescriptionResponse[] expected, PrescriptionResponse[] actual) {
         for (int i = 0; i < expected.length; i++) {
             assertResponseEquals(expected[i], actual[i]);
         }
     }
 
-    // private void assertDetailedResponsesEquals(PrescriptionResponse[]
-    // expected, PrescriptionResponse[] actual) {
-    // for (int i = 0; i < expected.length; i++) {
-    // assertDetailedResponseEquals(expected[i], actual[i]);
-    // }
-    // }
-    //
     private void assertResponseEquals(PrescriptionResponse expectedResponse, PrescriptionResponse responseBuilt) {
-        assertResponseAttributsEquals(expectedResponse, responseBuilt);
-    }
-
-    //
-    // private void assertDetailedResponseEquals(PrescriptionResponse
-    // prescriptionResponse,
-    // PrescriptionResponse prescriptionsResponseBuilt) {
-    // assertResponseAttributsEquals(prescriptionResponse,
-    // prescriptionsResponseBuilt);
-    // assertArrayEquals(prescriptionResponse.consumptions,
-    // prescriptionsResponseBuilt.consumptions);
-    // assertEquals(prescriptionResponse.din, prescriptionsResponseBuilt.din);
-    // }
-
-    private void assertResponseAttributsEquals(PrescriptionResponse expectedResponse, PrescriptionResponse responseBuilt) {
         assertEquals(expectedResponse.practitioner, responseBuilt.practitioner);
         assertEquals(expectedResponse.date, responseBuilt.date);
         assertEquals(expectedResponse.remainingRenewals, responseBuilt.remainingRenewals);
