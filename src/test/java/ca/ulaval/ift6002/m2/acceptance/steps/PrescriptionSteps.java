@@ -158,6 +158,7 @@ public class PrescriptionSteps extends Steps {
 
     @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
     public void allPrescriptionsAreInDescendingOrder() {
+        // TODO: Verify if there's a cleaner way to test this
         List<String> responsesDate = ResponseContext.getResponse().getBody().jsonPath().get("prescription.date");
         String[] actualResponsesDate = responsesDate.toArray(new String[responsesDate.size()]);
 
@@ -166,9 +167,11 @@ public class PrescriptionSteps extends Steps {
 
     @Then("toutes les consommations des prescriptions sont affichées en ordre décroissant de date")
     public void allConsumptionsAreInDescendingOrder() {
+        // TODO: Verify if there's a cleaner way to test this
         List<List<String>> responsesConsumptionDate = ResponseContext.getResponse().getBody().jsonPath()
                 .get("prescription.consommations.date");
-        String[] actualResponsesConsumptionDate = responsesConsumptionDate.get(0).toArray(new String[responsesConsumptionDate.size()]);
+        String[] actualResponsesConsumptionDate = responsesConsumptionDate.get(0).toArray(
+                new String[responsesConsumptionDate.size()]);
 
         assertArrayEquals(expectedConsumptionsDateOrder, actualResponsesConsumptionDate);
     }
