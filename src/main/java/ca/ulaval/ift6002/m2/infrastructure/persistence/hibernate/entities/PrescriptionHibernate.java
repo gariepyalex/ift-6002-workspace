@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -34,6 +35,7 @@ public class PrescriptionHibernate extends Prescription {
     @ManyToOne
     private DrugHibernate drug;
     @OneToMany(cascade = { CascadeType.ALL })
+    @OrderBy("date DESC")
     private List<ConsumptionHibernate> consumptions;
     private String drugName;
 
