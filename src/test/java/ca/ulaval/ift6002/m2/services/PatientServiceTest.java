@@ -84,4 +84,18 @@ public class PatientServiceTest {
 
         verify(prescriptionAssembler).toResponses(PRESCRIPTIONS);
     }
+
+    @Test
+    public void whenLoadDetailedPrescriptionShouldLoadPatientFromRepository() {
+        patientService.getDetailedPrescriptions(PATIENT_ID_AS_STRING);
+
+        verify(patientRepository).get(PATIENT_ID_AS_INT);
+    }
+
+    @Test
+    public void whenLoadDetailedPrescriptionShouldConvertPrescriptionsToDetailedResponse() {
+        patientService.getDetailedPrescriptions(PATIENT_ID_AS_STRING);
+
+        verify(prescriptionAssembler).toDetailedResponses(PRESCRIPTIONS);
+    }
 }
