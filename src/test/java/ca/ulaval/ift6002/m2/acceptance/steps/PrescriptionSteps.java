@@ -1,11 +1,14 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
+
+import java.util.List;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -40,11 +43,14 @@ public class PrescriptionSteps extends Steps {
     private PrescriptionRequest prescriptionRequest;
     private final PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
 
-    private String[] expectedDate;
+    private String[] expectedDateOrder;
+
+    private String[] expectedConsumptionsOrder;
 
     @BeforeScenario
     public void clearResults() {
-        expectedDate = null;
+        expectedDateOrder = null;
+        expectedConsumptionsOrder = null;
         prescriptionRequest = null;
     }
 
@@ -104,10 +110,21 @@ public class PrescriptionSteps extends Steps {
 
     @When("je demande le sommaire des prescriptions de ce patient")
     public void getPrescriptionsSummary() {
-        Response response = new RequestBuilder().doGet("/patient/{patientId}/prescriptions",
+        Response response = new RequestBuilder().doGet("/patient/{patientId}/prescriptions/",
                 PatientContext.getPatientNumber());
 
-        expectedDate("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+        expectedDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+
+        ResponseContext.setResponse(response);
+    }
+
+    @When("je demande le sommaire détaillé des prescriptions de ce patient")
+    public void getDetailedPrescriptionsSummary() {
+        Response response = new RequestBuilder().withQueryParam("view", "details").doGet(
+                "/patient/{patientId}/prescriptions/", PatientContext.getPatientNumber());
+
+        expectedDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+        expectedConsumptionsDateOrder("2010-02-04T12:08:56", "2009-01-04T12:08:56");
 
         ResponseContext.setResponse(response);
     }
@@ -128,12 +145,35 @@ public class PrescriptionSteps extends Steps {
                 .body("prescription.renouvellements_autorises", not(hasItem(nullValue())));
     }
 
-    @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
-    public void allPrescriptionsAreShown() {
-        ResponseContext.getResponse().then().assertThat().body("prescription.date", hasItems(expectedDate));
+    @Then("toutes les informations du sommaire détaillé sont affichées")
+    public void allDetailedSummaryInformationsAreShown() {
+        ResponseContext.getResponse().then().assertThat().body("prescription.date", not(hasItem(nullValue())))
+                .body("prescription.intervenant", not(hasItem(nullValue())))
+                .body("prescription.nom", not(hasItem(nullValue())))
+                .body("prescription.renouvellements_restants", not(hasItem(nullValue())))
+                .body("prescription.renouvellements_autorises", not(hasItem(nullValue())))
+                .body("prescription.din", not(hasItem(nullValue())))
+                .body("prescription.consommations", hasItem(notNullValue()));
     }
 
-    private void expectedDate(String... date) {
-        expectedDate = date;
+    @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
+    public void allPrescriptionsAreInDescendingOrder() {
+        List<String> responsesDate = ResponseContext.getResponse().getBody().jsonPath().get("prescription.date");
+        String[] actualResponsesDate = responsesDate.toArray(new String[responsesDate.size()]);
+
+        assertArrayEquals(expectedDateOrder, actualResponsesDate);
+    }
+
+    @Then("toutes les consommations des prescriptions sont affichées en ordre décroissant de date")
+    public void allConsumptionsAreInDescendingOrder() {
+        // TODO: to be tested
+    }
+
+    private void expectedDateOrder(String... date) {
+        expectedDateOrder = date;
+    }
+
+    private void expectedConsumptionsDateOrder(String... consumptions) {
+        expectedConsumptionsOrder = consumptions;
     }
 }

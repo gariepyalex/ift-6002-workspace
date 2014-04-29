@@ -12,7 +12,7 @@ public class PatientFixture {
     private static final int PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION = 3;
     private static final int PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION = 4;
     private static final int DEAD_PATIENT_NUMBER = 5;
-    private static final int PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS = 6;
+    private static final int PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS_CONSUMPTIONS = 6;
 
     private static final Integer UNEXISTING_PATIENT_ID = -999;
 
@@ -26,9 +26,9 @@ public class PatientFixture {
         PatientContext.setPatientNumber(PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION);
     }
 
-    public void setupExistingPatientWithMultiplePrescriptions() {
+    public void setupExistingPatientWithMultiplePrescriptionsAndConsumptions() {
         PatientContext.setPatient(getExistingPatientWithMultiplePrescriptions());
-        PatientContext.setPatientNumber(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS);
+        PatientContext.setPatientNumber(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS_CONSUMPTIONS);
     }
 
     public void setupUnexistingPatient() {
@@ -55,7 +55,7 @@ public class PatientFixture {
     }
 
     public Patient getExistingPatientWithMultiplePrescriptions() {
-        return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS);
+        return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS_CONSUMPTIONS);
     }
 
     public Patient getUnexistingPatient() {

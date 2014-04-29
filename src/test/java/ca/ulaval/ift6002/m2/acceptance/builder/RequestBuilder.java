@@ -38,6 +38,11 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder withQueryParam(String parameter, String value) {
+        request.queryParam(parameter, value);
+        return this;
+    }
+
     public Response doGet(String url, Object... pathParams) {
         return request.get(url, pathParams);
     }

@@ -51,9 +51,9 @@ public class PatientSteps {
         prescriptionFixture.setupPrescriptionWithinCurrentPatient();
     }
 
-    @Given("un patient avec plusieurs prescriptions")
+    @Given("un patient avec plusieurs prescriptions et des consommations")
     public void aPatientWithMultiplePrescriptions() {
-        patientFixture.setupExistingPatientWithMultiplePrescriptions();
+        patientFixture.setupExistingPatientWithMultiplePrescriptionsAndConsumptions();
         prescriptionFixture.setupPrescriptionWithinCurrentPatient();
     }
 

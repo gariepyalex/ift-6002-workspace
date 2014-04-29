@@ -35,7 +35,8 @@ public class IntegrationPatientRepositoryFiller {
     private static final Date DATE3 = DATE_FORMATTER.parse("2007-03-04T12:08:56");
     private static final Date DATE4 = DATE_FORMATTER.parse("2012-04-04T12:08:56");
 
-    private static final int RENEWALS = 2;
+    private static final int ONE_RENEWAL = 1;
+    private static final int TWO_RENEWALS = 2;
 
     private final PatientRepository patientRepository;
     private final DrugRepository drugRepository;
@@ -55,7 +56,7 @@ public class IntegrationPatientRepositoryFiller {
         patientRepository.store(patientFactory.create(2));
 
         Drug existingDrug = drugRepository.get(EXISTING_DIN);
-        Prescription recentPrescription = prescriptionFactory.create(A_PRACTITIONER, RECENT_DATE, RENEWALS,
+        Prescription recentPrescription = prescriptionFactory.create(A_PRACTITIONER, RECENT_DATE, TWO_RENEWALS,
                 existingDrug);
         Prescription obsolePrescription = getObsoletePrescription(existingDrug);
 
@@ -69,10 +70,10 @@ public class IntegrationPatientRepositoryFiller {
         deadPatient.declareDead();
 
         Patient patientWithMultiplePrescriptions = patientFactory.create(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS);
-        Prescription prescription1 = prescriptionFactory.create(A_PRACTITIONER, DATE1, RENEWALS, existingDrug);
-        Prescription prescription2 = prescriptionFactory.create(A_PRACTITIONER, DATE2, RENEWALS, existingDrug);
-        Prescription prescription3 = prescriptionFactory.create(A_PRACTITIONER, DATE3, RENEWALS, existingDrug);
-        Prescription prescription4 = prescriptionFactory.create(A_PRACTITIONER, DATE4, RENEWALS, existingDrug);
+        Prescription prescription1 = prescriptionFactory.create(A_PRACTITIONER, DATE1, TWO_RENEWALS, existingDrug);
+        Prescription prescription2 = prescriptionFactory.create(A_PRACTITIONER, DATE2, TWO_RENEWALS, existingDrug);
+        Prescription prescription3 = prescriptionFactory.create(A_PRACTITIONER, DATE3, TWO_RENEWALS, existingDrug);
+        Prescription prescription4 = prescriptionFactory.create(A_PRACTITIONER, DATE4, TWO_RENEWALS, existingDrug);
         patientWithMultiplePrescriptions.receivesPrescription(prescription1);
         patientWithMultiplePrescriptions.receivesPrescription(prescription2);
         patientWithMultiplePrescriptions.receivesPrescription(prescription3);
@@ -82,12 +83,21 @@ public class IntegrationPatientRepositoryFiller {
         patientRepository.store(patientWithObsoletePrescription);
         patientRepository.store(deadPatient);
         patientRepository.store(patientWithMultiplePrescriptions);
+
+        Consumption consumption1 = FactoryLocator.getConsumptionFactory().create(DATE1, new Pharmacy("Jean Coutu"),
+                ONE_RENEWAL);
+        Consumption consumption2 = FactoryLocator.getConsumptionFactory().create(DATE2, new Pharmacy("Jean Coutu II"),
+                ONE_RENEWAL);
+
+        patientWithMultiplePrescriptions.consumesPrescription(prescription1.getNumber(), consumption1);
+        patientWithMultiplePrescriptions.consumesPrescription(prescription1.getNumber(), consumption2);
+        patientRepository.store(patientWithMultiplePrescriptions);
     }
 
     private Prescription getObsoletePrescription(Drug drug) {
-        Prescription obsoletePrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, RENEWALS, drug);
+        Prescription obsoletePrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, TWO_RENEWALS, drug);
         Consumption consumption = FactoryLocator.getConsumptionFactory().create(OLD_DATE, new Pharmacy("Jean Coutu"),
-                RENEWALS);
+                TWO_RENEWALS);
         obsoletePrescription.addConsumption(consumption);
         return obsoletePrescription;
     }
