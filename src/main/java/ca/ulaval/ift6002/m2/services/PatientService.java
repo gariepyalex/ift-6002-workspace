@@ -1,9 +1,10 @@
 package ca.ulaval.ift6002.m2.services;
 
 import ca.ulaval.ift6002.m2.application.assemblers.ConsumptionAssembler;
-import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionAssembler;
+import ca.ulaval.ift6002.m2.application.assemblers.DetailedPrescriptionAssembler;
 import ca.ulaval.ift6002.m2.application.requests.ConsumptionRequest;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
+import ca.ulaval.ift6002.m2.application.responses.DetailedPrescriptionResponse;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
@@ -14,17 +15,17 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 public class PatientService {
 
     private final PatientRepository patientRepository;
-    private final PrescriptionAssembler prescriptionAssembler;
+    private final DetailedPrescriptionAssembler detailedPrescriptionAssembler;
     private final ConsumptionAssembler consumptionAssembler;
 
     public PatientService() {
         this.patientRepository = RepositoryLocator.getPatientRepository();
-        this.prescriptionAssembler = new PrescriptionAssembler();
+        this.detailedPrescriptionAssembler = new DetailedPrescriptionAssembler();
         this.consumptionAssembler = new ConsumptionAssembler();
     }
 
     public Integer savePrescription(String patientId, PrescriptionRequest response) {
-        Prescription prescription = prescriptionAssembler.fromRequest(response);
+        Prescription prescription = detailedPrescriptionAssembler.fromRequest(response);
         Patient patient = getPatient(patientId);
 
         patient.receivesPrescription(prescription);
@@ -43,22 +44,22 @@ public class PatientService {
 
     public PrescriptionResponse[] getPrescriptions(String patientId) {
         Patient patient = getPatient(patientId);
-        return prescriptionAssembler.toResponses(patient.getPrescriptions());
+        return detailedPrescriptionAssembler.toResponses(patient.getPrescriptions());
     }
 
-    public PrescriptionResponse[] getDetailedPrescriptions(String patientId) {
+    public DetailedPrescriptionResponse[] getDetailedPrescriptions(String patientId) {
         Patient patient = getPatient(patientId);
-        return prescriptionAssembler.toDetailedResponses(patient.getPrescriptions());
+        return detailedPrescriptionAssembler.toDetailedResponses(patient.getPrescriptions());
     }
 
     private Patient getPatient(String patientId) {
         return patientRepository.get(Integer.valueOf(patientId));
     }
 
-    protected PatientService(PatientRepository patientRepository, PrescriptionAssembler prescriptionAssembler,
+    protected PatientService(PatientRepository patientRepository, DetailedPrescriptionAssembler prescriptionAssembler,
             ConsumptionAssembler consumptionAssembler) {
         this.patientRepository = patientRepository;
-        this.prescriptionAssembler = prescriptionAssembler;
+        this.detailedPrescriptionAssembler = prescriptionAssembler;
         this.consumptionAssembler = consumptionAssembler;
     }
 }

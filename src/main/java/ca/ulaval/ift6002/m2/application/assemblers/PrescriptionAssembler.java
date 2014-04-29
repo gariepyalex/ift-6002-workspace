@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
-import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
 import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.Din;
@@ -18,14 +17,12 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class PrescriptionAssembler {
 
-    private final DateFormatter dateFormatter;
-    private final DrugRepository drugRepository;
-    private final PrescriptionFactory prescriptionFactory;
-    private final ConsumptionAssembler consumptionAssembler;
+    protected final DateFormatter dateFormatter;
+    protected final DrugRepository drugRepository;
+    protected final PrescriptionFactory prescriptionFactory;
 
     public PrescriptionAssembler() {
         this.dateFormatter = new DateFormatter();
-        this.consumptionAssembler = new ConsumptionAssembler();
         this.drugRepository = RepositoryLocator.getDrugRepository();
         this.prescriptionFactory = FactoryLocator.getPrescriptionFactory();
     }
@@ -40,36 +37,12 @@ public class PrescriptionAssembler {
         return new PrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals, authorizedRenewals);
     }
 
-    public PrescriptionResponse toDetailedResponse(Prescription prescription) {
-        String formattedDate = dateFormatter.dateToString(prescription.getDate());
-        String practitioner = prescription.getPractioner().toString();
-        Integer remainingRenewals = Integer.valueOf(prescription.countRemainingRenewals());
-        Integer authorizedRenewals = Integer.valueOf(prescription.getRenewals());
-        String brandName = prescription.getDrug().getBrandName();
-        ConsumptionResponse[] consumptions = consumptionAssembler.toResponses(prescription.getConsumptions());
-        String din = prescription.getDrug().getDin().toString();
-
-        return new PrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals, authorizedRenewals,
-                consumptions, din);
-    }
-
     public PrescriptionResponse[] toResponses(Collection<Prescription> prescriptions) {
         PrescriptionResponse[] prescriptionResponses = new PrescriptionResponse[prescriptions.size()];
         int i = 0;
 
         for (Prescription prescription : prescriptions) {
             prescriptionResponses[i++] = toResponse(prescription);
-        }
-
-        return prescriptionResponses;
-    }
-
-    public PrescriptionResponse[] toDetailedResponses(Collection<Prescription> prescriptions) {
-        PrescriptionResponse[] prescriptionResponses = new PrescriptionResponse[prescriptions.size()];
-        int i = 0;
-
-        for (Prescription prescription : prescriptions) {
-            prescriptionResponses[i++] = toDetailedResponse(prescription);
         }
 
         return prescriptionResponses;
@@ -98,10 +71,9 @@ public class PrescriptionAssembler {
     }
 
     protected PrescriptionAssembler(DateFormatter dateFormatter, DrugRepository drugRepository,
-            PrescriptionFactory prescriptionFactory, ConsumptionAssembler consumptionAssembler) {
+            PrescriptionFactory prescriptionFactory) {
         this.dateFormatter = dateFormatter;
         this.drugRepository = drugRepository;
         this.prescriptionFactory = prescriptionFactory;
-        this.consumptionAssembler = consumptionAssembler;
     }
 }

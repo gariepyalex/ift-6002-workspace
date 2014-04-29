@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ca.ulaval.ift6002.m2.application.assemblers.PrescriptionAssembler;
+import ca.ulaval.ift6002.m2.application.assemblers.DetailedPrescriptionAssembler;
 import ca.ulaval.ift6002.m2.application.requests.PrescriptionRequest;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
@@ -38,14 +38,14 @@ public class PatientServiceTest {
     private PatientRepository patientRepository;
 
     @Mock
-    private PrescriptionAssembler prescriptionAssembler;
+    private DetailedPrescriptionAssembler detailedPrescriptionAssembler;
 
     @InjectMocks
     private PatientService patientService;
 
     @Before
     public void setUp() {
-        willReturn(PRESCRIPTION).given(prescriptionAssembler).fromRequest(RESPONSE);
+        willReturn(PRESCRIPTION).given(detailedPrescriptionAssembler).fromRequest(RESPONSE);
         willReturn(patient).given(patientRepository).get(PATIENT_ID_AS_INT);
         willReturn(PRESCRIPTIONS).given(patient).getPrescriptions();
     }
@@ -54,7 +54,7 @@ public class PatientServiceTest {
     public void whenSavePrescriptionToPatientShouldConvertResponseToPrescription() {
         patientService.savePrescription(PATIENT_ID_AS_STRING, RESPONSE);
 
-        verify(prescriptionAssembler).fromRequest(RESPONSE);
+        verify(detailedPrescriptionAssembler).fromRequest(RESPONSE);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class PatientServiceTest {
     public void whenLoadPrescriptionShouldConvertPrescriptionsToResponse() {
         patientService.getPrescriptions(PATIENT_ID_AS_STRING);
 
-        verify(prescriptionAssembler).toResponses(PRESCRIPTIONS);
+        verify(detailedPrescriptionAssembler).toResponses(PRESCRIPTIONS);
     }
 
     @Test
@@ -96,6 +96,6 @@ public class PatientServiceTest {
     public void whenLoadDetailedPrescriptionShouldConvertPrescriptionsToDetailedResponse() {
         patientService.getDetailedPrescriptions(PATIENT_ID_AS_STRING);
 
-        verify(prescriptionAssembler).toDetailedResponses(PRESCRIPTIONS);
+        verify(detailedPrescriptionAssembler).toDetailedResponses(PRESCRIPTIONS);
     }
 }
