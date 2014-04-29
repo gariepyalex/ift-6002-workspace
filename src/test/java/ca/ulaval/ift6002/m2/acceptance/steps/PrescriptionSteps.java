@@ -45,12 +45,12 @@ public class PrescriptionSteps extends Steps {
 
     private String[] expectedDateOrder;
 
-    private String[] expectedConsumptionsOrder;
+    private String[] expectedConsumptionsDateOrder;
 
     @BeforeScenario
     public void clearResults() {
         expectedDateOrder = null;
-        expectedConsumptionsOrder = null;
+        expectedConsumptionsDateOrder = null;
         prescriptionRequest = null;
     }
 
@@ -166,7 +166,11 @@ public class PrescriptionSteps extends Steps {
 
     @Then("toutes les consommations des prescriptions sont affichées en ordre décroissant de date")
     public void allConsumptionsAreInDescendingOrder() {
-        // TODO: to be tested
+        List<List<String>> responsesConsumptionDate = ResponseContext.getResponse().getBody().jsonPath()
+                .get("prescription.consommations.date");
+        String[] actualResponsesConsumptionDate = responsesConsumptionDate.get(0).toArray(new String[responsesConsumptionDate.size()]);
+
+        assertArrayEquals(expectedConsumptionsDateOrder, actualResponsesConsumptionDate);
     }
 
     private void expectedDateOrder(String... date) {
@@ -174,6 +178,6 @@ public class PrescriptionSteps extends Steps {
     }
 
     private void expectedConsumptionsDateOrder(String... consumptions) {
-        expectedConsumptionsOrder = consumptions;
+        expectedConsumptionsDateOrder = consumptions;
     }
 }
