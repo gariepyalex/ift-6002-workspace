@@ -4,9 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,8 +37,10 @@ public class ConsumptionAssemblerTest {
     private static final ConsumptionRequest CONSUMPTION_REQUEST = new ConsumptionRequest(DATE_AS_STRING,
             PHARMACY.toString(), COUNT);
 
-    @Mock
-    private Consumption consumption;
+    private static final Consumption CONSUMPTION = mock(Consumption.class);
+
+    private static final List<Consumption> CONSUMPTIONS_LIST = Arrays.asList(CONSUMPTION);
+    private static final ConsumptionResponse[] CONSUMPTION_RESPONSES = { CONSUMPTION_RESPONSE };
 
     @Mock
     private ConsumptionFactory consumptionFactory;
@@ -53,21 +58,33 @@ public class ConsumptionAssemblerTest {
 
     @Before
     public void setupConsumption() {
-        willReturn(COUNT).given(consumption).getCount();
-        willReturn(PHARMACY).given(consumption).getPharmacy();
-        willReturn(DATE).given(consumption).getDate();
+        willReturn(COUNT).given(CONSUMPTION).getCount();
+        willReturn(PHARMACY).given(CONSUMPTION).getPharmacy();
+        willReturn(DATE).given(CONSUMPTION).getDate();
     }
 
     @Test
     public void givenConsumptionWhenConvertToResponseShouldReturnGivenConsumptionResponse() {
-        ConsumptionResponse responseBuilt = consumptionAssembler.toResponse(consumption);
+        ConsumptionResponse responseBuilt = consumptionAssembler.toResponse(CONSUMPTION);
         assertConsumptionResponseEquals(CONSUMPTION_RESPONSE, responseBuilt);
+    }
+
+    @Test
+    public void givenConsumptionListWhenConvertToResponsesShouldReturnGivenConsumptionResponseArray() {
+        ConsumptionResponse[] responsesBuilt = consumptionAssembler.toResponses(CONSUMPTIONS_LIST);
+        assertConsumptionResponsesEquals(CONSUMPTION_RESPONSES, responsesBuilt);
     }
 
     @Test
     public void givenConsumptionRequestWhenConvertToConsumptionShouldCallConsumptionFactoryCreate() {
         consumptionAssembler.fromRequest(CONSUMPTION_REQUEST);
         verify(consumptionFactory).create(any(Date.class), any(Pharmacy.class), anyInt());
+    }
+
+    private void assertConsumptionResponsesEquals(ConsumptionResponse[] expected, ConsumptionResponse[] actual) {
+        for (int i = 0; i < expected.length; i++) {
+            assertConsumptionResponseEquals(expected[i], actual[i]);
+        }
     }
 
     private void assertConsumptionResponseEquals(ConsumptionResponse consumptionResponse,
