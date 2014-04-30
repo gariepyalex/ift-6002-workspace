@@ -17,7 +17,7 @@ public class DateFormatterTest {
     private static final String VALID_DATE_FORMAT = "2014-01-01T12:30:30";
 
     private static final int MONTH = Calendar.JANUARY;
-    private static final int DAY = 01;
+    private static final int DAY = 1;
     private static final int YEAR = 2014;
 
     private static final int HOUR = 12;
