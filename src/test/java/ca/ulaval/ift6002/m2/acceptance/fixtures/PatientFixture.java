@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.acceptance.fixtures;
 
+import ca.ulaval.ift6002.m2.acceptance.contexts.DateOrderContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
@@ -27,8 +28,20 @@ public class PatientFixture {
     }
 
     public void setupExistingPatientWithMultiplePrescriptionsAndConsumptions() {
-        PatientContext.setPatient(getExistingPatientWithMultiplePrescriptions());
+        PatientContext.setPatient(getExistingPatientWithMultiplePrescriptionsAndConsumptions());
         PatientContext.setPatientNumber(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS_CONSUMPTIONS);
+        DateOrderContext.setExpectedPrescriptionDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56",
+                "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+        setExpectedConsumptionDateOrderForPatientWithMultiplePrescriptionsAndConsumptions();
+    }
+
+    private void setExpectedConsumptionDateOrderForPatientWithMultiplePrescriptionsAndConsumptions() {
+        String[] firstConsumptionDateOrderStrings = { "2010-02-04T12:08:56", "2007-03-04T12:08:56" };
+        String[] secondConsumptionDateOrderStrings = { "2007-03-04T12:08:56" };
+        String[] thirdConsumptionDateOrderStrings = { "2010-02-04T12:08:56", "2009-01-04T12:08:56" };
+        String[] fourthConsumptionDateOrderStrings = { "2012-04-04T12:08:56" };
+        DateOrderContext.setExpectedConsumptionDateOrder(firstConsumptionDateOrderStrings,
+                secondConsumptionDateOrderStrings, thirdConsumptionDateOrderStrings, fourthConsumptionDateOrderStrings);
     }
 
     public void setupUnexistingPatient() {
@@ -54,7 +67,7 @@ public class PatientFixture {
         return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION);
     }
 
-    public Patient getExistingPatientWithMultiplePrescriptions() {
+    public Patient getExistingPatientWithMultiplePrescriptionsAndConsumptions() {
         return RepositoryLocator.getPatientRepository().get(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS_CONSUMPTIONS);
     }
 
