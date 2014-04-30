@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
-import ca.ulaval.ift6002.m2.domain.operation.OperationRepository;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
+import ca.ulaval.ift6002.m2.domain.surgery.SurgeryRepository;
 
 public class RepositoryLocator {
 
@@ -29,7 +29,7 @@ public class RepositoryLocator {
         return (PatientRepository) instance.repositories.get(PatientRepository.class);
     }
 
-    public static OperationRepository getOperationRepository() {
-        return (OperationRepository) instance.repositories.get(OperationRepository.class);
+    public static SurgeryRepository getSurgeryRepository() {
+        return (SurgeryRepository) instance.repositories.get(SurgeryRepository.class);
     }
 }

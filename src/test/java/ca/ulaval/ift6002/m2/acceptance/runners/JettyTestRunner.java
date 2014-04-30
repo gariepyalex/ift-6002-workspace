@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 
 import ca.ulaval.ift6002.m2.JettyServer;
 import ca.ulaval.ift6002.m2.acceptance.configuration.TestHibernatePersistanceConfiguration;
-import ca.ulaval.ift6002.m2.acceptance.contexts.OperationContext;
+import ca.ulaval.ift6002.m2.acceptance.contexts.SurgeryContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PrescriptionContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
@@ -54,13 +54,13 @@ public class JettyTestRunner {
         ResponseContext.reset();
         PatientContext.reset();
         PrescriptionContext.reset();
-        OperationContext.reset();
+        SurgeryContext.reset();
     }
 
     @BeforeScenario
     public void resetSpy() {
         Mockito.reset(RepositoryLocator.getDrugRepository());
-        Mockito.reset(RepositoryLocator.getOperationRepository());
+        Mockito.reset(RepositoryLocator.getSurgeryRepository());
         Mockito.reset(RepositoryLocator.getPatientRepository());
     }
 

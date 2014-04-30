@@ -5,10 +5,10 @@ import java.util.Map;
 
 import ca.ulaval.ift6002.m2.domain.drug.DrugFactory;
 import ca.ulaval.ift6002.m2.domain.instrument.InstrumentFactory;
-import ca.ulaval.ift6002.m2.domain.operation.OperationFactory;
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.ConsumptionFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionFactory;
+import ca.ulaval.ift6002.m2.domain.surgery.SurgeryFactory;
 
 public class FactoryLocator {
 
@@ -36,8 +36,8 @@ public class FactoryLocator {
         return (InstrumentFactory) instance.factories.get(InstrumentFactory.class);
     }
 
-    public static OperationFactory getOperationFactory() {
-        return (OperationFactory) instance.factories.get(OperationFactory.class);
+    public static SurgeryFactory getSurgeryFactory() {
+        return (SurgeryFactory) instance.factories.get(SurgeryFactory.class);
     }
 
     public static PatientFactory getPatientFactory() {
