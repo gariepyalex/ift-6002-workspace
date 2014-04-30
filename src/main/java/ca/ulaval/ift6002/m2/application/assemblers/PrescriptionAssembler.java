@@ -17,9 +17,9 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 
 public class PrescriptionAssembler {
 
-    protected final DateFormatter dateFormatter;
-    protected final DrugRepository drugRepository;
-    protected final PrescriptionFactory prescriptionFactory;
+    private final DateFormatter dateFormatter;
+    private final DrugRepository drugRepository;
+    private final PrescriptionFactory prescriptionFactory;
 
     public PrescriptionAssembler() {
         this.dateFormatter = new DateFormatter();
@@ -34,7 +34,7 @@ public class PrescriptionAssembler {
         Integer authorizedRenewals = Integer.valueOf(prescription.getRenewals());
         String brandName = prescription.getDrug().getBrandName();
 
-        return new PrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals, authorizedRenewals);
+        return new PrescriptionResponse(practitioner, brandName, formattedDate, remainingRenewals, authorizedRenewals);
     }
 
     public PrescriptionResponse[] toResponses(Collection<Prescription> prescriptions) {
