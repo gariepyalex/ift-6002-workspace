@@ -39,7 +39,7 @@ public class RequestBuilder {
     }
 
     public RequestBuilder withQueryParam(String parameter, String value) {
-        request.queryParam(parameter, value);
+        request = request.queryParam(parameter, value);
         return this;
     }
 
