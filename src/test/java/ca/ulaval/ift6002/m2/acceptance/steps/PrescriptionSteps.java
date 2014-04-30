@@ -1,7 +1,6 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
@@ -159,7 +158,11 @@ public class PrescriptionSteps extends Steps {
 
     @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
     public void allPrescriptionsAreInDescendingOrder() {
-        ResponseContext.getResponse().then().assertThat().body("prescription.date", hasItems(expectedDateOrder));
+        // TODO: Verify if there's a cleaner way to test this
+        List<String> responsesDate = ResponseContext.getResponse().getBody().jsonPath().get("prescription.date");
+        String[] actualResponsesDate = responsesDate.toArray(new String[responsesDate.size()]);
+
+        assertArrayEquals(expectedDateOrder, actualResponsesDate);
     }
 
     @Then("toutes les consommations des prescriptions sont affichées en ordre décroissant de date")
