@@ -38,3 +38,7 @@ Le port utilisé est 8080.
 Le Main est dans le package ca.ulaval.ift6002.m2
 
 Pour les tests d'acceptation, il faut faire mvn integration-test.
+
+###Autres notes
+Nous sommes conscients d'un cycle entre sous-packages dans le package *ca.ulaval.ift6002.m2.domain.surgery*. Selon Jean-Nicolas Viens,
+ce cycle n'est pas grave.
