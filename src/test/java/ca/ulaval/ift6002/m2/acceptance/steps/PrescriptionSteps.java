@@ -1,9 +1,6 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.anything;
 import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -138,27 +135,25 @@ public class PrescriptionSteps extends Steps {
 
     @Then("toutes les informations du sommaire sont affichées")
     public void allSummaryInformationsAreShown() {
-        ResponseContext.getResponse().then().assertThat().body("prescription.date", not(hasItem(nullValue())))
-                .body("prescription.intervenant", not(hasItem(nullValue())))
-                .body("prescription.nom", not(hasItem(nullValue())))
-                .body("prescription.renouvellements_restants", not(hasItem(nullValue())))
-                .body("prescription.renouvellements_autorises", not(hasItem(nullValue())));
+        ResponseContext.getResponse().then().assertThat().body("prescription.date", anything())
+                .body("prescription.intervenant", anything()).body("prescription.nom", anything())
+                .body("prescription.renouvellements_restants", anything())
+                .body("prescription.renouvellements_autorises", anything());
     }
 
     @Then("toutes les informations du sommaire détaillé sont affichées")
     public void allDetailedSummaryInformationsAreShown() {
-        ResponseContext.getResponse().then().assertThat().body("prescription.date", not(hasItem(nullValue())))
-                .body("prescription.intervenant", not(hasItem(nullValue())))
-                .body("prescription.nom", not(hasItem(nullValue())))
-                .body("prescription.renouvellements_restants", not(hasItem(nullValue())))
-                .body("prescription.renouvellements_autorises", not(hasItem(nullValue())))
-                .body("prescription.din", not(hasItem(nullValue())))
-                .body("prescription.consommations", hasItem(notNullValue()));
+        ResponseContext.getResponse().then().assertThat().body("prescription.date", anything())
+                .body("prescription.intervenant", anything()).body("prescription.nom", anything())
+                .body("prescription.renouvellements_restants", anything())
+                .body("prescription.renouvellements_autorises", anything()).body("prescription.din", anything())
+                .body("prescription.consommations", anything());
     }
 
     @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
     public void allPrescriptionsAreInDescendingOrder() {
         // TODO: Verify if there's a cleaner way to test this
+
         List<String> responsesDate = ResponseContext.getResponse().getBody().jsonPath().get("prescription.date");
         String[] actualResponsesDate = responsesDate.toArray(new String[responsesDate.size()]);
 
