@@ -99,7 +99,8 @@ public class IntegrationPatientRepositoryFiller {
     }
 
     private Prescription getObsoletePrescription(Drug existingDrug) {
-        Prescription obsoletePrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, TWO_RENEWALS, existingDrug);
+        Prescription obsoletePrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, TWO_RENEWALS,
+                existingDrug);
         Consumption consumption = consumptionFactory.create(OLD_DATE, new Pharmacy("Jean Coutu"), TWO_RENEWALS);
         obsoletePrescription.addConsumption(consumption);
         return obsoletePrescription;
