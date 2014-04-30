@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import ca.ulaval.ift6002.m2.application.responses.ConsumptionResponse;
 import ca.ulaval.ift6002.m2.application.responses.DetailedPrescriptionResponse;
+import ca.ulaval.ift6002.m2.application.responses.PrescriptionResponse;
 import ca.ulaval.ift6002.m2.domain.date.DateFormatter;
 import ca.ulaval.ift6002.m2.domain.drug.DrugRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
@@ -19,16 +20,14 @@ public class DetailedPrescriptionAssembler extends PrescriptionAssembler {
     }
 
     public DetailedPrescriptionResponse toDetailedResponse(Prescription prescription) {
-        String formattedDate = dateFormatter.dateToString(prescription.getDate());
-        String practitioner = prescription.getPractioner().toString();
-        Integer remainingRenewals = Integer.valueOf(prescription.countRemainingRenewals());
-        Integer authorizedRenewals = Integer.valueOf(prescription.getRenewals());
-        String brandName = prescription.getDrug().getBrandName();
+        PrescriptionResponse summaryResponse = super.toResponse(prescription);
+
         ConsumptionResponse[] consumptions = consumptionAssembler.toResponses(prescription.getConsumptions());
         String din = prescription.getDrug().getDin().toString();
 
-        return new DetailedPrescriptionResponse(brandName, practitioner, formattedDate, remainingRenewals,
-                authorizedRenewals, consumptions, din);
+        return new DetailedPrescriptionResponse(summaryResponse.practitioner, summaryResponse.name,
+                summaryResponse.date, summaryResponse.remainingRenewals, summaryResponse.autorizedRenewals,
+                consumptions, din);
     }
 
     public DetailedPrescriptionResponse[] toDetailedResponses(Collection<Prescription> prescriptions) {
