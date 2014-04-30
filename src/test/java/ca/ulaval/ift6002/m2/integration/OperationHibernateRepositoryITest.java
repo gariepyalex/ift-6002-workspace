@@ -95,11 +95,10 @@ public class OperationHibernateRepositoryITest {
     public void givenNewOperationWhenStoringShouldBeStored() {
         Operation newOperation = operationFactory.create(OPERATION_TYPE, DESCRIPTION, SURGEON, DATE, ROOM,
                 OPERATION_STATUS, patient);
-        int operationNumber;
 
         beginTransaction();
         operationRepository.store(newOperation);
-        operationNumber = newOperation.getNumber();
+        int operationNumber = newOperation.getNumber();
         commitTransaction();
 
         operationRepository.get(operationNumber);
@@ -112,11 +111,10 @@ public class OperationHibernateRepositoryITest {
         Instrument instrument = instrumentFactory.create(INSTRUMENT_TYPECODE, INSTRUMENT_STATUS,
                 INSTRUMENT_SERIAL_NUMBER);
         newOperation.add(instrument);
-        int operationNumber;
 
         beginTransaction();
         operationRepository.store(newOperation);
-        operationNumber = newOperation.getNumber();
+        int operationNumber = newOperation.getNumber();
         commitTransaction();
 
         Operation operationRetrieved = operationRepository.get(operationNumber);

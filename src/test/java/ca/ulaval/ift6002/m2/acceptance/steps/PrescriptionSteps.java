@@ -111,7 +111,7 @@ public class PrescriptionSteps extends Steps {
         Response response = new RequestBuilder().doGet("/patient/{patientId}/prescriptions/",
                 PatientContext.getPatientNumber());
 
-        expectedDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+        expectDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
 
         ResponseContext.setResponse(response);
     }
@@ -121,8 +121,8 @@ public class PrescriptionSteps extends Steps {
         Response response = new RequestBuilder().withQueryParam("view", "details").doGet(
                 "/patient/{patientId}/prescriptions/", PatientContext.getPatientNumber());
 
-        expectedDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
-        expectedConsumptionsDateOrder("2010-02-04T12:08:56", "2009-01-04T12:08:56");
+        expectDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+        expectConsumptionsDateOrder("2010-02-04T12:08:56", "2009-01-04T12:08:56");
 
         ResponseContext.setResponse(response);
     }
@@ -167,11 +167,11 @@ public class PrescriptionSteps extends Steps {
         assertArrayEquals(expectedConsumptionsDateOrder, actualResponsesConsumptionDate);
     }
 
-    private void expectedDateOrder(String... date) {
+    private void expectDateOrder(String... date) {
         expectedDateOrder = date;
     }
 
-    private void expectedConsumptionsDateOrder(String... consumptions) {
+    private void expectConsumptionsDateOrder(String... consumptions) {
         expectedConsumptionsDateOrder = consumptions;
     }
 }
