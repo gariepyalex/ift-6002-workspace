@@ -1,11 +1,10 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -70,7 +69,7 @@ public class DrugHibernateRepositoryTest {
     public void givenDrugsWhenStoringDrugsShouldVerifyHibernateRepository() {
         Collection<Drug> drugs = buildListOfDrugs();
         drugRepository.store(drugs);
-        verify(hibernateRepository, times(drugs.size())).storeElement(any(DrugHibernate.class));
+        verify(hibernateRepository).storeElements(anyCollectionOf(DrugHibernate.class));
     }
 
     private void setupQueryBuilder() {

@@ -2,9 +2,13 @@ package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
@@ -25,7 +29,11 @@ public class HibernateRepositoryTest {
 
     private static final Integer AN_ELEMENT = 54321;
     private static final Integer AN_EXISTING_ELEMENT = 1;
-    private static final Integer AN_UNEXISTING_ELEMENT = 2;
+    private static final Integer AN_OTHER_EXISTING_ELEMENT = 2;
+    private static final Integer AN_UNEXISTING_ELEMENT = 3;
+
+    private static final Collection<Integer> EXISTING_ELEMENTS = Arrays.asList(AN_EXISTING_ELEMENT,
+            AN_OTHER_EXISTING_ELEMENT);
 
     private static final Integer A_VALUE = 12345;
     private static final Integer AN_UNEXISTING_VALUE = 67890;
@@ -74,6 +82,22 @@ public class HibernateRepositoryTest {
         willReturn(false).given(entityManager).contains(AN_UNEXISTING_ELEMENT);
         hibernateRepository.storeElement(AN_UNEXISTING_ELEMENT);
         verify(entityManager).persist(AN_UNEXISTING_ELEMENT);
+    }
+
+    @Test
+    public void whenStoringExistingElementsShouldNotPersist() {
+        willReturn(true).given(entityManager).contains(AN_EXISTING_ELEMENT);
+        willReturn(true).given(entityManager).contains(AN_OTHER_EXISTING_ELEMENT);
+        hibernateRepository.storeElements(EXISTING_ELEMENTS);
+        verify(entityManager, never()).persist(any(Integer.class));
+    }
+
+    @Test
+    public void whenStoringNotContainedElementsShouldPersist() {
+        willReturn(false).given(entityManager).contains(AN_EXISTING_ELEMENT);
+        willReturn(false).given(entityManager).contains(AN_OTHER_EXISTING_ELEMENT);
+        hibernateRepository.storeElements(EXISTING_ELEMENTS);
+        verify(entityManager, times(EXISTING_ELEMENTS.size())).persist(any(Integer.class));
     }
 
     @Test

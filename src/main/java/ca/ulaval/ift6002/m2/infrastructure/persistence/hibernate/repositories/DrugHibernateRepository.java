@@ -48,10 +48,12 @@ public class DrugHibernateRepository implements DrugRepository {
 
     @Override
     public void store(Collection<Drug> drugs) {
+        Collection<DrugHibernate> hibernateDrugs = new ArrayList<DrugHibernate>();
         for (Drug drug : drugs) {
             DrugHibernate drugHibernate = (DrugHibernate) drug;
-            hibernateRepository.storeElement(drugHibernate);
+            hibernateDrugs.add(drugHibernate);
         }
+        hibernateRepository.storeElements(hibernateDrugs);
     }
 
     protected DrugHibernateRepository(HibernateRepository<DrugHibernate> hibernateRepository, DrugFactory drugFactory) {

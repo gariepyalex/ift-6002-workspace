@@ -1,5 +1,6 @@
 package ca.ulaval.ift6002.m2.infrastructure.persistence.hibernate.repositories;
 
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
@@ -32,6 +33,18 @@ public class HibernateRepository<T> {
         if (!getEntityManager().contains(element)) {
             getEntityManager().persist(element);
         }
+        getEntityManager().flush();
+    }
+
+    public void storeElements(Collection<T> elements) {
+
+        for (T element : elements) {
+            if (!getEntityManager().contains(element)) {
+                getEntityManager().persist(element);
+            }
+        }
+
+        getEntityManager().flush();
     }
 
     public QueryBuilder<T> getQueryBuilder() {
