@@ -10,6 +10,7 @@ import ca.ulaval.ift6002.m2.domain.patient.Patient;
 import ca.ulaval.ift6002.m2.domain.patient.PatientFactory;
 import ca.ulaval.ift6002.m2.domain.patient.PatientRepository;
 import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
+import ca.ulaval.ift6002.m2.domain.prescription.ConsumptionFactory;
 import ca.ulaval.ift6002.m2.domain.prescription.Pharmacy;
 import ca.ulaval.ift6002.m2.domain.prescription.Practitioner;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
@@ -43,61 +44,64 @@ public class IntegrationPatientRepositoryFiller {
 
     private final PatientFactory patientFactory;
     private final PrescriptionFactory prescriptionFactory;
+    private final ConsumptionFactory consumptionFactory;
 
     public IntegrationPatientRepositoryFiller() {
         this.patientRepository = RepositoryLocator.getPatientRepository();
         this.drugRepository = RepositoryLocator.getDrugRepository();
         this.patientFactory = FactoryLocator.getPatientFactory();
         this.prescriptionFactory = FactoryLocator.getPrescriptionFactory();
+        this.consumptionFactory = FactoryLocator.getConsumptionFactory();
     }
 
     public void fill() {
-        patientRepository.store(patientFactory.create(1));
-        patientRepository.store(patientFactory.create(2));
-
         Drug existingDrug = drugRepository.get(EXISTING_DIN);
-        Prescription recentPrescription = prescriptionFactory.create(A_PRACTITIONER, RECENT_DATE, TWO_RENEWALS,
-                existingDrug);
-        Prescription obsolePrescription = getObsoletePrescription(existingDrug);
 
         Patient patientWithRecentPrescription = patientFactory.create(PATIENT_NUMBER_WITH_RECENT_PRESCRIPTION);
+        Prescription recentPrescription = prescriptionFactory.create(A_PRACTITIONER, RECENT_DATE, TWO_RENEWALS,
+                existingDrug);
         patientWithRecentPrescription.receivesPrescription(recentPrescription);
 
         Patient patientWithObsoletePrescription = patientFactory.create(PATIENT_NUMBER_WITH_OBSOLETE_PRESCRIPTION);
+        Prescription obsolePrescription = getObsoletePrescription(existingDrug);
         patientWithObsoletePrescription.receivesPrescription(obsolePrescription);
 
         Patient deadPatient = patientFactory.create(DEAD_PATIENT_NUMBER);
         deadPatient.declareDead();
 
+        patientRepository.store(patientFactory.create(1));
+        patientRepository.store(patientWithRecentPrescription);
+        patientRepository.store(patientWithObsoletePrescription);
+        patientRepository.store(deadPatient);
+
+        storeAPatientWithMultiplePrescriptionsAndConsumptions(existingDrug);
+    }
+
+    private void storeAPatientWithMultiplePrescriptionsAndConsumptions(Drug existingDrug) {
         Patient patientWithMultiplePrescriptions = patientFactory.create(PATIENT_NUMBER_WITH_MULTIPLE_PRESCRIPTIONS);
         Prescription prescription1 = prescriptionFactory.create(A_PRACTITIONER, DATE1, TWO_RENEWALS, existingDrug);
         Prescription prescription2 = prescriptionFactory.create(A_PRACTITIONER, DATE2, TWO_RENEWALS, existingDrug);
         Prescription prescription3 = prescriptionFactory.create(A_PRACTITIONER, DATE3, TWO_RENEWALS, existingDrug);
         Prescription prescription4 = prescriptionFactory.create(A_PRACTITIONER, DATE4, TWO_RENEWALS, existingDrug);
+
         patientWithMultiplePrescriptions.receivesPrescription(prescription1);
         patientWithMultiplePrescriptions.receivesPrescription(prescription2);
         patientWithMultiplePrescriptions.receivesPrescription(prescription3);
         patientWithMultiplePrescriptions.receivesPrescription(prescription4);
 
-        patientRepository.store(patientWithRecentPrescription);
-        patientRepository.store(patientWithObsoletePrescription);
-        patientRepository.store(deadPatient);
-        patientRepository.store(patientWithMultiplePrescriptions);
-
-        Consumption consumption1 = FactoryLocator.getConsumptionFactory().create(DATE1, new Pharmacy("Jean Coutu"),
-                ONE_RENEWAL);
-        Consumption consumption2 = FactoryLocator.getConsumptionFactory().create(DATE2, new Pharmacy("Jean Coutu II"),
-                ONE_RENEWAL);
+        Consumption consumption1 = consumptionFactory.create(DATE1, new Pharmacy("Jean Coutu"), ONE_RENEWAL);
+        Consumption consumption2 = consumptionFactory.create(DATE2, new Pharmacy("Jean Coutu II"), ONE_RENEWAL);
 
         patientWithMultiplePrescriptions.consumesPrescription(prescription1.getNumber(), consumption1);
         patientWithMultiplePrescriptions.consumesPrescription(prescription1.getNumber(), consumption2);
+
         patientRepository.store(patientWithMultiplePrescriptions);
     }
 
-    private Prescription getObsoletePrescription(Drug drug) {
-        Prescription obsoletePrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, TWO_RENEWALS, drug);
-        Consumption consumption = FactoryLocator.getConsumptionFactory().create(OLD_DATE, new Pharmacy("Jean Coutu"),
-                TWO_RENEWALS);
+    private Prescription getObsoletePrescription(Drug existingDrug) {
+        Prescription obsoletePrescription = prescriptionFactory.create(A_PRACTITIONER, OLD_DATE, TWO_RENEWALS,
+                existingDrug);
+        Consumption consumption = consumptionFactory.create(OLD_DATE, new Pharmacy("Jean Coutu"), TWO_RENEWALS);
         obsoletePrescription.addConsumption(consumption);
         return obsoletePrescription;
     }
