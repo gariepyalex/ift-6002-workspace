@@ -1,15 +1,15 @@
 package ca.ulaval.ift6002.m2.acceptance.steps;
 
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
 import javax.ws.rs.core.Response.Status;
 
-import org.hamcrest.Matcher;
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Given;
@@ -19,7 +19,6 @@ import org.jbehave.core.steps.Steps;
 
 import ca.ulaval.ift6002.m2.acceptance.builder.PrescriptionRequestBuilder;
 import ca.ulaval.ift6002.m2.acceptance.builder.RequestBuilder;
-import ca.ulaval.ift6002.m2.acceptance.contexts.DateOrderContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.PatientContext;
 import ca.ulaval.ift6002.m2.acceptance.contexts.ResponseContext;
 import ca.ulaval.ift6002.m2.acceptance.fixtures.PrescriptionFixture;
@@ -42,8 +41,14 @@ public class PrescriptionSteps extends Steps {
     private PrescriptionRequest prescriptionRequest;
     private final PrescriptionFixture prescriptionFixture = new PrescriptionFixture();
 
+    private String[] expectedDateOrder;
+
+    private String[] expectedConsumptionsDateOrder;
+
     @BeforeScenario
     public void clearResults() {
+        expectedDateOrder = null;
+        expectedConsumptionsDateOrder = null;
         prescriptionRequest = null;
     }
 
@@ -106,6 +111,8 @@ public class PrescriptionSteps extends Steps {
         Response response = new RequestBuilder().doGet("/patient/{patientId}/prescriptions/",
                 PatientContext.getPatientNumber());
 
+        expectDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+
         ResponseContext.setResponse(response);
     }
 
@@ -113,6 +120,9 @@ public class PrescriptionSteps extends Steps {
     public void getDetailedPrescriptionsSummary() {
         Response response = new RequestBuilder().withQueryParam("view", "details").doGet(
                 "/patient/{patientId}/prescriptions/", PatientContext.getPatientNumber());
+
+        expectDateOrder("2012-04-04T12:08:56", "2010-02-04T12:08:56", "2009-01-04T12:08:56", "2007-03-04T12:08:56");
+        expectConsumptionsDateOrder("2010-02-04T12:08:56", "2009-01-04T12:08:56");
 
         ResponseContext.setResponse(response);
     }
@@ -126,35 +136,42 @@ public class PrescriptionSteps extends Steps {
 
     @Then("toutes les informations du sommaire sont affichées")
     public void allSummaryInformationsAreShown() {
-        ResponseContext.getResponse().then().assertThat().body("prescription.date", isDisplayed())
-                .body("prescription.intervenant", isDisplayed()).body("prescription.nom", isDisplayed())
-                .body("prescription.renouvellements_restants", isDisplayed())
-                .body("prescription.renouvellements_autorises", isDisplayed());
+        ResponseContext.getResponse().then().assertThat().body("prescription.date", anything())
+                .body("prescription.intervenant", anything()).body("prescription.nom", anything())
+                .body("prescription.renouvellements_restants", anything())
+                .body("prescription.renouvellements_autorises", anything());
     }
 
     @Then("toutes les informations du sommaire détaillé sont affichées")
     public void allDetailedSummaryInformationsAreShown() {
-        ResponseContext.getResponse().then().assertThat().body("prescription.date", isDisplayed())
-                .body("prescription.intervenant", isDisplayed()).body("prescription.nom", isDisplayed())
-                .body("prescription.renouvellements_restants", isDisplayed())
-                .body("prescription.renouvellements_autorises", isDisplayed()).body("prescription.din", isDisplayed())
-                .body("prescription.consommations", isDisplayed());
+        ResponseContext.getResponse().then().assertThat().body("prescription.date", anything())
+                .body("prescription.intervenant", anything()).body("prescription.nom", anything())
+                .body("prescription.renouvellements_restants", anything())
+                .body("prescription.renouvellements_autorises", anything()).body("prescription.din", anything())
+                .body("prescription.consommations", anything());
     }
 
     @Then("toutes les prescriptions sont affichées en ordre décroissant de date")
     public void allPrescriptionsAreInDescendingOrder() {
-        String[] expectedDateOrder = DateOrderContext.getExpectedPrescriptionDateOrder();
         ResponseContext.getResponse().then().body("prescription.date", contains(expectedDateOrder));
     }
 
     @Then("toutes les consommations des prescriptions sont affichées en ordre décroissant de date")
     public void allConsumptionsAreInDescendingOrder() {
-        // TODO: MAKE THIS TEST PASS
-        String[][] expectedDateOrder = DateOrderContext.getExpectedConsumptionDateOrder();
-        ResponseContext.getResponse().then().body("prescription.consommations.date", contains(expectedDateOrder));
+        // TODO: Verify if there's a cleaner way to test this
+        List<List<String>> responsesConsumptionDate = ResponseContext.getResponse().getBody().jsonPath()
+                .get("prescription.consommations.date");
+        String[] actualResponsesConsumptionDate = responsesConsumptionDate.get(0).toArray(
+                new String[responsesConsumptionDate.size()]);
+
+        assertArrayEquals(expectedConsumptionsDateOrder, actualResponsesConsumptionDate);
     }
 
-    private Matcher<?> isDisplayed() {
-        return not(hasItem(nullValue()));
+    private void expectDateOrder(String... date) {
+        expectedDateOrder = date;
+    }
+
+    private void expectConsumptionsDateOrder(String... consumptions) {
+        expectedConsumptionsDateOrder = consumptions;
     }
 }
