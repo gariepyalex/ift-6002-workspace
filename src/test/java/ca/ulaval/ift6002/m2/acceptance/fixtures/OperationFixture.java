@@ -18,6 +18,7 @@ import ca.ulaval.ift6002.m2.locator.RepositoryLocator;
 public class OperationFixture {
 
     private static final OperationType AN_OPERATION_TYPE = OperationType.ONCOLOGY;
+    private static final OperationType A_RESTRICTED_OPERATION_TYPE = OperationType.EYE;
     private static final String A_DESCRIPTION = "An operation description";
     private static final Surgeon A_SURGEON = new Surgeon(1);
     private static final Date A_DATE = new Date();
@@ -27,13 +28,13 @@ public class OperationFixture {
     private final PatientFixture patientFixture = new PatientFixture();
 
     public void setupExistingOperation() {
-        Operation operation = createOperation();
+        Operation operation = createOperation(AN_OPERATION_TYPE);
 
         OperationContext.setOperation(operation);
     }
 
-    public void setupExistingDangerousOperation() {
-        Operation operation = createRandomDangerousOperation();
+    public void setupExistingRestrictedOperation() {
+        Operation operation = createOperation(A_RESTRICTED_OPERATION_TYPE);
 
         OperationContext.setOperation(operation);
     }
@@ -42,22 +43,11 @@ public class OperationFixture {
         return OperationContext.getOperation();
     }
 
-    private Operation createOperation() {
+    private Operation createOperation(OperationType type) {
         Patient patient = patientFixture.getExistingPatient();
 
-        Operation operation = FactoryLocator.getOperationFactory().create(AN_OPERATION_TYPE, A_DESCRIPTION, A_SURGEON,
-                A_DATE, A_ROOM, AN_OPERATION_STATUS, patient);
-
-        RepositoryLocator.getOperationRepository().store(operation);
-
-        return operation;
-    }
-
-    private Operation createRandomDangerousOperation() {
-        Patient patient = patientFixture.getExistingPatient();
-
-        Operation operation = FactoryLocator.getOperationFactory().create(OperationType.getRandomRestrictedOperation(),
-                A_DESCRIPTION, A_SURGEON, A_DATE, A_ROOM, AN_OPERATION_STATUS, patient);
+        Operation operation = FactoryLocator.getOperationFactory().create(type, A_DESCRIPTION, A_SURGEON, A_DATE,
+                A_ROOM, AN_OPERATION_STATUS, patient);
 
         RepositoryLocator.getOperationRepository().store(operation);
 

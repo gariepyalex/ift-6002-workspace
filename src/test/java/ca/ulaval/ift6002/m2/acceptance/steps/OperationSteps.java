@@ -54,7 +54,7 @@ public class OperationSteps extends Steps {
 
     @Given("une intervention existante dangereuse")
     public void anExistingDangerousOperation() {
-        operationFixture.setupExistingDangerousOperation();
+        operationFixture.setupExistingRestrictedOperation();
     }
 
     @Given("une intervention valide sans statut")
