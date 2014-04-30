@@ -29,7 +29,7 @@ public class JettyTestRunner {
     private EntityManager entityManager;
 
     @BeforeStories
-    public void startJetty() throws Exception {
+    public void startJetty() {
         new HibernateFactoryConfiguration().configure();
         new TestHibernatePersistanceConfiguration().configure();
 
@@ -45,7 +45,7 @@ public class JettyTestRunner {
     }
 
     @AfterStories
-    public void stopJetty() throws Exception {
+    public void stopJetty() {
         closeEntityManager(entityManager);
     }
 
