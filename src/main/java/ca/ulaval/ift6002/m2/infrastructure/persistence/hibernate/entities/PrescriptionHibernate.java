@@ -70,10 +70,6 @@ public class PrescriptionHibernate extends Prescription {
         this.drugFactory = FactoryLocator.getDrugFactory();
     }
 
-    public String getDrugName() {
-        return drugName;
-    }
-
     @Override
     public int getNumber() {
         return id;
