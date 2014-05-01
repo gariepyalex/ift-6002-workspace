@@ -1,6 +1,14 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,44 +16,77 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientTest {
 
-    private static final int PATIENT_NUMBER = 12345;
+    private static final int EXISTING_PRESCRIPTION_NUMBER = 1;
+    private static final int NOT_EXISTING_PRESCRIPTION_NUMBER = 42;
 
     @Mock
     private Prescription prescription;
 
+    @Mock
+    private Consumption consumption;
+
     private Patient patient;
+
+    private Collection<Prescription> prescriptions;
 
     @Before
     public void setUp() {
-        patient = new Patient(PATIENT_NUMBER);
+        patient = mock(Patient.class, CALLS_REAL_METHODS);
+
+        prescriptions = Arrays.asList(prescription);
+    }
+
+    @Test(expected = InteractionDetectionException.class)
+    public void givenNonDeadPatientWhenAddingAnInteractingPrescriptionShouldThrowException() {
+        willReturn(false).given(patient).isDead();
+        willReturn(prescriptions).given(patient).getPrescriptions();
+
+        Prescription interactingPrescription = mock(Prescription.class);
+        willReturn(true).given(prescription).isInteractingWith(interactingPrescription);
+
+        patient.receivesPrescription(interactingPrescription);
+    }
+
+    @Test(expected = DeadPatientException.class)
+    public void givenDeadPatientWhenAddingPrescriptionShouldThrowException() {
+        willReturn(true).given(patient).isDead();
+        patient.receivesPrescription(prescription);
     }
 
     @Test
-    public void givenNewPatientWhenCountPrescriptionsShouldBeEmpty() {
-        int prescriptionsCount = patient.countPrescriptions();
+    public void whenReceivesPrescriptionShouldAddPrescription() {
+        willReturn(false).given(patient).isDead();
+        willReturn(Collections.emptyList()).given(patient).getPrescriptions();
+        doNothing().when(patient).addPrescription(prescription);
 
-        assertEquals(0, prescriptionsCount);
+        patient.receivesPrescription(prescription);
+
+        verify(patient).addPrescription(prescription);
     }
 
     @Test
-    public void givenPatientWhenAddPrescriptionShouldHaveCountOfOne() {
-        patient.receivesPrescription(prescription);
-        int prescriptionsCount = patient.countPrescriptions();
-        assertEquals(1, prescriptionsCount);
+    public void whenConsumingAnExistingPrescriptionShouldConsumeAConsumption() {
+        willReturn(prescriptions).given(patient).getPrescriptions();
+        willReturn(true).given(prescription).hasNumber(EXISTING_PRESCRIPTION_NUMBER);
+
+        patient.consumesPrescription(EXISTING_PRESCRIPTION_NUMBER, consumption);
+
+        verify(prescription).addConsumption(consumption);
     }
 
-    @Test
-    public void givenPatientWhenAddTwoPrescriptionsShouldHaveCountOfTwo() {
-        patient.receivesPrescription(prescription);
-        patient.receivesPrescription(prescription);
+    @Test(expected = PrescriptionNotFoundException.class)
+    public void whenConsumingAnUnexistingPrescriptionShouldThrowException() {
+        willReturn(prescriptions).given(patient).getPrescriptions();
+        willReturn(false).given(prescription).hasNumber(EXISTING_PRESCRIPTION_NUMBER);
 
-        int prescriptionsCount = patient.countPrescriptions();
-
-        assertEquals(2, prescriptionsCount);
+        patient.consumesPrescription(NOT_EXISTING_PRESCRIPTION_NUMBER, consumption);
     }
+
 }

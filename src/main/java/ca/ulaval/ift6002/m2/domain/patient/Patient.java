@@ -1,52 +1,56 @@
 package ca.ulaval.ift6002.m2.domain.patient;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
+import ca.ulaval.ift6002.m2.domain.prescription.Consumption;
 import ca.ulaval.ift6002.m2.domain.prescription.Prescription;
+import ca.ulaval.ift6002.m2.domain.prescription.PrescriptionNotFoundException;
 
-public class Patient {
-
-    private final int number;
-    private final Collection<Prescription> prescriptions;
-
-    public Patient(int number) {
-        this(number, new ArrayList<Prescription>());
-    }
-
-    public Patient(int number, Collection<Prescription> prescriptions) {
-        this.number = number;
-        this.prescriptions = prescriptions;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public Collection<Prescription> getPrescriptions() {
-        return prescriptions;
-    }
+public abstract class Patient {
 
     public void receivesPrescription(Prescription prescription) {
-        prescriptions.add(prescription);
+        if (isDead()) {
+            throw new DeadPatientException("A dead patient cannot receive a prescription.");
+        }
+
+        if (isPrescriptionInteractingWithCurrentPrescriptions(prescription)) {
+            throw new InteractionDetectionException("An interaction occured with " + prescription + ".");
+        }
+
+        addPrescription(prescription);
     }
 
-    public int countPrescriptions() {
-        return prescriptions.size();
+    protected abstract void addPrescription(Prescription prescription);
+
+    private boolean isPrescriptionInteractingWithCurrentPrescriptions(Prescription otherPrescription) {
+        for (Prescription prescription : getPrescriptions()) {
+            if (prescription.isInteractingWith(otherPrescription)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+    public void consumesPrescription(int prescriptionNumber, Consumption consumption) {
+        Prescription prescription = findPrescription(prescriptionNumber);
+        prescription.addConsumption(consumption);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+    protected Prescription findPrescription(int prescriptionNumber) {
+        for (Prescription prescription : getPrescriptions()) {
+            if (prescription.hasNumber(prescriptionNumber)) {
+                return prescription;
+            }
+        }
 
+        throw new PrescriptionNotFoundException("No prescription found for number: " + prescriptionNumber);
     }
+
+    public abstract boolean isDead();
+
+    public abstract void declareDead();
+
+    public abstract Collection<Prescription> getPrescriptions();
 
 }

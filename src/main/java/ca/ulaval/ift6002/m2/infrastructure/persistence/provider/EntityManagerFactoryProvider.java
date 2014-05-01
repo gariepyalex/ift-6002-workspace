@@ -15,4 +15,9 @@ public class EntityManagerFactoryProvider {
         return instance;
     }
 
+    public static void closeFactory() {
+        instance.close();
+        instance = null;
+    }
+
 }

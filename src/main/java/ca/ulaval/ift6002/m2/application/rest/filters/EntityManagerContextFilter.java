@@ -12,7 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerFactoryProvider;
-import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProvider;
+import ca.ulaval.ift6002.m2.infrastructure.persistence.provider.EntityManagerProviderThreadSafe;
 
 public class EntityManagerContextFilter implements Filter {
 
@@ -30,13 +30,15 @@ public class EntityManagerContextFilter implements Filter {
 
         try {
             entityManager = entityManagerFactory.createEntityManager();
-            EntityManagerProvider.setEntityManager(entityManager);
+            EntityManagerProviderThreadSafe.setEntityManager(entityManager);
+            entityManager.getTransaction().begin();
             chain.doFilter(request, response);
         } finally {
             if (entityManager != null) {
+                entityManager.getTransaction().commit();
                 entityManager.close();
             }
-            EntityManagerProvider.clearEntityManager();
+            EntityManagerProviderThreadSafe.clearEntityManager();
         }
 
     }

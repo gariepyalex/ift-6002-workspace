@@ -12,31 +12,31 @@ public class PrescriptionResponse {
     @XmlElement(name = "intervenant")
     public final String practitioner;
 
-    public final String date;
-
-    @XmlElement(name = "renouvellements")
-    public final Integer renewals;
-
-    public final String din;
-
     @XmlElement(name = "nom")
     public final String name;
 
+    public final String date;
+
+    @XmlElement(name = "renouvellements_restants")
+    public final Integer remainingRenewals;
+
+    @XmlElement(name = "renouvellements_autorises")
+    public final Integer autorizedRenewals;
+
     protected PrescriptionResponse() {
-        // Protected constructor for jaxb
         this.practitioner = "";
         this.date = "";
-        this.renewals = 0;
-        this.din = "";
+        this.remainingRenewals = 0;
+        this.autorizedRenewals = 0;
         this.name = "";
     }
 
-    public PrescriptionResponse(String practitioner, String date, Integer renewals, String din, String name) {
+    public PrescriptionResponse(String practitioner, String name, String date, Integer remainingRenewals,
+            Integer autorizedRenewals) {
         this.practitioner = practitioner;
-        this.date = date;
-        this.renewals = renewals;
-        this.din = din;
         this.name = name;
+        this.date = date;
+        this.remainingRenewals = remainingRenewals;
+        this.autorizedRenewals = autorizedRenewals;
     }
-
 }

@@ -1,48 +1,34 @@
 package ca.ulaval.ift6002.m2.domain.drug;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.Collection;
 
-public class Drug {
-
-    private final Din din;
-    private final String brandName;
-    private final String descriptor;
-
-    public Drug(Din din, String brandName, String descriptor) {
-        this.din = din;
-        this.brandName = brandName;
-        this.descriptor = descriptor;
-    }
-
-    public Din getDin() {
-        return din;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public String getDescriptor() {
-        return descriptor;
-    }
+public abstract class Drug {
 
     public boolean hasDin() {
-        return !din.isEmpty();
+        return !getDin().isEmpty();
     }
 
-    public static Drug fromName(String name) {
-        return new Drug(new Din(""), name, "");
+    public boolean isInteractingWith(Drug otherDrug) {
+        for (Drug interactingDrug : getInteractingDrugs()) {
+            if (interactingDrug.hasSameDin(otherDrug)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+    private boolean hasSameDin(Drug otherDrug) {
+        return getDin().equals(otherDrug.getDin());
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
+    public abstract void interactWith(Collection<Drug> drugs);
+
+    protected abstract Collection<Drug> getInteractingDrugs();
+
+    public abstract Din getDin();
+
+    public abstract String getBrandName();
+
+    public abstract String getDescriptor();
 
 }
