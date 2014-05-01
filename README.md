@@ -1,4 +1,4 @@
-##Remise 2
+##Remise 3
 Numéro d'équipe : M2
 
 Pour la remise 3, voir le tag *remise3* sur la branche *master*.
