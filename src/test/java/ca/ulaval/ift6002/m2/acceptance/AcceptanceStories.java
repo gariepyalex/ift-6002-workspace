@@ -30,19 +30,19 @@ import ca.ulaval.ift6002.m2.acceptance.steps.PrescriptionSteps;
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 
 @RunWith(JUnitReportingRunner.class)
-public class DumboTheElephantStories extends JUnitStories {
+public class AcceptanceStories extends JUnitStories {
 
     private static final LocalizedKeywords KEYWORDS = new LocalizedKeywords(Locale.FRENCH);
 
     @Override
     public Configuration configuration() {
         StoryReporterBuilder reporterBuilder = new StoryReporterBuilder().withKeywords(KEYWORDS)
-                .withCodeLocation(codeLocationFromClass(DumboTheElephantStories.class)).withFailureTrace(true)
+                .withCodeLocation(codeLocationFromClass(AcceptanceStories.class)).withFailureTrace(true)
                 .withFailureTraceCompression(true).withDefaultFormats().withFormats(CONSOLE);
 
         return new MostUsefulConfiguration().useKeywords(KEYWORDS).usePendingStepStrategy(new FailingUponPendingStep())
                 .useStoryParser(new RegexStoryParser(KEYWORDS))
-                .useStoryLoader(new LoadFromClasspath(DumboTheElephantStories.class))
+                .useStoryLoader(new LoadFromClasspath(AcceptanceStories.class))
                 .useStoryReporterBuilder(reporterBuilder);
     }
 
